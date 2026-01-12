@@ -22,11 +22,9 @@ public class ControllerRecensioni {
     private InterfacciaUtente daoUtente = FactoryDAO.getDaoUtente();
     private InterfacciaDaoStruttura daoStrutture = FactoryDAO.getDAOStrutture();
 
-    public void inserisciRecensione(BeanRecensioni beanRecensione) throws SQLException, Exception {
+    public void inserisciRecensione(BeanRecensioni beanRecensione) throws SQLException,IOException, CampiVuotiException {
 
         Utente user = daoUtente.cercaUtente(beanRecensione.getAutore());
-
-     try{
         Struttura struttura = daoStrutture.cercaStruttura(beanRecensione.getIdStruttura(),beanRecensione.getGestoreStruttura());
         String autore = user.getEmail();
         String testo = beanRecensione.getTesto();
@@ -41,23 +39,17 @@ public class ControllerRecensioni {
             throw new CampiVuotiException("Testo recensione mancante");
 
         if (voto < 1 || voto > 5)
-            throw new Exception("Voto non valido");
+            throw new IllegalArgumentException("Voto non valido");
 
 
         Recensione recensione = FactoryRecensioni.creazioneRecensione(user, struttura, testo, voto);
 
         daoRecensioni.salvaRecensione(recensione);
-      }catch(SQLException e){
-        throw e;
-
-      }catch(IOException e){
-        throw e;
-      }
+      
     }
 
-    public List<BeanRecensioni> cercaRecensioniPerStruttura(BeanStruttura beanStruttura) throws SQLException, Exception {
+    public List<BeanRecensioni> cercaRecensioniPerStruttura(BeanStruttura beanStruttura) throws SQLException, IOException {
     List<BeanRecensioni> listaBean = new ArrayList<>();
-        try{
          List<Recensione> listaEntity = daoRecensioni.getRecensioniByStruttura(
             beanStruttura.getName(), 
             beanStruttura.getGestore()
@@ -66,15 +58,7 @@ public class ControllerRecensioni {
             BeanRecensioni b = new BeanRecensioni(r.getAutore().getEmail(),r.getTesto(),r.getVoto(),r.getStruttura_recensita().getName(),r.getStruttura_recensita().getGestore());
             listaBean.add(b);
            }
-        }catch(SQLException e){
-            e.printStackTrace();
-            throw e;
-        }catch(IOException e){
-            throw e;
-        }catch(Exception e){
-            e.printStackTrace();
-            throw e;
-        }
-    return listaBean;
+        
+     return listaBean;
     }
 }

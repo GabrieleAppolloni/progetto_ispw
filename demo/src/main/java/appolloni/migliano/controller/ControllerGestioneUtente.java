@@ -1,5 +1,6 @@
 package appolloni.migliano.controller;
 
+import java.io.IOException;
 import java.sql.SQLException;
 
 import appolloni.migliano.bean.BeanUtenti;
@@ -15,7 +16,7 @@ public class ControllerGestioneUtente{
     private InterfacciaUtente daoUtente = FactoryDAO.getDaoUtente();
     
 
-    public void creazioneUtente(BeanUtenti bean) throws IllegalArgumentException, Exception, CampiVuotiException, EmailNonValidaException{
+    public void creazioneUtente(BeanUtenti bean) throws IllegalArgumentException, CampiVuotiException, EmailNonValidaException,IOException, SQLException{
         String type = bean.getTipo(); 
         String nome = bean.getName();
         String cognome = bean.getCognome(); 
@@ -30,19 +31,17 @@ public class ControllerGestioneUtente{
         if(!email.contains("@")){
             throw new EmailNonValidaException("Formato email non valido");
         }
-
-        try{
          Utente esistente = daoUtente.cercaUtente(email);
         
          if(esistente != null){
-            throw new Exception("Utente già esistente");
+            throw new IllegalArgumentException("Utente già esistente");
            }
 
           Utente utente = FactoryUtenti.Creazione(type, nome, cognome, email, citta,password);
 
         
           if(utente == null){
-            throw new Exception("Creazione fallita");
+            throw new IOException("Creazione fallita");
          }
 
 
@@ -52,57 +51,31 @@ public class ControllerGestioneUtente{
             throw new CampiVuotiException("Errore: Dati attività mancanti per l'Host.");
            }
           }
-         try{
           daoUtente.salvaUtente(utente);
-         }catch(SQLException e){
-            throw e;
-         }
-        }catch(SQLException e){
-         throw e;
-        } 
 
 
     }
 
-    public BeanUtenti recuperaInformazioniUtenti(BeanUtenti utente) throws SQLException, Exception{
-
-        try{
+    public BeanUtenti recuperaInformazioniUtenti(BeanUtenti utente) throws SQLException{
 
          Utente user = daoUtente.cercaUtente(utente.getEmail());
 
          BeanUtenti bean = new BeanUtenti(user.getTipo(), user.getName(), user.getCognome(), user.getEmail(), user.getPass(), user.getCitta());
         
          return bean;
-        }catch(SQLException e){
-            e.printStackTrace();
-            throw e;
-
-        }catch(Exception e){
-            e.printStackTrace();
-            throw e;
-
-        }
+        
 
     }
 
-    public boolean modificaPassword(String vecchiaPass, String nuovaPass, BeanUtenti utente) throws SQLException, Exception{
+    public boolean modificaPassword(String vecchiaPass, String nuovaPass, BeanUtenti utente) throws SQLException{
         
-        try{
          Utente user = daoUtente.cercaUtente(utente.getEmail());
 
          if(user.getPass().equals(vecchiaPass)){
             daoUtente.aggiornaPassword(user.getEmail(), nuovaPass);
             return true;
          }
-        }catch(SQLException e){
-            e.printStackTrace();
-            throw e;
-        }catch(Exception e){
-            e.printStackTrace();
-            throw e;
-
-        }
-
+        
         return false;
 
     }

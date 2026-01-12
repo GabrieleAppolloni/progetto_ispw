@@ -1,10 +1,12 @@
 package appolloni.migliano;
 
+import java.util.logging.Logger;
+import java.util.logging.Level;
 import appolloni.migliano.factory.FactoryUI;
 import appolloni.migliano.interfacce.InterfacciaGrafica;
 
 public class Launcher {
-
+ private static final Logger logger = Logger.getLogger(Launcher.class.getName());
     public static void main(String[] args) {
         
 
@@ -18,10 +20,8 @@ public class Launcher {
             }else if(args[0].equalsIgnoreCase("DEMO")){
                 tipoPersistenza = Configurazione.DEMO;
             }
-            if (args.length > 1) {
-                if (args[1].equalsIgnoreCase("CLI")) {
+            if (args.length > 1 && (args[1].equalsIgnoreCase("CLI"))) {
                     tipoInterfaccia = "CLI";
-                }
             }
         }
 
@@ -29,8 +29,7 @@ public class Launcher {
         Configurazione.setTipoPersistenza(tipoPersistenza);
         Configurazione.setTipoInterfaccia(tipoInterfaccia);
 
-        System.out.println(">>> MODALITÀ AVVIO: " + tipoPersistenza + " | INTERFACCIA: " + tipoInterfaccia + " <<<");
-
+        logger.log(Level.INFO, ">>> MODALITÀ AVVIO: {0} | INTERFACCIA: {1} <<<", new Object[]{tipoPersistenza, tipoInterfaccia});
         try {
             DBConnection.getConnection();
             
@@ -39,7 +38,7 @@ public class Launcher {
             ui.avvia(args);
 
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, "Errore critico durante l'avvio dell'applicazione", e);
         } finally {
             DBConnection.closeConnection();
         }

@@ -22,38 +22,24 @@ import java.util.List;
 public class ControllerGestioneGruppo {
 
     private InterfacciaUtente dao = FactoryDAO.getDaoUtente();
-    private InterfacciaGruppo dao_gruppo = FactoryDAO.getDaoGruppo();
-    private InterfacciaDaoStruttura dao_strutture = FactoryDAO.getDAOStrutture();
+    private InterfacciaGruppo daoGruppo = FactoryDAO.getDaoGruppo();
+    private InterfacciaDaoStruttura daoStrutture = FactoryDAO.getDAOStrutture();
 
-    public List<String> getListaStruttureDisponibili(String citta) throws CampiVuotiException, Exception{
-    try {
+    public List<String> getListaStruttureDisponibili(String citta) throws CampiVuotiException, SQLException, IOException{
         if(citta == null || citta.trim().isEmpty()) throw new CampiVuotiException(citta);
-        List<String> lista = new ArrayList<>();
-
-        try {
-          lista = dao_strutture.recuperaNomiStrutture(citta);
-        }catch(IOException e){
-            throw e;
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw e;
-        }
-        
+        List<String> lista = daoStrutture.recuperaNomiStrutture(citta);
         return lista;
-    } catch (Exception e) {
-        e.printStackTrace();
-    }
-    return new ArrayList<>();
-}
 
-    public void creaGruppo(BeanUtenti bean, BeanGruppo beanGruppo) throws Exception, CampiVuotiException {
+    }
+
+    public void creaGruppo(BeanUtenti bean, BeanGruppo beanGruppo) throws SQLException, CampiVuotiException {
 
         if(!bean.getTipo().equals("Studente")){
-             throw new Exception("L'utente non ha i permessi");
+             throw new SQLException("L'utente non ha i permessi");
         }
         
          if (beanGruppo.getNome() == null || beanGruppo.getNome().isEmpty()) {
-            throw new Exception("Nome gruppo obbligatorio.");
+            throw new SQLException("Nome gruppo obbligatorio.");
          }
 
          if(beanGruppo.getAdmin().isEmpty() || beanGruppo.getCitta().isEmpty() || beanGruppo.getLuogo().isEmpty() || beanGruppo.getMateria().isEmpty()){
@@ -64,7 +50,7 @@ public class ControllerGestioneGruppo {
 
          if(u1 == null){
 
-            throw new Exception("Utente admin non trovato");
+            throw new SQLException("Utente admin non trovato");
          }
  
          Gruppo gruppo = FactoryGruppo.creaGruppo(beanGruppo.getNome(), u1);
@@ -75,23 +61,16 @@ public class ControllerGestioneGruppo {
           ((Studente)u1).addGruppo(gruppo);
          }
          gruppo.aggiungiMembro(u1, u1);
-         try{
-          dao_gruppo.creaGruppo(gruppo);
-         }catch(SQLException exception){
-           exception.printStackTrace();
-           throw exception;
-           
-         }
+          daoGruppo.creaGruppo(gruppo);
+         
 
 
     }
 
-    public List<BeanGruppo> visualizzaGruppi(BeanUtenti utenteLoggato) throws SQLException, Exception {
+    public List<BeanGruppo> visualizzaGruppi(BeanUtenti utenteLoggato) throws SQLException {
         List<BeanGruppo> listaBeans = new ArrayList<>();
-
-        try {
            
-            List<Gruppo> listaEntities = dao_gruppo.recuperaGruppiUtente(utenteLoggato.getEmail());
+            List<Gruppo> listaEntities = daoGruppo.recuperaGruppiUtente(utenteLoggato.getEmail());
             
             for (Gruppo gruppo : listaEntities) {
                 BeanGruppo bean = new BeanGruppo(
@@ -108,50 +87,27 @@ public class ControllerGestioneGruppo {
                 
                 listaBeans.add(bean);
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
-            throw e;
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw e;
-        }
 
         return listaBeans;
     }
 
     
-     public void aggiungiGruppo(BeanUtenti beanUtenti, BeanGruppo gruppoScelto) throws SQLException,Exception{
-        try{ 
-         dao_gruppo.iscriviUtente(gruppoScelto.getNome(), beanUtenti.getEmail());
-        }catch(SQLException e){
-            e.printStackTrace();
-            throw e;
-
-        }catch(Exception e){
-            e.printStackTrace();
-            throw e;
-        }
+     public void aggiungiGruppo(BeanUtenti beanUtenti, BeanGruppo gruppoScelto) throws SQLException{ 
+         daoGruppo.iscriviUtente(gruppoScelto.getNome(), beanUtenti.getEmail());
+        
     }
     
     
-    public List<BeanGruppo> cercaGruppi(String nome, String citta, String materia) throws SQLException, Exception {
+    public List<BeanGruppo> cercaGruppi(String nome, String citta, String materia) throws SQLException {
         if(nome != null && nome.isEmpty()) nome = null;
         if(citta != null && citta.isEmpty()) citta = null;
         if(materia != null && materia.isEmpty()) materia = null;
 
         List<Gruppo> list_1 = new ArrayList<>();
         List<BeanGruppo> list = new ArrayList<>();
-        try{ 
-         list_1 = dao_gruppo.ricercaGruppiConFiltri(nome, citta, materia);
-        }catch(SQLException e){
-            e.printStackTrace();
-            throw e;
-
-        }catch(Exception e){
-            e.printStackTrace();
-            throw e;
-
-        }
+         list_1 = daoGruppo.ricercaGruppiConFiltri(nome, citta, materia);
+        
+        
         for(Gruppo g : list_1){
             BeanGruppo beanGruppo = new BeanGruppo(g.getNome(), g.getMateria(), g.getAdmin().getEmail(), g.getLuogo(),g.getCitta());
             list.add(beanGruppo);

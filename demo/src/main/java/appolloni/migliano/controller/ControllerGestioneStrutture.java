@@ -82,66 +82,41 @@ public class ControllerGestioneStrutture {
 
 
 
-    public BeanStruttura visualizzaStrutturaHost(String emailHost) throws Exception {
+    public BeanStruttura visualizzaStrutturaHost(String emailHost) throws SQLException, IOException, IllegalArgumentException {
         if(emailHost.isEmpty() || emailHost == null ){
-            throw new Exception("Host non vaido");
+            throw new IllegalArgumentException("Host non vaido");
 
         }
-        BeanStruttura beanStruttura = null;
-        try{
+      
          Struttura struttura = daoStrutture.recuperaStrutturaPerHost(emailHost);
-
-         beanStruttura = new BeanStruttura(struttura.getTipo(), struttura.getName(), struttura.getCitta(), struttura.getIndirizzo(),struttura.getOrario(), struttura.hasWifi(), struttura.hasRistorazione(), struttura.getTipoAttivita(), struttura.getGestore());
+         BeanStruttura beanStruttura = new BeanStruttura(struttura.getTipo(), struttura.getName(), struttura.getCitta(), struttura.getIndirizzo(),struttura.getOrario(), struttura.hasWifi(), struttura.hasRistorazione(), struttura.getTipoAttivita(), struttura.getGestore());
          beanStruttura.setFoto(struttura.getFoto());
-        }catch(SQLException e){
-            e.printStackTrace();
-            throw e;
-
-        }catch(IOException e){
-            throw e;
-
-        }
         return beanStruttura;
 
     }
 
-    public void cambiaFoto(String emailHost, String nomeFoto) throws CampiVuotiException, SQLException, Exception, IOException {
+    public void cambiaFoto(String emailHost, String nomeFoto) throws CampiVuotiException, SQLException,IOException {
      if (emailHost == null || nomeFoto == null) throw new CampiVuotiException("Dati mancanti");
-     try {
       daoStrutture.aggiornaFotoStruttura(emailHost, nomeFoto);
-     }catch(SQLException e){
-        e.printStackTrace();
-        throw e;
-     }catch(IOException e){
-        throw e;
-     }catch(Exception e){
-        throw e;
-     }
+    
     }
 
-    public void aggiornaStruttura(BeanStruttura struttura, String vecchionNome) throws Exception, SQLException, CampiVuotiException{
+    public void aggiornaStruttura(BeanStruttura struttura, String vecchionNome) throws IOException, SQLException, CampiVuotiException{
         if(struttura.getCitta().isEmpty() || struttura.getGestore().isEmpty() || struttura.getIndirizzo().isEmpty()|| struttura.getName().isEmpty()|| struttura.getOrario().isEmpty()||struttura.getTipoAttivita().isEmpty()){
             throw new CampiVuotiException("Dati mancanti");
         }
         Struttura struttura2 = new Struttura(struttura.getTipo(), struttura.getName(), struttura.getCitta(), struttura.getIndirizzo(), struttura.getOrario(), struttura.hasWifi(), struttura.hasRistorazione(), struttura.getTipoAttivita(), struttura.getGestore());
-        try{
          daoStrutture.updateStruttura(struttura2, vecchionNome);
-        }catch(SQLException e){
-            e.printStackTrace();
-            throw e;
-        }catch(IOException e){
-            throw e;
-        }
+    
   }
 
-  public List<BeanStruttura> cercaStrutture(String nome, String citta, String tipo) throws Exception, SQLException {
+  public List<BeanStruttura> cercaStrutture(String nome, String citta, String tipo) throws IOException, SQLException {
     
         if(nome != null && nome.isEmpty()) nome = null;
         if(citta != null && citta.isEmpty()) citta = null;
         if(tipo != null && (tipo.isEmpty() || tipo.equals("Tutti"))) tipo = null;
 
         List<BeanStruttura> listaBeans = new ArrayList<>();
-        try{
         List<Struttura> listaEntities = daoStrutture.ricercaStruttureConFiltri(nome, citta, tipo);
         
         for (Struttura s : listaEntities) {
@@ -151,15 +126,6 @@ public class ControllerGestioneStrutture {
             listaBeans.add(b);
         }
 
-        }catch(SQLException e){
-            e.printStackTrace();
-            throw e;
-
-        }catch(Exception e){
-            e.printStackTrace();
-            throw e;
-
-        }
         return listaBeans;
   }
 

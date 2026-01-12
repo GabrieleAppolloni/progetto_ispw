@@ -56,8 +56,8 @@ public class BeanGruppo {
         return this.nomeGruppo;
     }
 
-    public String setNome(String nome){
-       return this.nomeGruppo = nome;
+    public void setNome(String nome){
+       this.nomeGruppo = nome;
     }
 
    

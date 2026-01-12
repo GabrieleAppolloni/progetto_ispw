@@ -5,8 +5,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-
-
 import appolloni.migliano.bean.BeanGruppo;
 import appolloni.migliano.bean.BeanMessaggi;
 import appolloni.migliano.bean.BeanUtenti;
@@ -30,25 +28,18 @@ public class ControllerChat {
         this.daoMessaggi = FactoryDAO.getDaoMessaggi();
         this.daoUtente = FactoryDAO.getDaoUtente();
     }
-    public BeanGruppo recuperaInfoGruppo(BeanGruppo beanInput) throws Exception, SQLException{
-        
-    try{
+    public BeanGruppo recuperaInfoGruppo(BeanGruppo beanInput) throws  SQLException{
         Gruppo g = daoGruppo.cercaGruppo(beanInput.getNome());
         
-        if (g == null) throw new Exception("Gruppo non esistente");
+        if (g == null) throw new SQLException("Gruppo non esistente");
 
         
          BeanGruppo gruppo = new BeanGruppo(g.getNome(),g.getMateria(),g.getAdmin().getName(),g.getLuogo(),g.getMateria());
          return gruppo;
-     }catch(SQLException e){
-        throw new SQLException("Errore recupero dati");
-
-     }
     }
-    public List<BeanMessaggi> recuperaMessaggi(BeanGruppo beanGruppo) throws SQLException, Exception {
+    public List<BeanMessaggi> recuperaMessaggi(BeanGruppo beanGruppo) throws SQLException {
         List<BeanMessaggi> listaBeans = new ArrayList<>();
 
-     try{
         Gruppo entityGruppo = daoGruppo.cercaGruppo(beanGruppo.getNome());
         
         if (entityGruppo != null) {
@@ -64,35 +55,21 @@ public class ControllerChat {
             }
         }
         return listaBeans;
-     }catch(SQLException e){
-        throw new SQLException("Errore caricamento dei dati");
-     }catch(Exception e){
-        throw e;
-     }
+     
     }
 
-    public void inviaMessaggio(BeanUtenti mittente, BeanGruppo gruppo, String testo) throws SQLException, Exception {
+    public void inviaMessaggio(BeanUtenti mittente, BeanGruppo gruppo, String testo) throws SQLException {
         if(testo == null || testo.trim().isEmpty()) return;
-
-      try{
-
         Utente user = daoUtente.cercaUtente(mittente.getEmail());
         Gruppo g = daoGruppo.cercaGruppo(gruppo.getNome());
-
         Messaggio messaggio = FactoryMessaggi.creaMessaggio(testo, g, user);
         daoMessaggi.nuovoMessaggio(messaggio);
     
-      }catch(SQLException e){
-
-        throw new SQLException("Errore caricamento dei dati");
-      }catch(Exception e){
-        throw e;
-      }
     }
 
-    public void abbandonaGruppo(BeanUtenti utente, BeanGruppo gruppo) throws SQLException, Exception {
+    public void abbandonaGruppo(BeanUtenti utente, BeanGruppo gruppo) throws SQLException {
 
-      try{
+
         Utente user = daoUtente.cercaUtente(utente.getEmail());
         Gruppo gruppo_utente = daoGruppo.cercaGruppo(gruppo.getNome());
         if(utente.getEmail().equals(gruppo.getAdmin())){
@@ -102,11 +79,6 @@ public class ControllerChat {
         }else{
             daoGruppo.abbandonaGruppo(gruppo_utente.getNome(), user.getEmail());
         }
-     
-     }catch(SQLException e){
-        throw new SQLException("Errore caricamento dei dati.");
-     }catch(Exception e){
-        throw e;
-     }
+    
     }
 }
