@@ -1,11 +1,11 @@
-package appolloni.migliano.DAO.DaoDB;
+package appolloni.migliano.dao.daoStrutture;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import appolloni.migliano.ClassiDiErrori.CampiVuotiException;
 import appolloni.migliano.entity.Struttura;
+import appolloni.migliano.exception.CampiVuotiException;
 import appolloni.migliano.interfacce.InterfacciaDaoStruttura;
 
 public class DAOStruttureDemo implements InterfacciaDaoStruttura {

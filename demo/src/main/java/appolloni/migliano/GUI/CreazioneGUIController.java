@@ -4,10 +4,10 @@ import java.io.IOException;
 import java.sql.SQLException;
 
 import appolloni.migliano.HelperErrori;
-import appolloni.migliano.ClassiDiErrori.CampiVuotiException;
-import appolloni.migliano.ClassiDiErrori.EmailNonValidaException;
 import appolloni.migliano.bean.BeanUtenti;
 import appolloni.migliano.controller.ControllerGestioneUtente;
+import appolloni.migliano.exception.CampiVuotiException;
+import appolloni.migliano.exception.EmailNonValidaException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;

@@ -1,4 +1,5 @@
-package appolloni.migliano.DAO.DaoRecensioni;
+package appolloni.migliano.dao.daoRecensioni;
+
 import appolloni.migliano.interfacce.InterfacciaDaoRecensioni;
 import appolloni.migliano.interfacce.InterfacciaDaoStruttura;
 import appolloni.migliano.interfacce.InterfacciaUtente;

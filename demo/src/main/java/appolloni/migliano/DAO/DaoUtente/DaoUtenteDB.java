@@ -1,4 +1,4 @@
-package appolloni.migliano.DAO.DaoUtente;
+package appolloni.migliano.dao.daoUtente;
 
 import java.sql.*;
 import appolloni.migliano.entity.Utente;

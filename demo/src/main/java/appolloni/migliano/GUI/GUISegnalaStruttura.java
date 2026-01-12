@@ -9,9 +9,9 @@ import javafx.scene.control.*;
 import javafx.stage.Stage;
 
 import appolloni.migliano.bean.BeanUtenti;
-import appolloni.migliano.ClassiDiErrori.CampiVuotiException;
 import appolloni.migliano.bean.BeanStruttura;
-import appolloni.migliano.controller.ControllerGestioneStrutture; 
+import appolloni.migliano.controller.ControllerGestioneStrutture;
+import appolloni.migliano.exception.CampiVuotiException; 
 
 public class GUISegnalaStruttura {
 

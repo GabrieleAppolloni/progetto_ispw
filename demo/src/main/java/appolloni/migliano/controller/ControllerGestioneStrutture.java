@@ -2,6 +2,7 @@ package appolloni.migliano.controller;
 
 
 import appolloni.migliano.entity.Struttura;
+import appolloni.migliano.exception.CampiVuotiException;
 import appolloni.migliano.factory.FactoryDAO;
 import appolloni.migliano.factory.FactoryStrutture;
 import appolloni.migliano.interfacce.InterfacciaDaoStruttura;
@@ -11,8 +12,6 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-
-import appolloni.migliano.ClassiDiErrori.CampiVuotiException;
 
 import appolloni.migliano.bean.BeanUtenti;
 import appolloni.migliano.bean.BeanStruttura;

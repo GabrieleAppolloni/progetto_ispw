@@ -1,11 +1,11 @@
 package appolloni.migliano.controller;
 
-import appolloni.migliano.ClassiDiErrori.CampiVuotiException;
 import appolloni.migliano.bean.BeanRecensioni;
 import appolloni.migliano.bean.BeanStruttura;
 import appolloni.migliano.entity.Recensione;
 import appolloni.migliano.entity.Struttura;
 import appolloni.migliano.entity.Utente;
+import appolloni.migliano.exception.CampiVuotiException;
 import appolloni.migliano.factory.FactoryDAO;
 import appolloni.migliano.factory.FactoryRecensioni;
 import appolloni.migliano.interfacce.InterfacciaDaoRecensioni;

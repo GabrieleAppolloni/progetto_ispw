@@ -1,9 +1,9 @@
 package appolloni.migliano.controller;
 
-import appolloni.migliano.ClassiDiErrori.CredenzialiSbagliateException;
-import appolloni.migliano.ClassiDiErrori.EmailNonValidaException;
 import appolloni.migliano.bean.BeanUtenti;
 import appolloni.migliano.entity.Utente;
+import appolloni.migliano.exception.CredenzialiSbagliateException;
+import appolloni.migliano.exception.EmailNonValidaException;
 import appolloni.migliano.factory.FactoryDAO;
 import appolloni.migliano.interfacce.InterfacciaUtente;
 

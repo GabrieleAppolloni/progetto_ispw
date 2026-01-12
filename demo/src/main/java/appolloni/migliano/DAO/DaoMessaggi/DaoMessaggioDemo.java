@@ -1,4 +1,4 @@
-package appolloni.migliano.DAO.DaoMessaggi;
+package appolloni.migliano.dao.daoMessaggi;
 
 import java.sql.SQLException;
 import java.util.ArrayList;

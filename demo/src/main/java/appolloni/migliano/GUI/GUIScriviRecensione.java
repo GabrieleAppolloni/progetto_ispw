@@ -7,11 +7,11 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextArea;
 import javafx.stage.Stage;
-import appolloni.migliano.ClassiDiErrori.CampiVuotiException;
 import appolloni.migliano.bean.BeanRecensioni;
 import appolloni.migliano.bean.BeanStruttura;
 import appolloni.migliano.bean.BeanUtenti;
 import appolloni.migliano.controller.ControllerRecensioni;
+import appolloni.migliano.exception.CampiVuotiException;
 
 
 public class GUIScriviRecensione {

@@ -1,4 +1,4 @@
-package appolloni.migliano.ClassiDiErrori;
+package appolloni.migliano.exception;
 
 public class EmailNonValidaException extends Exception {
 

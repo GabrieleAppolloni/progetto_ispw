@@ -5,10 +5,10 @@ import java.sql.SQLException;
 import java.util.List;
 
 import appolloni.migliano.HelperErrori;
-import appolloni.migliano.ClassiDiErrori.CampiVuotiException;
 import appolloni.migliano.bean.BeanGruppo;
 import appolloni.migliano.bean.BeanUtenti;
 import appolloni.migliano.controller.ControllerGestioneGruppo;
+import appolloni.migliano.exception.CampiVuotiException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;

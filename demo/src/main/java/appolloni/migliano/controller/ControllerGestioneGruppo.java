@@ -2,12 +2,12 @@ package appolloni.migliano.controller;
 
 
 
-import appolloni.migliano.ClassiDiErrori.CampiVuotiException;
 import appolloni.migliano.bean.BeanGruppo;
 import appolloni.migliano.bean.BeanUtenti;
 import appolloni.migliano.entity.Gruppo;
 import appolloni.migliano.entity.Studente;
 import appolloni.migliano.entity.Utente;
+import appolloni.migliano.exception.CampiVuotiException;
 import appolloni.migliano.factory.FactoryDAO;
 import appolloni.migliano.factory.FactoryGruppo;
 import appolloni.migliano.interfacce.InterfacciaDaoStruttura;

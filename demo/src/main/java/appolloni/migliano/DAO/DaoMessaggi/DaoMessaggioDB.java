@@ -1,5 +1,4 @@
-package appolloni.migliano.DAO.DaoMessaggi;
-
+package appolloni.migliano.dao.daoMessaggi;
 
 import appolloni.migliano.entity.Gruppo;
 import appolloni.migliano.entity.Messaggio;

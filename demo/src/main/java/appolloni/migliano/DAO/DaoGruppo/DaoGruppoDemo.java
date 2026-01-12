@@ -1,4 +1,4 @@
-package appolloni.migliano.DAO.DaoGruppo;
+package appolloni.migliano.dao.daoGruppo;
 
 import java.sql.SQLException;
 import java.util.ArrayList;

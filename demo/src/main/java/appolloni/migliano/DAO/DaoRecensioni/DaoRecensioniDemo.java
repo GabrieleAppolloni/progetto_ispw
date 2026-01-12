@@ -1,4 +1,4 @@
-package appolloni.migliano.DAO.DaoRecensioni;
+package appolloni.migliano.dao.daoRecensioni;
 
 import java.io.IOException;
 import java.util.ArrayList;

@@ -1,4 +1,4 @@
-package appolloni.migliano.DAO.DaoDB;
+package appolloni.migliano.dao.daoStrutture;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

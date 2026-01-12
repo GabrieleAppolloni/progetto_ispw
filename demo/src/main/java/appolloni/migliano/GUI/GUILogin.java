@@ -12,8 +12,8 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 import appolloni.migliano.controller.ControllerLogin;
-import appolloni.migliano.ClassiDiErrori.CredenzialiSbagliateException;
-import appolloni.migliano.ClassiDiErrori.EmailNonValidaException;
+import appolloni.migliano.exception.CredenzialiSbagliateException;
+import appolloni.migliano.exception.EmailNonValidaException;
 import appolloni.migliano.bean.BeanUtenti;
 
 public class GUILogin {

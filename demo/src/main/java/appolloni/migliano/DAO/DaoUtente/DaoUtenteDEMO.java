@@ -1,4 +1,4 @@
-package appolloni.migliano.DAO.DaoUtente;
+package appolloni.migliano.dao.daoUtente;
 
 import appolloni.migliano.interfacce.InterfacciaUtente;
 

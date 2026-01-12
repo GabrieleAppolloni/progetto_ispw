@@ -1,4 +1,4 @@
-package appolloni.migliano.DAO.DaoDB;
+package appolloni.migliano.dao.daoStrutture;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
