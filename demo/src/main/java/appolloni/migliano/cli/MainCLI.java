@@ -1,7 +1,5 @@
-package appolloni.migliano;
-
-import appolloni.migliano.cli.HomeCLI;
-
+package appolloni.migliano.cli;
+import appolloni.migliano.DBConnection;
 public class MainCLI {
     public static void main(String[] args) {
         System.out.println("Avvio applicazione in modalità CLI...");
