@@ -25,7 +25,7 @@ public class ControllerGestioneStrutture {
    private InterfacciaDaoStruttura daoStrutture = FactoryDAO.getDAOStrutture();
    
 
-    public void CreaStruttura(BeanUtenti bean, BeanStruttura beanStr) throws CampiVuotiException,SQLException,IOException, EntitàNonTrovata, IllegalArgumentException{
+    public void creaStruttura(BeanUtenti bean, BeanStruttura beanStr) throws CampiVuotiException,SQLException,IOException, EntitàNonTrovata, IllegalArgumentException{
 
       String type = beanStr.getTipo();
       String nomeStruttura = beanStr.getName();

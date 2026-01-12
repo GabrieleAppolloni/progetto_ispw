@@ -63,7 +63,7 @@ public class GUISegnalaStruttura {
                 nomeGestore
             );
             
-            controllerApp.CreaStruttura(studenteLoggato, struttura); 
+            controllerApp.creaStruttura(studenteLoggato, struttura); 
             
 
             Alert alert = new Alert(Alert.AlertType.INFORMATION);

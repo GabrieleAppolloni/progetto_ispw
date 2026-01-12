@@ -101,7 +101,7 @@ public class CreazioneGUIStrutture {
             controllerGestioneUtente.creazioneUtente(beanCurr);
             beanStruttura = new BeanStruttura(tipo, nome, citta, indirizzo, orario, wifi, ristorazione,tipoAttivita, gestore,nomeFotoFinale);
             try{
-             controllerCreazioneStrutture.CreaStruttura(beanCurr,beanStruttura);
+             controllerCreazioneStrutture.creaStruttura(beanCurr,beanStruttura);
              lblRisultato.setText("Registrazione Effettuata con Successo!");
              lblRisultato.setStyle("-fx-text-fill: green;");
             }catch(CampiVuotiException e){

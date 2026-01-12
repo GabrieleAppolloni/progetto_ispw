@@ -33,11 +33,9 @@ public class ControllerChat {
         Gruppo g = daoGruppo.cercaGruppo(beanInput.getNome());
         
         if (g == null){ throw new EntitàNonTrovata("Gruppo non esistente");}
-
-        
-         BeanGruppo gruppo = new BeanGruppo(g.getNome(),g.getMateria(),g.getAdmin().getName(),g.getLuogo(),g.getMateria());
-         return gruppo;
+         return new BeanGruppo(g.getNome(),g.getMateria(),g.getAdmin().getName(),g.getLuogo(),g.getMateria());
     }
+    
     public List<BeanMessaggi> recuperaMessaggi(BeanGruppo beanGruppo) throws SQLException {
         List<BeanMessaggi> listaBeans = new ArrayList<>();
 
@@ -72,13 +70,13 @@ public class ControllerChat {
 
 
         Utente user = daoUtente.cercaUtente(utente.getEmail());
-        Gruppo gruppo_utente = daoGruppo.cercaGruppo(gruppo.getNome());
+        Gruppo gruppoUtente = daoGruppo.cercaGruppo(gruppo.getNome());
         if(utente.getEmail().equals(gruppo.getAdmin())){
 
-            daoGruppo.eliminaGruppo(gruppo_utente.getNome());
+            daoGruppo.eliminaGruppo(gruppoUtente.getNome());
 
         }else{
-            daoGruppo.abbandonaGruppo(gruppo_utente.getNome(), user.getEmail());
+            daoGruppo.abbandonaGruppo(gruppoUtente.getNome(), user.getEmail());
         }
     
     }

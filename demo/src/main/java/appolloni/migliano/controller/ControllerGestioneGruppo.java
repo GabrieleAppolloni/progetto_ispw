@@ -27,9 +27,7 @@ public class ControllerGestioneGruppo {
 
     public List<String> getListaStruttureDisponibili(String citta) throws CampiVuotiException, SQLException, IOException{
         if(citta == null || citta.trim().isEmpty()) throw new CampiVuotiException(citta);
-        List<String> lista = daoStrutture.recuperaNomiStrutture(citta);
-        return lista;
-
+        return daoStrutture.recuperaNomiStrutture(citta);
     }
 
     public void creaGruppo(BeanUtenti bean, BeanGruppo beanGruppo) throws SQLException, CampiVuotiException {
@@ -57,8 +55,8 @@ public class ControllerGestioneGruppo {
          gruppo.setMateria(beanGruppo.getMateria());
          gruppo.setCitta(beanGruppo.getCitta());
          gruppo.setLuogo(beanGruppo.getLuogo());
-         if(u1 instanceof Studente){
-          ((Studente)u1).addGruppo(gruppo);
+         if(u1 instanceof Studente studente){
+          studente.addGruppo(gruppo);
          }
          gruppo.aggiungiMembro(u1, u1);
           daoGruppo.creaGruppo(gruppo);
@@ -105,10 +103,10 @@ public class ControllerGestioneGruppo {
 
         
         List<BeanGruppo> list = new ArrayList<>();
-        List<Gruppo> list_1 = daoGruppo.ricercaGruppiConFiltri(nome, citta, materia);
+        List<Gruppo> listGruppo = daoGruppo.ricercaGruppiConFiltri(nome, citta, materia);
         
         
-        for(Gruppo g : list_1){
+        for(Gruppo g : listGruppo){
             BeanGruppo beanGruppo = new BeanGruppo(g.getNome(), g.getMateria(), g.getAdmin().getEmail(), g.getLuogo(),g.getCitta());
             list.add(beanGruppo);
         }

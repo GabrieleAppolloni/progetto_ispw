@@ -58,9 +58,9 @@ public class ControllerGestioneUtente{
 
          Utente user = daoUtente.cercaUtente(utente.getEmail());
 
-         BeanUtenti bean = new BeanUtenti(user.getTipo(), user.getName(), user.getCognome(), user.getEmail(), user.getPass(), user.getCitta());
+         return new BeanUtenti(user.getTipo(), user.getName(), user.getCognome(), user.getEmail(), user.getPass(), user.getCitta());
         
-         return bean;
+        
         
 
     }

@@ -9,12 +9,12 @@ public class BeanGruppo {
     private String citta;
     
 
-    public BeanGruppo(String nome,String materia, String emailAd, String luogo_studio, String citta_studio){
+    public BeanGruppo(String nome,String materia, String emailAd, String luogoStudio, String cittaStudio){
      this.nomeGruppo = nome;
      this.admin =emailAd;
      this.materiaStudio = materia;
-     this.luogo = luogo_studio;
-     this.citta = citta_studio;
+     this.luogo = luogoStudio;
+     this.citta = cittaStudio;
     }
 
     public void setCitta(String newCitta){
