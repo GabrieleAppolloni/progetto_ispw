@@ -88,9 +88,9 @@ public class DAOStruttureDB implements InterfacciaDaoStruttura {
         List<Struttura> lista = new ArrayList<>();
         StringBuilder sql = new StringBuilder(RICERCA_FILTRI);
 
-        if (nome != null) sql.append("AND nome LIKE ? ");
-        if (citta != null) sql.append("AND citta LIKE ? ");
-        if (tipo != null) sql.append("AND tipo_attivita = ? "); // Occhio all'accento qui!
+        if (nome != null) {sql.append("AND nome LIKE ? ");}
+        if (citta != null) {sql.append("AND citta LIKE ? ");}
+        if (tipo != null) {sql.append("AND tipo_attivita = ? ");}; 
 
         try (PreparedStatement ps = conn.prepareStatement(sql.toString())) {
             int index = 1;
@@ -123,7 +123,7 @@ public class DAOStruttureDB implements InterfacciaDaoStruttura {
     
     @Override
     public void updateStruttura(Struttura s, String vecchioNome) throws SQLException {
-        // Logica migliorata: non puoi cambiare il nome o il gestore nell'update, li usi per trovare la riga
+        
         try (PreparedStatement ps = conn.prepareStatement(UPDATE_STRUTTURA)) {
             ps.setString(1, s.getIndirizzo());
             ps.setString(2, s.getCitta());
@@ -133,7 +133,7 @@ public class DAOStruttureDB implements InterfacciaDaoStruttura {
             ps.setString(6, s.getTipoAttivita());
             ps.setString(7, s.getFoto());
             
-            // WHERE
+         
             ps.setString(8, vecchioNome);
             ps.setString(9, s.getGestore()); 
 
@@ -167,20 +167,18 @@ public class DAOStruttureDB implements InterfacciaDaoStruttura {
         return nomi;
     }
 
-    // --- METODO HELPER PER EVITARE DUPLICAZIONI E ERRORI DI INDICE ---
+   
     private Struttura mappaResultSet(ResultSet rs) throws SQLException {
-        // Uso i nomi delle colonne ("nome", "tipo") invece dei numeri (1, 2).
-        // È molto più sicuro se cambi l'ordine delle colonne nel DB o nella query.
         
         Struttura s = FactoryStrutture.creazioneStrutture(
-            rs.getString("tipo"),           // Assicurati che il 1° param della Factory sia il TIPO
-            rs.getString("nome"),           // E il 2° sia il NOME. Se è il contrario, invertili qui!
+            rs.getString("tipo"),           
+            rs.getString("nome"),           
             rs.getString("citta"),
             rs.getString("indirizzo"),
             rs.getString("orario_apertura"),
             rs.getBoolean("wifi"),
             rs.getBoolean("ristorazione"),
-            rs.getString("tipo_attivita"),  // Occhio all'accento
+            rs.getString("tipo_attivita"),  
             rs.getString("gestore")
         );
 

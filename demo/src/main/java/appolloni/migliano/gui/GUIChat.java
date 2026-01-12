@@ -79,7 +79,7 @@ public class GUIChat {
             }
         } catch (SQLException e) {
             HelperErrori.errore("Errore:", e.getMessage());
-        }catch(Exception e){
+        }catch(IllegalArgumentException e){
             HelperErrori.errore(ERRORE_GENERICO,e.getMessage());
         }
     }

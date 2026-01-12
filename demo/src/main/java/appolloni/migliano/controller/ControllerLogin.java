@@ -1,5 +1,7 @@
 package appolloni.migliano.controller;
 
+import java.sql.SQLException;
+
 import appolloni.migliano.bean.BeanUtenti;
 import appolloni.migliano.entity.Utente;
 import appolloni.migliano.exception.CredenzialiSbagliateException;
@@ -11,7 +13,7 @@ public class ControllerLogin {
     private Utente user = null;
     private InterfacciaUtente daoUtente = FactoryDAO.getDaoUtente();
 
-    public BeanUtenti verificaUtente(BeanUtenti bean) throws Exception{
+    public BeanUtenti verificaUtente(BeanUtenti bean) throws SQLException,EmailNonValidaException,CredenzialiSbagliateException{
 
 
         if(!bean.getEmail().contains("@")){

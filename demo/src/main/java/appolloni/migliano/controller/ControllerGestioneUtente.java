@@ -45,12 +45,10 @@ public class ControllerGestioneUtente{
          }
 
 
-         if (bean.getTipo().equals("Host")){
-           if (bean.getNomeAttivita() == null || bean.getNomeAttivita().isEmpty() || 
-            bean.getTipoAttivita() == null || bean.getTipoAttivita().isEmpty()) {
+         if (bean.getTipo().equals("Host") &&(bean.getNomeAttivita() == null || bean.getNomeAttivita().isEmpty() || 
+            bean.getTipoAttivita() == null || bean.getTipoAttivita().isEmpty())) {
             throw new CampiVuotiException("Errore: Dati attività mancanti per l'Host.");
            }
-          }
           daoUtente.salvaUtente(utente);
 
 

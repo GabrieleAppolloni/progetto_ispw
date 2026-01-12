@@ -11,6 +11,7 @@ import appolloni.migliano.bean.BeanUtenti;
 import appolloni.migliano.entity.Gruppo;
 import appolloni.migliano.entity.Messaggio;
 import appolloni.migliano.entity.Utente;
+import appolloni.migliano.exception.EntitàNonTrovata;
 import appolloni.migliano.factory.FactoryDAO;
 import appolloni.migliano.factory.FactoryMessaggi;
 import appolloni.migliano.interfacce.InterfacciaGruppo;
@@ -28,10 +29,10 @@ public class ControllerChat {
         this.daoMessaggi = FactoryDAO.getDaoMessaggi();
         this.daoUtente = FactoryDAO.getDaoUtente();
     }
-    public BeanGruppo recuperaInfoGruppo(BeanGruppo beanInput) throws  SQLException{
+    public BeanGruppo recuperaInfoGruppo(BeanGruppo beanInput) throws  SQLException, EntitàNonTrovata{
         Gruppo g = daoGruppo.cercaGruppo(beanInput.getNome());
         
-        if (g == null) throw new SQLException("Gruppo non esistente");
+        if (g == null){ throw new EntitàNonTrovata("Gruppo non esistente");}
 
         
          BeanGruppo gruppo = new BeanGruppo(g.getNome(),g.getMateria(),g.getAdmin().getName(),g.getLuogo(),g.getMateria());
@@ -59,7 +60,7 @@ public class ControllerChat {
     }
 
     public void inviaMessaggio(BeanUtenti mittente, BeanGruppo gruppo, String testo) throws SQLException {
-        if(testo == null || testo.trim().isEmpty()) return;
+        if(testo == null || testo.trim().isEmpty()) {throw new IllegalArgumentException("Testo vuoto");}
         Utente user = daoUtente.cercaUtente(mittente.getEmail());
         Gruppo g = daoGruppo.cercaGruppo(gruppo.getNome());
         Messaggio messaggio = FactoryMessaggi.creaMessaggio(testo, g, user);

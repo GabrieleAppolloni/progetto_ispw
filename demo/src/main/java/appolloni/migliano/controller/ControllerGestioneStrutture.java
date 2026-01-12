@@ -3,6 +3,7 @@ package appolloni.migliano.controller;
 
 import appolloni.migliano.entity.Struttura;
 import appolloni.migliano.exception.CampiVuotiException;
+import appolloni.migliano.exception.EntitàNonTrovata;
 import appolloni.migliano.factory.FactoryDAO;
 import appolloni.migliano.factory.FactoryStrutture;
 import appolloni.migliano.interfacce.InterfacciaDaoStruttura;
@@ -24,7 +25,7 @@ public class ControllerGestioneStrutture {
    private InterfacciaDaoStruttura daoStrutture = FactoryDAO.getDAOStrutture();
    
 
-    public void CreaStruttura(BeanUtenti bean, BeanStruttura beanStr) throws CampiVuotiException,Exception,SQLException{
+    public void CreaStruttura(BeanUtenti bean, BeanStruttura beanStr) throws CampiVuotiException,SQLException,IOException, EntitàNonTrovata, IllegalArgumentException{
 
       String type = beanStr.getTipo();
       String nomeStruttura = beanStr.getName();
@@ -43,13 +44,13 @@ public class ControllerGestioneStrutture {
 
        Struttura nuovStruttura =  daoStrutture.cercaStruttura(nomeStruttura,responsabile);
        if( nuovStruttura != null){
-         throw new Exception("La struttura esiste");
+         throw new IllegalArgumentException("La struttura esiste");
        }else{
 
         Struttura struttura = FactoryStrutture.creazioneStrutture(type, nomeStruttura, citta, indirizzo, orario,wifi, ristorazione, tipoAtt, responsabile);
         
        if (struttura == null) {
-             throw new Exception("Creazione struttura fallita.");
+             throw new EntitàNonTrovata("Creazione struttura fallita.");
        }
 
        struttura.setFoto(foto);
@@ -60,7 +61,7 @@ public class ControllerGestioneStrutture {
         
         emailHost = bean.getEmail();
       }else{
-        emailHost = null;
+        throw new IllegalArgumentException("Utente non valido");
       }
       daoStrutture.salvaStruttura(struttura,emailHost);
 
@@ -75,7 +76,7 @@ public class ControllerGestioneStrutture {
 
 
     public BeanStruttura visualizzaStrutturaHost(String emailHost) throws SQLException, IOException, IllegalArgumentException {
-        if(emailHost.isEmpty() || emailHost == null ){
+        if(emailHost == null ){
             throw new IllegalArgumentException("Host non vaido");
 
         }
@@ -88,7 +89,7 @@ public class ControllerGestioneStrutture {
     }
 
     public void cambiaFoto(String emailHost, String nomeFoto) throws CampiVuotiException, SQLException,IOException {
-     if (emailHost == null || nomeFoto == null) throw new CampiVuotiException("Dati mancanti");
+     if (emailHost == null || nomeFoto == null) {throw new CampiVuotiException("Dati mancanti");}
       daoStrutture.aggiornaFotoStruttura(emailHost, nomeFoto);
     
     }
@@ -104,9 +105,9 @@ public class ControllerGestioneStrutture {
 
   public List<BeanStruttura> cercaStrutture(String nome, String citta, String tipo) throws IOException, SQLException {
     
-        if(nome != null && nome.isEmpty()) nome = null;
-        if(citta != null && citta.isEmpty()) citta = null;
-        if(tipo != null && (tipo.isEmpty() || tipo.equals("Tutti"))) tipo = null;
+        if(nome != null && nome.isEmpty()) {nome = null;}
+        if(citta != null && citta.isEmpty()) {citta = null;}
+        if(tipo != null && (tipo.isEmpty() || tipo.equals("Tutti"))) {tipo = null;}
 
         List<BeanStruttura> listaBeans = new ArrayList<>();
         List<Struttura> listaEntities = daoStrutture.ricercaStruttureConFiltri(nome, citta, tipo);

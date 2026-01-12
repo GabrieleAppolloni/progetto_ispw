@@ -44,7 +44,7 @@ public class DaoRecensioniFile implements InterfacciaDaoRecensioni {
         List<Recensione> lista = new ArrayList<>();
         File file = new File(CSV_FILE);
 
-        if (!file.exists()) return lista;
+        if (!file.exists()) {return lista;}
         InterfacciaDaoStruttura daoStruttura = FactoryDAO.getDAOStrutture();
         InterfacciaUtente daoUtente = FactoryDAO.getDaoUtente();
         Struttura strutturaTarget = null;
@@ -53,7 +53,7 @@ public class DaoRecensioniFile implements InterfacciaDaoRecensioni {
         
         strutturaTarget = daoStruttura.cercaStruttura(nomeStr, gestore);
     
-        if (strutturaTarget == null) return lista;
+        if (strutturaTarget == null) { return lista;}
 
         try (BufferedReader br = new BufferedReader(new FileReader(file))) {
             String line;

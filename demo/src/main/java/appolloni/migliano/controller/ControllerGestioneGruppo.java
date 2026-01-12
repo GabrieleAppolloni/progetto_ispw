@@ -103,9 +103,9 @@ public class ControllerGestioneGruppo {
         if(citta != null && citta.isEmpty()) citta = null;
         if(materia != null && materia.isEmpty()) materia = null;
 
-        List<Gruppo> list_1 = new ArrayList<>();
+        
         List<BeanGruppo> list = new ArrayList<>();
-         list_1 = daoGruppo.ricercaGruppiConFiltri(nome, citta, materia);
+        List<Gruppo> list_1 = daoGruppo.ricercaGruppiConFiltri(nome, citta, materia);
         
         
         for(Gruppo g : list_1){

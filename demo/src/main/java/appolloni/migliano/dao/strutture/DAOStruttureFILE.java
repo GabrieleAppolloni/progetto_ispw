@@ -55,13 +55,13 @@ public class DAOStruttureFILE  implements InterfacciaDaoStruttura{
     public List<Struttura> ricercaStruttureConFiltri(String nome, String citta, String tipo) throws IOException {
      List<Struttura> lista = new ArrayList<>();
      File file = new File(CSV_FILE);
-     if (!file.exists()) return lista;
+     if (!file.exists()) {return lista;}
 
      try (BufferedReader br = new BufferedReader(new FileReader(file))) {
         String line;
         while ((line = br.readLine()) != null) {
             String[] dati = line.split(";");
-            if (dati.length < 10) continue; 
+            if (dati.length < 10) {continue;} 
             if (soddisfaFiltri(dati, nome, citta, tipo)) {
                 lista.add(creaStrutturaDaCsv(dati));
             }
@@ -114,7 +114,7 @@ public class DAOStruttureFILE  implements InterfacciaDaoStruttura{
     @Override
     public Struttura recuperaStrutturaPerHost(String emailHost) throws IOException {
         File file = new File(CSV_FILE);
-        if (!file.exists()) return null;
+        if (!file.exists()) { return null;}
 
         try (BufferedReader br = new BufferedReader(new FileReader(file))) {
             String line;
@@ -143,7 +143,7 @@ public class DAOStruttureFILE  implements InterfacciaDaoStruttura{
    @Override
    public void updateStruttura(Struttura struttura, String vecchioNome) throws IOException {
     File file = new File(CSV_FILE);
-    if (!file.exists()) return;
+    if (!file.exists()) {return;}
 
      List<String> righeDaRiscrivere = new ArrayList<>();
      boolean trovato = false;
@@ -183,7 +183,7 @@ public class DAOStruttureFILE  implements InterfacciaDaoStruttura{
     @Override
     public void aggiornaFotoStruttura(String emailHost, String fotoNuova) throws IOException {
         File file = new File(CSV_FILE);
-        if(!file.exists()) return;
+        if(!file.exists()) {return;}
 
         try (BufferedReader br = new BufferedReader(new FileReader(file))) {
             String line;
@@ -209,7 +209,7 @@ public class DAOStruttureFILE  implements InterfacciaDaoStruttura{
         List<String> listaNomi = new ArrayList<>();
         
         File file = new File(CSV_FILE);
-        if (!file.exists()) return listaNomi;
+        if (!file.exists()) {return listaNomi;}
 
         try (BufferedReader br = new BufferedReader(new FileReader(file))) {
             String line;

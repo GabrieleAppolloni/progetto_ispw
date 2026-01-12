@@ -7,7 +7,7 @@ import appolloni.migliano.bean.BeanUtenti;
 import appolloni.migliano.controller.ControllerGestioneStrutture;
 import appolloni.migliano.controller.ControllerGestioneUtente;
 import appolloni.migliano.exception.CampiVuotiException;
-import appolloni.migliano.exception.EmailNonValidaException;
+import appolloni.migliano.exception.EntitàNonTrovata;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -110,14 +110,10 @@ public class CreazioneGUIStrutture {
             }catch(CampiVuotiException e){
                 lblRisultato.setText(e.getMessage());
                 lblRisultato.setStyle(COLORE);
-
-            }catch(EmailNonValidaException e){
-                lblRisultato.setText(e.getMessage());
-                lblRisultato.setStyle(COLORE);
             }catch(SQLException e){
                 HelperErrori.errore("Errore base di dati: ", e.getMessage());
 
-            }catch (Exception e){
+            }catch (EntitàNonTrovata e){
                 lblRisultato.setText(e.getMessage());
                 lblRisultato.setStyle(COLORE);
             }

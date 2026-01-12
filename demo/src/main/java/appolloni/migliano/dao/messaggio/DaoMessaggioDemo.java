@@ -34,7 +34,7 @@ public class DaoMessaggioDemo implements InterfacciaMessaggi{
         Collections.sort(risultato, new Comparator<Messaggio>() {
             @Override
             public int compare(Messaggio m1, Messaggio m2) {
-                if(m1.getTime() == null || m2.getTime() == null) return 0;
+                if(m1.getTime() == null || m2.getTime() == null){ return 0;}
                 return m1.getTime().compareTo(m2.getTime());
             }
         });

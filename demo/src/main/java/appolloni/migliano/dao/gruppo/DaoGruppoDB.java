@@ -30,6 +30,8 @@ public class DaoGruppoDB implements InterfacciaGruppo {
     private final String ELIMINA_MESSAGGI = "DELETE FROM messaggi WHERE nome_gruppo = ?";
     private final String ELIMINA_ISCRIZIONI =  "DELETE FROM iscrizioni WHERE nome_gruppo = ?";
 
+    private final String SELECTRICERCAFILTRI = "SELECT nome, materia_studio, email_admin, citta, luogo FROM gruppi WHERE 1=1 "; 
+
     public DaoGruppoDB(Connection conn) {
         this.conn = conn;
     }
@@ -163,7 +165,7 @@ public class DaoGruppoDB implements InterfacciaGruppo {
         List<Gruppo> lista = new ArrayList<>();
         InterfacciaUtente daoUtente = FactoryDAO.getDaoUtente();
         
-        String sql = "SELECT * FROM gruppi WHERE 1=1 "; 
+        String sql = SELECTRICERCAFILTRI; 
         
         if (nome != null) sql += "AND nome LIKE ? ";
         if (citta != null) sql += "AND citta LIKE ? ";
