@@ -34,35 +34,30 @@ public class DAOStruttureDemo implements InterfacciaDaoStruttura {
         return null;
     }
 
-    @Override
-    public List<Struttura> ricercaStruttureConFiltri(String nome, String citta, String tipo) throws IOException {
-        List<Struttura> risultati = new ArrayList<>();
-
-        for (Struttura s : tabellaStrutture) {
-            boolean match = true;
-            if (nome != null && !nome.isEmpty()) {
-                if (!s.getName().toLowerCase().contains(nome.toLowerCase())) {
-                    match = false;
-                }
-            }
-            if (match && citta != null && !citta.isEmpty()) {
-                if (!s.getCitta().toLowerCase().contains(citta.toLowerCase())) {
-                    match = false;
-                }
-            }
-            if (match && tipo != null && !tipo.isEmpty()) {
-                if (!s.getTipoAttivita().equalsIgnoreCase(tipo)) {
-                    match = false;
-                }
-            }
-
-            if (match) {
-                risultati.add(s);
-            }
+   @Override
+    public List<Struttura> ricercaStruttureConFiltri(String nome, String citta, String tipo) {
+    List<Struttura> risultati = new ArrayList<>();
+    
+     for (Struttura s : tabellaStrutture) {
+        if (soddisfaFiltri(s, nome, citta, tipo)) {
+            risultati.add(s);
         }
-        return risultati;
+     }
+     return risultati;
     }
 
+    private boolean soddisfaFiltri(Struttura s, String nome, String citta, String tipo) {
+     if (nome != null && !nome.isEmpty() && !s.getName().toLowerCase().contains(nome.toLowerCase())) {
+        return false;
+     }
+     if (citta != null && !citta.isEmpty() && !s.getCitta().toLowerCase().contains(citta.toLowerCase())) {
+         return false;
+     }
+     if (tipo != null && !tipo.isEmpty() && !s.getTipoAttivita().equalsIgnoreCase(tipo)) {
+        return false;
+     }
+     return true;
+    }
     @Override
     public Struttura recuperaStrutturaPerHost(String emailHost) throws IOException {
         for (Struttura s : tabellaStrutture) {

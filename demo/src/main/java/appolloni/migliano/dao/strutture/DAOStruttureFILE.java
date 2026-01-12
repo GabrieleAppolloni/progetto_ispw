@@ -51,7 +51,7 @@ public class DAOStruttureFILE  implements InterfacciaDaoStruttura{
         
     }
 
-    @Override
+   @Override
     public List<Struttura> ricercaStruttureConFiltri(String nome, String citta, String tipo) throws IOException {
      List<Struttura> lista = new ArrayList<>();
      File file = new File(CSV_FILE);
@@ -61,50 +61,54 @@ public class DAOStruttureFILE  implements InterfacciaDaoStruttura{
         String line;
         while ((line = br.readLine()) != null) {
             String[] dati = line.split(";");
-            if (dati.length < 10) continue;
-            boolean match = true;
-
-            if (nome != null && !nome.isEmpty()) {
-            
-                if (!dati[0].toLowerCase().contains(nome.toLowerCase())) {
-                    match = false;
-                }
-            }
-            if (match && citta != null && !citta.isEmpty()) {
-                if (!dati[2].toLowerCase().contains(citta.toLowerCase())) {
-                    match = false;
-                }
-            }
-            if (match && tipo != null && !tipo.isEmpty()) {
-                if (!dati[9].equalsIgnoreCase(tipo)) {
-                    match = false;
-                }
-            }
-            if (match) {
-                String foto = dati[6];
-                if (foto == null || foto.isEmpty() || foto.equalsIgnoreCase("null")) {
-                    foto = "placeholder.png";
-                }
-
-                Struttura s = FactoryStrutture.creazioneStrutture(
-                    dati[1], 
-                    dati[0],
-                    dati[2], 
-                    dati[3],
-                    dati[4], 
-                    Boolean.parseBoolean(dati[7]), 
-                    Boolean.parseBoolean(dati[8]), 
-                    dati[9], 
-                    dati[5] 
-                );
-                s.setFoto(foto);
-                lista.add(s);
+            if (dati.length < 10) continue; 
+            if (soddisfaFiltri(dati, nome, citta, tipo)) {
+                lista.add(creaStrutturaDaCsv(dati));
             }
         }
-      } 
-    
+     }
      return lista;
     }
+
+
+    private boolean soddisfaFiltri(String[] dati, String nome, String citta, String tipo) {
+
+     if (nome != null && !nome.isEmpty() && !dati[0].toLowerCase().contains(nome.toLowerCase())) {
+        return false;
+     }
+
+     if (citta != null && !citta.isEmpty() && !dati[2].toLowerCase().contains(citta.toLowerCase())) {
+        return false;
+     }
+
+     if (tipo != null && !tipo.isEmpty() && !dati[9].equalsIgnoreCase(tipo)) {
+        return false;
+     }
+      return true;
+    }
+
+
+    private Struttura creaStrutturaDaCsv(String[] dati) {
+     String foto = dati[6];
+     if (foto == null || foto.isEmpty() || "null".equalsIgnoreCase(foto)) {
+        foto = "placeholder.png";
+     }
+
+     Struttura s = FactoryStrutture.creazioneStrutture(
+        dati[1], 
+        dati[0],
+        dati[2], 
+        dati[3],
+        dati[4], 
+        Boolean.parseBoolean(dati[7]), 
+        Boolean.parseBoolean(dati[8]), 
+        dati[9], 
+        dati[5] 
+     );
+     s.setFoto(foto);
+     return s;
+    }
+
 
 
     @Override
