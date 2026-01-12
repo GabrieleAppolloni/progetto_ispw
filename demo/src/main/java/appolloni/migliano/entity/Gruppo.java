@@ -1,5 +1,6 @@
 package appolloni.migliano.entity;
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class Gruppo {
@@ -14,8 +15,8 @@ public class Gruppo {
     public Gruppo(String nome, Utente u1){
      this.nomeGruppo = nome;
      this.admin = u1;
-     this.membri = new ArrayList<Utente>();
-     this.messaggi = new ArrayList<Messaggio>();
+     this.membri = new ArrayList<>();
+     this.messaggi = new ArrayList<>();
     }
 
     public void setLuogo(String newLuogo){
@@ -38,7 +39,7 @@ public class Gruppo {
         messaggi.add(mess);
 
     }
-    public ArrayList<Messaggio> getMessaggi() {
+    public List<Messaggio> getMessaggi() {
         return messaggi;
     }
     public Utente getAdmin(){

@@ -9,13 +9,13 @@ public abstract class Utente {
     private String tipo;
     private String password;
 
-    public Utente(String nome_utente, String cognome_utente, String email_utente, String citta_utente, String tipo_utente, String ps){
+    public Utente(String nomeUtente, String cognomeUtente, String emailUtente, String cittaUtente, String tipoUtente, String ps){
 
-        this.nome = nome_utente;
-        this.cognome = cognome_utente;
-        this.email = email_utente;
-        this.citta = citta_utente;
-        this.tipo = tipo_utente;
+        this.nome = nomeUtente;
+        this.cognome = cognomeUtente;
+        this.email = emailUtente;
+        this.citta = cittaUtente;
+        this.tipo = tipoUtente;
         this.password = ps;
     }
 
@@ -29,24 +29,24 @@ public abstract class Utente {
         return this.password;
     }
 
-    public void setName(String nome_utente){
-        this.nome = nome_utente;
+    public void setName(String nomeUtente){
+        this.nome = nomeUtente;
     }
 
-    public void setCognome(String cognome_utente){
-        this.cognome = cognome_utente;
+    public void setCognome(String cognomeUtente){
+        this.cognome = cognomeUtente;
     }
 
-    public void setEmail(String email_utente){
-        this.email = email_utente;
+    public void setEmail(String emailUtente){
+        this.email = emailUtente;
     }
 
-    public void setCitta(String citta_utente){
-        this.citta = citta_utente;
+    public void setCitta(String cittaUtente){
+        this.citta = cittaUtente;
     }
 
-    public void setTipo(String tipo_utente){
-        this.tipo = tipo_utente;
+    public void setTipo(String tipoUtente){
+        this.tipo = tipoUtente;
     }
 
     public String getName(){

@@ -11,7 +11,7 @@ import appolloni.migliano.interfacce.InterfacciaDaoStruttura;
 public class DAOStruttureDemo implements InterfacciaDaoStruttura {
 
 
-    private final static List<Struttura> tabellaStrutture = new ArrayList<>();
+    private static final List<Struttura> tabellaStrutture = new ArrayList<>();
 
 
     @Override

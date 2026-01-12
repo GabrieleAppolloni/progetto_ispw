@@ -7,9 +7,9 @@ import appolloni.migliano.entity.Host;
 import appolloni.migliano.interfacce.InterfacciaUtente;
 
 public class DaoUtenteDB implements InterfacciaUtente{
-    private final static String SALVAUTENTE = "INSERT INTO utenti(dtype,nome,cognome,email,citta,password,nome_attivita,tipo_attivita)" + "VALUES (?,?,?,?,?,?,?,?)";
-    private final static String CERCAUTENTE = "SELECT dtype, nome, cognome, email, citta, password, nome_attivita, tipo_attivita FROM utenti WHERE email = ?" ;
-    private final static String UPDATE = "UPDATE utenti SET password = ? WHERE email = ?";
+    private static final String SALVAUTENTE = "INSERT INTO utenti(dtype,nome,cognome,email,citta,password,nome_attivita,tipo_attivita)" + "VALUES (?,?,?,?,?,?,?,?)";
+    private static final String CERCAUTENTE = "SELECT dtype, nome, cognome, email, citta, password, nome_attivita, tipo_attivita FROM utenti WHERE email = ?" ;
+    private static final String UPDATE = "UPDATE utenti SET password = ? WHERE email = ?";
     private Connection conn; 
     public DaoUtenteDB(Connection connessione){
         this.conn = connessione;
@@ -27,11 +27,10 @@ public class DaoUtenteDB implements InterfacciaUtente{
             ps.setString(5, u.getCitta());
             ps.setString(6, u.getPass());
 
-            if(u instanceof Host){
-                Host h  = (Host)u;
+            if(u instanceof Host host){
                 ps.setString(1, "Host");
-                ps.setString(7, h.getNomeAttivita());
-                ps.setString(8, h.getTipoAttivita());
+                ps.setString(7, host.getNomeAttivita());
+                ps.setString(8, host.getTipoAttivita());
 
             }else{
                 ps.setString(1,"Studente");

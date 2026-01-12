@@ -86,7 +86,7 @@ public class DAOStruttureDB implements InterfacciaDaoStruttura {
 
         if (nome != null) {sql.append("AND nome LIKE ? ");}
         if (citta != null) {sql.append("AND citta LIKE ? ");}
-        if (tipo != null) {sql.append("AND tipo_attivita = ? ");}; 
+        if (tipo != null) {sql.append("AND tipo_attivita = ? ");}
 
         try (PreparedStatement ps = conn.prepareStatement(sql.toString())) {
             int index = 1;

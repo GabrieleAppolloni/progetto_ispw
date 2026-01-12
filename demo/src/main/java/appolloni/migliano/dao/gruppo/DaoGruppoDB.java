@@ -16,21 +16,21 @@ import appolloni.migliano.interfacce.InterfacciaUtente;
 public class DaoGruppoDB implements InterfacciaGruppo {
 
     private final Connection conn;
-    private final static String INSERTGRUPPO = "INSERT INTO gruppi (nome, materia_studio, email_admin,citta,luogo) VALUES (?, ?, ?,?,?)";
-    private final  static String INSERTISCRIZIONE = "INSERT INTO iscrizioni (nome_gruppo, email_utente) VALUES (?, ?)";
-    private final  static String SELECTCERCAGRUPPO = "SELECT nome, materia_studio, email_admin, citta, luogo FROM gruppi WHERE nome =?";
-    private final  static String RECUPERAGRUPPI = "SELECT g.nome, g.materia_studio, g.email_admin, g.citta, g.luogo " +
+    private static final String INSERTGRUPPO = "INSERT INTO gruppi (nome, materia_studio, email_admin,citta,luogo) VALUES (?, ?, ?,?,?)";
+    private static final String INSERTISCRIZIONE = "INSERT INTO iscrizioni (nome_gruppo, email_utente) VALUES (?, ?)";
+    private static final String SELECTCERCAGRUPPO = "SELECT nome, materia_studio, email_admin, citta, luogo FROM gruppi WHERE nome =?";
+    private static final String RECUPERAGRUPPI = "SELECT g.nome, g.materia_studio, g.email_admin, g.citta, g.luogo " +
                      "FROM gruppi g " +
                      "JOIN iscrizioni i ON g.nome = i.nome_gruppo " +
                      "WHERE i.email_utente = ?";
 
-    private final static String ESISTEGRUPPO = "SELECT count(*) FROM gruppi WHERE nome = ?";
-    private final static String DELETEGRUPPO = "DELETE FROM iscrizioni WHERE nome_gruppo = ? AND email_utente = ?";
-    private final static String ELIMINAGRUPPO = "DELETE FROM gruppi WHERE nome = ?";
-    private final static String ELIMINAMESSAGGI = "DELETE FROM messaggi WHERE nome_gruppo = ?";
-    private final static String ELIMINAISCRIZIONI =  "DELETE FROM iscrizioni WHERE nome_gruppo = ?";
+    private static final String ESISTEGRUPPO = "SELECT count(*) FROM gruppi WHERE nome = ?";
+    private static final String DELETEGRUPPO = "DELETE FROM iscrizioni WHERE nome_gruppo = ? AND email_utente = ?";
+    private static final String ELIMINAGRUPPO = "DELETE FROM gruppi WHERE nome = ?";
+    private static final String ELIMINAMESSAGGI = "DELETE FROM messaggi WHERE nome_gruppo = ?";
+    private static final String ELIMINAISCRIZIONI =  "DELETE FROM iscrizioni WHERE nome_gruppo = ?";
 
-    private final static String SELECTRICERCAFILTRI = "SELECT nome, materia_studio, email_admin, citta, luogo FROM gruppi WHERE 1=1 "; 
+    private static final String SELECTRICERCAFILTRI = "SELECT nome, materia_studio, email_admin, citta, luogo FROM gruppi WHERE 1=1 "; 
 
     public DaoGruppoDB(Connection conn) {
         this.conn = conn;

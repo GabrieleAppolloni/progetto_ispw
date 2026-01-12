@@ -1,6 +1,7 @@
 package appolloni.migliano.entity;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Studente extends Utente {
     private ArrayList<Gruppo> gruppi;
@@ -8,7 +9,7 @@ public class Studente extends Utente {
 
     public Studente(String nome, String cognome, String email, String citta, String tipo, String password){
         super(nome, cognome,email,citta,tipo, password);
-        gruppi = new ArrayList<Gruppo>();
+        gruppi = new ArrayList<>();
     }
 
     public void addGruppo(Gruppo gruppoUtente){
@@ -19,7 +20,7 @@ public class Studente extends Utente {
         this.gruppi.remove(gruppoUtente);
     }
 
-    public ArrayList<Gruppo> getGruppo(){
+    public List<Gruppo> getGruppo(){
         return this.gruppi;
     }
     

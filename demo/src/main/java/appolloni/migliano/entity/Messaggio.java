@@ -1,6 +1,6 @@
 package appolloni.migliano.entity;
 
-import java.sql.Timestamp;;
+import java.sql.Timestamp;
 
 public class Messaggio {
     private String text;

@@ -11,8 +11,8 @@ import appolloni.migliano.interfacce.InterfacciaUtente;
 import java.sql.*;
 
 public class DaoMessaggioDB implements InterfacciaMessaggi {
-    private final static String CERCAMESSAGGIO = "SELECT testo, nome_gruppo, email_mittente, data_invio FROM messaggi WHERE nome_gruppo = ? ORDER BY data_invio ASC";
-    private final  static String NUOVOMESS = "INSERT INTO MESSAGGI (testo,nome_gruppo, email_mittente, data_invio ) VALUES (?,?,?,?) ";
+    private static final String CERCAMESSAGGIO = "SELECT testo, nome_gruppo, email_mittente, data_invio FROM messaggi WHERE nome_gruppo = ? ORDER BY data_invio ASC";
+    private static final String NUOVOMESS = "INSERT INTO MESSAGGI (testo,nome_gruppo, email_mittente, data_invio ) VALUES (?,?,?,?) ";
    
     private Connection conn;
     public DaoMessaggioDB(Connection connessione){

@@ -64,8 +64,9 @@ public class DaoGruppoDemo implements InterfacciaGruppo {
     public boolean esisteGruppo(String nomeGruppo) throws SQLException {
             if(cercaGruppo(nomeGruppo) != null){
                 return true;
+            }else{
+             return false;
             }
-            return false;
         }
 
     @Override

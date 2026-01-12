@@ -83,8 +83,9 @@ public class DAOStruttureFILE  implements InterfacciaDaoStruttura{
 
      if (tipo != null && !tipo.isEmpty() && !dati[9].equalsIgnoreCase(tipo)) {
         return false;
-     }
+     }else{
       return true;
+     }
     }
 
 
@@ -189,7 +190,7 @@ public class DAOStruttureFILE  implements InterfacciaDaoStruttura{
             String line;
             while((line = br.readLine()) != null){
                 String[] dati = line.split(";");
-                if(dati[5].toLowerCase().equals(emailHost.toLowerCase())){
+                if(dati[5].equalsIgnoreCase(emailHost.toLowerCase())){
                     try(BufferedWriter wr = new BufferedWriter(new FileWriter(file,true))){
                         String newDato = String.format(FORMATOCSV, dati[0],dati[1],dati[2],dati[3],dati[4],dati[5],fotoNuova, dati[7],dati[8],dati[9]);
                         wr.write(newDato);

@@ -11,7 +11,7 @@ import appolloni.migliano.entity.Messaggio;
 import appolloni.migliano.interfacce.InterfacciaMessaggi;
 
 public class DaoMessaggioDemo implements InterfacciaMessaggi{
-    private final static List<Messaggio> tabellaMessaggi = new ArrayList<>();
+    private static final List<Messaggio> tabellaMessaggi = new ArrayList<>();
 
     @Override
     public void nuovoMessaggio(Messaggio messaggio) throws SQLException {
