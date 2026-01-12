@@ -4,4 +4,4 @@ target/
 .project
 .settings/
 *.class
-/cli
+**/cli/
