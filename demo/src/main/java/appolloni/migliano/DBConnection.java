@@ -1,40 +1,40 @@
 package appolloni.migliano;
 
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.Properties;
 
 public class DBConnection {
 
-    private static Connection conn; // L'unica connessione condivisa
-
-    // Parametri (meglio se letti da un file config, ma per ora ok qui)
-    private static final String URL = "jdbc:mysql://localhost:3306/corso_java";
-    private static final String USER = "root";
-    private static final String PWD = "RomaCavalloVergogna20!";
+    private static Connection conn;
 
     // Metodo statico per ottenere l'istanza
-    public static Connection getConnection() {
-        try {
-            // Se la connessione è chiusa o nulla, la apriamo
-            if (conn == null || conn.isClosed()) {
-                conn = DriverManager.getConnection(URL, USER, PWD);
-                System.out.println("Nuova connessione al DB aperta.");
+    public static Connection getConnection() throws SQLException {
+        if (conn == null || conn.isClosed()) {
+            try {
+                Properties props = new Properties();
+                try (InputStream input = new FileInputStream("src/main/resources/config.properties")) {
+                    props.load(input);
+                } catch (IOException e) {
+                    
+                    throw new SQLException("Impossibile trovare il file config.properties", e);
+                }
+
+                String url = props.getProperty("db.url");
+                String user = props.getProperty("db.user");
+                String pwd = props.getProperty("db.password");
+
+                conn = DriverManager.getConnection(url, user, pwd);
+
+            } catch (SQLException e) {
+                
+                throw new SQLException("Errore di connessione al Database", e);
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
         }
         return conn;
-    }
-    
-    // Metodo per chiudere (da chiamare quando chiudi l'app)
-    public static void closeConnection() {
-        try {
-            if (conn != null && !conn.isClosed()) {
-                conn.close();
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
     }
 }
