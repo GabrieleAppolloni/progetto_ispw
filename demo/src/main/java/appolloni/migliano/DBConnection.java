@@ -1,6 +1,5 @@
 package appolloni.migliano;
 
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Connection;
@@ -17,12 +16,17 @@ public class DBConnection {
         if (conn == null || conn.isClosed()) {
             try {
                 Properties props = new Properties();
-                try (InputStream input = new FileInputStream("src/main/resources/config.properties")) {
-                    props.load(input);
-                } catch (IOException e) {
+              try (InputStream input = DBConnection.class.getClassLoader().getResourceAsStream("config.properties")) {
                     
-                    throw new SQLException("Impossibile trovare il file config.properties", e);
+                    if (input == null) {
+                        throw new SQLException("File config.properties non trovato nelle risorse!");
+                    }
+                    props.load(input);
+                    
+                } catch (IOException e) {
+                    throw new SQLException("Errore lettura config.properties", e);
                 }
+               
 
                 String url = props.getProperty("db.url");
                 String user = props.getProperty("db.user");
@@ -31,7 +35,6 @@ public class DBConnection {
                 conn = DriverManager.getConnection(url, user, pwd);
 
             } catch (SQLException e) {
-                
                 throw new SQLException("Errore di connessione al Database", e);
             }
         }
