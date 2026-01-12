@@ -1,4 +1,4 @@
-package appolloni.migliano.gui;
+package appolloni.migliano.controller_gui;
 
 import java.io.IOException;
 import java.sql.SQLException;
