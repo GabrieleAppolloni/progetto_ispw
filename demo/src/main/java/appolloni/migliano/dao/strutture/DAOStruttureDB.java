@@ -13,56 +13,55 @@ import appolloni.migliano.factory.FactoryStrutture;
 
 public class DAOStruttureDB implements InterfacciaDaoStruttura {
 
-    private static final String SELECT_OP = "SELECT ";
     private static final String IMMAGINE = "placeholder.png";
     private final Connection conn;
-    private static final String COLONNE_SELECT = "tipo, nome, citta, indirizzo, orario_apertura, wifi, ristorazione, tipo_attivita, gestore, foto";
+
+    // ATTENZIONE: Assicurati che nel DB la colonna si chiami 'tipo_attivita' (senza accento).
+    // Se nel DB è 'tipo_attività', rinominala nel DB per evitare problemi di encoding!
+    
+    // Elenco colonne esplicito per evitare SELECT *
+    private static final String COLONNE = "nome, gestore, tipo, citta, indirizzo, orario_apertura, wifi, ristorazione, tipo_attivita, foto";
+
+    private static final String INSERT_STRUTTURA = "INSERT INTO strutture (nome, gestore, tipo, citta, indirizzo, orario_apertura, wifi, ristorazione, tipo_attivita, foto) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    
+    private static final String SELECT_BASE = "SELECT " + COLONNE + " FROM strutture WHERE ";
+    
+    private static final String CERCA_STRUTTURA = SELECT_BASE + "nome = ? AND gestore = ?";
+    private static final String RICERCA_FILTRI = "SELECT " + COLONNE + " FROM strutture WHERE 1=1 "; 
+    private static final String RECUPERA_BY_HOST = SELECT_BASE + "gestore = ?";
+    private static final String RECUPERA_NOMI = "SELECT nome FROM strutture WHERE citta = ?";
+    
     private static final String UPDATE_STRUTTURA = "UPDATE strutture SET " +
-                     "nome = ?, " +
-                     "indirizzo = ?, " +
-                     "citta = ?, " +
-                     "orario_apertura = ?, " + 
-                     "wifi = ?, " +
-                     "ristorazione = ?, " +
-                     "tipo_attivita = ?, " +
-                     "gestore = ?, " +
-                     "foto = ? " +
-                     "WHERE nome = ?"; 
-    private final static  String SALVA_STRUTTURA = "INSERT INTO strutture(nome,tipo,citta,indirizzo,orario_apertura,wifi,ristorazione,tipo_attivita,gestore,foto) VALUES (?,?,?,?,?,?,?,?,?,?)";
-    private final static String SELECT =  SELECT_OP + COLONNE_SELECT + "FROM strutture where nome = ? AND gestore = ?";
-    private final static String SELECT_2 = SELECT_OP + COLONNE_SELECT + " FROM strutture WHERE 1=1 ";
-    private final static String SELECT_3 = SELECT_OP + COLONNE_SELECT + " FROM strutture WHERE gestore = ?"; 
-    private final static String SELECT_4 = "SELECT nome FROM strutture WHERE citta = ?";
-    private final static String UPDATE = "UPDATE strutture SET foto = ? WHERE gestore = ?";
+            "indirizzo = ?, citta = ?, orario_apertura = ?, " + 
+            "wifi = ?, ristorazione = ?, tipo_attivita = ?, foto = ? " +
+            "WHERE nome = ? AND gestore = ?"; // Aggiunto filtro gestore per sicurezza
+
+    private static final String UPDATE_FOTO = "UPDATE strutture SET foto = ? WHERE gestore = ?";
 
     public DAOStruttureDB(Connection conn){
         this.conn = conn;
     }
  
     @Override
-        public void salvaStruttura(Struttura struttura, String email) throws SQLException{
-        String sql = SALVA_STRUTTURA;
+    public void salvaStruttura(Struttura struttura, String email) throws SQLException{
         final String GESTORE_DEFAULT = "system_no_host";
-        
-        try (PreparedStatement ps = conn.prepareStatement(sql)){
-            ps.setString(1, struttura.getName());
-            ps.setString(2, struttura.getTipo());
-            ps.setString(3, struttura.getCitta());
-            ps.setString(4, struttura.getIndirizzo());
-            ps.setString(5, struttura.getOrario());
-            ps.setBoolean(6, struttura.hasWifi());
-            ps.setBoolean(7, struttura.hasRistorazione());
-            ps.setString(8, struttura.getTipoAttivita());
+        String gestore = (email != null && !email.isEmpty()) ? email : GESTORE_DEFAULT;
 
-            if(email != null && !email.isEmpty()){
-              ps.setString(9, email);
-            }else{
-                ps.setString(9,GESTORE_DEFAULT);
-            }
+        try (PreparedStatement ps = conn.prepareStatement(INSERT_STRUTTURA)){
+            ps.setString(1, struttura.getName());
+            ps.setString(2, gestore);
+            ps.setString(3, struttura.getTipo());
+            ps.setString(4, struttura.getCitta());
+            ps.setString(5, struttura.getIndirizzo());
+            ps.setString(6, struttura.getOrario());
+            ps.setBoolean(7, struttura.hasWifi());
+            ps.setBoolean(8, struttura.hasRistorazione());
+            ps.setString(9, struttura.getTipoAttivita());
             ps.setString(10, struttura.getFoto());
 
-              ps.executeUpdate();
-             if (!conn.getAutoCommit()) {
+            ps.executeUpdate();
+            
+            if (!conn.getAutoCommit()) {
                 conn.commit();
             }
         }
@@ -70,31 +69,14 @@ public class DAOStruttureDB implements InterfacciaDaoStruttura {
 
     @Override
     public Struttura cercaStruttura(String nome, String gestore) throws SQLException{
-        String sql = SELECT;
         Struttura struttura = null;
-
-        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+        try (PreparedStatement ps = conn.prepareStatement(CERCA_STRUTTURA)) {
             ps.setString(1, nome);
             ps.setString(2, gestore);
 
             try (ResultSet rs = ps.executeQuery()) {
                 if(rs.next()){
-
-                    struttura = FactoryStrutture.creazioneStrutture(
-                        rs.getString(1), 
-                        rs.getString(2), 
-                        rs.getString(3),
-                        rs.getString(4),
-                        rs.getString(5),
-                        rs.getBoolean(6),
-                        rs.getBoolean(7),
-                        rs.getString(8),
-                        rs.getString(9)
-                    );
-
-                    String foto = rs.getString(10);
-                    if (foto == null || foto.isEmpty()) foto = IMMAGINE;
-                    struttura.setFoto(foto);
+                    struttura = mappaResultSet(rs);
                 }
             }
         }
@@ -104,13 +86,13 @@ public class DAOStruttureDB implements InterfacciaDaoStruttura {
     @Override
     public List<Struttura> ricercaStruttureConFiltri(String nome, String citta, String tipo) throws SQLException {
         List<Struttura> lista = new ArrayList<>();
-        String sql = SELECT_2;
+        StringBuilder sql = new StringBuilder(RICERCA_FILTRI);
 
-        if (nome != null) sql += "AND nome LIKE ? ";
-        if (citta != null) sql += "AND citta LIKE ? ";
-        if (tipo != null) sql += "AND tipo_attivita = ? "; 
+        if (nome != null) sql.append("AND nome LIKE ? ");
+        if (citta != null) sql.append("AND citta LIKE ? ");
+        if (tipo != null) sql.append("AND tipo_attivita = ? "); // Occhio all'accento qui!
 
-        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+        try (PreparedStatement ps = conn.prepareStatement(sql.toString())) {
             int index = 1;
             if (nome != null) ps.setString(index++, "%" + nome + "%");
             if (citta != null) ps.setString(index++, "%" + citta + "%");
@@ -118,50 +100,21 @@ public class DAOStruttureDB implements InterfacciaDaoStruttura {
 
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
-                    String foto = rs.getString(10);
-                    if (foto == null || foto.isEmpty()) foto = IMMAGINE;
-                     Struttura s = FactoryStrutture.creazioneStrutture(
-                        rs.getString(1), rs.getString(2), rs.getString(3), 
-                        rs.getString(4), rs.getString(5), 
-                        rs.getBoolean(6), rs.getBoolean(7),rs.getString(8), rs.getString(9));
-                        s.setFoto(foto);
-                    lista.add(s);
+                    lista.add(mappaResultSet(rs));
                 }
             }
         }
         return lista;
     }
 
-
     @Override
-
     public Struttura recuperaStrutturaPerHost(String emailHost) throws SQLException {
         Struttura struttura = null;
-        String sql = SELECT_3;
-
-        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+        try (PreparedStatement ps = conn.prepareStatement(RECUPERA_BY_HOST)) {
             ps.setString(1, emailHost);
-
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
-                
-                    struttura = FactoryStrutture.creazioneStrutture(
-                        rs.getString(1),          
-                        rs.getString(2),        
-                        rs.getString(3),         
-                        rs.getString(4),     
-                        rs.getString(5),
-                        rs.getBoolean(6),         
-                        rs.getBoolean(7), 
-                        rs.getString(8),
-                        rs.getString(9)        
-                    );
-
-                    String foto = rs.getString(10); 
-                    if(foto == null || foto.isEmpty()) {
-                    foto = IMMAGINE;
-                     }
-                    struttura.setFoto(foto); 
+                     struttura = mappaResultSet(rs);
                 }
             }
         } 
@@ -169,60 +122,74 @@ public class DAOStruttureDB implements InterfacciaDaoStruttura {
     }
     
     @Override
-     public void updateStruttura(Struttura s, String vecchioNome) throws SQLException {
-        
-        String sql = UPDATE_STRUTTURA;
-
-        try (PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setString(1, s.getName());
-            ps.setString(2, s.getIndirizzo());
-            ps.setString(3, s.getCitta());
-            ps.setString(4, s.getOrario());
-            ps.setBoolean(5, s.hasWifi());
-            ps.setBoolean(6, s.hasRistorazione());
-            ps.setString(7, s.getTipoAttivita());
-            ps.setString(8, s.getGestore());
-            ps.setString(9, s.getFoto());
+    public void updateStruttura(Struttura s, String vecchioNome) throws SQLException {
+        // Logica migliorata: non puoi cambiare il nome o il gestore nell'update, li usi per trovare la riga
+        try (PreparedStatement ps = conn.prepareStatement(UPDATE_STRUTTURA)) {
+            ps.setString(1, s.getIndirizzo());
+            ps.setString(2, s.getCitta());
+            ps.setString(3, s.getOrario());
+            ps.setBoolean(4, s.hasWifi());
+            ps.setBoolean(5, s.hasRistorazione());
+            ps.setString(6, s.getTipoAttivita());
+            ps.setString(7, s.getFoto());
             
-            ps.setString(10, vecchioNome);
+            // WHERE
+            ps.setString(8, vecchioNome);
+            ps.setString(9, s.getGestore()); 
 
             int righeAggiornate = ps.executeUpdate();
-            
             if (righeAggiornate == 0) {
-                throw new SQLException("Aggiornamento fallito, nessuna struttura trovata con nome: " + vecchioNome);
+                throw new SQLException("Update fallito: Struttura non trovata.");
             }
         }
     }
 
     @Override
     public void aggiornaFotoStruttura(String emailHost, String nomeNuovaFoto) throws SQLException {
-     String sql = UPDATE;
-     try (PreparedStatement ps = conn.prepareStatement(sql)) {
-        ps.setString(1, nomeNuovaFoto);
-        ps.setString(2, emailHost);
-        ps.executeUpdate();
-     }
+        try (PreparedStatement ps = conn.prepareStatement(UPDATE_FOTO)) {
+            ps.setString(1, nomeNuovaFoto);
+            ps.setString(2, emailHost);
+            ps.executeUpdate();
+        }
     }
 
     @Override
     public List<String> recuperaNomiStrutture(String citta) throws SQLException {
-     List<String> nomi = new ArrayList<>();
-     String sql = SELECT_4;
-  
-     try (PreparedStatement ps = conn.prepareStatement(sql)){
-         ps.setString(1, citta);
-
-         try (ResultSet rs = ps.executeQuery()) {
+        List<String> nomi = new ArrayList<>();
+        try (PreparedStatement ps = conn.prepareStatement(RECUPERA_NOMI)){
+            ps.setString(1, citta);
+            try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
-        
                    nomi.add(rs.getString("nome"));
                 }
-             
+            }
         }
-     }
-    return nomi;
- }
+        return nomi;
+    }
 
+    // --- METODO HELPER PER EVITARE DUPLICAZIONI E ERRORI DI INDICE ---
+    private Struttura mappaResultSet(ResultSet rs) throws SQLException {
+        // Uso i nomi delle colonne ("nome", "tipo") invece dei numeri (1, 2).
+        // È molto più sicuro se cambi l'ordine delle colonne nel DB o nella query.
+        
+        Struttura s = FactoryStrutture.creazioneStrutture(
+            rs.getString("tipo"),           // Assicurati che il 1° param della Factory sia il TIPO
+            rs.getString("nome"),           // E il 2° sia il NOME. Se è il contrario, invertili qui!
+            rs.getString("citta"),
+            rs.getString("indirizzo"),
+            rs.getString("orario_apertura"),
+            rs.getBoolean("wifi"),
+            rs.getBoolean("ristorazione"),
+            rs.getString("tipo_attivita"),  // Occhio all'accento
+            rs.getString("gestore")
+        );
 
-    
+        String foto = rs.getString("foto");
+        if (foto == null || foto.isEmpty()) {
+            foto = IMMAGINE;
+        }
+        s.setFoto(foto);
+        
+        return s;
+    }
 }

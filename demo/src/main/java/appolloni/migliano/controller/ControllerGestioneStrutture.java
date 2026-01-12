@@ -37,8 +37,6 @@ public class ControllerGestioneStrutture {
       String tipoAtt = beanStr.getTipoAttivita();
       String foto = beanStr.getFoto();
       
-      try{
-        
         if(type.isEmpty() || nomeStruttura.isEmpty() || citta.isEmpty()|| indirizzo.isEmpty() || orario.isEmpty() ||responsabile.isEmpty()|| tipoAtt.isEmpty()){
           throw new CampiVuotiException("Completa tutti i campi.");
         }
@@ -67,14 +65,8 @@ public class ControllerGestioneStrutture {
       daoStrutture.salvaStruttura(struttura,emailHost);
 
       }
-    }catch(IOException e){
-      throw e;
     
-    }catch(SQLException e){
-
-      e.printStackTrace();
-      throw e;
-    }
+  
 
   
 

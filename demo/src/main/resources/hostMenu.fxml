@@ -17,7 +17,7 @@
 
 <BorderPane xmlns="http://javafx.com/javafx/17" 
             xmlns:fx="http://javafx.com/fxml/1" 
-            fx:controller="appolloni.migliano.GUI.GUIhostMenu"
+            fx:controller="appolloni.migliano.gui.GUIhostMenu"
             prefWidth="900" prefHeight="600"
             style="-fx-background-color: #f4f4f4;">
 

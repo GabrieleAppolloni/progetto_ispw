@@ -21,7 +21,7 @@ public class DaoRecensioniDB implements InterfacciaDaoRecensioni {
     private final InterfacciaUtente daoUtente;
     private final InterfacciaDaoStruttura daoStruttura;
 
-    private static final String SELECT_DB = "SELECT autore, nome_strutture, gestore_struttura, voto, testo  FROM recensioni WHERE nome_struttura = ? AND gestore_struttura = ?";
+    private static final String SELECT_DB = "SELECT autore, nome_struttura, gestore_struttura, voto, testo  FROM recensioni WHERE nome_struttura = ? AND gestore_struttura = ?";
     private static final String INSERT_RECENSIONE =  "INSERT INTO recensioni(autore, nome_struttura, gestore_struttura, voto, testo) VALUES (?, ?, ?, ?, ?)";
 
     public DaoRecensioniDB(Connection conn) {

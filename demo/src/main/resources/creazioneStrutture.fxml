@@ -9,7 +9,7 @@
 <ScrollPane fitToWidth="true" hbarPolicy="NEVER" 
             xmlns="http://javafx.com/javafx/17" 
             xmlns:fx="http://javafx.com/fxml/1" 
-            fx:controller="appolloni.migliano.GUI.CreazioneGUIStrutture"
+            fx:controller="appolloni.migliano.gui.CreazioneGUIStrutture"
             style="-fx-background-color: #eef2f3; -fx-background: #eef2f3;">
 
     <content>
