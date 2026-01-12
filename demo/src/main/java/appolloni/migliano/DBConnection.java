@@ -12,7 +12,7 @@ public class DBConnection {
 
     private static Connection conn;
 
-    // Metodo statico per ottenere l'istanza
+
     public static Connection getConnection() throws SQLException {
         if (conn == null || conn.isClosed()) {
             try {
@@ -36,5 +36,16 @@ public class DBConnection {
             }
         }
         return conn;
+    }
+
+
+    public static void closeConnection() {
+        try {
+            if (conn != null && !conn.isClosed()) {
+                conn.close();
+            }
+        } catch (SQLException e) {
+            
+        }
     }
 }
