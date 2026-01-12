@@ -28,6 +28,7 @@ public class GUISegnalaStruttura {
 
     private BeanUtenti studenteLoggato;
     private ControllerGestioneStrutture controllerApp = new ControllerGestioneStrutture(); 
+    private final String RED = "-fx-text-fill: red;";
 
     public void initData(BeanUtenti utente) {
         this.studenteLoggato = utente;
@@ -41,7 +42,7 @@ public class GUISegnalaStruttura {
          
             if(comboTipo.getValue() == null || txtNome.getText().isEmpty() || txtCitta.getText().isEmpty()) {
                 lblRisultato.setText("Compila i campi.");
-                lblRisultato.setStyle("-fx-text-fill: red;");
+                lblRisultato.setStyle(RED);
                 return;
             }
 
@@ -74,12 +75,12 @@ public class GUISegnalaStruttura {
             clickIndietro(event);
         }catch(CampiVuotiException e){
             lblRisultato.setText("Errore, compilare tutti i campi");
-             lblRisultato.setStyle("-fx-text-fill: red;");
+             lblRisultato.setStyle(RED);
 
         } catch (Exception e) {
             e.printStackTrace();
             lblRisultato.setText("Errore: " + e.getMessage());
-            lblRisultato.setStyle("-fx-text-fill: red;");
+            lblRisultato.setStyle(RED);
         }
     }
 

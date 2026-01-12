@@ -41,6 +41,7 @@ public class CreazioneGUIController {
 
 
     private ControllerGestioneUtente controllerCreazioneUtente = new ControllerGestioneUtente();
+    private final String COLORE= "-fx-text-fill: red;";
 
 
     @FXML
@@ -77,7 +78,7 @@ public class CreazioneGUIController {
 
             if(tipo == null){
                 lblRisultato.setText("Scegliere il tipo ");
-                lblRisultato.setStyle("-fx-text-fill: red;");
+                lblRisultato.setStyle(COLORE);
             }
             beanUtente = new BeanUtenti(tipo, nome, cognome, email, password, citta);
             
@@ -123,11 +124,11 @@ public class CreazioneGUIController {
 
         }catch(EmailNonValidaException e){
             lblRisultato.setText( e.getMessage());
-            lblRisultato.setStyle("-fx-text-fill: red;");
+            lblRisultato.setStyle(COLORE);
 
         }catch (CampiVuotiException e){
             lblRisultato.setText(e.getMessage());
-            lblRisultato.setStyle("-fx-text-fill: red;");
+            lblRisultato.setStyle(COLORE);
 
         }catch(SQLException e){
             HelperErrori.errore("Errore caricamento dati", e.getMessage());

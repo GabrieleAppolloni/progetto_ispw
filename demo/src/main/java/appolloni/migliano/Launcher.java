@@ -1,8 +1,6 @@
 package appolloni.migliano;
 
 import appolloni.migliano.factory.FactoryUI;
-import appolloni.migliano.Configurazione;
-import appolloni.migliano.DBConnection;
 import appolloni.migliano.interfacce.InterfacciaGrafica;
 
 public class Launcher {

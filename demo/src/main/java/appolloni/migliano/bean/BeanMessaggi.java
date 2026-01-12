@@ -3,7 +3,7 @@ package appolloni.migliano.bean;
 
 public class BeanMessaggi {
     private String text;
-    private String gruppo; //a che gruppo appartiene il messaggio
+    private String gruppo; 
     private String mittente;
     
     public void setMess(String testo){

@@ -46,6 +46,7 @@ public class CreazioneGUIStrutture {
     private BeanUtenti beanCurr;
     private BeanStruttura beanStruttura;
 
+    private final String COLORE = "-fx-text-fill: red;";
     private ControllerGestioneStrutture controllerCreazioneStrutture = new ControllerGestioneStrutture();
 
      @FXML
@@ -108,17 +109,17 @@ public class CreazioneGUIStrutture {
              lblRisultato.setStyle("-fx-text-fill: green;");
             }catch(CampiVuotiException e){
                 lblRisultato.setText(e.getMessage());
-                lblRisultato.setStyle("-fx-text-fill: red;");
+                lblRisultato.setStyle(COLORE);
 
             }catch(EmailNonValidaException e){
                 lblRisultato.setText(e.getMessage());
-                lblRisultato.setStyle("-fx-text-fill: red;");
+                lblRisultato.setStyle(COLORE);
             }catch(SQLException e){
                 HelperErrori.errore("Errore base di dati: ", e.getMessage());
 
             }catch (Exception e){
                 lblRisultato.setText(e.getMessage());
-                lblRisultato.setStyle("-fx-text-fill: red;");
+                lblRisultato.setStyle(COLORE);
             }
             
             
@@ -138,7 +139,7 @@ public class CreazioneGUIStrutture {
         }catch(CampiVuotiException e){
 
             lblRisultato.setText(e.getMessage());
-            lblRisultato.setStyle("-fx-text-fill: red;");
+            lblRisultato.setStyle(COLORE);
         
         }catch(SQLException e){
             HelperErrori.errore("Errore creazione struttura:", e.getMessage());
@@ -147,7 +148,7 @@ public class CreazioneGUIStrutture {
             HelperErrori.errore("Errore salvataggio:", e.getMessage());
         }catch(Exception e){
             lblRisultato.setText("Errore: "+ e.getMessage());
-            lblRisultato.setStyle("-fx-text-fill: red;");
+            lblRisultato.setStyle(COLORE);
         }
 
 

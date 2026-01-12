@@ -20,6 +20,7 @@ public class GUILogin {
     @FXML private TextField txtEmail;
     @FXML private PasswordField txtPass;
     @FXML private Label lblRisultato;
+    private final String RED = "-fx-text-fill: red;";
 
     private ControllerLogin login = new ControllerLogin();
     
@@ -29,7 +30,7 @@ public class GUILogin {
 
         if(email.isEmpty() || pass.isEmpty()){
             lblRisultato.setText("Errore: informazioni mancanti");
-            lblRisultato.setStyle("-fx-text-fill: red;");
+            lblRisultato.setStyle(RED);
             return;
         }
 
@@ -62,15 +63,15 @@ public class GUILogin {
 
         }catch(CredenzialiSbagliateException e){
           lblRisultato.setText("Credenziali errate, riprova.");
-          lblRisultato.setStyle("-fx-text-fill: red;");
+          lblRisultato.setStyle(RED);
 
 
         }catch(EmailNonValidaException e){
             lblRisultato.setText("Formato email non corretto.");
-            lblRisultato.setStyle("-fx-text-fill: red;");
+            lblRisultato.setStyle(RED);
         }catch(Exception e){
             lblRisultato.setText("Errore.");
-            lblRisultato.setStyle("-fx-text-fill: red;");
+            lblRisultato.setStyle(RED);
 
             e.printStackTrace();
         }

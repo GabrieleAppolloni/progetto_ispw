@@ -93,8 +93,7 @@ public class GUIRicerca {
         String materia = txtGruppoMateria.getText().trim();
 
         List<BeanGruppo> risultati = controllerGruppo.cercaGruppi(nome, citta, materia);
-        System.out.println("DEBUG: Trovati " + risultati.size() + " gruppi.");
-
+        
         if(risultati.isEmpty()) {
             Label empty = new Label("Nessun gruppo trovato.");
             empty.setStyle("-fx-text-fill: black;");

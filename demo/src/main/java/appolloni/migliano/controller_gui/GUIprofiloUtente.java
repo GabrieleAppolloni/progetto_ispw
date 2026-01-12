@@ -31,6 +31,7 @@ public class GUIprofiloUtente {
     @FXML private Label lblErrorePass;
 
     private BeanUtenti beanUtente;
+    private final String RED = "-fx-text-fill: red;";
     private ControllerGestioneUtente controllerProfiloUtente;
 
     public void initData(BeanUtenti utente){
@@ -100,13 +101,13 @@ public class GUIprofiloUtente {
         
         if (newP.isEmpty() || oldP.isEmpty()) {
             lblErrorePass.setText("Riempi tutti i campi.");
-            lblErrorePass.setStyle("-fx-text-fill: red;");
+            lblErrorePass.setStyle(RED);
             return;
         }
         
         if (!newP.equals(confirmP)) {
             lblErrorePass.setText("Le nuove password non coincidono.");
-            lblErrorePass.setStyle("-fx-text-fill: red;");
+            lblErrorePass.setStyle(RED);
             return;
         }
         
@@ -123,7 +124,7 @@ public class GUIprofiloUtente {
             txtConfirmPass.clear();
          } else {
             lblErrorePass.setText("Password attuale errata.");
-            lblErrorePass.setStyle("-fx-text-fill: red;");
+            lblErrorePass.setStyle(RED);
          }
 
         }catch(Exception e){

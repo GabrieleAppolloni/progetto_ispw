@@ -39,6 +39,7 @@ public class GUIdettagliStruttura {
     private BeanUtenti beanUtente;
     private BeanStruttura beanStruttura;
 
+    private final String RED = "-fx-text-fill: red;";
 
 
  public void initData(BeanUtenti utente, BeanStruttura strutturaParziale) {
@@ -73,7 +74,7 @@ public class GUIdettagliStruttura {
         label.setStyle("-fx-text-fill: green; -fx-font-weight: bold;");
     } else {
         label.setText("No");
-        label.setStyle("-fx-text-fill: red;");
+        label.setStyle(RED);
     }
  }
     

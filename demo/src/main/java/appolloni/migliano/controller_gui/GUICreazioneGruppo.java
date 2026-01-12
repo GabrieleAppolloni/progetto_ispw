@@ -31,7 +31,8 @@ public class GUICreazioneGruppo {
 
     private BeanUtenti bean;
     private ControllerGestioneGruppo controllerCreazioneGruppo = new ControllerGestioneGruppo();
-
+    private final String ORANGE= "-fx-text-fill: orange;";
+    private final String RED = "-fx-text-fill: red;";
     public void initData(BeanUtenti utente){
         this.bean = utente;
         
@@ -48,7 +49,7 @@ public class GUICreazioneGruppo {
 
         if (cittaInserita.isEmpty()) {
             lbRisultato.setText("Inserisci prima una città!");
-            lbRisultato.setStyle("-fx-text-fill: orange;");
+            lbRisultato.setStyle(ORANGE);
             return;
         }
 
@@ -58,7 +59,7 @@ public class GUICreazioneGruppo {
             
             if (strutture.isEmpty()) {
                 lbRisultato.setText("Nessuna struttura trovata a " + cittaInserita);
-                lbRisultato.setStyle("-fx-text-fill: orange;");
+                lbRisultato.setStyle(ORANGE);
             } else {
                 lbRisultato.setText(""); 
                 comboLuogo.getItems().addAll(strutture);
@@ -70,7 +71,7 @@ public class GUICreazioneGruppo {
         } catch (Exception e) {
             e.printStackTrace();
             lbRisultato.setText(e.getMessage());
-            lbRisultato.setStyle("-fx-text-fill: red;");
+            lbRisultato.setStyle(RED);
         }
     }
 
@@ -103,12 +104,12 @@ public class GUICreazioneGruppo {
            HelperErrori.errore("Errore creazione gruppo:",e.getMessage());
         }catch(CampiVuotiException e){
             lbRisultato.setText(e.getMessage());
-            lbRisultato.setStyle("-fx-text-fill: red;");
+            lbRisultato.setStyle(RED);
 
         } catch(Exception e){
             e.printStackTrace();
             lbRisultato.setText("Errore creazione: " + e.getMessage());
-            lbRisultato.setStyle("-fx-text-fill: red;");
+            lbRisultato.setStyle(RED);
         }
     }
 
