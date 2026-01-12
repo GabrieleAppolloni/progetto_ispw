@@ -14,11 +14,12 @@ import appolloni.migliano.interfacce.InterfacciaDaoStruttura;
 
 public class DAOStruttureFILE  implements InterfacciaDaoStruttura{
     private static final String CSV_FILE = "strutture.csv";
+    private static final String FORMATO_CSV = "%s;%s;%s;%s;%s;%s;%s;%b;%b;%s";
 
     @Override
     public void salvaStruttura(Struttura s, String email) throws IOException {
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(CSV_FILE, true))) {
-            String riga = String.format("%s;%s;%s;%s;%s;%s;%s;%b;%b;%s",
+            String riga = String.format(FORMATO_CSV,
                 s.getName(), s.getTipo(), s.getCitta(), s.getIndirizzo(), s.getOrario(),
                 (email != null ? email : "system_no_host"),
                 s.getFoto(), s.hasWifi(), s.hasRistorazione(), s.getTipoAttivita()
@@ -164,7 +165,7 @@ public class DAOStruttureFILE  implements InterfacciaDaoStruttura{
     
             if (dati.length > 0 && dati[0].equalsIgnoreCase(vecchioNome)) {
                
-                String rigaAggiornata = String.format("%s;%s;%s;%s;%s;%s;%s;%b;%b;%s",
+                String rigaAggiornata = String.format(FORMATO_CSV,
                         struttura.getName(), struttura.getTipo(), struttura.getCitta(),
                         struttura.getIndirizzo(), struttura.getOrario(), struttura.getGestore(),
                         struttura.getFoto(), struttura.hasWifi(), struttura.hasRistorazione(),
@@ -206,7 +207,7 @@ public class DAOStruttureFILE  implements InterfacciaDaoStruttura{
                 String[] dati = line.split(";");
                 if(dati[5].toLowerCase().equals(emailHost.toLowerCase())){
                     try(BufferedWriter wr = new BufferedWriter(new FileWriter(file,true))){
-                        String newDato = String.format("%s;%s;%s;%s;%s;%s;%s;%b;%b;%s", dati[0],dati[1],dati[2],dati[3],dati[4],dati[5],fotoNuova, dati[7],dati[8],dati[9]);
+                        String newDato = String.format(FORMATO_CSV, dati[0],dati[1],dati[2],dati[3],dati[4],dati[5],fotoNuova, dati[7],dati[8],dati[9]);
                         wr.write(newDato);
                         wr.newLine();
                     }

@@ -14,6 +14,7 @@ import appolloni.migliano.factory.FactoryStrutture;
 public class DAOStruttureDB implements InterfacciaDaoStruttura {
 
     private Connection conn;
+    private static final String COLONNE_SELECT = "tipo, nome, citta, indirizzo, orario_apertura, wifi, ristorazione, tipo_attivita, gestore, foto";
 
     public DAOStruttureDB(Connection conn){
         this.conn = conn;
@@ -45,15 +46,12 @@ public class DAOStruttureDB implements InterfacciaDaoStruttura {
              if (!conn.getAutoCommit()) {
                 conn.commit();
             }
-        }catch(SQLException e){
-            e.printStackTrace();
-            throw e;
         }
     }
 
     @Override
     public Struttura cercaStruttura(String nome, String gestore) throws SQLException{
-        String sql = "SELECT * FROM strutture where nome = ? AND gestore = ?";
+        String sql = "SELECT " + COLONNE_SELECT + "FROM strutture where nome = ? AND gestore = ?";
         Struttura struttura = null;
 
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
@@ -64,28 +62,22 @@ public class DAOStruttureDB implements InterfacciaDaoStruttura {
                 if(rs.next()){
 
                     struttura = FactoryStrutture.creazioneStrutture(
-                        rs.getString("tipo"), 
-                        rs.getString("nome"), 
-                        rs.getString("citta"),
-                        rs.getString("indirizzo"),
-                        rs.getString("orario_apertura"),
-                        rs.getBoolean("wifi"),
-                        rs.getBoolean("ristorazione"),
-                        rs.getString("tipo_attivita"),
-                        rs.getString("gestore")
+                        rs.getString(1), 
+                        rs.getString(2), 
+                        rs.getString(3),
+                        rs.getString(4),
+                        rs.getString(5),
+                        rs.getBoolean(6),
+                        rs.getBoolean(7),
+                        rs.getString(8),
+                        rs.getString(9)
                     );
 
-                    String foto = rs.getString("foto");
+                    String foto = rs.getString(10);
                     if (foto == null || foto.isEmpty()) foto = "placeholder.png";
                     struttura.setFoto(foto);
                 }
-            }catch(SQLException e){
-                e.printStackTrace();
-                throw e;
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
-            throw e;
         }
         return struttura;
     }
@@ -93,7 +85,7 @@ public class DAOStruttureDB implements InterfacciaDaoStruttura {
     @Override
     public List<Struttura> ricercaStruttureConFiltri(String nome, String citta, String tipo) throws SQLException {
         List<Struttura> lista = new ArrayList<>();
-        String sql = "SELECT * FROM strutture WHERE 1=1 ";
+        String sql = "SELECT " + COLONNE_SELECT + " FROM strutture WHERE 1=1 ";
 
         if (nome != null) sql += "AND nome LIKE ? ";
         if (citta != null) sql += "AND citta LIKE ? ";
@@ -107,23 +99,16 @@ public class DAOStruttureDB implements InterfacciaDaoStruttura {
 
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
-                    String foto = rs.getString("foto");
+                    String foto = rs.getString(10);
                     if (foto == null || foto.isEmpty()) foto = "placeholder.png";
                      Struttura s = FactoryStrutture.creazioneStrutture(
-                        rs.getString("tipo"), rs.getString("nome"), rs.getString("citta"), 
-                        rs.getString("indirizzo"), rs.getString("orario_apertura"), 
-                        rs.getBoolean("wifi"), rs.getBoolean("ristorazione"),rs.getString("tipo_attivita"), rs.getString("gestore"));
+                        rs.getString(1), rs.getString(2), rs.getString(3), 
+                        rs.getString(4), rs.getString(5), 
+                        rs.getBoolean(6), rs.getBoolean(7),rs.getString(8), rs.getString(9));
                         s.setFoto(foto);
                     lista.add(s);
                 }
-            }catch(SQLException e){
-                e.printStackTrace();
-                throw e;
             }
-        }catch(SQLException e){
-            e.printStackTrace();
-            throw e;
-
         }
         return lista;
     }
@@ -133,7 +118,7 @@ public class DAOStruttureDB implements InterfacciaDaoStruttura {
 
     public Struttura recuperaStrutturaPerHost(String emailHost) throws SQLException {
         Struttura struttura = null;
-        String sql = "SELECT * FROM strutture WHERE gestore = ?"; 
+        String sql = "SELECT " + COLONNE_SELECT + " FROM strutture WHERE gestore = ?"; 
 
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, emailHost);
@@ -142,31 +127,25 @@ public class DAOStruttureDB implements InterfacciaDaoStruttura {
                 if (rs.next()) {
                 
                     struttura = FactoryStrutture.creazioneStrutture(
-                        rs.getString("tipo"),          
-                        rs.getString("nome"),        
-                        rs.getString("citta"),         
-                        rs.getString("indirizzo"),     
-                        rs.getString("orario_apertura"),
-                        rs.getBoolean("wifi"),         
-                        rs.getBoolean("ristorazione"), 
-                        rs.getString("tipo_attivita"),
-                        rs.getString("gestore")        
+                        rs.getString(1),          
+                        rs.getString(2),        
+                        rs.getString(3),         
+                        rs.getString(4),     
+                        rs.getString(5),
+                        rs.getBoolean(6),         
+                        rs.getBoolean(7), 
+                        rs.getString(8),
+                        rs.getString(9)        
                     );
 
-                    String foto = rs.getString("foto"); 
+                    String foto = rs.getString(10); 
                     if(foto == null || foto.isEmpty()) {
                     foto = "placeholder.png";
                      }
                     struttura.setFoto(foto); 
                 }
-            }catch(SQLException e){
-                e.printStackTrace();
-                throw e;
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
-            throw e;
-        }
+        } 
         return struttura;
     }
     
@@ -203,9 +182,6 @@ public class DAOStruttureDB implements InterfacciaDaoStruttura {
             if (righeAggiornate == 0) {
                 throw new SQLException("Aggiornamento fallito, nessuna struttura trovata con nome: " + vecchioNome);
             }
-        }catch(SQLException e){
-            e.printStackTrace();
-            throw e;
         }
     }
 
@@ -216,9 +192,6 @@ public class DAOStruttureDB implements InterfacciaDaoStruttura {
         ps.setString(1, nomeNuovaFoto);
         ps.setString(2, emailHost);
         ps.executeUpdate();
-     }catch(SQLException e){
-        e.printStackTrace();
-        throw e;
      }
     }
 
@@ -236,13 +209,7 @@ public class DAOStruttureDB implements InterfacciaDaoStruttura {
                    nomi.add(rs.getString("nome"));
                 }
              
-        }catch(SQLException e){
-            e.printStackTrace();
-            throw e;
         }
-     }catch (SQLException e){
-        e.printStackTrace();
-        throw e;
      }
     return nomi;
  }
