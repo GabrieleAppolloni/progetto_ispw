@@ -23,8 +23,8 @@ public class DaoRecensioniDemo implements InterfacciaDaoRecensioni {
         for (Recensione r : tabellaRecensioni) {
             
     
-            boolean nomeMatch = r.getStruttura_recensita().getName().equalsIgnoreCase(nomeStr);
-            boolean gestoreMatch = r.getStruttura_recensita().getGestore().equalsIgnoreCase(gestore);
+            boolean nomeMatch = r.getStrutturaRecensita().getName().equalsIgnoreCase(nomeStr);
+            boolean gestoreMatch = r.getStrutturaRecensita().getGestore().equalsIgnoreCase(gestore);
 
             if (nomeMatch && gestoreMatch) {
                 risultati.add(r);

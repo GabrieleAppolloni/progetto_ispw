@@ -11,8 +11,8 @@ import appolloni.migliano.interfacce.InterfacciaUtente;
 import java.sql.*;
 
 public class DaoMessaggioDB implements InterfacciaMessaggi {
-    private final String CERCA_MESSAGGIO = "SELECT testo, nome_gruppo, email_mittente, data_invio FROM messaggi WHERE nome_gruppo = ? ORDER BY data_invio ASC";
-    private final String NUOVO_MESS = "INSERT INTO MESSAGGI (testo,nome_gruppo, email_mittente, data_invio ) VALUES (?,?,?,?) ";
+    private final String CERCAMESSAGGIO = "SELECT testo, nome_gruppo, email_mittente, data_invio FROM messaggi WHERE nome_gruppo = ? ORDER BY data_invio ASC";
+    private final String NUOVOMESS = "INSERT INTO MESSAGGI (testo,nome_gruppo, email_mittente, data_invio ) VALUES (?,?,?,?) ";
    
     private Connection conn;
     public DaoMessaggioDB(Connection connessione){
@@ -22,7 +22,7 @@ public class DaoMessaggioDB implements InterfacciaMessaggi {
     @Override
     public void nuovoMessaggio(Messaggio messaggio) throws SQLException {
 
-        String sql = NUOVO_MESS;
+        String sql = NUOVOMESS;
         try (PreparedStatement ps = conn.prepareStatement(sql)){
             ps.setString(1, messaggio.getMess());
             ps.setString(2, messaggio.getGruppo().getNome());
@@ -38,7 +38,7 @@ public class DaoMessaggioDB implements InterfacciaMessaggi {
     public List<Messaggio> cercaMessaggio(Gruppo gruppo) throws SQLException{
         List<Messaggio> messaggi = new ArrayList<>();
 
-        String sql = CERCA_MESSAGGIO;
+        String sql = CERCAMESSAGGIO;
 
         try (PreparedStatement ps = conn.prepareStatement(sql)){
             ps.setString(1, gruppo.getNome());

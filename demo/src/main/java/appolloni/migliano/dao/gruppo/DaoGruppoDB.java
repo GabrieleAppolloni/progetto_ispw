@@ -16,19 +16,19 @@ import appolloni.migliano.interfacce.InterfacciaUtente;
 public class DaoGruppoDB implements InterfacciaGruppo {
 
     private final Connection conn;
-    private final String INSERT_GRUPPO = "INSERT INTO gruppi (nome, materia_studio, email_admin,citta,luogo) VALUES (?, ?, ?,?,?)";
-    private final String INSERT_ISCRIZIONE = "INSERT INTO iscrizioni (nome_gruppo, email_utente) VALUES (?, ?)";
-    private final String SELECT_CERCA_GRUPPO = "SELECT nome, materia_studio, email_admin, citta, luogo FROM gruppi WHERE nome =?";
-    private final String RECUPERA_GRUPPI = "SELECT g.nome, g.materia_studio, g.email_admin, g.citta, g.luogo " +
+    private final String INSERTGRUPPO = "INSERT INTO gruppi (nome, materia_studio, email_admin,citta,luogo) VALUES (?, ?, ?,?,?)";
+    private final String INSERTISCRIZIONE = "INSERT INTO iscrizioni (nome_gruppo, email_utente) VALUES (?, ?)";
+    private final String SELECTCERCAGRUPPO = "SELECT nome, materia_studio, email_admin, citta, luogo FROM gruppi WHERE nome =?";
+    private final String RECUPERAGRUPPI = "SELECT g.nome, g.materia_studio, g.email_admin, g.citta, g.luogo " +
                      "FROM gruppi g " +
                      "JOIN iscrizioni i ON g.nome = i.nome_gruppo " +
                      "WHERE i.email_utente = ?";
 
-    private final String ESISTE_GRUPPO = "SELECT count(*) FROM gruppi WHERE nome = ?";
-    private final String DELETE_GRUPPO = "DELETE FROM iscrizioni WHERE nome_gruppo = ? AND email_utente = ?";
-    private final String ELIMINA_GRUPPO = "DELETE FROM gruppi WHERE nome = ?";
-    private final String ELIMINA_MESSAGGI = "DELETE FROM messaggi WHERE nome_gruppo = ?";
-    private final String ELIMINA_ISCRIZIONI =  "DELETE FROM iscrizioni WHERE nome_gruppo = ?";
+    private final String ESISTEGRUPPO = "SELECT count(*) FROM gruppi WHERE nome = ?";
+    private final String DELETEGRUPPO = "DELETE FROM iscrizioni WHERE nome_gruppo = ? AND email_utente = ?";
+    private final String ELIMINAGRUPPO = "DELETE FROM gruppi WHERE nome = ?";
+    private final String ELIMINAMESSAGGI = "DELETE FROM messaggi WHERE nome_gruppo = ?";
+    private final String ELIMINAISCRIZIONI =  "DELETE FROM iscrizioni WHERE nome_gruppo = ?";
 
     private final String SELECTRICERCAFILTRI = "SELECT nome, materia_studio, email_admin, citta, luogo FROM gruppi WHERE 1=1 "; 
 
@@ -38,8 +38,8 @@ public class DaoGruppoDB implements InterfacciaGruppo {
 
     @Override
     public void creaGruppo(Gruppo gruppo) throws SQLException {
-        String sqlGruppo = INSERT_GRUPPO;
-        String sqlIscrizione = INSERT_ISCRIZIONE;
+        String sqlGruppo = INSERTGRUPPO;
+        String sqlIscrizione = INSERTISCRIZIONE;
 
         try {
             conn.setAutoCommit(false);
@@ -72,7 +72,7 @@ public class DaoGruppoDB implements InterfacciaGruppo {
     @Override
    public Gruppo cercaGruppo(String nome) throws SQLException{
         Gruppo gruppoCercato = null;
-        String sql = SELECT_CERCA_GRUPPO;
+        String sql = SELECTCERCAGRUPPO;
         
         try (PreparedStatement ps= conn.prepareStatement(sql)){
             ps.setString(1, nome);
@@ -104,7 +104,7 @@ public class DaoGruppoDB implements InterfacciaGruppo {
         List<Gruppo> listaGruppi = new ArrayList<>();
         
  
-        String sql =  RECUPERA_GRUPPI;
+        String sql =  RECUPERAGRUPPI;
 
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, emailUtente);
@@ -136,7 +136,7 @@ public class DaoGruppoDB implements InterfacciaGruppo {
     }
     @Override
     public void iscriviUtente(String nomeGruppo, String emailUtente) throws SQLException {
-        String sql = INSERT_ISCRIZIONE;
+        String sql = INSERTISCRIZIONE;
 
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, nomeGruppo);
@@ -147,7 +147,7 @@ public class DaoGruppoDB implements InterfacciaGruppo {
     
     @Override
     public boolean esisteGruppo(String nomeGruppo) throws SQLException{
-        String sql = ESISTE_GRUPPO;
+        String sql = ESISTEGRUPPO;
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, nomeGruppo);
             try (ResultSet rs = ps.executeQuery()) {
@@ -194,7 +194,7 @@ public class DaoGruppoDB implements InterfacciaGruppo {
 
     @Override
     public void abbandonaGruppo(String nomeGruppo, String emailUtente) throws SQLException {
-        String sql = DELETE_GRUPPO;
+        String sql = DELETEGRUPPO;
 
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, nomeGruppo);
@@ -206,11 +206,11 @@ public class DaoGruppoDB implements InterfacciaGruppo {
     @Override
   public void eliminaGruppo(String nomeGruppo) throws SQLException {
 
-    String sqlEliminaMessaggi = ELIMINA_MESSAGGI;
+    String sqlEliminaMessaggi = ELIMINAMESSAGGI;
 
-    String sqlEliminaIscrizioni = ELIMINA_ISCRIZIONI;
+    String sqlEliminaIscrizioni = ELIMINAISCRIZIONI;
 
-    String sqlEliminaGruppo = ELIMINA_GRUPPO;
+    String sqlEliminaGruppo = ELIMINAGRUPPO;
 
     try {
         conn.setAutoCommit(false); 

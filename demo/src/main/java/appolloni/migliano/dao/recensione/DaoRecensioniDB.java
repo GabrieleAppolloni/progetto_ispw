@@ -21,8 +21,8 @@ public class DaoRecensioniDB implements InterfacciaDaoRecensioni {
     private final InterfacciaUtente daoUtente;
     private final InterfacciaDaoStruttura daoStruttura;
 
-    private static final String SELECT_DB = "SELECT autore, nome_struttura, gestore_struttura, voto, testo  FROM recensioni WHERE nome_struttura = ? AND gestore_struttura = ?";
-    private static final String INSERT_RECENSIONE =  "INSERT INTO recensioni(autore, nome_struttura, gestore_struttura, voto, testo) VALUES (?, ?, ?, ?, ?)";
+    private static final String SELECTDB = "SELECT autore, nome_struttura, gestore_struttura, voto, testo  FROM recensioni WHERE nome_struttura = ? AND gestore_struttura = ?";
+    private static final String INSERTRECENSIONE =  "INSERT INTO recensioni(autore, nome_struttura, gestore_struttura, voto, testo) VALUES (?, ?, ?, ?, ?)";
 
     public DaoRecensioniDB(Connection conn) {
         this.conn = conn;
@@ -33,15 +33,15 @@ public class DaoRecensioniDB implements InterfacciaDaoRecensioni {
     @Override
     public void salvaRecensione(Recensione r) throws SQLException {
 
-        String sql = INSERT_RECENSIONE;
+        String sql = INSERTRECENSIONE;
 
     try (PreparedStatement ps = conn.prepareStatement(sql)) {
         
         String emailPulita = r.getAutore().getEmail().trim();
        
         ps.setString(1, emailPulita); 
-        ps.setString(2, r.getStruttura_recensita().getName().trim()); 
-        ps.setString(3, r.getStruttura_recensita().getGestore().trim()); 
+        ps.setString(2, r.getStrutturaRecensita().getName().trim()); 
+        ps.setString(3, r.getStrutturaRecensita().getGestore().trim()); 
         ps.setInt(4, r.getVoto()); 
         ps.setString(5, r.getTesto().trim()); 
 
@@ -56,7 +56,7 @@ public class DaoRecensioniDB implements InterfacciaDaoRecensioni {
 
     public List<Recensione> getRecensioniByStruttura(String idStruttura, String nomeGestore) throws SQLException, IOException {
         List<Recensione> lista = new ArrayList<>();
-        String sql = SELECT_DB;
+        String sql = SELECTDB;
 
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, idStruttura);

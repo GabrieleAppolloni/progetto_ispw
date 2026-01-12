@@ -15,21 +15,21 @@ import appolloni.migliano.interfacce.InterfacciaUtente;
 
 public class DaoRecensioniFile implements InterfacciaDaoRecensioni {
 
-    private static final String CSV_FILE = "recensioni.csv";
-    private static final String FORMATO_CSV = "%s;%s;%s;%d;%s";
+    private static final String CSVFILE = "recensioni.csv";
+    private static final String FORMATOCSV = "%s;%s;%s;%d;%s";
 
 
     @Override
     public void salvaRecensione(Recensione r) throws IOException {
         
-        try (BufferedWriter bw = new BufferedWriter(new FileWriter(CSV_FILE, true))) {
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(CSVFILE, true))) {
             
             String testoPulito = r.getTesto().replace(";", ",").replace("\n", " ");
             
-            String riga = String.format(FORMATO_CSV,
+            String riga = String.format(FORMATOCSV,
                     r.getAutore().getEmail(),             
-                    r.getStruttura_recensita().getName(),
-                    r.getStruttura_recensita().getGestore(),
+                    r.getStrutturaRecensita().getName(),
+                    r.getStrutturaRecensita().getGestore(),
                     r.getVoto(),
                     testoPulito
             );
@@ -42,7 +42,7 @@ public class DaoRecensioniFile implements InterfacciaDaoRecensioni {
     @Override
     public List<Recensione> getRecensioniByStruttura(String nomeStr, String gestore) throws IOException,SQLException {
         List<Recensione> lista = new ArrayList<>();
-        File file = new File(CSV_FILE);
+        File file = new File(CSVFILE);
 
         if (!file.exists()) {return lista;}
         InterfacciaDaoStruttura daoStruttura = FactoryDAO.getDAOStrutture();

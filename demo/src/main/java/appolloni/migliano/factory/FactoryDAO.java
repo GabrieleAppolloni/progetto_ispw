@@ -26,7 +26,7 @@ public class FactoryDAO {
     
     
     private static final String TIPO = Configurazione.getTipoPersistenza();
-    private static final String ERR_MSG = "Impossibile connettersi al Database";
+    private static final String ERRMSG = "Impossibile connettersi al Database";
 
     private FactoryDAO() {
         throw new IllegalStateException("Utility class");
@@ -82,7 +82,7 @@ public class FactoryDAO {
             return DBConnection.getConnection();
         } catch (SQLException e) {
           
-            throw new IllegalAccessError(ERR_MSG);
+            throw new IllegalAccessError(ERRMSG);
         }
     }
 }

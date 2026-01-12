@@ -55,7 +55,7 @@ public class ControllerRecensioni {
             beanStruttura.getGestore()
          );
          for (Recensione r : listaEntity) {
-            BeanRecensioni b = new BeanRecensioni(r.getAutore().getEmail(),r.getTesto(),r.getVoto(),r.getStruttura_recensita().getName(),r.getStruttura_recensita().getGestore());
+            BeanRecensioni b = new BeanRecensioni(r.getAutore().getEmail(),r.getTesto(),r.getVoto(),r.getStrutturaRecensita().getName(),r.getStrutturaRecensita().getGestore());
             listaBean.add(b);
            }
         
