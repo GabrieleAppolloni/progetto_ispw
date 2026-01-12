@@ -1,5 +1,5 @@
 
-package appolloni.migliano.GUI;
+package appolloni.migliano.gui;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;

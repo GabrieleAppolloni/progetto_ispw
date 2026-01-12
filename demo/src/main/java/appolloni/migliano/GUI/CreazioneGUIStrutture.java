@@ -1,4 +1,4 @@
-package appolloni.migliano.GUI;
+package appolloni.migliano.gui;
 import java.io.IOException;
 
 import appolloni.migliano.HelperErrori;
