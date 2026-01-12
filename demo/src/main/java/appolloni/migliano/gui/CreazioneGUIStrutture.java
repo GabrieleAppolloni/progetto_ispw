@@ -100,20 +100,10 @@ public class CreazioneGUIStrutture {
             }
             controllerGestioneUtente.creazioneUtente(beanCurr);
             BeanStruttura beanStruttura = new BeanStruttura(tipo, nome, citta, indirizzo, orario, wifi, ristorazione,tipoAttivita, gestore,nomeFotoFinale);
-            try{
-             controllerCreazioneStrutture.creaStruttura(beanCurr,beanStruttura);
-             lblRisultato.setText("Registrazione Effettuata con Successo!");
-             lblRisultato.setStyle("-fx-text-fill: green;");
-            }catch(CampiVuotiException| EntitaNonTrovata e){
-                lblRisultato.setText(e.getMessage());
-                lblRisultato.setStyle(COLORE);
-            }catch(SQLException e){
-                HelperErrori.errore("Errore base di dati: ", e.getMessage());
-
-            }
-            
-            
+            salvaStruttura(beanStruttura);
             pulisci(); 
+            lblRisultato.setText("Registrazione Effettuata con Successo!");
+            lblRisultato.setStyle("-fx-text-fill: green;");
 
             FXMLLoader loader =new FXMLLoader(getClass().getResource("/hostMenu.fxml"));
              Parent root = loader.load();
@@ -122,9 +112,6 @@ public class CreazioneGUIStrutture {
 
             Stage stage = (Stage)(lblRisultato).getScene().getWindow();
             stage.getScene().setRoot(root);
-            
-        
-
 
         }catch(CampiVuotiException e){
 
@@ -141,10 +128,14 @@ public class CreazioneGUIStrutture {
             lblRisultato.setStyle(COLORE);
         }
 
-
-
-
      }
+
+
+    private void salvaStruttura(BeanStruttura beanStruttura) throws CampiVuotiException, SQLException, EntitaNonTrovata, IOException{
+        controllerCreazioneStrutture.creaStruttura(beanCurr,beanStruttura);
+    }
+
+
      @FXML 
      public void clickIndietro(ActionEvent event) throws IOException{
         try{

@@ -11,28 +11,16 @@ public class DBConnection {
 
     private static Connection conn;
 
-    
     private DBConnection() {
         throw new UnsupportedOperationException("Questa è una classe di utilità e non può essere istanziata");
     }
 
-
     public static Connection getConnection() throws SQLException {
         if (conn == null || conn.isClosed()) {
-            try {
-                Properties props = new Properties();
-              try (InputStream input = DBConnection.class.getClassLoader().getResourceAsStream("config.properties")) {
-                    
-                    if (input == null) {
-                        throw new SQLException("File config.properties non trovato nelle risorse!");
-                    }
-                    props.load(input);
-                    
-                } catch (IOException e) {
-                    throw new SQLException("Errore lettura config.properties", e);
-                }
-               
+            
+            Properties props = loadConfig(); 
 
+            try {
                 String url = props.getProperty("db.url");
                 String user = props.getProperty("db.user");
                 String pwd = props.getProperty("db.password");
@@ -45,7 +33,21 @@ public class DBConnection {
         }
         return conn;
     }
+    private static Properties loadConfig() throws SQLException {
+        Properties props = new Properties();
+        
+        try (InputStream input = DBConnection.class.getClassLoader().getResourceAsStream("config.properties")) {
+            
+            if (input == null) {
+                throw new SQLException("File config.properties non trovato nelle risorse!");
+            }
+            props.load(input);
+            return props;
 
+        } catch (IOException e) {
+            throw new SQLException("Errore lettura config.properties", e);
+        }
+    }
 
     public static void closeConnection() {
         try {
