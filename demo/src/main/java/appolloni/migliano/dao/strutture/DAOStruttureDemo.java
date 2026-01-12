@@ -53,10 +53,7 @@ public class DAOStruttureDemo implements InterfacciaDaoStruttura {
      if (citta != null && !citta.isEmpty() && !s.getCitta().toLowerCase().contains(citta.toLowerCase())) {
          return false;
      }
-     if (tipo != null && !tipo.isEmpty() && !s.getTipoAttivita().equalsIgnoreCase(tipo)) {
-        return false;
-     }
-     return true;
+     return !(tipo != null && !tipo.isEmpty() && !s.getTipoAttivita().equalsIgnoreCase(tipo)) ;
     }
     @Override
     public Struttura recuperaStrutturaPerHost(String emailHost) throws IOException {

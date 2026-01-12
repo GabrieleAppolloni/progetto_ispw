@@ -175,9 +175,7 @@ public class GUIhostMenu {
 
                 imgStruttura.setImage(new Image(fileSelezionato.toURI().toString()));
 
-            }catch(IOException e){
-                HelperErrori.errore("Errore salvataggio:", e.getMessage());
-            }catch(SQLException e){
+            }catch(IOException | SQLException e){
                 HelperErrori.errore("Errore salvataggio:", e.getMessage());
             } catch (Exception e) {
                 e.printStackTrace();

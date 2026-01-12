@@ -37,7 +37,7 @@ public class ControllerGestioneUtente{
             throw new IllegalArgumentException("Utente già esistente");
            }
 
-          Utente utente = FactoryUtenti.Creazione(type, nome, cognome, email, citta,password);
+          Utente utente = FactoryUtenti.creazione(type, nome, cognome, email, citta,password);
 
         
           if(utente == null){

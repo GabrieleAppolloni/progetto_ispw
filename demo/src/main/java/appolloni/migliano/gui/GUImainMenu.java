@@ -57,10 +57,10 @@ public class GUImainMenu {
     private void caricaGruppi(){
         containerGruppi.getChildren().clear();
         try{
-            List<BeanGruppo> gruppo_user = controllerGruppo.visualizzaGruppi(bean);
+            List<BeanGruppo> gruppoUser = controllerGruppo.visualizzaGruppi(bean);
             
-            if (gruppo_user != null && !gruppo_user.isEmpty()) {
-                for(BeanGruppo g : gruppo_user){
+            if (gruppoUser != null && !gruppoUser.isEmpty()) {
+                for(BeanGruppo g : gruppoUser){
                     HBox riga = new HBox(10);
                     riga.setAlignment(Pos.CENTER_LEFT);
                     riga.setStyle("-fx-border-color: #eeeeee; -fx-padding: 10; -fx-background-color: white; -fx-background-radius: 5;");
@@ -108,9 +108,7 @@ public class GUImainMenu {
 
     public void clickProfilo(ActionEvent event) {
         try{
-         cambiaPagina(event, "/profiloUtente.fxml", controller -> {
-            ((GUIprofiloUtente) controller).initData(bean);
-         });
+         cambiaPagina(event, "/profiloUtente.fxml", controller ->  ((GUIprofiloUtente) controller).initData(bean));
         }catch(IOException e){
             HelperErrori.errore("Errore I/O: ", e.getMessage());
 
@@ -118,21 +116,15 @@ public class GUImainMenu {
     }
 
     public void clickRicerca(ActionEvent event) throws IOException{
-        cambiaPagina(event, "/ricerca.fxml", controller -> {
-            ((GUIRicerca) controller).initData(this.bean);
-        });
+        cambiaPagina(event, "/ricerca.fxml", controller -> ((GUIRicerca) controller).initData(this.bean));
     }
 
     public void clickNuovaStruttura(ActionEvent event) throws IOException{
-        cambiaPagina(event, "/segnalaStruttura.fxml", controller -> {
-            ((GUISegnalaStruttura) controller).initData(this.bean);
-        });
+        cambiaPagina(event, "/segnalaStruttura.fxml", controller -> ((GUISegnalaStruttura) controller).initData(this.bean));
     }
     
     public void clickNuovoGruppo(ActionEvent event) throws IOException{
-        cambiaPagina(event, "/creazioneGruppo.fxml", controller -> {
-            ((GUICreazioneGruppo) controller).initData(bean);
-        });
+        cambiaPagina(event, "/creazioneGruppo.fxml", controller -> ((GUICreazioneGruppo) controller).initData(bean));
     }
 
     public void clickLogout(ActionEvent event) throws IOException {

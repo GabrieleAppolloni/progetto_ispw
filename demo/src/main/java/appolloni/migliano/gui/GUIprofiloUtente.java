@@ -32,7 +32,7 @@ public class GUIprofiloUtente {
     @FXML private Label lblErrorePass;
 
     private BeanUtenti beanUtente;
-    private final String RED = "-fx-text-fill: red;";
+    private  static final String RED = "-fx-text-fill: red;";
     private ControllerGestioneUtente controllerProfiloUtente;
 
     public void initData(BeanUtenti utente){

@@ -119,7 +119,7 @@ public class DaoGruppoDB implements InterfacciaGruppo {
                     String citta = rs.getString(4);
                     String luogo = rs.getString(5);
 
-                    Utente admin = FactoryUtenti.Creazione("Studente", null, null, emailUtente, materia, null);
+                    Utente admin = FactoryUtenti.creazione("Studente", null, null, emailUtente, materia, null);
                     admin.setEmail(adminEmail);
                     
                     Gruppo g = new Gruppo(nome, admin);

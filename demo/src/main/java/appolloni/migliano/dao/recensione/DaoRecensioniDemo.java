@@ -9,7 +9,7 @@ import appolloni.migliano.interfacce.InterfacciaDaoRecensioni;
 
 public class DaoRecensioniDemo implements InterfacciaDaoRecensioni {
 
-    private final static List<Recensione> tabellaRecensioni = new ArrayList<>();
+    private static final List<Recensione> tabellaRecensioni = new ArrayList<>();
 
     @Override
     public void salvaRecensione(Recensione r) throws IOException {

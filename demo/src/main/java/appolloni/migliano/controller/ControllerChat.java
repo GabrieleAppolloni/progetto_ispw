@@ -11,7 +11,7 @@ import appolloni.migliano.bean.BeanUtenti;
 import appolloni.migliano.entity.Gruppo;
 import appolloni.migliano.entity.Messaggio;
 import appolloni.migliano.entity.Utente;
-import appolloni.migliano.exception.EntitàNonTrovata;
+import appolloni.migliano.exception.EntitaNonTrovata;
 import appolloni.migliano.factory.FactoryDAO;
 import appolloni.migliano.factory.FactoryMessaggi;
 import appolloni.migliano.interfacce.InterfacciaGruppo;
@@ -29,13 +29,13 @@ public class ControllerChat {
         this.daoMessaggi = FactoryDAO.getDaoMessaggi();
         this.daoUtente = FactoryDAO.getDaoUtente();
     }
-    public BeanGruppo recuperaInfoGruppo(BeanGruppo beanInput) throws  SQLException, EntitàNonTrovata{
+    public BeanGruppo recuperaInfoGruppo(BeanGruppo beanInput) throws  SQLException, EntitaNonTrovata{
         Gruppo g = daoGruppo.cercaGruppo(beanInput.getNome());
         
-        if (g == null){ throw new EntitàNonTrovata("Gruppo non esistente");}
+        if (g == null){ throw new EntitaNonTrovata("Gruppo non esistente");}
          return new BeanGruppo(g.getNome(),g.getMateria(),g.getAdmin().getName(),g.getLuogo(),g.getMateria());
     }
-    
+
     public List<BeanMessaggi> recuperaMessaggi(BeanGruppo beanGruppo) throws SQLException {
         List<BeanMessaggi> listaBeans = new ArrayList<>();
 

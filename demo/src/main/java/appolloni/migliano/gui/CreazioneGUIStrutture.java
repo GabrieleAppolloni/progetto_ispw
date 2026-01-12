@@ -7,7 +7,7 @@ import appolloni.migliano.bean.BeanUtenti;
 import appolloni.migliano.controller.ControllerGestioneStrutture;
 import appolloni.migliano.controller.ControllerGestioneUtente;
 import appolloni.migliano.exception.CampiVuotiException;
-import appolloni.migliano.exception.EntitàNonTrovata;
+import appolloni.migliano.exception.EntitaNonTrovata;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -34,7 +34,7 @@ public class CreazioneGUIStrutture {
     @FXML private Label lblTipoAttivita;
     @FXML private CheckBox checkWifi;
     @FXML private CheckBox checkRistorazione;
-    @FXML private Label lblNomeAttivita;;
+    @FXML private Label lblNomeAttivita;
     @FXML private TextField txtCitta;
     @FXML private TextField txtIndirizzo;
     @FXML private Label lblGestore;
@@ -44,9 +44,9 @@ public class CreazioneGUIStrutture {
     @FXML private Label lblNomeFile;
     private File fileImmagineSelezionato = null;
     private BeanUtenti beanCurr;
-    private BeanStruttura beanStruttura;
 
-    private final String COLORE = "-fx-text-fill: red;";
+
+    private static final String COLORE = "-fx-text-fill: red;";
     private ControllerGestioneStrutture controllerCreazioneStrutture = new ControllerGestioneStrutture();
 
      @FXML
@@ -99,20 +99,17 @@ public class CreazioneGUIStrutture {
                 nomeFotoFinale = salvaFileSuDisco(fileImmagineSelezionato);
             }
             controllerGestioneUtente.creazioneUtente(beanCurr);
-            beanStruttura = new BeanStruttura(tipo, nome, citta, indirizzo, orario, wifi, ristorazione,tipoAttivita, gestore,nomeFotoFinale);
+            BeanStruttura beanStruttura = new BeanStruttura(tipo, nome, citta, indirizzo, orario, wifi, ristorazione,tipoAttivita, gestore,nomeFotoFinale);
             try{
              controllerCreazioneStrutture.creaStruttura(beanCurr,beanStruttura);
              lblRisultato.setText("Registrazione Effettuata con Successo!");
              lblRisultato.setStyle("-fx-text-fill: green;");
-            }catch(CampiVuotiException e){
+            }catch(CampiVuotiException| EntitaNonTrovata e){
                 lblRisultato.setText(e.getMessage());
                 lblRisultato.setStyle(COLORE);
             }catch(SQLException e){
                 HelperErrori.errore("Errore base di dati: ", e.getMessage());
 
-            }catch (EntitàNonTrovata e){
-                lblRisultato.setText(e.getMessage());
-                lblRisultato.setStyle(COLORE);
             }
             
             
@@ -123,7 +120,7 @@ public class CreazioneGUIStrutture {
              GUIhostMenu hostMenu = loader.getController();
              hostMenu.initData(beanCurr);
 
-            Stage stage = (Stage)((Node)lblRisultato).getScene().getWindow();
+            Stage stage = (Stage)(lblRisultato).getScene().getWindow();
             stage.getScene().setRoot(root);
             
         

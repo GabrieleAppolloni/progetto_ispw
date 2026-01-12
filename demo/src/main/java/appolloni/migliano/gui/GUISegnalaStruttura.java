@@ -28,7 +28,7 @@ public class GUISegnalaStruttura {
 
     private BeanUtenti studenteLoggato;
     private ControllerGestioneStrutture controllerApp = new ControllerGestioneStrutture(); 
-    private final String RED = "-fx-text-fill: red;";
+    private static final String RED = "-fx-text-fill: red;";
 
     public void initData(BeanUtenti utente) {
         this.studenteLoggato = utente;

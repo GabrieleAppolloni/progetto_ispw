@@ -19,7 +19,7 @@ import appolloni.migliano.HelperErrori;
 import appolloni.migliano.bean.BeanRecensioni;
 import appolloni.migliano.bean.BeanStruttura;
 import appolloni.migliano.bean.BeanUtenti;
-import appolloni.migliano.controller.ControllerRecensioni;;
+import appolloni.migliano.controller.ControllerRecensioni;
 
 public class GUIdettagliStruttura {
   
@@ -39,8 +39,8 @@ public class GUIdettagliStruttura {
     private BeanUtenti beanUtente;
     private BeanStruttura beanStruttura;
 
-    private final String RED = "-fx-text-fill: red;";
-    private final String FORMATO = "%s\nVoto: %d/5\n\"%s\"";
+    private static final String RED = "-fx-text-fill: red;";
+    private static final String FORMATO = "%s\nVoto: %d/5\n\"%s\"";
 
 
  public void initData(BeanUtenti utente, BeanStruttura strutturaParziale) {

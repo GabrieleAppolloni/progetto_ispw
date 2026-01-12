@@ -52,11 +52,11 @@ public class DaoUtenteDB implements InterfacciaUtente{
             if(rs.next()){
              String tipo = rs.getString("dtype");
              if("Host".equals(tipo)){
-                u = FactoryUtenti.Creazione(tipo, rs.getString("nome"),rs.getString("cognome"),rs.getString("email"),rs.getString("citta"),rs.getString("password"));
+                u = FactoryUtenti.creazione(tipo, rs.getString("nome"),rs.getString("cognome"),rs.getString("email"),rs.getString("citta"),rs.getString("password"));
                 ((Host)u).setTipoAttivita(rs.getString("tipo_attivita"));
                 ((Host)u).setNomeAttivita(rs.getString("nome_attivita"));
              }else{
-                u = FactoryUtenti.Creazione(tipo, rs.getString("nome"),rs.getString("cognome"),rs.getString("email"),rs.getString("citta"),rs.getString("password"));
+                u = FactoryUtenti.creazione(tipo, rs.getString("nome"),rs.getString("cognome"),rs.getString("email"),rs.getString("citta"),rs.getString("password"));
 
 
              }

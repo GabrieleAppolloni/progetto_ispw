@@ -32,7 +32,7 @@ public class GUIChat {
 
     private BeanUtenti beanUtente;
     private BeanGruppo beanGruppo;
-    private final String ERROREGENERICO = "Errore generico: ";
+    private static final String ERROREGENERICO = "Errore generico: ";
     
     private ControllerChat controllerChat = new ControllerChat();
 

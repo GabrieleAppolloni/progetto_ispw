@@ -81,11 +81,7 @@ public class DAOStruttureFILE  implements InterfacciaDaoStruttura{
         return false;
      }
 
-     if (tipo != null && !tipo.isEmpty() && !dati[9].equalsIgnoreCase(tipo)) {
-        return false;
-     }else{
-      return true;
-     }
+     return !(tipo != null && !tipo.isEmpty() && !dati[9].equalsIgnoreCase(tipo));
     }
 
 

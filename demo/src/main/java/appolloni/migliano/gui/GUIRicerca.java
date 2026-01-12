@@ -43,17 +43,15 @@ public class GUIRicerca {
     private BeanUtenti beanUtente;
     private ControllerGestioneGruppo controllerGruppo = new ControllerGestioneGruppo();
     private ControllerGestioneStrutture controllerStrutture= new ControllerGestioneStrutture();
-    private final String GRUPPO = "Gruppo";
-    private final String STRUTTURA = "Struttura";
+    private static final String GRUPPO = "Gruppo";
+    private static final String STRUTTURA = "Struttura";
 
     @FXML
     public void initialize() {
         comboScelta.getItems().addAll(GRUPPO, STRUTTURA);
         comboStrutturaTipo.getItems().addAll("Tutti", "Bar", "Biblioteca", "Università");
         
-        comboScelta.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) -> {
-            aggiornaForm(newVal);
-        });
+        comboScelta.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) -> aggiornaForm(newVal));
         comboScelta.getSelectionModel().selectFirst();
     }
 

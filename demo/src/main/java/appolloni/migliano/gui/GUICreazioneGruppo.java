@@ -26,20 +26,16 @@ public class GUICreazioneGruppo {
     @FXML private TextField txtMateria;
     @FXML private TextField txtCitta;
     @FXML private ComboBox<String> comboLuogo;
-    @FXML private Button Bcrea;
+    @FXML private Button bCrea;
     @FXML private Label lbRisultato;
 
     private BeanUtenti bean;
     private ControllerGestioneGruppo controllerCreazioneGruppo = new ControllerGestioneGruppo();
-    private final String ORANGE= "-fx-text-fill: orange;";
-    private final String RED = "-fx-text-fill: red;";
+    private static final String ORANGE= "-fx-text-fill: orange;";
+    private static final String RED = "-fx-text-fill: red;";
     public void initData(BeanUtenti utente){
         this.bean = utente;
-        
-
-        comboLuogo.setOnShowing(event -> {
-            caricaStruttureDisponibili();
-        });
+        comboLuogo.setOnShowing(event -> caricaStruttureDisponibili());
     }
 
     private void caricaStruttureDisponibili() {

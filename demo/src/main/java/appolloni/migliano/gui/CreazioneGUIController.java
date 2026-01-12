@@ -37,11 +37,10 @@ public class CreazioneGUIController {
     @FXML private VBox boxDatiHost; 
     @FXML private TextField txtNomeAttivita;
     @FXML private ComboBox<String> comboTipoAtt;
-    private BeanUtenti beanUtente;
-
+    
 
     private ControllerGestioneUtente controllerCreazioneUtente = new ControllerGestioneUtente();
-    private final String COLORE= "-fx-text-fill: red;";
+    private static final String COLORE= "-fx-text-fill: red;";
 
 
     @FXML
@@ -80,7 +79,7 @@ public class CreazioneGUIController {
                 lblRisultato.setText("Scegliere il tipo ");
                 lblRisultato.setStyle(COLORE);
             }
-            beanUtente = new BeanUtenti(tipo, nome, cognome, email, password, citta);
+            BeanUtenti beanUtente = new BeanUtenti(tipo, nome, cognome, email, password, citta);
             
 
             if (tipo.equals("Host")) {
@@ -122,12 +121,8 @@ public class CreazioneGUIController {
             lblRisultato.setStyle("-fx-text-fill: green;");
             pulisci(); 
 
-        }catch(EmailNonValidaException e){
+        }catch(EmailNonValidaException | CampiVuotiException e){
             lblRisultato.setText( e.getMessage());
-            lblRisultato.setStyle(COLORE);
-
-        }catch (CampiVuotiException e){
-            lblRisultato.setText(e.getMessage());
             lblRisultato.setStyle(COLORE);
 
         }catch(SQLException e){

@@ -20,7 +20,7 @@ public class GUILogin {
     @FXML private TextField txtEmail;
     @FXML private PasswordField txtPass;
     @FXML private Label lblRisultato;
-    private final String RED = "-fx-text-fill: red;";
+    private static final String RED = "-fx-text-fill: red;";
 
     private ControllerLogin login = new ControllerLogin();
     

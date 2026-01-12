@@ -59,7 +59,7 @@
 
                         <Label fx:id="lbRisultato" text="" wrapText="true" style="-fx-font-weight: bold;"/>
 
-                        <Button fx:id="Bcrea" text="CREA GRUPPO" onAction="#clickCrea" 
+                        <Button fx:id="bCrea" text="CREA GRUPPO" onAction="#clickCrea" 
                                 maxWidth="Infinity" prefHeight="40"
                                 style="-fx-background-color: #28a745; -fx-text-fill: white; -fx-font-weight: bold; -fx-cursor: hand;"/>
                         
