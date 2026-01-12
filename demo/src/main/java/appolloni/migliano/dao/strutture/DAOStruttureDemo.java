@@ -13,8 +13,6 @@ public class DAOStruttureDemo implements InterfacciaDaoStruttura {
 
     private final static List<Struttura> tabellaStrutture = new ArrayList<>();
 
-    public DAOStruttureDemo() {
-    }
 
     @Override
     public void salvaStruttura(Struttura s, String email) throws SQLException {

@@ -18,9 +18,6 @@ public class DaoRecensioniFile implements InterfacciaDaoRecensioni {
     private static final String CSV_FILE = "recensioni.csv";
     private static final String FORMATO_CSV = "%s;%s;%s;%d;%s";
 
-    public DaoRecensioniFile() {
-      
-    }
 
     @Override
     public void salvaRecensione(Recensione r) throws IOException {

@@ -32,6 +32,7 @@ public class GUIChat {
 
     private BeanUtenti beanUtente;
     private BeanGruppo beanGruppo;
+    private final String ERRORE_GENERICO = "Errore generico: ";
     
     private ControllerChat controllerChat = new ControllerChat();
 
@@ -77,9 +78,9 @@ public class GUIChat {
                 listaMessaggi.scrollTo(listaMessaggi.getItems().size() - 1);
             }
         } catch (SQLException e) {
-            HelperErrori.errore("Errore", e.getMessage());
+            HelperErrori.errore("Errore:", e.getMessage());
         }catch(Exception e){
-            HelperErrori.errore("Errore generico",e.getMessage());
+            HelperErrori.errore(ERRORE_GENERICO,e.getMessage());
         }
     }
 
@@ -98,7 +99,7 @@ public class GUIChat {
         } catch (SQLException e) {
            HelperErrori.errore("Errore: ", e.getMessage());
         }catch(Exception e){
-            HelperErrori.errore("Errore generico",e.getMessage());
+            HelperErrori.errore(ERRORE_GENERICO,e.getMessage());
         }
     }
     
@@ -110,7 +111,7 @@ public class GUIChat {
         } catch (SQLException e) {
            HelperErrori.errore("Errore", e.getMessage());
         } catch(Exception e){
-            HelperErrori.errore("Errore generico",e.getMessage());
+            HelperErrori.errore(ERRORE_GENERICO,e.getMessage());
 
         }
     }

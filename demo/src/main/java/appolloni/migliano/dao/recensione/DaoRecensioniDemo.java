@@ -11,10 +11,6 @@ public class DaoRecensioniDemo implements InterfacciaDaoRecensioni {
 
     private final static List<Recensione> tabellaRecensioni = new ArrayList<>();
 
-    public DaoRecensioniDemo() {
-        
-    }
-
     @Override
     public void salvaRecensione(Recensione r) throws IOException {
         tabellaRecensioni.add(r);

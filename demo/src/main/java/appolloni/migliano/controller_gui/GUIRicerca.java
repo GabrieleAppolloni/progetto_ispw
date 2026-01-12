@@ -21,6 +21,7 @@ import appolloni.migliano.bean.BeanUtenti;
 import appolloni.migliano.controller.ControllerGestioneGruppo;
 import appolloni.migliano.controller.ControllerGestioneStrutture;
 
+
 public class GUIRicerca {
 
     @FXML private ComboBox<String> comboScelta;
@@ -40,10 +41,12 @@ public class GUIRicerca {
     private BeanUtenti beanUtente;
     private ControllerGestioneGruppo controllerGruppo = new ControllerGestioneGruppo();
     private ControllerGestioneStrutture controllerStrutture= new ControllerGestioneStrutture();
+    private final String GRUPPO = "Gruppo";
+    private final String STRUTTURA = "Struttura";
 
     @FXML
     public void initialize() {
-        comboScelta.getItems().addAll("Gruppo", "Struttura");
+        comboScelta.getItems().addAll(GRUPPO, STRUTTURA);
         comboStrutturaTipo.getItems().addAll("Tutti", "Bar", "Biblioteca", "Università");
         
         comboScelta.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) -> {
@@ -60,10 +63,10 @@ public class GUIRicerca {
         lblErrore.setText("");
         containerRisultati.getChildren().clear();
         
-        if ("Gruppo".equals(scelta)) {
+        if (GRUPPO.equals(scelta)) {
             boxGruppi.setVisible(true);   boxGruppi.setManaged(true);
             boxStrutture.setVisible(false); boxStrutture.setManaged(false);
-        } else if ("Struttura".equals(scelta)) {
+        } else if (STRUTTURA.equals(scelta)) {
             boxStrutture.setVisible(true);  boxStrutture.setManaged(true);
             boxGruppi.setVisible(false);  boxGruppi.setManaged(false);
         }
@@ -76,7 +79,7 @@ public class GUIRicerca {
         lblErrore.setText("");
         
         try {
-            if ("Gruppo".equals(scelta)) {
+            if (GRUPPO.equals(scelta)) {
                 cercaGruppi();
             } else {
                 cercaStrutture();

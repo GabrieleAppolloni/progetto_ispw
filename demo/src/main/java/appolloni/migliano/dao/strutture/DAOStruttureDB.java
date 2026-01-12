@@ -13,6 +13,8 @@ import appolloni.migliano.factory.FactoryStrutture;
 
 public class DAOStruttureDB implements InterfacciaDaoStruttura {
 
+    private static final String SELECT_OP = "SELECT ";
+    private static final String IMMAGINE = "placeholder.png";
     private final Connection conn;
     private static final String COLONNE_SELECT = "tipo, nome, citta, indirizzo, orario_apertura, wifi, ristorazione, tipo_attivita, gestore, foto";
     private static final String UPDATE_STRUTTURA = "UPDATE strutture SET " +
@@ -27,9 +29,9 @@ public class DAOStruttureDB implements InterfacciaDaoStruttura {
                      "foto = ? " +
                      "WHERE nome = ?"; 
     private final static  String SALVA_STRUTTURA = "INSERT INTO strutture(nome,tipo,citta,indirizzo,orario_apertura,wifi,ristorazione,tipo_attivita,gestore,foto) VALUES (?,?,?,?,?,?,?,?,?,?)";
-    private final static String SELECT =  "SELECT " + COLONNE_SELECT + "FROM strutture where nome = ? AND gestore = ?";
-    private final static String SELECT_2 = "SELECT " + COLONNE_SELECT + " FROM strutture WHERE 1=1 ";
-    private final static String SELECT_3 = "SELECT " + COLONNE_SELECT + " FROM strutture WHERE gestore = ?"; 
+    private final static String SELECT =  SELECT_OP + COLONNE_SELECT + "FROM strutture where nome = ? AND gestore = ?";
+    private final static String SELECT_2 = SELECT_OP + COLONNE_SELECT + " FROM strutture WHERE 1=1 ";
+    private final static String SELECT_3 = SELECT_OP + COLONNE_SELECT + " FROM strutture WHERE gestore = ?"; 
     private final static String SELECT_4 = "SELECT nome FROM strutture WHERE citta = ?";
     private final static String UPDATE = "UPDATE strutture SET foto = ? WHERE gestore = ?";
 
@@ -91,7 +93,7 @@ public class DAOStruttureDB implements InterfacciaDaoStruttura {
                     );
 
                     String foto = rs.getString(10);
-                    if (foto == null || foto.isEmpty()) foto = "placeholder.png";
+                    if (foto == null || foto.isEmpty()) foto = IMMAGINE;
                     struttura.setFoto(foto);
                 }
             }
@@ -117,7 +119,7 @@ public class DAOStruttureDB implements InterfacciaDaoStruttura {
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
                     String foto = rs.getString(10);
-                    if (foto == null || foto.isEmpty()) foto = "placeholder.png";
+                    if (foto == null || foto.isEmpty()) foto = IMMAGINE;
                      Struttura s = FactoryStrutture.creazioneStrutture(
                         rs.getString(1), rs.getString(2), rs.getString(3), 
                         rs.getString(4), rs.getString(5), 
@@ -157,7 +159,7 @@ public class DAOStruttureDB implements InterfacciaDaoStruttura {
 
                     String foto = rs.getString(10); 
                     if(foto == null || foto.isEmpty()) {
-                    foto = "placeholder.png";
+                    foto = IMMAGINE;
                      }
                     struttura.setFoto(foto); 
                 }

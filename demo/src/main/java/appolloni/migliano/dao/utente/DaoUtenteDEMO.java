@@ -11,8 +11,7 @@ public class DaoUtenteDEMO implements InterfacciaUtente {
   private static List<Utente> tabellaUtenti = new ArrayList<>();
 
    
-    public DaoUtenteDEMO() {
-    }
+   
 
     @Override
     public void salvaUtente(Utente u) {
