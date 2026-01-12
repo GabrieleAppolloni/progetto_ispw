@@ -60,17 +60,10 @@ public class ControllerGestioneStrutture {
       if(bean.getTipo().equals("Host")){
         
         emailHost = bean.getEmail();
-      }else{
-        throw new IllegalArgumentException("Utente non valido");
       }
       daoStrutture.salvaStruttura(struttura,emailHost);
 
-      }
-    
-  
-
-  
-
+    }
   }
 
 

@@ -214,25 +214,9 @@ public class DaoGruppoDB implements InterfacciaGruppo {
 
     try {
         conn.setAutoCommit(false); 
-        try (PreparedStatement ps = conn.prepareStatement(sqlEliminaMessaggi)) {
-            ps.setString(1, nomeGruppo);
-            ps.executeUpdate();
-        }
-
-        try (PreparedStatement ps = conn.prepareStatement(sqlEliminaIscrizioni)) {
-            ps.setString(1, nomeGruppo);
-            ps.executeUpdate();
-        }
-
-      
-        try (PreparedStatement ps = conn.prepareStatement(sqlEliminaGruppo)) {
-            ps.setString(1, nomeGruppo);
-            ps.executeUpdate();
-        }catch(SQLException e){
-            e.printStackTrace();
-            throw e;
-        }
-
+        eseguiUpdate (sqlEliminaMessaggi,nomeGruppo);
+        eseguiUpdate(sqlEliminaIscrizioni,nomeGruppo);
+        eseguiUpdate(sqlEliminaGruppo, nomeGruppo);
         conn.commit();
         
 
@@ -243,4 +227,12 @@ public class DaoGruppoDB implements InterfacciaGruppo {
         conn.setAutoCommit(true);
     }
 }
+
+private void eseguiUpdate(String sql, String parametro) throws SQLException {
+    try (PreparedStatement ps = conn.prepareStatement(sql)) {
+        ps.setString(1, parametro);
+        ps.executeUpdate();
+    }
+}
+
 }
