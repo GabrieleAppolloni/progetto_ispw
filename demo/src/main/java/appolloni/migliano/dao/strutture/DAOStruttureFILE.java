@@ -40,8 +40,11 @@ public class DAOStruttureFILE  implements InterfacciaDaoStruttura{
             while((line = br.readLine()) != null){
                 String[] dati = line.split(";");
                 if(dati.length >= 10 && dati[0].equals(nomeStruttura)&& dati[5].equals(gestore)){
-                    struttura = FactoryStrutture.creazioneStrutture(dati[1], dati[0],dati[2],dati[3], dati[4], Boolean.parseBoolean(dati[7]), Boolean.parseBoolean(dati[8]), dati[9], dati[5]);
+                    struttura = FactoryStrutture.creazioneStrutture(dati[1], dati[0],dati[2],dati[3], Boolean.parseBoolean(dati[7]), Boolean.parseBoolean(dati[8]));
+                    struttura.setTipoAttivita(dati[9]);
+                    struttura.setGestore(dati[5]);
                     struttura.setFoto(dati[6]);
+                    struttura.setOrario(dati[4]);
                     return struttura;
                 }
 
@@ -96,13 +99,13 @@ public class DAOStruttureFILE  implements InterfacciaDaoStruttura{
         dati[0],
         dati[2], 
         dati[3],
-        dati[4], 
         Boolean.parseBoolean(dati[7]), 
-        Boolean.parseBoolean(dati[8]), 
-        dati[9], 
-        dati[5] 
+        Boolean.parseBoolean(dati[8])
      );
      s.setFoto(foto);
+     s.setTipoAttivita(dati[9]);
+     s.setGestore(dati[5]);
+     s.setOrario(dati[4]);
      return s;
     }
 
@@ -123,13 +126,13 @@ public class DAOStruttureFILE  implements InterfacciaDaoStruttura{
                         dati[0], 
                         dati[2], 
                         dati[3], 
-                        dati[4], 
                         Boolean.parseBoolean(dati[7]), 
-                        Boolean.parseBoolean(dati[8]), 
-                        dati[9],
-                        dati[5]
+                        Boolean.parseBoolean(dati[8])
                     );
                     s.setFoto(dati[6]);
+                    s.setTipoAttivita(dati[9]);
+                    s.setGestore(dati[5]);
+                    s.setOrario(dati[4]);
                     return s;
                 }
             }

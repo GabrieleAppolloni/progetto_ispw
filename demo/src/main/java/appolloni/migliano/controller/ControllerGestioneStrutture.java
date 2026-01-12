@@ -47,11 +47,15 @@ public class ControllerGestioneStrutture {
          throw new IllegalArgumentException("La struttura esiste");
        }else{
 
-        Struttura struttura = FactoryStrutture.creazioneStrutture(type, nomeStruttura, citta, indirizzo, orario,wifi, ristorazione, tipoAtt, responsabile);
+        Struttura struttura = FactoryStrutture.creazioneStrutture(type, nomeStruttura, citta, indirizzo,wifi, ristorazione);
         
        if (struttura == null) {
              throw new EntitaNonTrovata("Creazione struttura fallita.");
        }
+
+       struttura.setGestore(responsabile);
+       struttura.setTipoAttivita(tipoAtt);
+       struttura.setOrario(orario);
 
        struttura.setFoto(foto);
 
@@ -91,8 +95,11 @@ public class ControllerGestioneStrutture {
         if(struttura.getCitta().isEmpty() || struttura.getGestore().isEmpty() || struttura.getIndirizzo().isEmpty()|| struttura.getName().isEmpty()|| struttura.getOrario().isEmpty()||struttura.getTipoAttivita().isEmpty()){
             throw new CampiVuotiException("Dati mancanti");
         }
-        Struttura struttura2 = new Struttura(struttura.getTipo(), struttura.getName(), struttura.getCitta(), struttura.getIndirizzo(), struttura.getOrario(), struttura.hasWifi(), struttura.hasRistorazione(), struttura.getTipoAttivita(), struttura.getGestore());
-         daoStrutture.updateStruttura(struttura2, vecchionNome);
+        Struttura struttura2 = FactoryStrutture.creazioneStrutture(struttura.getTipo(), struttura.getName(), struttura.getCitta(), struttura.getIndirizzo(), struttura.hasWifi(), struttura.hasRistorazione());
+        struttura2.setTipoAttivita(struttura.getTipoAttivita());
+        struttura2.setGestore(struttura.getGestore());
+        struttura2.setOrario(struttura.getOrario());
+        daoStrutture.updateStruttura(struttura2, vecchionNome);
     
   }
 

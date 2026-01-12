@@ -171,18 +171,21 @@ public class DAOStruttureDB implements InterfacciaDaoStruttura {
             rs.getString("nome"),           
             rs.getString("citta"),
             rs.getString("indirizzo"),
-            rs.getString("orario_apertura"),
             rs.getBoolean("wifi"),
-            rs.getBoolean("ristorazione"),
-            rs.getString("tipo_attivita"),  
-            rs.getString("gestore")
+            rs.getBoolean("ristorazione")
         );
 
+        String tipoAtt = rs.getString("tipo_attivita");
+        String gestore = rs.getString("gestore");
         String foto = rs.getString("foto");
+        String ora = rs.getString("orario_apertura");
         if (foto == null || foto.isEmpty()) {
             foto = IMMAGINE;
         }
         s.setFoto(foto);
+        s.setTipoAttivita(tipoAtt);
+        s.setGestore(gestore);
+        s.setOrario(ora);
         
         return s;
     }

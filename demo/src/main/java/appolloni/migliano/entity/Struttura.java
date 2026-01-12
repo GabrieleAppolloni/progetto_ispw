@@ -18,7 +18,7 @@ public class Struttura {
     private String foto;
 
 
-    public Struttura(String tipo, String nome, String citta, String address,String orario, boolean wifi, boolean ristorazione,String tipoAtt, String gestoreAtt, String immagine){
+    public Struttura(String tipo, String nome, String citta, String address, boolean wifi, boolean ristorazione){
         this.tipoStruttura = tipo;
         this.nomeStruttura = nome;
         this.citta = citta;
@@ -26,27 +26,10 @@ public class Struttura {
         this.wifi = wifi;
         this.ristorazione = ristorazione;
         this.recensioni = new ArrayList<>();
-        this.orario = orario;
-        this.gestore = gestoreAtt;
-        this.tipoAttivita = tipoAtt;
-        this.foto = immagine;
-
     }
 
 
-    public Struttura(String tipo, String nome, String citta, String address,String orario, boolean wifi, boolean ristorazione,String tipoAtt, String gestoreAtt){
-        this.tipoStruttura = tipo;
-        this.nomeStruttura = nome;
-        this.citta = citta;
-        this.indirizzo = address;
-        this.wifi = wifi;
-        this.ristorazione = ristorazione;
-        this.recensioni = new ArrayList<>();
-        this.orario = orario;
-        this.gestore = gestoreAtt;
-        this.tipoAttivita = tipoAtt;
-
-    }
+    
 
     public void setFoto(String immagine){
         this.foto = immagine;
