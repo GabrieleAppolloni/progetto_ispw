@@ -40,6 +40,7 @@ public class GUIdettagliStruttura {
     private BeanStruttura beanStruttura;
 
     private final String RED = "-fx-text-fill: red;";
+    private final String FORMATO = "%s\nVoto: %d/5\n\"%s\"";
 
 
  public void initData(BeanUtenti utente, BeanStruttura strutturaParziale) {
@@ -105,7 +106,7 @@ public class GUIdettagliStruttura {
             } else {
                 for (BeanRecensioni b : lista) {
                     
-                    String riga = String.format("%s\nVoto: %d/5\n\"%s\"", 
+                    String riga = String.format(FORMATO, 
                         b.getAutore(), b.getVoto(), b.getTesto());
                     listRecensioni.getItems().add(riga);
                 }

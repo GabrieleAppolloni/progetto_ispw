@@ -6,7 +6,6 @@ import appolloni.migliano.Mainapp;
 public class GraficaGUI implements InterfacciaGrafica {
     @Override
     public void avvia(String[] args) {
-        System.out.println("--- Avvio modalità GUI ---");
         Application.launch(Mainapp.class, args);
     }
 }

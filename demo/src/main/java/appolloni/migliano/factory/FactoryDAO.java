@@ -82,7 +82,7 @@ public class FactoryDAO {
             return DBConnection.getConnection();
         } catch (SQLException e) {
           
-            throw new RuntimeException(ERR_MSG, e);
+            throw new IllegalAccessError(ERR_MSG);
         }
     }
 }

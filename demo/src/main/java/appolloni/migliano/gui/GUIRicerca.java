@@ -13,8 +13,10 @@ import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.List;
 
+import appolloni.migliano.HelperErrori;
 import appolloni.migliano.bean.BeanGruppo;
 import appolloni.migliano.bean.BeanStruttura;
 import appolloni.migliano.bean.BeanUtenti;
@@ -90,12 +92,13 @@ public class GUIRicerca {
         }
     }
 
-    private void cercaGruppi() throws Exception {
+    private void cercaGruppi() {
         String nome = txtGruppoNome.getText().trim();
         String citta = txtGruppoCitta.getText().trim();
         String materia = txtGruppoMateria.getText().trim();
 
-        List<BeanGruppo> risultati = controllerGruppo.cercaGruppi(nome, citta, materia);
+        try{
+         List<BeanGruppo> risultati = controllerGruppo.cercaGruppi(nome, citta, materia);
         
         if(risultati.isEmpty()) {
             Label empty = new Label("Nessun gruppo trovato.");
@@ -140,25 +143,29 @@ public class GUIRicerca {
             riga.getChildren().addAll(info, spacer, btnJoin);
             containerRisultati.getChildren().add(riga);
         }
+     }catch(SQLException e){
+        HelperErrori.errore("Errore caricamento dati", e.getMessage());
+     }
     }
 
-    private void cercaStrutture() throws Exception {
+    private void cercaStrutture(){
         String nome = txtStrutturaNome.getText().trim();
         String citta = txtStrutturaCitta.getText().trim();
         String tipo = comboStrutturaTipo.getValue();
-        if("Tutti".equals(tipo)) tipo = null;
+        if("Tutti".equals(tipo)) {tipo = null;}
 
-        List<BeanStruttura> risultati = controllerStrutture.cercaStrutture(nome, citta, tipo);
+        try{
+         List<BeanStruttura> risultati = controllerStrutture.cercaStrutture(nome, citta, tipo);
       
 
-        if(risultati.isEmpty()) {
+         if(risultati.isEmpty()) {
             Label empty = new Label("Nessuna struttura trovata.");
             empty.setStyle("-fx-text-fill: black;");
             containerRisultati.getChildren().add(empty);
             return;
-        }
-
-        for (BeanStruttura s : risultati) {
+         }
+ 
+         for (BeanStruttura s : risultati) {
             
 
             HBox riga = new HBox(10);
@@ -205,6 +212,11 @@ public class GUIRicerca {
             riga.getChildren().addAll(info,spacer,btnDettagli);
             containerRisultati.getChildren().add(riga);
         }
+     }catch(SQLException e){
+        HelperErrori.errore("Errore caricamento:" ,e.getMessage());
+     }catch(IOException e){
+        HelperErrori.errore("Errore caricamento file: ", e.getMessage());
+     }
     }
 
     @FXML

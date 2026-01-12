@@ -146,9 +146,7 @@ public class GUIhostMenu {
          if (nomeFoto != null && !nomeFoto.isEmpty() && fileFoto.exists()) {
              String imageUrl = fileFoto.toURI().toString();
              imgStruttura.setImage(new Image(imageUrl));
-         } else {
-             System.out.println("DEBUG - Carico placeholder");
-         }  
+         } 
         }catch (Exception e){
             HelperErrori.errore("Errore generico", e.getMessage());
         }
@@ -176,8 +174,6 @@ public class GUIhostMenu {
                 controllerStruttura.cambiaFoto(beanUtente.getEmail(), nuovoNomeFile);
 
                 imgStruttura.setImage(new Image(fileSelezionato.toURI().toString()));
-                
-                System.out.println("Foto aggiornata con successo!");
 
             }catch(IOException e){
                 HelperErrori.errore("Errore salvataggio:", e.getMessage());
@@ -211,7 +207,7 @@ public class GUIhostMenu {
         Parent root = loader.load();
 
         GUIModificaStruttura controllerModifica = loader.getController();
-        controllerModifica.initData(beanUtente, controllerStruttura.visualizzaStrutturaHost(beanUtente.getEmail()));
+        controllerModifica.initData(controllerStruttura.visualizzaStrutturaHost(beanUtente.getEmail()));
 
         Stage stage = new Stage();
         stage.setScene(new Scene(root));

@@ -64,8 +64,8 @@ public class Gruppo {
         return this.nomeGruppo;
     }
 
-    public String setNome(String nome){
-       return this.nomeGruppo = nome;
+    public void setNome(String nome){
+       this.nomeGruppo = nome;
     }
 
     public boolean aggiungiMembro(Utente utente, Utente aggiunto){
@@ -77,7 +77,7 @@ public class Gruppo {
            return false;
          }
         }else{
-            System.out.println("Impossibile, solo l'admin può effettuare l'operazione");
+           
             return false;
         }
     }
@@ -92,17 +92,11 @@ public class Gruppo {
          }
         }else{
 
-            System.out.println("Impossibile, solo l'admin può effettuare l'operazione");
             return false;
         }
     }
 
-    public void stampaMembri(){
-        System.out.println("Membri del gruppo: \n");
-        for(Utente u : membri){
-            System.out.println(u.getName() + u.getCognome()+ "\n");
-        }
-    }
+   
     
     public boolean cercaMembro(Utente utente){
         return membri.contains(utente);

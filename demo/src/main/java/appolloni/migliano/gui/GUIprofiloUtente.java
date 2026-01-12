@@ -1,5 +1,6 @@
 package appolloni.migliano.gui;
 
+import java.io.IOException;
 import java.sql.SQLException;
 
 import appolloni.migliano.HelperErrori;
@@ -59,7 +60,7 @@ public class GUIprofiloUtente {
     }
 
     @FXML
-    public void clickIndietro(ActionEvent event) throws Exception{
+    public void clickIndietro(ActionEvent event) throws IOException{
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/mainMenu.fxml"));
         Parent root = loader.load();
         GUImainMenu guImainMenu = loader.getController();

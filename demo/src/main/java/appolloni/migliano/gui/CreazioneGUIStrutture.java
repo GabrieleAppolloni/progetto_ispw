@@ -57,12 +57,9 @@ public class CreazioneGUIStrutture {
      @FXML
      public void initData(BeanUtenti bean){
         this.beanCurr = bean;
-         System.out.println("Benvenuto " + beanCurr.getName() + ", ora crea la tua struttura.");
-         if (beanCurr != null) {
-            lblGestore.setText(beanCurr.getName()); 
-            lblNomeAttivita.setText(beanCurr.getNomeAttivita());
-            lblTipoAttivita.setText(beanCurr.getTipoAttivita());
-        }
+        lblGestore.setText(beanCurr.getName()); 
+        lblNomeAttivita.setText(beanCurr.getNomeAttivita());
+        lblTipoAttivita.setText(beanCurr.getTipoAttivita());
      }
 
 
@@ -156,10 +153,6 @@ public class CreazioneGUIStrutture {
         try{
          FXMLLoader loader = new FXMLLoader(getClass().getResource("/creazioneUtente.fxml"));
             Parent root = loader.load();
-            CreazioneGUIController creazioneUtente = loader.getController();
-        
-
-
             Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
              stage.getScene().setRoot(root);
             

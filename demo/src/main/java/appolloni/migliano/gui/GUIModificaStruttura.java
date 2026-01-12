@@ -13,7 +13,6 @@ import java.sql.SQLException;
 import appolloni.migliano.HelperErrori;
 
 import appolloni.migliano.bean.BeanStruttura;
-import appolloni.migliano.bean.BeanUtenti;
 import appolloni.migliano.controller.ControllerGestioneStrutture;
 
 public class GUIModificaStruttura {
@@ -30,18 +29,16 @@ public class GUIModificaStruttura {
     private String vecchioNome; 
 
     private ControllerGestioneStrutture controllerApp = new ControllerGestioneStrutture();
-    public void initData(BeanUtenti host, BeanStruttura struttura) {
+    public void initData(BeanStruttura struttura) {
         this.strutturaCorrente = struttura;
         this.vecchioNome = struttura.getName(); 
 
-        if (struttura != null) {
             txtNome.setText(struttura.getName());
             txtIndirizzo.setText(struttura.getIndirizzo());
             txtCitta.setText(struttura.getCitta());
             txtOrario.setText(struttura.getOrario());
             chkWifi.setSelected(struttura.hasWifi());
             chkRistorazione.setSelected(struttura.hasRistorazione());
-        }
     }
 
     @FXML
@@ -60,8 +57,6 @@ public class GUIModificaStruttura {
 
 
             controllerApp.aggiornaStruttura(strutturaCorrente, vecchioNome);
-
-            System.out.println("Struttura aggiornata con successo!");
 
             chiudiFinestra(event);
 

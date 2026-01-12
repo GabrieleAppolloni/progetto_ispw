@@ -2,12 +2,12 @@ package appolloni.migliano.entity;
 
 public class Recensione {
     private Utente autore;
-    private String recensione;
+    private String testo;
     private int voto;
     private Struttura struttura_recensita;
 
     public Recensione(String text, int num, Utente utente, Struttura struttura) {
-        this.recensione = text;
+        this.testo = text;
         this.voto = num;
         this.autore = utente;
         this.struttura_recensita = struttura;
@@ -31,11 +31,11 @@ public class Recensione {
     
     public void setTesto(String txt){
 
-        this.recensione = txt;
+        this.testo = txt;
     }
 
     public String getTesto(){
-        return this.recensione;
+        return this.testo;
     }
 
     public void setVoto(int votazione){

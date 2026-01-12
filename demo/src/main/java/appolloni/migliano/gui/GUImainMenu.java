@@ -14,6 +14,7 @@ import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import appolloni.migliano.DBConnection;
+import appolloni.migliano.HelperErrori;
 import appolloni.migliano.bean.BeanGruppo;
 import appolloni.migliano.bean.BeanUtenti;
 import appolloni.migliano.controller.ControllerGestioneGruppo;
@@ -105,10 +106,15 @@ public class GUImainMenu {
         }
     }
 
-    public void clickProfilo(ActionEvent event) throws Exception {
-        cambiaPagina(event, "/profiloUtente.fxml", controller -> {
+    public void clickProfilo(ActionEvent event) {
+        try{
+         cambiaPagina(event, "/profiloUtente.fxml", controller -> {
             ((GUIprofiloUtente) controller).initData(bean);
-        });
+         });
+        }catch(IOException e){
+            HelperErrori.errore("Errore I/O: ", e.getMessage());
+
+        }
     }
 
     public void clickRicerca(ActionEvent event) throws IOException{

@@ -48,8 +48,6 @@ public class GUIScriviRecensione {
             BeanRecensioni beanRecensioni = new BeanRecensioni(beanUtente.getEmail(), testo, voto, beanStruttura.getName(), beanStruttura.getGestore());
             controllerRecensioni.inserisciRecensione(beanRecensioni);
 
-            System.out.println("Recensione inviata: Voto " + voto + " - Testo: " + testo);
-
             chiudiFinestra(event);
 
         }catch(CampiVuotiException e){

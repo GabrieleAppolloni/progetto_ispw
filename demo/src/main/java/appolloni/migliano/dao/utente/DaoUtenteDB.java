@@ -7,7 +7,9 @@ import appolloni.migliano.entity.Host;
 import appolloni.migliano.interfacce.InterfacciaUtente;
 
 public class DaoUtenteDB implements InterfacciaUtente{
-    
+    private final static String SALVAUTENTE = "INSERT INTO utenti(dtype,nome,cognome,email,citta,password,nome_attivita,tipo_attivita)" + "VALUES (?,?,?,?,?,?,?,?)";
+    private final static String CERCAUTENTE = "SELECT dtype, nome, cognome, email, citta, password, nome_attivita, tipo_attivita FROM utenti WHERE email = ?" ;
+    private final static String UPDATE = "UPDATE utenti SET password = ? WHERE email = ?";
     private Connection conn; 
     public DaoUtenteDB(Connection connessione){
         this.conn = connessione;
@@ -16,7 +18,7 @@ public class DaoUtenteDB implements InterfacciaUtente{
     @Override
     public void salvaUtente(Utente u) throws SQLException{
 
-        String sql = "INSERT INTO utenti(dtype,nome,cognome,email,citta,password,nome_attivita,tipo_attivita)" + "VALUES (?,?,?,?,?,?,?,?)";
+        String sql = SALVAUTENTE;
 
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(2, u.getName());
@@ -42,7 +44,7 @@ public class DaoUtenteDB implements InterfacciaUtente{
 
     @Override
     public Utente cercaUtente(String search) throws SQLException{
-        String sql = "SELECT * FROM utenti WHERE email = ?";
+        String sql = CERCAUTENTE;
         Utente u = null;
 
         try (PreparedStatement ps = conn.prepareStatement(sql)){
@@ -68,7 +70,7 @@ public class DaoUtenteDB implements InterfacciaUtente{
 
     @Override
     public void aggiornaPassword(String email, String nuovaPass) throws SQLException{
-        String sql = "UPDATE utenti SET password = ? WHERE email = ?";
+        String sql = UPDATE;
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, nuovaPass);
             ps.setString(2, email);

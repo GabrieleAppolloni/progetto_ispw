@@ -41,7 +41,7 @@ public class GUILogin {
          BeanUtenti beanUtenteLoggato = login.verificaUtente(userBean);
 
         
-        if((beanUtenteLoggato.getTipo()).equals("Studente") && beanUtenteLoggato != null){
+        if((beanUtenteLoggato.getTipo()).equals("Studente")){
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/mainMenu.fxml"));
                 Parent root = loader.load();
                 GUImainMenu guimainMenu = loader.getController();
@@ -49,7 +49,7 @@ public class GUILogin {
 
                 Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
                 stage.getScene().setRoot(root);
-            }else if(beanUtenteLoggato != null ){
+            }else{
 
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/hostMenu.fxml"));
                 Parent root = loader.load();
