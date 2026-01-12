@@ -13,8 +13,25 @@ import appolloni.migliano.factory.FactoryStrutture;
 
 public class DAOStruttureDB implements InterfacciaDaoStruttura {
 
-    private Connection conn;
+    private final Connection conn;
     private static final String COLONNE_SELECT = "tipo, nome, citta, indirizzo, orario_apertura, wifi, ristorazione, tipo_attivita, gestore, foto";
+    private static final String UPDATE_STRUTTURA = "UPDATE strutture SET " +
+                     "nome = ?, " +
+                     "indirizzo = ?, " +
+                     "citta = ?, " +
+                     "orario_apertura = ?, " + 
+                     "wifi = ?, " +
+                     "ristorazione = ?, " +
+                     "tipo_attivita = ?, " +
+                     "gestore = ?, " +
+                     "foto = ? " +
+                     "WHERE nome = ?"; 
+    private final static  String SALVA_STRUTTURA = "INSERT INTO strutture(nome,tipo,citta,indirizzo,orario_apertura,wifi,ristorazione,tipo_attivita,gestore,foto) VALUES (?,?,?,?,?,?,?,?,?,?)";
+    private final static String SELECT =  "SELECT " + COLONNE_SELECT + "FROM strutture where nome = ? AND gestore = ?";
+    private final static String SELECT_2 = "SELECT " + COLONNE_SELECT + " FROM strutture WHERE 1=1 ";
+    private final static String SELECT_3 = "SELECT " + COLONNE_SELECT + " FROM strutture WHERE gestore = ?"; 
+    private final static String SELECT_4 = "SELECT nome FROM strutture WHERE citta = ?";
+    private final static String UPDATE = "UPDATE strutture SET foto = ? WHERE gestore = ?";
 
     public DAOStruttureDB(Connection conn){
         this.conn = conn;
@@ -22,7 +39,7 @@ public class DAOStruttureDB implements InterfacciaDaoStruttura {
  
     @Override
         public void salvaStruttura(Struttura struttura, String email) throws SQLException{
-        String sql = "INSERT INTO strutture(nome,tipo,citta,indirizzo,orario_apertura,wifi,ristorazione,tipo_attivita,gestore,foto) VALUES (?,?,?,?,?,?,?,?,?,?)";
+        String sql = SALVA_STRUTTURA;
         final String GESTORE_DEFAULT = "system_no_host";
         
         try (PreparedStatement ps = conn.prepareStatement(sql)){
@@ -51,7 +68,7 @@ public class DAOStruttureDB implements InterfacciaDaoStruttura {
 
     @Override
     public Struttura cercaStruttura(String nome, String gestore) throws SQLException{
-        String sql = "SELECT " + COLONNE_SELECT + "FROM strutture where nome = ? AND gestore = ?";
+        String sql = SELECT;
         Struttura struttura = null;
 
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
@@ -85,7 +102,7 @@ public class DAOStruttureDB implements InterfacciaDaoStruttura {
     @Override
     public List<Struttura> ricercaStruttureConFiltri(String nome, String citta, String tipo) throws SQLException {
         List<Struttura> lista = new ArrayList<>();
-        String sql = "SELECT " + COLONNE_SELECT + " FROM strutture WHERE 1=1 ";
+        String sql = SELECT_2;
 
         if (nome != null) sql += "AND nome LIKE ? ";
         if (citta != null) sql += "AND citta LIKE ? ";
@@ -118,7 +135,7 @@ public class DAOStruttureDB implements InterfacciaDaoStruttura {
 
     public Struttura recuperaStrutturaPerHost(String emailHost) throws SQLException {
         Struttura struttura = null;
-        String sql = "SELECT " + COLONNE_SELECT + " FROM strutture WHERE gestore = ?"; 
+        String sql = SELECT_3;
 
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, emailHost);
@@ -152,17 +169,7 @@ public class DAOStruttureDB implements InterfacciaDaoStruttura {
     @Override
      public void updateStruttura(Struttura s, String vecchioNome) throws SQLException {
         
-        String sql = "UPDATE strutture SET " +
-                     "nome = ?, " +
-                     "indirizzo = ?, " +
-                     "citta = ?, " +
-                     "orario_apertura = ?, " + 
-                     "wifi = ?, " +
-                     "ristorazione = ?, " +
-                     "tipo_attivita = ?, " +
-                     "gestore = ?, " +
-                     "foto = ? " +
-                     "WHERE nome = ?"; 
+        String sql = UPDATE_STRUTTURA;
 
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, s.getName());
@@ -187,7 +194,7 @@ public class DAOStruttureDB implements InterfacciaDaoStruttura {
 
     @Override
     public void aggiornaFotoStruttura(String emailHost, String nomeNuovaFoto) throws SQLException {
-     String sql = "UPDATE strutture SET foto = ? WHERE gestore = ?";
+     String sql = UPDATE;
      try (PreparedStatement ps = conn.prepareStatement(sql)) {
         ps.setString(1, nomeNuovaFoto);
         ps.setString(2, emailHost);
@@ -198,7 +205,7 @@ public class DAOStruttureDB implements InterfacciaDaoStruttura {
     @Override
     public List<String> recuperaNomiStrutture(String citta) throws SQLException {
      List<String> nomi = new ArrayList<>();
-     String sql = "SELECT nome FROM strutture WHERE citta = ?";
+     String sql = SELECT_4;
   
      try (PreparedStatement ps = conn.prepareStatement(sql)){
          ps.setString(1, citta);

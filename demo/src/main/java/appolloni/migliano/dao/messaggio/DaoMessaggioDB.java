@@ -11,7 +11,8 @@ import appolloni.migliano.interfacce.InterfacciaUtente;
 import java.sql.*;
 
 public class DaoMessaggioDB implements InterfacciaMessaggi {
-
+    private final String CERCA_MESSAGGIO = "SELECT testo, nome_gruppo, email_mittente, data_invio FROM messaggi WHERE nome_gruppo = ? ORDER BY data_invio ASC";
+    private final String NUOVO_MESS = "INSERT INTO MESSAGGI (testo,nome_gruppo, email_mittente, data_invio ) VALUES (?,?,?,?) ";
    
     private Connection conn;
     public DaoMessaggioDB(Connection connessione){
@@ -21,7 +22,7 @@ public class DaoMessaggioDB implements InterfacciaMessaggi {
     @Override
     public void nuovoMessaggio(Messaggio messaggio) throws SQLException {
 
-        String sql = "INSERT INTO MESSAGGI (testo,nome_gruppo, email_mittente, data_invio ) VALUES (?,?,?,?) ";
+        String sql = NUOVO_MESS;
         try (PreparedStatement ps = conn.prepareStatement(sql)){
             ps.setString(1, messaggio.getMess());
             ps.setString(2, messaggio.getGruppo().getNome());
@@ -34,19 +35,19 @@ public class DaoMessaggioDB implements InterfacciaMessaggi {
     }
     
     @Override
-    public List<Messaggio> cercaMessaggio(Gruppo gruppo) throws SQLException, Exception{
+    public List<Messaggio> cercaMessaggio(Gruppo gruppo) throws SQLException{
         List<Messaggio> messaggi = new ArrayList<>();
 
-        String sql = "SELECT * FROM messaggi WHERE nome_gruppo = ? ORDER BY data_invio ASC";
+        String sql = CERCA_MESSAGGIO;
 
         try (PreparedStatement ps = conn.prepareStatement(sql)){
             ps.setString(1, gruppo.getNome());
            try( ResultSet rs = ps.executeQuery()){
     
              while(rs.next()){
-                 String mess = rs.getString("testo");
-                 String emailMitt= rs.getString("email_mittente");
-                 Timestamp time = rs.getTimestamp("data_invio");
+                 String mess = rs.getString(1);
+                 String emailMitt= rs.getString(3);
+                 Timestamp time = rs.getTimestamp(4);
                  InterfacciaUtente dao = FactoryDAO.getDaoUtente();
                  Utente mittente = dao.cercaUtente(emailMitt);
                  Messaggio messaggio = new Messaggio(mess, gruppo, mittente);

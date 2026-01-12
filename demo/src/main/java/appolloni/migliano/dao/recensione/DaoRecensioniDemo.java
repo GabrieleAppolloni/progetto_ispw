@@ -9,7 +9,7 @@ import appolloni.migliano.interfacce.InterfacciaDaoRecensioni;
 
 public class DaoRecensioniDemo implements InterfacciaDaoRecensioni {
 
-    private static List<Recensione> tabellaRecensioni = new ArrayList<>();
+    private final static List<Recensione> tabellaRecensioni = new ArrayList<>();
 
     public DaoRecensioniDemo() {
         
@@ -21,7 +21,7 @@ public class DaoRecensioniDemo implements InterfacciaDaoRecensioni {
     }
 
     @Override
-    public List<Recensione> getRecensioniByStruttura(String nomeStr, String gestore) throws IOException, Exception {
+    public List<Recensione> getRecensioniByStruttura(String nomeStr, String gestore) throws IOException {
         List<Recensione> risultati = new ArrayList<>();
 
         for (Recensione r : tabellaRecensioni) {

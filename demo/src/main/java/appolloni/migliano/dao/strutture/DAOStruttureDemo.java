@@ -1,26 +1,26 @@
 package appolloni.migliano.dao.strutture;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 import appolloni.migliano.entity.Struttura;
-import appolloni.migliano.exception.CampiVuotiException;
 import appolloni.migliano.interfacce.InterfacciaDaoStruttura;
 
 public class DAOStruttureDemo implements InterfacciaDaoStruttura {
 
 
-    private static List<Struttura> tabellaStrutture = new ArrayList<>();
+    private final static List<Struttura> tabellaStrutture = new ArrayList<>();
 
     public DAOStruttureDemo() {
     }
 
     @Override
-    public void salvaStruttura(Struttura s, String email) throws CampiVuotiException {
+    public void salvaStruttura(Struttura s, String email) throws SQLException {
      
         if (email != null && (s.getGestore() == null || s.getGestore().isEmpty())) {
-           throw new CampiVuotiException("Dati mancanti");
+           throw new SQLException("Errore");
         }
         
         tabellaStrutture.add(s);

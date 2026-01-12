@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface InterfacciaMessaggi {
     
-    void nuovoMessaggio(Messaggio messaggio) throws SQLException, Exception;
-    List<Messaggio> cercaMessaggio(Gruppo gruppo) throws SQLException, Exception;
+    void nuovoMessaggio(Messaggio messaggio) throws SQLException;
+    List<Messaggio> cercaMessaggio(Gruppo gruppo) throws SQLException;
 
 }

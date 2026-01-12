@@ -14,30 +14,30 @@ public class DaoGruppoDemo implements InterfacciaGruppo {
     private static List<String[]> iscrizioniDB = new ArrayList<>();
 
     @Override
-    public void creaGruppo(Gruppo gruppo) throws Exception {
+    public void creaGruppo(Gruppo gruppo) throws SQLException {
         gruppiDB.add(gruppo);
 
         if (gruppo.getAdmin() != null) {
             String[] rigaIscrizione = {gruppo.getNome(), gruppo.getAdmin().getEmail()};
             iscrizioniDB.add(rigaIscrizione);
         }else{
-            throw new Exception("Impossibile creare il gruppo");
+            throw new SQLException("Impossibile creare il gruppo");
         }
     }
 
     @Override
-    public Gruppo cercaGruppo(String nome) throws Exception {
+    public Gruppo cercaGruppo(String nome) throws SQLException {
         for (Gruppo g : gruppiDB) {
             if (g.getNome().equals(nome)) {
                 return g;
             }
         }
-        return null;
+        throw new SQLException("Gruppo non trovato");
 
     }
 
     @Override
-    public List<Gruppo> recuperaGruppiUtente(String emailUtente) throws Exception {
+    public List<Gruppo> recuperaGruppiUtente(String emailUtente) throws SQLException {
         List<Gruppo> lista = new ArrayList<>();
 
         for (String[] riga : iscrizioniDB) {
@@ -45,14 +45,10 @@ public class DaoGruppoDemo implements InterfacciaGruppo {
             String emailIscritto = riga[1];
 
             if (emailIscritto.equals(emailUtente)) {
-               try{
                 Gruppo g = cercaGruppo(nomeGruppo);
                 if (g != null) {
                     lista.add(g);
                 }
-              }catch(Exception e){
-                throw e;
-              }
             }
         }
         return lista;
@@ -65,13 +61,12 @@ public class DaoGruppoDemo implements InterfacciaGruppo {
     }
 
     @Override
-    public boolean esisteGruppo(String nomeGruppo) throws Exception {
-        try{
-            return cercaGruppo(nomeGruppo) != null;
-        }catch(Exception e){
-            throw e;
+    public boolean esisteGruppo(String nomeGruppo) throws SQLException {
+            if(cercaGruppo(nomeGruppo) != null){
+                return true;
+            }
+            return false;
         }
-    }
 
     @Override
     public List<Gruppo> ricercaGruppiConFiltri(String nome, String citta, String materia) throws SQLException {

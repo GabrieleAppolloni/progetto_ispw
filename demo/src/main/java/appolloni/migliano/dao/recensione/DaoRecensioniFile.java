@@ -1,6 +1,7 @@
 package appolloni.migliano.dao.recensione;
 
 import java.io.*;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,6 +16,7 @@ import appolloni.migliano.interfacce.InterfacciaUtente;
 public class DaoRecensioniFile implements InterfacciaDaoRecensioni {
 
     private static final String CSV_FILE = "recensioni.csv";
+    private static final String FORMATO_CSV = "%s;%s;%s;%d;%s";
 
     public DaoRecensioniFile() {
       
@@ -27,7 +29,7 @@ public class DaoRecensioniFile implements InterfacciaDaoRecensioni {
             
             String testoPulito = r.getTesto().replace(";", ",").replace("\n", " ");
             
-            String riga = String.format("%s;%s;%s;%d;%s",
+            String riga = String.format(FORMATO_CSV,
                     r.getAutore().getEmail(),             
                     r.getStruttura_recensita().getName(),
                     r.getStruttura_recensita().getGestore(),
@@ -41,7 +43,7 @@ public class DaoRecensioniFile implements InterfacciaDaoRecensioni {
     }
 
     @Override
-    public List<Recensione> getRecensioniByStruttura(String nomeStr, String gestore) throws IOException,Exception {
+    public List<Recensione> getRecensioniByStruttura(String nomeStr, String gestore) throws IOException,SQLException {
         List<Recensione> lista = new ArrayList<>();
         File file = new File(CSV_FILE);
 
