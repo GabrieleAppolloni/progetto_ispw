@@ -7,6 +7,11 @@ import appolloni.migliano.view.GraficaGUI;
 
 public class FactoryUI {
 
+    
+    private FactoryUI() {
+        throw new UnsupportedOperationException("Questa è una classe di utilità e non può essere istanziata");
+    }
+
     public static InterfacciaGrafica getInterfaccia() {
         String tipo = Configurazione.getTipoInterfaccia(); 
 

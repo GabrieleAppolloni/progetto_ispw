@@ -11,6 +11,11 @@ public class DBConnection {
 
     private static Connection conn;
 
+    
+    private DBConnection() {
+        throw new UnsupportedOperationException("Questa è una classe di utilità e non può essere istanziata");
+    }
+
 
     public static Connection getConnection() throws SQLException {
         if (conn == null || conn.isClosed()) {
@@ -48,7 +53,7 @@ public class DBConnection {
                 conn.close();
             }
         } catch (SQLException e) {
-            
+            e.printStackTrace();
         }
     }
 }

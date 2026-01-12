@@ -4,6 +4,11 @@ import appolloni.migliano.entity.Struttura;
 
 
 public class FactoryStrutture {
+
+    
+    private FactoryStrutture() {
+        throw new UnsupportedOperationException("Questa è una classe di utilità e non può essere istanziata");
+    }
     
     public static Struttura creazioneStrutture(String type,String nome, String citta, String addr,String orario,boolean wifi, boolean ristorazione,String tipoAtt,String gestore){
        if (!type.equals("Pubblica") && !type.equals("Privata")) {

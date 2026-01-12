@@ -5,6 +5,11 @@ import appolloni.migliano.entity.Host;
 
 public class FactoryUtenti {
 
+    
+    private FactoryUtenti() {
+        throw new UnsupportedOperationException("Questa è una classe di utilità e non può essere istanziata");
+    }
+
     public static Utente Creazione(String type, String nome, String cognome, String email, String citta, String pass ){
         switch (type) {
             case "Studente" :
