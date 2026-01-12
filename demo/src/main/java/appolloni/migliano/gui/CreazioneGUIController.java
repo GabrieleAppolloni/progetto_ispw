@@ -129,7 +129,7 @@ public class CreazioneGUIController {
             HelperErrori.errore("Errore caricamento dati", e.getMessage());
  
         } catch (Exception e) {
-            HelperErrori.info("Errore Generico:", e.getMessage());
+            HelperErrori.errore("Errore Generico:", e.getMessage());
             e.printStackTrace();
         }
     }

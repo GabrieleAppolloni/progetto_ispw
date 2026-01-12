@@ -59,7 +59,7 @@ public class GUIChat {
 
         }catch(Exception e){
 
-            HelperErrori.info("Errore imprevisto: ", e.getMessage());
+            HelperErrori.errore("Errore imprevisto: ", e.getMessage());
         }
     }
 

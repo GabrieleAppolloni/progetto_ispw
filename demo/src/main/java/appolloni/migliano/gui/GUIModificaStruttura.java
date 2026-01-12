@@ -67,7 +67,7 @@ public class GUIModificaStruttura {
             HelperErrori.errore("Errore caricamento dati:", e.getMessage());
         } catch (Exception e) {
             e.printStackTrace();
-            HelperErrori.info("Errore:", e.getMessage());
+            HelperErrori.errore("Errore:", e.getMessage());
         }
     }
 
