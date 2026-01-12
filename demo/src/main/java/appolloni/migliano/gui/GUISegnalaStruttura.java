@@ -56,12 +56,13 @@ public class GUISegnalaStruttura {
                 txtNome.getText().trim(), 
                 txtCitta.getText().trim(), 
                 txtIndirizzo.getText().trim(), 
-                txtOrario.getText().trim(), 
                 checkWifi.isSelected(), 
-                checkRistorazione.isSelected(), 
-                comboTipoAttivita.getValue(), 
-                nomeGestore
+                checkRistorazione.isSelected()
             );
+
+            struttura.setOrario(txtOrario.getText().trim());
+            struttura.setGestore(nomeGestore);
+            struttura.setTipoAttivita(comboTipoAttivita.getValue());
             
             controllerApp.creaStruttura(studenteLoggato, struttura); 
             

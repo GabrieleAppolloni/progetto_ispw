@@ -99,7 +99,11 @@ public class CreazioneGUIStrutture {
                 nomeFotoFinale = salvaFileSuDisco(fileImmagineSelezionato);
             }
             controllerGestioneUtente.creazioneUtente(beanCurr);
-            BeanStruttura beanStruttura = new BeanStruttura(tipo, nome, citta, indirizzo, orario, wifi, ristorazione,tipoAttivita, gestore,nomeFotoFinale);
+            BeanStruttura beanStruttura = new BeanStruttura(tipo, nome, citta, indirizzo, wifi, ristorazione);
+            beanStruttura.setOrario(orario);
+            beanStruttura.setTipoAttivita(tipoAttivita);
+            beanStruttura.setGestore(gestore);
+            beanStruttura.setFoto(nomeFotoFinale);
             salvaStruttura(beanStruttura);
             pulisci(); 
             lblRisultato.setText("Registrazione Effettuata con Successo!");

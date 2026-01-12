@@ -79,8 +79,11 @@ public class ControllerGestioneStrutture {
         }
       
          Struttura struttura = daoStrutture.recuperaStrutturaPerHost(emailHost);
-         BeanStruttura beanStruttura = new BeanStruttura(struttura.getTipo(), struttura.getName(), struttura.getCitta(), struttura.getIndirizzo(),struttura.getOrario(), struttura.hasWifi(), struttura.hasRistorazione(), struttura.getTipoAttivita(), struttura.getGestore());
+         BeanStruttura beanStruttura = new BeanStruttura(struttura.getTipo(), struttura.getName(), struttura.getCitta(), struttura.getIndirizzo(), struttura.hasWifi(), struttura.hasRistorazione());
          beanStruttura.setFoto(struttura.getFoto());
+         beanStruttura.setOrario(struttura.getOrario());
+         beanStruttura.setTipoAttivita(struttura.getTipoAttivita());
+         beanStruttura.setGestore(struttura.getGestore());
         return beanStruttura;
 
     }
@@ -113,8 +116,11 @@ public class ControllerGestioneStrutture {
         List<Struttura> listaEntities = daoStrutture.ricercaStruttureConFiltri(nome, citta, tipo);
         
         for (Struttura s : listaEntities) {
-            BeanStruttura b = new BeanStruttura(s.getTipo(),s.getName(),s.getCitta(),s.getIndirizzo(),s.getOrario(),s.hasWifi(),s.hasRistorazione(),s.getTipoAttivita(),s.getGestore());
+            BeanStruttura b = new BeanStruttura(s.getTipo(),s.getName(),s.getCitta(),s.getIndirizzo(),s.hasWifi(),s.hasRistorazione());
             b.setFoto(s.getFoto()); 
+            b.setOrario(s.getOrario());
+            b.setTipoAttivita(s.getTipoAttivita());
+            b.setGestore(s.getGestore());
             
             listaBeans.add(b);
         }
