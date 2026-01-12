@@ -37,11 +37,7 @@ public class DaoUtenteDB implements InterfacciaUtente{
                 ps.setNull(8, Types.VARCHAR);
             }
             ps.executeUpdate();
-            System.out.println("Utente salvato correttamente!");
-        } catch (SQLException e) {
-            e.printStackTrace();
-            throw e;
-        }
+        } 
     }
 
     @Override
@@ -64,10 +60,7 @@ public class DaoUtenteDB implements InterfacciaUtente{
 
              }
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
-            throw e;
-        }
+        } 
 
         return u;
     }
@@ -80,10 +73,7 @@ public class DaoUtenteDB implements InterfacciaUtente{
             ps.setString(1, nuovaPass);
             ps.setString(2, email);
             ps.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-            throw e;
-        }
+        } 
     }
 
 }

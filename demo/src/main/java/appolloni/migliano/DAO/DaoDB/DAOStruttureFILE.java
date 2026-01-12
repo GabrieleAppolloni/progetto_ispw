@@ -26,10 +26,6 @@ public class DAOStruttureFILE  implements InterfacciaDaoStruttura{
             );
             bw.write(riga);
             bw.newLine();
-        }catch(Exception e){
-            e.printStackTrace();
-            throw new IOException("Errore salvataggio su file");
-
         }
     }
 
@@ -50,10 +46,6 @@ public class DAOStruttureFILE  implements InterfacciaDaoStruttura{
                 }
 
             }
-        }catch(IOException e){
-
-            e.printStackTrace();
-            throw new IOException("Errore salvataggio su file");
         }
         return struttura;
         
@@ -109,9 +101,6 @@ public class DAOStruttureFILE  implements InterfacciaDaoStruttura{
                 lista.add(s);
             }
         }
-      } catch (IOException e) {
-        e.printStackTrace();
-        throw new IOException("Errore salvataggio su file");
       } 
     
      return lista;
@@ -143,9 +132,6 @@ public class DAOStruttureFILE  implements InterfacciaDaoStruttura{
                     return s;
                 }
             }
-        }catch(IOException e){
-            e.printStackTrace();
-            throw new IOException("Errore salvataggio su file");
         }
         return null;
     }
@@ -177,10 +163,7 @@ public class DAOStruttureFILE  implements InterfacciaDaoStruttura{
                 righeDaRiscrivere.add(line); 
             }
         }
-     } catch (IOException e) {
-        e.printStackTrace();
-        throw new IOException("Errore salvataggio su file");
-     }
+     } 
 
 
       if (trovato) {
@@ -189,9 +172,6 @@ public class DAOStruttureFILE  implements InterfacciaDaoStruttura{
                 bw.write(riga);
                 bw.newLine();
             }
-        } catch (IOException e) {
-            e.printStackTrace();
-            throw new IOException("Errore salvataggio su file");
         }
      }
     }
@@ -215,9 +195,6 @@ public class DAOStruttureFILE  implements InterfacciaDaoStruttura{
 
             }
             
-        } catch (IOException e) {
-            e.printStackTrace();
-            throw new IOException("Errore salvataggio su file");
         }
         
         
@@ -243,10 +220,7 @@ public class DAOStruttureFILE  implements InterfacciaDaoStruttura{
                     }
                 }
             }
-        } catch (IOException e) {
-            e.printStackTrace();
-            throw new IOException("Errore salvataggio su FILE"); 
-        }
+        } 
 
         return listaNomi;
     }

@@ -37,10 +37,6 @@ public class DaoRecensioniFile implements InterfacciaDaoRecensioni {
 
             bw.write(riga);
             bw.newLine();
-        }catch(IOException e){
-            e.printStackTrace();
-            throw new IOException("Errore salvataggio su FILE.");
-
         }
     }
 
@@ -55,13 +51,9 @@ public class DaoRecensioniFile implements InterfacciaDaoRecensioni {
         Struttura strutturaTarget = null;
 
 
-        try{
-         strutturaTarget = daoStruttura.cercaStruttura(nomeStr, gestore);
-        }catch(Exception e){
-            e.printStackTrace();
-            throw e;
-
-        }
+        
+        strutturaTarget = daoStruttura.cercaStruttura(nomeStr, gestore);
+    
         if (strutturaTarget == null) return lista;
 
         try (BufferedReader br = new BufferedReader(new FileReader(file))) {
@@ -86,11 +78,7 @@ public class DaoRecensioniFile implements InterfacciaDaoRecensioni {
                     }
                 }
             }
-        } catch (IOException e) {
-            e.printStackTrace();
-            throw new IOException("Errore salvataggio su file");
-        }
-        
+        } 
         return lista;
     }
 }

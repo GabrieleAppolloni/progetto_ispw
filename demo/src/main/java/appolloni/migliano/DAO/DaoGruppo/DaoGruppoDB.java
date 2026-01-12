@@ -79,12 +79,8 @@ public class DaoGruppoDB implements InterfacciaGruppo {
                     gruppoCercato.setCitta(citta);
                     gruppoCercato.setLuogo(luogo);
                 }
-            } catch (Exception e) {
-                e.printStackTrace();
-                throw e;
-            }
+            } 
         } catch (Exception e) {
-            e.printStackTrace();
             throw new SQLException();
         }
         return gruppoCercato;
@@ -123,14 +119,7 @@ public class DaoGruppoDB implements InterfacciaGruppo {
                     
                     listaGruppi.add(g);
                 }
-            }catch(SQLException e){
-                e.printStackTrace();
-                throw e;
             }
-        }catch(SQLException e){
-            e.printStackTrace();
-            throw e;
-
         }
         return listaGruppi;
     }
@@ -142,9 +131,6 @@ public class DaoGruppoDB implements InterfacciaGruppo {
             ps.setString(1, nomeGruppo);
             ps.setString(2, emailUtente);
             ps.executeUpdate();
-        }catch(SQLException e){
-            e.printStackTrace();
-            throw e;
         }
     }
     
@@ -158,9 +144,6 @@ public class DaoGruppoDB implements InterfacciaGruppo {
                     return rs.getInt(1) > 0;
                 }
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
-            throw e;
         }
         return false;
     }
@@ -194,12 +177,6 @@ public class DaoGruppoDB implements InterfacciaGruppo {
                     lista.add(g);
                 }
             }
-        }catch(SQLException e){
-            e.printStackTrace();
-            throw e;
-        }catch(Exception e){
-            e.printStackTrace();
-            throw e;
         }
         return lista;
     }
@@ -212,9 +189,6 @@ public class DaoGruppoDB implements InterfacciaGruppo {
             ps.setString(1, nomeGruppo);
             ps.setString(2, emailUtente);
             ps.executeUpdate();
-        }catch(SQLException e){
-            e.printStackTrace();
-            throw e;
         }
     }
 
@@ -232,17 +206,11 @@ public class DaoGruppoDB implements InterfacciaGruppo {
         try (PreparedStatement ps = conn.prepareStatement(sqlEliminaMessaggi)) {
             ps.setString(1, nomeGruppo);
             ps.executeUpdate();
-        }catch(SQLException e){
-            e.printStackTrace();
-            throw e;
         }
 
         try (PreparedStatement ps = conn.prepareStatement(sqlEliminaIscrizioni)) {
             ps.setString(1, nomeGruppo);
             ps.executeUpdate();
-        }catch(SQLException e){
-            e.printStackTrace();
-            throw e;
         }
 
       

@@ -30,10 +30,7 @@ public class DaoMessaggioDB implements InterfacciaMessaggi {
             ps.setTimestamp(4, messaggio.getTime());
 
             ps.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-            throw e;
-        }
+        } 
 
     }
     
@@ -58,19 +55,8 @@ public class DaoMessaggioDB implements InterfacciaMessaggi {
                  messaggi.add(messaggio);
              }
 
-            }catch(SQLException e){
-                e.printStackTrace();
-                throw e;
-
-            }catch(Exception e){
-                e.printStackTrace();
-                throw e;
-
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
-            throw e;
-        }
+        } 
 
 
 

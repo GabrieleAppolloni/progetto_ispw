@@ -47,9 +47,6 @@ public class DaoRecensioniDB implements InterfacciaDaoRecensioni {
         if (!conn.getAutoCommit()) {
             conn.commit();
         }
-    }catch(SQLException e){
-        e.printStackTrace();
-        throw e;
     }
 
     }
@@ -63,25 +60,15 @@ public class DaoRecensioniDB implements InterfacciaDaoRecensioni {
             ps.setString(2,nomeGestore);
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
-                    try{
+                    
                      Struttura struttura = daoStruttura.cercaStruttura(rs.getString("nome_struttura"),rs.getString("gestore_struttura"));
                      Utente autore = daoUtente.cercaUtente(rs.getString("autore"));
                      Recensione r = new Recensione(rs.getString("testo"),rs.getInt("voto"),autore,struttura);
                      lista.add(r);
-                    }catch(SQLException e){
-                        e.printStackTrace();
-                        throw e;
-                    }catch(Exception e){
-                        e.printStackTrace();
-                        throw e;
-                        
-                    }
+                    
                 }
-            }catch(SQLException e){
-                e.printStackTrace();
-                throw e;
-
             }
+
         }
         return lista;
     }
