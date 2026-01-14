@@ -71,7 +71,7 @@ public class DAOStruttureDB implements InterfacciaDaoStruttura {
 
             try (ResultSet rs = ps.executeQuery()) {
                 if(rs.next()){
-                    struttura = mappaResultSet(rs);
+                    struttura = recuperaStruttura(rs);
                 }
             }
         }
@@ -95,7 +95,7 @@ public class DAOStruttureDB implements InterfacciaDaoStruttura {
 
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
-                    lista.add(mappaResultSet(rs));
+                    lista.add(recuperaStruttura(rs));
                 }
             }
         }
@@ -109,7 +109,7 @@ public class DAOStruttureDB implements InterfacciaDaoStruttura {
             ps.setString(1, emailHost);
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
-                     struttura = mappaResultSet(rs);
+                     struttura = recuperaStruttura(rs);
                 }
             }
         } 
@@ -163,7 +163,7 @@ public class DAOStruttureDB implements InterfacciaDaoStruttura {
     }
 
    
-    private Struttura mappaResultSet(ResultSet rs) throws SQLException {
+    private Struttura recuperaStruttura(ResultSet rs) throws SQLException {
         
         Struttura s = FactoryStrutture.creazioneStrutture(
             rs.getString("tipo"),           

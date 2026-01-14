@@ -97,7 +97,7 @@ public class GUICreazioneGruppo {
             stage.getScene().setRoot(root); 
 
         } catch(SQLException e){
-           HelperErrori.errore("Errore creazione gruppo:",e.getMessage());
+           HelperErrori.errore("Errore creazione gruppo:", "Grupo esistente");
         }catch(CampiVuotiException e){
             lbRisultato.setText(e.getMessage());
             lbRisultato.setStyle(RED);
