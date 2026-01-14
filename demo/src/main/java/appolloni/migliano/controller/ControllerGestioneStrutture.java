@@ -43,10 +43,7 @@ public class ControllerGestioneStrutture {
           throw new CampiVuotiException("Completa tutti i campi.");
         }
 
-       Struttura nuovStruttura =  daoStrutture.cercaStruttura(nomeStruttura,responsabile);
-       if( nuovStruttura != null){
-         throw new IllegalArgumentException("La struttura esiste");
-       }else{
+       if(checkStruttura(nomeStruttura, citta)){ throw new IllegalArgumentException("Errore: struttura già esistente!");}
 
         Struttura struttura = FactoryStrutture.creazioneStrutture(type, nomeStruttura, citta, indirizzo,wifi, ristorazione);
         
@@ -69,7 +66,6 @@ public class ControllerGestioneStrutture {
       daoStrutture.salvaStruttura(struttura,emailHost);
 
     }
-  }
 
 
 
@@ -80,6 +76,7 @@ public class ControllerGestioneStrutture {
         }
       
          Struttura struttura = daoStrutture.recuperaStrutturaPerHost(emailHost);
+         if(struttura == null){ throw new IllegalArgumentException("Struttura non trovata");}
          BeanStruttura beanStruttura = new BeanStruttura(struttura.getTipo(), struttura.getName(), struttura.getCitta(), struttura.getIndirizzo(), struttura.hasWifi(), struttura.hasRistorazione());
          beanStruttura.setFoto(struttura.getFoto());
          beanStruttura.setOrario(struttura.getOrario());
@@ -154,5 +151,14 @@ public void rivendicaStruttura(BeanStruttura beanDatiNuovi, String emailHost) th
     daoStrutture.aggiornaHost(strutturaAggiornata, GESTOREDEFAULT); 
   }
     
+ private boolean checkStruttura(String nome, String citta) throws SQLException, IOException{
+  List<Struttura> strutture = daoStrutture.ricercaStruttureConFiltri(nome, citta, null);
+   for(Struttura s : strutture){
+    if(s.getName().equalsIgnoreCase(nome)){
+      return true;
+    }
+   }
+   return false;
+ } 
 
 }

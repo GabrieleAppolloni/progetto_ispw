@@ -9,9 +9,14 @@ import javafx.scene.control.*;
 import javafx.stage.Stage;
 
 import appolloni.migliano.bean.BeanUtenti;
+
+import java.io.IOException;
+import java.sql.SQLException;
+
 import appolloni.migliano.bean.BeanStruttura;
 import appolloni.migliano.controller.ControllerGestioneStrutture;
-import appolloni.migliano.exception.CampiVuotiException; 
+import appolloni.migliano.exception.CampiVuotiException;
+import appolloni.migliano.exception.EntitaNonTrovata; 
 
 public class GUISegnalaStruttura {
 
@@ -85,10 +90,16 @@ public class GUISegnalaStruttura {
             lblRisultato.setText("Errore, compilare tutti i campi");
              lblRisultato.setStyle(RED);
 
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (IllegalArgumentException e) {
             lblRisultato.setText("Errore: " + "Struttura già esistente !");
             lblRisultato.setStyle(RED);
+        } catch(SQLException | IOException e){
+            lblRisultato.setText("Errore: salvataggio dati !");
+            lblRisultato.setStyle(RED);
+        }catch(EntitaNonTrovata e){
+            lblRisultato.setText("Errore: caricamento dei dati!");
+            lblRisultato.setStyle(RED);
+
         }
     }
 
