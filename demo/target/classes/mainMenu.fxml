@@ -55,7 +55,7 @@
                 <Separator />
                 
                 <VBox spacing="10" alignment="CENTER_LEFT" style="-fx-padding: 10; -fx-background-color: #f9f9f9; -fx-background-radius: 5;">
-                    <Label text="Il tuo Status" style="-fx-font-weight: bold; -fx-text-fill: #555;"/>
+                    <Label text="La tua città " style="-fx-font-weight: bold; -fx-text-fill: #555;"/>
                     <HBox spacing="10"><Label text="Città:" textFill="#777"/><Label fx:id="lblSideCitta" text="-" style="-fx-font-weight: bold;"/></HBox>
                 </VBox>
 
@@ -69,9 +69,9 @@
                 <HBox alignment="CENTER_LEFT">
                     <Label text="I Tuoi Gruppi" style="-fx-font-size: 20px; -fx-font-weight: bold;" />
                     <Region HBox.hgrow="ALWAYS" />
-                    <Button fx:id="bNuovoGruppo" text="+ Crea Gruppo" onAction="#clickNuovoGruppo" style="-fx-background-color: #28a745; -fx-text-fill: white; -fx-cursor: hand;"/>
+                    <Button fx:id="bNuovoGruppo" text=" Crea Gruppo" onAction="#clickNuovoGruppo" style="-fx-background-color: #28a745; -fx-text-fill: white; -fx-cursor: hand;"/>
                     <Region prefWidth="10"/>
-                    <Button fx:id="bNuovaStruttura" text="Segnala Struttura" onAction="#clickNuovaStruttura" style="-fx-background-color: #ffc107; -fx-cursor: hand;"/>
+                    <Button fx:id="bNuovaStruttura" text="Aggiungi Struttura" onAction="#clickNuovaStruttura" style="-fx-background-color: #ffc107; -fx-cursor: hand;"/>
                 </HBox>
                 
                 <Separator />
