@@ -23,6 +23,7 @@ public class ControllerGestioneStrutture {
 
   
    private InterfacciaDaoStruttura daoStrutture = FactoryDAO.getDAOStrutture();
+   private static final String GESTOREDEFAULT = "system_no_host";
    
 
     public void creaStruttura(BeanUtenti bean, BeanStruttura beanStr) throws CampiVuotiException,SQLException,IOException, EntitaNonTrovata, IllegalArgumentException{
@@ -128,6 +129,36 @@ public class ControllerGestioneStrutture {
         return listaBeans;
   }
 
+  public boolean esistenzaStruttura(String nomeStruttura) throws SQLException, IOException{
+
+   if (daoStrutture.cercaStruttura(nomeStruttura, GESTOREDEFAULT) != null){
+    return true;
+   }else{
+    return false;
+   }
+
+  }
+
+
+public void rivendicaStruttura(BeanStruttura beanDatiNuovi, String emailHost) throws IOException, SQLException, CampiVuotiException {
+    
+    Struttura strutturaAggiornata = FactoryStrutture.creazioneStrutture(
+        beanDatiNuovi.getTipo(), 
+        beanDatiNuovi.getName(), 
+        beanDatiNuovi.getCitta(), 
+        beanDatiNuovi.getIndirizzo(), 
+        beanDatiNuovi.hasWifi(), 
+        beanDatiNuovi.hasRistorazione()
+    );
+    
+    strutturaAggiornata.setGestore(emailHost); 
+    strutturaAggiornata.setOrario(beanDatiNuovi.getOrario());
+    strutturaAggiornata.setTipoAttivita(beanDatiNuovi.getTipoAttivita());
+    strutturaAggiornata.setFoto(beanDatiNuovi.getFoto());
+
+  
+    daoStrutture.aggiornaHost(strutturaAggiornata, GESTOREDEFAULT); 
+  }
     
 
 }

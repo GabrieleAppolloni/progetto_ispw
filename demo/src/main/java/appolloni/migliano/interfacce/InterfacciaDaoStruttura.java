@@ -14,6 +14,7 @@ public interface InterfacciaDaoStruttura {
      void updateStruttura(Struttura struttura, String vecchioNome) throws SQLException, IOException;
      List<String> recuperaNomiStrutture(String citta) throws SQLException,IOException;
      void aggiornaFotoStruttura(String emailHost, String fotoNuova) throws SQLException, IOException;
+     void aggiornaHost(Struttura struttura, String nuovaEmail) throws SQLException, IOException;
      
      
 

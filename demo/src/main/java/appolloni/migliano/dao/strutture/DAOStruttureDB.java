@@ -6,7 +6,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-
 import appolloni.migliano.entity.Struttura;
 import appolloni.migliano.interfacce.InterfacciaDaoStruttura;
 import appolloni.migliano.factory.FactoryStrutture;
@@ -15,7 +14,7 @@ public class DAOStruttureDB implements InterfacciaDaoStruttura {
 
     private static final String IMMAGINE = "placeholder.png";
     private final Connection conn;
-
+    private static final String UPDATE_HOST = "UPDATE strutture SET gestore = ?, indirizzo = ?, orario_apertura = ?, wifi = ?, ristorazione = ?, foto = ? " + "WHERE nome = ? AND gestore = ?";
     private static final String COLONNE = "nome, gestore, tipo, citta, indirizzo, orario_apertura, wifi, ristorazione, tipo_attivita, foto";
 
     private static final String INSERTSTRUTTURA = "INSERT INTO strutture (nome, gestore, tipo, citta, indirizzo, orario_apertura, wifi, ristorazione, tipo_attivita, foto) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
@@ -189,4 +188,30 @@ public class DAOStruttureDB implements InterfacciaDaoStruttura {
         
         return s;
     }
+
+    @Override
+    public void aggiornaHost(Struttura strutturaAggiornata, String vecchioGestore) throws SQLException {
+    
+     try (PreparedStatement ps = conn.prepareStatement(UPDATE_HOST)) {
+        
+        ps.setString(1, strutturaAggiornata.getGestore()); 
+        
+        
+        ps.setString(2, strutturaAggiornata.getIndirizzo());
+        ps.setString(3, strutturaAggiornata.getOrario());
+        ps.setBoolean(4, strutturaAggiornata.hasWifi());
+        ps.setBoolean(5, strutturaAggiornata.hasRistorazione());
+        ps.setString(6, strutturaAggiornata.getFoto());
+
+        ps.setString(7, strutturaAggiornata.getName());
+        ps.setString(8, vecchioGestore); 
+
+        int righeModificate = ps.executeUpdate();
+
+        if (righeModificate == 0) {
+            throw new SQLException("Rivendicazione fallita: Non è stata trovata nessuna struttura '" 
+                + strutturaAggiornata.getName() + "' gestita da '" + vecchioGestore + "'.");
+        }
+    }
+}
 }

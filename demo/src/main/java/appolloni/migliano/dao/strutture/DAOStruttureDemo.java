@@ -98,4 +98,21 @@ public class DAOStruttureDemo implements InterfacciaDaoStruttura {
         }
         return nomi;
     }
+
+    @Override
+    public void aggiornaHost(Struttura strutturaNuova, String gestore) throws IOException {
+        for (Struttura s : tabellaStrutture) {
+            if (s.getGestore().equalsIgnoreCase("system_no_host") && 
+                s.getName().equalsIgnoreCase(strutturaNuova.getName())) {
+                
+                s.setGestore(gestore);
+                s.setIndirizzo(strutturaNuova.getIndirizzo());
+                s.setOrario(strutturaNuova.getOrario());
+                s.setWifi(strutturaNuova.hasWifi());
+                s.setRistorazione(strutturaNuova.hasRistorazione());
+                s.setFoto(strutturaNuova.getFoto());
+                return; 
+            }
+        }
+    }
 }

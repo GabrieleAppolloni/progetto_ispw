@@ -183,27 +183,36 @@ public class DAOStruttureFILE  implements InterfacciaDaoStruttura{
     @Override
     public void aggiornaFotoStruttura(String emailHost, String fotoNuova) throws IOException {
         File file = new File(CSVFILE);
-        if(!file.exists()) {return;}
+        if (!file.exists()) return;
+
+        List<String> righeDaScrivere = new ArrayList<>();
+        boolean modificato = false;
 
         try (BufferedReader br = new BufferedReader(new FileReader(file))) {
             String line;
-            while((line = br.readLine()) != null){
+            while ((line = br.readLine()) != null) {
                 String[] dati = line.split(";");
-                if(dati[5].equalsIgnoreCase(emailHost.toLowerCase())){
-                    try(BufferedWriter wr = new BufferedWriter(new FileWriter(file,true))){
-                        String newDato = String.format(FORMATOCSV, dati[0],dati[1],dati[2],dati[3],dati[4],dati[5],fotoNuova, dati[7],dati[8],dati[9]);
-                        wr.write(newDato);
-                        wr.newLine();
-                    }
+                if (dati.length >= 10 && dati[5].equalsIgnoreCase(emailHost)) {
+                    String nuovaRiga = String.format(FORMATOCSV, 
+                        dati[0], dati[1], dati[2], dati[3], dati[4], 
+                        dati[5], 
+                        fotoNuova, 
+                        Boolean.parseBoolean(dati[7]), Boolean.parseBoolean(dati[8]), dati[9]
+                    );
+                    righeDaScrivere.add(nuovaRiga);
+                    modificato = true;
+                } else {
+                
+                    righeDaScrivere.add(line);
                 }
-
             }
-            
         }
-        
-        
+        if (modificato) {
+            riscriviFile(file, righeDaScrivere);
+        }
     }
-
+    
+    
     @Override 
     public List<String> recuperaNomiStrutture(String citta) throws IOException {
         List<String> listaNomi = new ArrayList<>();
@@ -228,4 +237,59 @@ public class DAOStruttureFILE  implements InterfacciaDaoStruttura{
 
         return listaNomi;
     }
+
+@Override
+    public void aggiornaHost(Struttura s, String nuovoGestore) throws IOException {
+        File file = new File(CSVFILE);
+        if (!file.exists()) return;
+
+        List<String> righeDaScrivere = new ArrayList<>();
+        boolean trovato = false;
+
+        try (BufferedReader br = new BufferedReader(new FileReader(file))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                String[] dati = line.split(";");
+                
+                
+                if (dati.length >= 10 && 
+                    dati[0].equalsIgnoreCase(s.getName()) && 
+                    dati[5].equalsIgnoreCase("system_no_host")) {
+
+                    
+                    String rigaAggiornata = String.format(FORMATOCSV,
+                        s.getName(), 
+                        s.getTipo(), 
+                        s.getCitta(), 
+                        s.getIndirizzo(), 
+                        s.getOrario(),
+                        nuovoGestore,    
+                        s.getFoto(), 
+                        s.hasWifi(), 
+                        s.hasRistorazione(), 
+                        s.getTipoAttivita()
+                    );
+                    righeDaScrivere.add(rigaAggiornata);
+                    trovato = true;
+                } else {
+                    righeDaScrivere.add(line); 
+                }
+            }
+        }
+
+        if (trovato) {
+            riscriviFile(file, righeDaScrivere);
+        }
+    }
+
+    
+    private void riscriviFile(File file, List<String> righe) throws IOException {
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(file, false))) {
+            for (String riga : righe) {
+                bw.write(riga);
+                bw.newLine();
+            }
+        }
+    }
+
 }

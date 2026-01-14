@@ -7,6 +7,7 @@ import appolloni.migliano.bean.BeanUtenti;
 import appolloni.migliano.controller.ControllerGestioneStrutture;
 import appolloni.migliano.controller.ControllerGestioneUtente;
 import appolloni.migliano.exception.CampiVuotiException;
+import appolloni.migliano.exception.EmailNonValidaException;
 import appolloni.migliano.exception.EntitaNonTrovata;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -44,10 +45,11 @@ public class CreazioneGUIStrutture {
     @FXML private Label lblNomeFile;
     private File fileImmagineSelezionato = null;
     private BeanUtenti beanCurr;
+    private ControllerGestioneUtente controllerGestioneUtente = new ControllerGestioneUtente();
 
 
     private static final String COLORE = "-fx-text-fill: red;";
-    private ControllerGestioneStrutture controllerCreazioneStrutture = new ControllerGestioneStrutture();
+    private ControllerGestioneStrutture controllerGestioneStrutture = new ControllerGestioneStrutture();
 
      @FXML
      public void initialize(){
@@ -87,9 +89,11 @@ public class CreazioneGUIStrutture {
         String indirizzo = txtIndirizzo.getText().trim();
         boolean wifi = checkWifi.isSelected();
         boolean ristorazione = checkRistorazione.isSelected();
-        String gestore = beanCurr.getName();
+        String gestore = beanCurr.getEmail();
         String orario = txtOrario.getText().trim();
-        ControllerGestioneUtente controllerGestioneUtente = new ControllerGestioneUtente();
+        BeanStruttura beanStruttura;
+        
+
 
         
         try{
@@ -98,24 +102,32 @@ public class CreazioneGUIStrutture {
             if (fileImmagineSelezionato != null) {
                 nomeFotoFinale = salvaFileSuDisco(fileImmagineSelezionato);
             }
-            controllerGestioneUtente.creazioneUtente(beanCurr);
-            BeanStruttura beanStruttura = new BeanStruttura(tipo, nome, citta, indirizzo, wifi, ristorazione);
-            beanStruttura.setOrario(orario);
-            beanStruttura.setTipoAttivita(tipoAttivita);
-            beanStruttura.setGestore(gestore);
-            beanStruttura.setFoto(nomeFotoFinale);
-            salvaStruttura(beanStruttura);
-            pulisci(); 
-            lblRisultato.setText("Registrazione Effettuata con Successo!");
-            lblRisultato.setStyle("-fx-text-fill: green;");
+           
+         
+              salvaUtente(beanCurr);
+              beanStruttura = new BeanStruttura(tipo, nome, citta, indirizzo, wifi, ristorazione);
+              beanStruttura.setOrario(orario);
+              beanStruttura.setTipoAttivita(tipoAttivita);
+              beanStruttura.setGestore(gestore);
+              beanStruttura.setFoto(nomeFotoFinale);
 
-            FXMLLoader loader =new FXMLLoader(getClass().getResource("/hostMenu.fxml"));
+              if (cercaOrfana(nome)) {
+           
+             controllerGestioneStrutture.rivendicaStruttura(beanStruttura, gestore);
+             } else {
+             salvaStruttura(beanStruttura);
+             }
+             pulisci(); 
+             lblRisultato.setText("Registrazione Effettuata con Successo!");
+             lblRisultato.setStyle("-fx-text-fill: green;");
+
+             FXMLLoader loader =new FXMLLoader(getClass().getResource("/hostMenu.fxml"));
              Parent root = loader.load();
              GUIhostMenu hostMenu = loader.getController();
              hostMenu.initData(beanCurr);
 
-            Stage stage = (Stage)(lblRisultato).getScene().getWindow();
-            stage.getScene().setRoot(root);
+             Stage stage = (Stage)(lblRisultato).getScene().getWindow();
+             stage.getScene().setRoot(root);
 
         }catch(CampiVuotiException e){
 
@@ -136,8 +148,19 @@ public class CreazioneGUIStrutture {
 
 
     private void salvaStruttura(BeanStruttura beanStruttura) throws CampiVuotiException, SQLException, EntitaNonTrovata, IOException{
-        controllerCreazioneStrutture.creaStruttura(beanCurr,beanStruttura);
+        controllerGestioneStrutture.creaStruttura(beanCurr,beanStruttura);
     }
+
+    private void salvaUtente(BeanUtenti bean) throws IOException, CampiVuotiException, SQLException, EmailNonValidaException, IllegalAccessException{
+        controllerGestioneUtente.creazioneUtente(beanCurr);
+    }
+
+    private boolean cercaOrfana(String nomeStruttura) throws IOException, SQLException{
+        return controllerGestioneStrutture.esistenzaStruttura(nomeStruttura);
+
+    }
+
+   
 
 
      @FXML 
