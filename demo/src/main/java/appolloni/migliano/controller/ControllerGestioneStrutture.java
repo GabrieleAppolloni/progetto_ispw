@@ -129,18 +129,12 @@ public class ControllerGestioneStrutture {
         return listaBeans;
   }
 
-  public boolean esistenzaStruttura(String nomeStruttura) throws SQLException, IOException{
-
-   if (daoStrutture.cercaStruttura(nomeStruttura, GESTOREDEFAULT) != null){
-    return true;
-   }else{
-    return false;
-   }
-
+  public boolean esistenzaStruttura(String nomeStruttura) throws SQLException, IOException {
+    return daoStrutture.cercaStruttura(nomeStruttura, GESTOREDEFAULT) != null;
   }
 
 
-public void rivendicaStruttura(BeanStruttura beanDatiNuovi, String emailHost) throws IOException, SQLException, CampiVuotiException {
+public void rivendicaStruttura(BeanStruttura beanDatiNuovi, String emailHost) throws IOException, SQLException {
     
     Struttura strutturaAggiornata = FactoryStrutture.creazioneStrutture(
         beanDatiNuovi.getTipo(), 

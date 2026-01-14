@@ -151,8 +151,8 @@ public class CreazioneGUIStrutture {
         controllerGestioneStrutture.creaStruttura(beanCurr,beanStruttura);
     }
 
-    private void salvaUtente(BeanUtenti bean) throws IOException, CampiVuotiException, SQLException, EmailNonValidaException, IllegalAccessException{
-        controllerGestioneUtente.creazioneUtente(beanCurr);
+    private void salvaUtente(BeanUtenti bean) throws IOException, CampiVuotiException, SQLException, EmailNonValidaException{
+        controllerGestioneUtente.creazioneUtente(bean);
     }
 
     private boolean cercaOrfana(String nomeStruttura) throws IOException, SQLException{
