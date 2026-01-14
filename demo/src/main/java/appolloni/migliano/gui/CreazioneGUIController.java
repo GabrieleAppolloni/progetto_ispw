@@ -94,9 +94,7 @@ public class CreazioneGUIController {
                  return;
 
                 }
-                if (nomeAtt.isEmpty()) {
-                   throw new CampiVuotiException("Dati attività mancanti.");
-                } 
+                
                 beanUtente.setTipoAttivita(tipoAtt);
                 beanUtente.setNomeAttivita(nomeAtt);
 
