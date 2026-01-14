@@ -62,7 +62,7 @@ public class GUIdettagliStruttura {
         impostaBooleano(lblWifi, this.beanStruttura.hasWifi());
         impostaBooleano(lblRistorazione, this.beanStruttura.hasRistorazione());
 
-        lblGestore.setText(this.beanStruttura.getGestore() != null ? this.beanStruttura.getGestore() : "-");
+        lblGestore.setText(this.beanStruttura.getGestore().equalsIgnoreCase("system_no_host") ?  "-" : this.beanStruttura.getGestore());
         
         caricaRecensioni();
         caricaFotoStruttura();

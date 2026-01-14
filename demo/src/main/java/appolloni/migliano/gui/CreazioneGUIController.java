@@ -66,25 +66,34 @@ public class CreazioneGUIController {
     @FXML 
     public void clickRegistra(ActionEvent event) throws IOException {
     
-        String tipo = comboTipo.getValue().trim(); 
+        String tipo = comboTipo.getValue(); 
         String nome = txtNome.getText().trim();
         String cognome = txtCognome.getText().trim();
         String email = txtEmail.getText().trim().toLowerCase();
         String citta = txtCitta.getText().trim();
         String password = txtPass.getText().trim();
 
-        try {
-
-            if(tipo == null){
+         if(tipo == null){
                 lblRisultato.setText("Scegliere il tipo ");
                 lblRisultato.setStyle(COLORE);
-            }
+                return;
+        }
+
+        try {
+
+           
             BeanUtenti beanUtente = new BeanUtenti(tipo, nome, cognome, email, password, citta);
             
 
             if (tipo.equals("Host")) {
                 String nomeAtt = txtNomeAttivita.getText();
                 String tipoAtt = comboTipoAtt.getValue();
+                if(tipoAtt == null){
+                 lblRisultato.setText("Scegliere il tipo di struttura! ");
+                 lblRisultato.setStyle(COLORE);
+                 return;
+
+                }
                 if (nomeAtt.isEmpty() || tipoAtt == null) {
                    throw new CampiVuotiException("Dati attività mancanti.");
                 } 

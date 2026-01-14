@@ -38,9 +38,16 @@ public class GUISegnalaStruttura {
 
     @FXML
     public void clickSegnala(ActionEvent event) {
+         String tipo = comboTipo.getValue();
+         String tipoAtt = comboTipoAttivita.getValue();
+        if(tipo== null || tipoAtt == null){
+            lblRisultato.setText("Scegliere una opzione!");
+            lblRisultato.setStyle(RED);
+            return;
+        }
         try {
          
-            if(comboTipo.getValue() == null || txtNome.getText().isEmpty() || txtCitta.getText().isEmpty()) {
+            if( txtNome.getText().isEmpty() || txtCitta.getText().isEmpty()|| txtIndirizzo.getText().isEmpty()|| txtOrario.getText().isEmpty()) {
                 lblRisultato.setText("Compila i campi.");
                 lblRisultato.setStyle(RED);
                 return;
@@ -52,7 +59,7 @@ public class GUISegnalaStruttura {
             }
 
             BeanStruttura struttura = new BeanStruttura(
-                comboTipo.getValue(), 
+                tipo, 
                 txtNome.getText().trim(), 
                 txtCitta.getText().trim(), 
                 txtIndirizzo.getText().trim(), 
@@ -62,7 +69,7 @@ public class GUISegnalaStruttura {
 
             struttura.setOrario(txtOrario.getText().trim());
             struttura.setGestore(nomeGestore);
-            struttura.setTipoAttivita(comboTipoAttivita.getValue());
+            struttura.setTipoAttivita(tipoAtt);
             
             controllerApp.creaStruttura(studenteLoggato, struttura); 
             
