@@ -143,8 +143,9 @@ public class GUIRicerca {
                     btnJoin.setText("Iscritto!");
                     btnJoin.setDisable(true);
                 } catch (Exception e) {
-                    Alert alert = new Alert(Alert.AlertType.ERROR, "Errore: " + e.getMessage());
+                    Alert alert = new Alert(Alert.AlertType.ERROR, "Errore: " + "Sei già parte del Gruppo!");
                     alert.show();
+                    e.printStackTrace();
                 }
             });
             

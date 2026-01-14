@@ -33,7 +33,7 @@
                     </padding>
 
                     <children>
-                        <Label text="Segnala una Struttura" textFill="#e6a500">
+                        <Label text="Aggiungi una nuova Struttura" textFill="#e6a500">
                             <font><Font name="Arial Bold" size="24.0"/></font>
                         </Label>
                         <Label text="Aiuta la community aggiungendo nuovi posti dove studiare" textFill="#777777"/>
@@ -94,7 +94,7 @@
                             <Button text="Annulla" onAction="#clickIndietro" prefWidth="120"
                                     style="-fx-background-color: white; -fx-text-fill: #666; -fx-border-color: #ccc; -fx-cursor: hand;" />
                             
-                            <Button text="INVIA SEGNALAZIONE" onAction="#clickSegnala" maxWidth="Infinity" HBox.hgrow="ALWAYS"
+                            <Button text="Aggiungi Struttura" onAction="#clickSegnala" prefWidth="150"  HBox.hgrow="ALWAYS"
                                     style="-fx-background-color: #ff9800; -fx-text-fill: white; -fx-font-weight: bold; -fx-cursor: hand;" />
                         </HBox>
 

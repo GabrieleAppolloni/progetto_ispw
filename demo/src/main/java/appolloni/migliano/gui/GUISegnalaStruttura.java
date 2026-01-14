@@ -87,7 +87,7 @@ public class GUISegnalaStruttura {
 
         } catch (Exception e) {
             e.printStackTrace();
-            lblRisultato.setText("Errore: " + e.getMessage());
+            lblRisultato.setText("Errore: " + "Struttura già esistente !");
             lblRisultato.setStyle(RED);
         }
     }
