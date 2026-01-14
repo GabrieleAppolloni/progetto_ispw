@@ -87,7 +87,6 @@ public class GUIChat {
     @FXML
     public void inviaMessaggio() {
         String text = txtMessaggio.getText().trim();
-        if (text.isEmpty()) return;
 
         try {
             controllerChat.inviaMessaggio(beanUtente, beanGruppo, text);

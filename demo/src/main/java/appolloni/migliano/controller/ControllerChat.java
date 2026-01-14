@@ -57,8 +57,8 @@ public class ControllerChat {
      
     }
 
-    public void inviaMessaggio(BeanUtenti mittente, BeanGruppo gruppo, String testo) throws SQLException {
-        if(testo == null || testo.trim().isEmpty()) {throw new IllegalArgumentException("Testo vuoto");}
+    public void inviaMessaggio(BeanUtenti mittente, BeanGruppo gruppo, String testo) throws SQLException, IllegalArgumentException{
+        if( testo.trim().isEmpty()) {throw new IllegalArgumentException("Inserire il messaggio, impossibile inviare un messsaggio vuoto");}
         Utente user = daoUtente.cercaUtente(mittente.getEmail());
         Gruppo g = daoGruppo.cercaGruppo(gruppo.getNome());
         Messaggio messaggio = FactoryMessaggi.creaMessaggio(testo, g, user);
