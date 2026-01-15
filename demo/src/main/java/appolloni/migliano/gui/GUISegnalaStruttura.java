@@ -23,7 +23,6 @@ public class GUISegnalaStruttura {
     @FXML private TextField txtNome;
     @FXML private TextField txtCitta;
     @FXML private TextField txtIndirizzo;
-    //@FXML private TextField txtGestore;
     @FXML private TextField txtOrario;
     @FXML private ComboBox<String> comboTipoAttivita;
     @FXML private ComboBox<String> comboTipo;
