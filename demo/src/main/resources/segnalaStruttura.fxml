@@ -47,7 +47,7 @@
 
                         <VBox alignment="CENTER_LEFT" spacing="5">
                             <Label text="Gestore" style="-fx-font-weight: bold; -fx-text-fill: #555;"/>
-                            <TextField fx:id="txtGestore" promptText="Es. Università Sapienza (Lascia vuoto se sconosciuto)" style="-fx-background-radius: 5;"/>
+                            <Label fx:id="txtGestore" text=" Sconosciuto " style="-fx-font-weight: bold; -fx-text-fill: #555;"/>
                         </VBox>
 
                         <GridPane hgap="15" vgap="15">

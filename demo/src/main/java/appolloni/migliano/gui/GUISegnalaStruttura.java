@@ -23,7 +23,7 @@ public class GUISegnalaStruttura {
     @FXML private TextField txtNome;
     @FXML private TextField txtCitta;
     @FXML private TextField txtIndirizzo;
-    @FXML private TextField txtGestore;
+    //@FXML private TextField txtGestore;
     @FXML private TextField txtOrario;
     @FXML private ComboBox<String> comboTipoAttivita;
     @FXML private ComboBox<String> comboTipo;
@@ -58,11 +58,6 @@ public class GUISegnalaStruttura {
                 return;
             }
 
-            String nomeGestore = txtGestore.getText().trim();
-            if (nomeGestore.isEmpty()) {
-                nomeGestore = "Sconosciuto"; 
-            }
-
             BeanStruttura struttura = new BeanStruttura(
                 tipo, 
                 txtNome.getText().trim(), 
@@ -73,7 +68,7 @@ public class GUISegnalaStruttura {
             );
 
             struttura.setOrario(txtOrario.getText().trim());
-            struttura.setGestore(nomeGestore);
+            struttura.setGestore("Sconosciuto");
             struttura.setTipoAttivita(tipoAtt);
             
             controllerApp.creaStruttura(studenteLoggato, struttura); 
