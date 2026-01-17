@@ -55,7 +55,7 @@ public class Launcher {
         DBConnection.getInstance().getConnection(); 
         logger.info("Connessione al Database stabilita.");
     }
-    }
+    
 
 
     private static void chiudiConnessione() {
