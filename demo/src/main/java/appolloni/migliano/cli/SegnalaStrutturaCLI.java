@@ -115,7 +115,7 @@ private boolean validaFormatoEIntervallo(String input) {
     }
 
     String[] parti = input.split("-");
-    // Controllo sicurezza array
+    // Controllo sicurezza array (richiesto da Sonar)
     if (parti.length < 2) return false;
 
     String[] inizio = parti[0].split(":");
