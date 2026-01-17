@@ -2,7 +2,6 @@ package appolloni.migliano;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.fail;
 import java.util.List;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import appolloni.migliano.bean.BeanGruppo;
@@ -33,11 +32,6 @@ import appolloni.migliano.controller.ControllerGestioneUtente;
 
     }
 
-    @AfterEach
-
-    void clean() throws Exception{
-
-    }
 
     @Test
     void testCreaGruppo(){

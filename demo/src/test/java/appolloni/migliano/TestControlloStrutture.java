@@ -5,9 +5,6 @@ import appolloni.migliano.bean.BeanUtenti;
 import appolloni.migliano.controller.ControllerGestioneStrutture;
 import appolloni.migliano.controller.ControllerGestioneUtente;
 import static org.junit.jupiter.api.Assertions.*;
-
-
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -46,16 +43,11 @@ import org.junit.jupiter.api.Test;
     }
 
 
-    @AfterEach
-    void annullaOp() throws Exception{
-
-
-    }
+  
 
     @Test
     void testCreaStruttura(){
         try{
-            //beanStruttura.setName("Pippo");
             controllerGestioneStrutture.creaStruttura(beanUtenti, beanStruttura);
             BeanStruttura check = controllerGestioneStrutture.visualizzaStrutturaHost(beanStruttura.getGestore());
             assertEquals(beanStruttura.getName(), check.getName(),"Il nome dovrebbe essere uguale");

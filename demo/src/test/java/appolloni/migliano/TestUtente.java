@@ -4,8 +4,6 @@ import appolloni.migliano.bean.BeanUtenti;
 import appolloni.migliano.controller.ControllerGestioneUtente;
 import static org.junit.jupiter.api.Assertions.*;
 
-
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -18,17 +16,13 @@ import org.junit.jupiter.api.Test;
    
 
     @BeforeEach
-    void setup() throws Exception{
+    void setup(){
         Configurazione.setTipoPersistenza("DEMO");
         controllerGestioneUtente = new ControllerGestioneUtente();
     }
 
 
-    @AfterEach
-    void annullaOp() throws Exception{
-
-
-    }
+  
 
     @Test
     void testCreaStruttura(){
