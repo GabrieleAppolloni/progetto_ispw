@@ -113,9 +113,9 @@ public class CreazioneGUIStrutture {
 
               if (cercaOrfana(nome)) {
            
-             controllerGestioneStrutture.rivendicaStruttura(beanStruttura, gestore);
+              controllerGestioneStrutture.rivendicaStruttura(beanStruttura, gestore);
              } else {
-             salvaStruttura(beanStruttura);
+              salvaStruttura(beanStruttura);
              }
              pulisci(); 
              lblRisultato.setText("Registrazione Effettuata con Successo!");
@@ -147,7 +147,7 @@ public class CreazioneGUIStrutture {
      }
 
 
-    private void salvaStruttura(BeanStruttura beanStruttura) throws CampiVuotiException, SQLException, EntitaNonTrovata, IOException{
+    private void salvaStruttura(BeanStruttura beanStruttura) throws CampiVuotiException, SQLException, EntitaNonTrovata, IOException, IllegalArgumentException{
         controllerGestioneStrutture.creaStruttura(beanCurr,beanStruttura);
     }
 

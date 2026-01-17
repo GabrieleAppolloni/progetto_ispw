@@ -75,7 +75,7 @@
                                     <HBox spacing="15" GridPane.rowIndex="4" GridPane.columnIndex="1">
                                         <Label text="WiFi: " textFill="#777"/><Label fx:id="lblWifi" text="-" style="-fx-font-weight: bold;"/>
                                         <Label text="|" textFill="#ccc"/>
-                                        <Label text="Bar: " textFill="#777"/><Label fx:id="lblRistorazione" text="-" style="-fx-font-weight: bold;"/>
+                                        <Label text="Cucina: " textFill="#777"/><Label fx:id="lblRistorazione" text="-" style="-fx-font-weight: bold;"/>
                                     </HBox>
                                 </GridPane>
                             </VBox>

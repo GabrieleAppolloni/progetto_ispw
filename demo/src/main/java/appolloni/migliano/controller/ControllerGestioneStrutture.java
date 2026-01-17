@@ -69,6 +69,7 @@ public class ControllerGestioneStrutture {
 
 
 
+    //recupera la struttura i dati per una struttura con host 
     public BeanStruttura visualizzaStrutturaHost(String emailHost) throws SQLException, IOException, IllegalArgumentException {
         if(emailHost == null ){
             throw new IllegalArgumentException("Host non vaido");
@@ -92,6 +93,7 @@ public class ControllerGestioneStrutture {
     
     }
 
+    // aggiorna dati per host 
     public void aggiornaStruttura(BeanStruttura struttura, String vecchionNome) throws IOException, SQLException, CampiVuotiException{
         if(struttura.getCitta().isEmpty() || struttura.getGestore().isEmpty() || struttura.getIndirizzo().isEmpty()|| struttura.getName().isEmpty()|| struttura.getOrario().isEmpty()||struttura.getTipoAttivita().isEmpty()){
             throw new CampiVuotiException("Dati mancanti");
@@ -104,6 +106,7 @@ public class ControllerGestioneStrutture {
     
   }
 
+   // ricerca struttura con filtri
   public List<BeanStruttura> cercaStrutture(String nome, String citta, String tipo) throws IOException, SQLException {
     
         if(nome != null && nome.isEmpty()) {nome = null;}
@@ -126,11 +129,12 @@ public class ControllerGestioneStrutture {
         return listaBeans;
   }
 
+  // ricerca struttura senza host 
   public boolean esistenzaStruttura(String nomeStruttura) throws SQLException, IOException {
     return daoStrutture.cercaStruttura(nomeStruttura, GESTOREDEFAULT) != null;
   }
 
-
+// rivendica struttura per host
 public void rivendicaStruttura(BeanStruttura beanDatiNuovi, String emailHost) throws IOException, SQLException {
     
     Struttura strutturaAggiornata = FactoryStrutture.creazioneStrutture(
@@ -151,6 +155,7 @@ public void rivendicaStruttura(BeanStruttura beanDatiNuovi, String emailHost) th
     daoStrutture.aggiornaHost(strutturaAggiornata, GESTOREDEFAULT); 
   }
     
+//funzione ausiliaria per check esistenza struttura 
  private boolean checkStruttura(String nome, String citta) throws SQLException, IOException{
   List<Struttura> strutture = daoStrutture.ricercaStruttureConFiltri(nome, citta, null);
    for(Struttura s : strutture){
