@@ -49,6 +49,7 @@ public class GUIhostMenu {
     @FXML private Label lblGestore;
     
 
+    private static final String ERRORE = "ERRORE GENERICO";
     private BeanUtenti beanUtente;
     private ControllerGestioneStrutture controllerStruttura;
     private ControllerRecensioni controllerRecensioni = new ControllerRecensioni();
@@ -104,7 +105,7 @@ public class GUIhostMenu {
         }
 
         } catch (Exception e) {
-           HelperErrori.errore("Errore Generico:", e.getMessage());
+           HelperErrori.errore(ERRORE, e.getMessage());
         }
     }
     
@@ -178,7 +179,7 @@ public class GUIhostMenu {
             }catch(IOException | SQLException e){
                 HelperErrori.errore("Errore salvataggio:", e.getMessage());
             } catch (Exception e) {
-                HelperErrori.errore("Errore Generico:", e.getMessage());
+                HelperErrori.errore(ERRORE, e.getMessage());
                
             }
         }
@@ -214,7 +215,7 @@ public class GUIhostMenu {
         caricaInformazioni(); 
 
     } catch (Exception e) {
-        HelperErrori.errore("Errore Generico:", e.getMessage());
+        HelperErrori.errore(ERRORE, e.getMessage());
     }
   }
 

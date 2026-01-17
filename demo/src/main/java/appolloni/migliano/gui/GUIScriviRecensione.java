@@ -12,7 +12,6 @@ import appolloni.migliano.bean.BeanRecensioni;
 import appolloni.migliano.bean.BeanStruttura;
 import appolloni.migliano.bean.BeanUtenti;
 import appolloni.migliano.controller.ControllerRecensioni;
-import appolloni.migliano.exception.CampiVuotiException;
 import appolloni.migliano.exception.CreazioneFallita;
 
 
@@ -52,13 +51,10 @@ public class GUIScriviRecensione {
 
             chiudiFinestra(event);
 
-        }catch(CampiVuotiException e){
-            lblErrore.setText(e.getMessage());
-
         }catch(CreazioneFallita e){
              HelperErrori.errore("Errore creazione recensione:", e.getMessage());
 
-        } catch (Exception e) {
+        } catch ( Exception e) {
             lblErrore.setText(e.getMessage());
         }
     }
