@@ -116,7 +116,7 @@ public class GUIdettagliStruttura {
         }catch(IOException e){
           HelperErrori.errore("Errore salvataggio:", e.getMessage());
         } catch (Exception e) {
-            e.printStackTrace();
+            
             listRecensioni.getItems().add("Errore caricamento recensioni.");
         }
     }

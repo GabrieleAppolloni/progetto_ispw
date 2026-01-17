@@ -166,7 +166,6 @@ public class CreazioneGUIStrutture {
             
     
         } catch (Exception e) {
-            e.printStackTrace();
             lblRisultato.setText("errore, impossibile tornare indietro");
         }
 

@@ -111,7 +111,7 @@ public class GUICreazioneGruppo {
             HelperErrori.errore("Errore creazione gruppo:", e.getMessage());
 
         } catch(Exception e){
-            e.printStackTrace();
+            
             lbRisultato.setText("Errore creazione: " + e.getMessage());
             lbRisultato.setStyle(RED);
         }

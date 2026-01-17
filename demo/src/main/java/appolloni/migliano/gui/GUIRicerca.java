@@ -213,7 +213,7 @@ public class GUIRicerca {
                stage.getScene().setRoot(root); 
 
               } catch (IOException ex) {
-                 ex.printStackTrace();
+                 HelperErrori.errore("Errore Generico:", ex.getMessage());
               }
             });
     

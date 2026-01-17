@@ -13,6 +13,7 @@ import appolloni.migliano.bean.BeanUtenti;
 import java.io.IOException;
 import java.sql.SQLException;
 
+import appolloni.migliano.HelperErrori;
 import appolloni.migliano.bean.BeanStruttura;
 import appolloni.migliano.controller.ControllerGestioneStrutture;
 import appolloni.migliano.exception.CampiVuotiException;
@@ -112,7 +113,7 @@ public class GUISegnalaStruttura {
             stage.getScene().setRoot(root); 
 
         } catch (Exception e) {
-            e.printStackTrace();
+            HelperErrori.errore("Errore Generico:", e.getMessage());
         }
     }
 }

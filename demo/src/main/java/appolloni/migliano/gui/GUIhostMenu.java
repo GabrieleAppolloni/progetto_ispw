@@ -178,7 +178,7 @@ public class GUIhostMenu {
             }catch(IOException | SQLException e){
                 HelperErrori.errore("Errore salvataggio:", e.getMessage());
             } catch (Exception e) {
-                e.printStackTrace();
+                HelperErrori.errore("Errore Generico:", e.getMessage());
                
             }
         }
@@ -214,7 +214,7 @@ public class GUIhostMenu {
         caricaInformazioni(); 
 
     } catch (Exception e) {
-        e.printStackTrace();
+        HelperErrori.errore("Errore Generico:", e.getMessage());
     }
   }
 

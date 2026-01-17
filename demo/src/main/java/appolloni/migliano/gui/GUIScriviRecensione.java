@@ -59,7 +59,6 @@ public class GUIScriviRecensione {
              HelperErrori.errore("Errore creazione recensione:", e.getMessage());
 
         } catch (Exception e) {
-            e.printStackTrace();
             lblErrore.setText(e.getMessage());
         }
     }

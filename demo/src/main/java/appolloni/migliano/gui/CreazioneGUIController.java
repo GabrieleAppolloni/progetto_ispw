@@ -140,7 +140,7 @@ public class CreazioneGUIController {
             HelperErrori.errore("Errore creazione utente", e.getMessage());
         } catch (Exception e) {
             HelperErrori.errore("Errore Generico:", e.getMessage());
-            e.printStackTrace();
+            
         }
     }
 

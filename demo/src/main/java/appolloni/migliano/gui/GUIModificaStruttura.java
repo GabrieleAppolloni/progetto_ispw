@@ -63,10 +63,10 @@ public class GUIModificaStruttura {
         }catch(IOException e){
           HelperErrori.errore("Errore salvataggio:", e.getMessage());
         }catch(SQLException e ){
-            e.printStackTrace();
+            
             HelperErrori.errore("Errore caricamento dati:", e.getMessage());
         } catch (Exception e) {
-            e.printStackTrace();
+            
             HelperErrori.errore("Errore:", e.getMessage());
         }
     }

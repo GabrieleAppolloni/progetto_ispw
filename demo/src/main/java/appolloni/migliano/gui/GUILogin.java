@@ -70,10 +70,8 @@ public class GUILogin {
             lblRisultato.setText("Formato email non corretto.");
             lblRisultato.setStyle(RED);
         }catch(Exception e){
-            lblRisultato.setText("Errore.");
+            lblRisultato.setText("Errore generico.");
             lblRisultato.setStyle(RED);
-
-            e.printStackTrace();
         }
 
         txtEmail.clear();

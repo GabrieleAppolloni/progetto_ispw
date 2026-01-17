@@ -87,7 +87,7 @@ public class GUImainMenu {
                 containerGruppi.getChildren().add(new Label("Non sei iscritto a nessun gruppo."));
             }
         } catch(Exception e){
-            e.printStackTrace();
+           HelperErrori.errore("Errore Generico:", e.getMessage());
         }
     }
 
@@ -103,7 +103,7 @@ public class GUImainMenu {
             stage.getScene().setRoot(root); 
 
         } catch (IOException e) {
-            e.printStackTrace();
+            HelperErrori.errore("Errore Generico:", e.getMessage());
         }
     }
 

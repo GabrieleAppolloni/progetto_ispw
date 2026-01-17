@@ -129,7 +129,7 @@ public class GUIChat {
             stage.getScene().setRoot(root); 
 
         } catch (IOException e) {
-            e.printStackTrace();
+         
             lbInvio.setText("Errore navigazione.");
         }
     }
