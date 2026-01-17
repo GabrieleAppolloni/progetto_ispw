@@ -1,5 +1,16 @@
 package appolloni.migliano;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.util.List;
+
+import org.junit.jupiter.api.AfterEach;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
 import appolloni.migliano.bean.BeanRecensioni;
 import appolloni.migliano.bean.BeanStruttura;
 import appolloni.migliano.bean.BeanUtenti;
@@ -7,15 +18,6 @@ import appolloni.migliano.controller.ControllerGestioneStrutture;
 import appolloni.migliano.controller.ControllerGestioneUtente;
 import appolloni.migliano.controller.ControllerRecensioni;
 import appolloni.migliano.exception.CampiVuotiException;
-import static org.junit.jupiter.api.Assertions.*;
-//Marco Migliano 0308634
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.util.List;
-
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 
 class TestRecensioni {
     private ControllerRecensioni controllerRecensioni;
@@ -39,7 +41,7 @@ class TestRecensioni {
         beanHost.setNomeAttivita("StrutturaTest");
         
         // 2. Creazione Studente
-        beanGuest = new BeanUtenti("Guest", "Recensore", "Test", "guest@test.it", "password", "Test");
+        beanGuest = new BeanUtenti("Studente", "Recensore", "Test", "guest@test.it", "password", "Test");
 
         try {
             controllerUtente.creazioneUtente(beanHost);
@@ -52,6 +54,7 @@ class TestRecensioni {
         beanStruttura = new BeanStruttura("Pubblica", "StrutturaTest", "Roma", "Via Test", false, false);
         beanStruttura.setGestore(beanHost.getEmail());
         beanStruttura.setTipoAttivita(beanHost.getTipoAttivita());
+        beanStruttura.setOrario("09:00-10:00");
         
         try {
             controllerStrutture.creaStruttura(beanHost, beanStruttura);
