@@ -1,23 +1,19 @@
+package appolloni.migliano;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.fail;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.util.List;
-
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import appolloni.migliano.DBConnection;
 import appolloni.migliano.bean.BeanGruppo;
 import appolloni.migliano.bean.BeanUtenti;
 import appolloni.migliano.controller.ControllerGestioneGruppo;
 import appolloni.migliano.controller.ControllerGestioneUtente;
 
 //Appolloni Gabriele 0307344
-
-public class TestRicercaGruppo {
+ class TestRicercaGruppo {
 
     private ControllerGestioneGruppo controllerGestioneGruppo;
     private ControllerGestioneUtente controllerGestioneUtente;

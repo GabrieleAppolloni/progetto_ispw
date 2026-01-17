@@ -1,4 +1,5 @@
-import appolloni.migliano.DBConnection;
+package appolloni.migliano;
+
 import appolloni.migliano.bean.BeanStruttura;
 import appolloni.migliano.bean.BeanUtenti;
 import appolloni.migliano.controller.ControllerGestioneStrutture;
@@ -13,7 +14,7 @@ import org.junit.jupiter.api.Test;
 
 // Appolloni Gabriele 0307344
 
-public class TestControlloStrutture {
+ class TestControlloStrutture {
     private ControllerGestioneStrutture controllerGestioneStrutture;
     private ControllerGestioneUtente controllerGestioneUtente;
     private BeanStruttura beanStruttura;
