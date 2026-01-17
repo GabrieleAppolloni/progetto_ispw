@@ -1,17 +1,15 @@
-package appolloni.migliano;
+package appolloni.migliano.cli;
 
-import appolloni.migliano.cli.HomeCLI;
+import appolloni.migliano.DBConnection;
+
 
 public class MainCLI {
     public static void main(String[] args) {
         System.out.println("Avvio applicazione in modalità CLI...");
 
         try {
-            // 1. Inizializza la connessione al DB (fondamentale!)
-            // Assicurati che il tuo metodo si chiami così
-            DBConnection.getConnection(); 
-
-            // 2. Lancia la prima schermata
+            
+            DBConnection.getInstance().getConnection(); 
             HomeCLI home = new HomeCLI();
             home.start();
 
@@ -19,8 +17,7 @@ public class MainCLI {
             System.err.println("Errore fatale durante l'avvio: " + e.getMessage());
             e.printStackTrace();
         } finally {
-            // 3. Chiudi la connessione alla chiusura dell'app
-            DBConnection.closeConnection();
+            DBConnection.getInstance().closeConnection();
             System.out.println("Connessione DB chiusa. Applicazione terminata.");
         }
     }
