@@ -68,9 +68,9 @@
                                 style="-fx-background-color: transparent; -fx-text-fill: #007bff; -fx-border-color: #007bff; -fx-border-radius: 5; -fx-cursor: hand;"/>
 
                         <VBox fx:id="boxPassword" spacing="10" visible="false" managed="false" 
-                              style="-fx-background-color: #fff3cd; -fx-padding: 15; -fx-border-color: #ffeeba; -fx-border-radius: 5;">
+                              style="-fx-background-color: #d4d3d2; -fx-padding: 15; -fx-border-color: #d4d3d2; -fx-border-radius: 5;">
                             
-                            <Label text="Sicurezza Account" style="-fx-font-weight: bold; -fx-text-fill: #856404;"/>
+                            <Label text="Sicurezza Account" style="-fx-font-weight: bold; -fx-text-fill: #0e0d0d;"/>
 
                             <VBox spacing="5">
                                 <Label text="Vecchia Password"/>
@@ -79,7 +79,7 @@
 
                             <VBox spacing="5">
                                 <Label text="Nuova Password"/>
-                                <PasswordField fx:id="txtNewPass" promptText="Min. 8 caratteri" style="-fx-background-color: white; -fx-border-color: #ccc; -fx-border-radius: 3;"/>
+                                <PasswordField fx:id="txtNewPass" promptText="Inserisci la nuova password" style="-fx-background-color: white; -fx-border-color: #ccc; -fx-border-radius: 3;"/>
                             </VBox>
 
                             <VBox spacing="5">

@@ -35,6 +35,7 @@ public class GUICreazioneGruppo {
     private static final String RED = "-fx-text-fill: red;";
     public void initData(BeanUtenti utente){
         this.bean = utente;
+        comboLuogo.setEditable(true);
         comboLuogo.setOnShowing(event -> caricaStruttureDisponibili());
     }
 
@@ -76,8 +77,11 @@ public class GUICreazioneGruppo {
         String nomeGruppo = txtNome.getText().trim();
         String materia = txtMateria.getText().trim();
         String citta = txtCitta.getText().trim();
-        String luogo = comboLuogo.getValue();
 
+
+        String rawLuogo = comboLuogo.getValue();
+        
+        String luogo = (rawLuogo == null || rawLuogo.trim().isEmpty()) ? "Sconosciuto" : rawLuogo.trim();
         try {
             BeanGruppo beanGruppo = new BeanGruppo(nomeGruppo, materia, bean.getEmail(), luogo, citta);
             controllerCreazioneGruppo.creaGruppo(bean, beanGruppo);
@@ -97,7 +101,7 @@ public class GUICreazioneGruppo {
             stage.getScene().setRoot(root); 
 
         } catch(SQLException e){
-           HelperErrori.errore("Errore creazione gruppo:", "Grupo esistente");
+           HelperErrori.errore("Errore creazione gruppo:", "Gruppo esistente");
         }catch(CampiVuotiException e){
             lbRisultato.setText(e.getMessage());
             lbRisultato.setStyle(RED);

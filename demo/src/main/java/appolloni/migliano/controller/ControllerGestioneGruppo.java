@@ -33,14 +33,12 @@ public class ControllerGestioneGruppo {
     public void creaGruppo(BeanUtenti bean, BeanGruppo beanGruppo) throws SQLException, CampiVuotiException {
 
         if(!bean.getTipo().equals("Studente")){
-             throw new SQLException("L'utente non ha i permessi");
+             throw new IllegalArgumentException("L'utente non ha i permessi");
         }
         
-         if (beanGruppo.getNome() == null || beanGruppo.getNome().isEmpty()) {
-            throw new SQLException("Nome gruppo obbligatorio.");
-         }
-
-         if(beanGruppo.getAdmin().isEmpty() || beanGruppo.getCitta().isEmpty() || beanGruppo.getLuogo().isEmpty() || beanGruppo.getMateria().isEmpty()){
+         if(beanGruppo.getLuogo().isEmpty()){beanGruppo.setLuogo("Sconosciuto");}
+    
+         if(beanGruppo.getAdmin().isEmpty() || beanGruppo.getCitta().isEmpty() || beanGruppo.getLuogo().isEmpty() || beanGruppo.getMateria().isEmpty()|| beanGruppo.getNome().isEmpty()){
 
             throw new CampiVuotiException("Dati mancanti, inserire tutti i campi");
          }
