@@ -67,7 +67,6 @@ public class GUICreazioneGruppo {
             HelperErrori.errore("Errore", exception.getMessage());
 
         } catch (Exception e) {
-            e.printStackTrace();
             lbRisultato.setText(e.getMessage());
             lbRisultato.setStyle(RED);
         }

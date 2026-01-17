@@ -104,7 +104,7 @@ public class GUIhostMenu {
         }
 
         } catch (Exception e) {
-            e.printStackTrace();
+           HelperErrori.errore("Errore Generico:", e.getMessage());
         }
     }
     

@@ -95,7 +95,6 @@ public class GUIRicerca {
                 cercaStrutture();
             }
         } catch (Exception e) {
-            e.printStackTrace();
             lblErrore.setText("Errore: " + e.getMessage());
         }
     }
@@ -145,7 +144,6 @@ public class GUIRicerca {
                 } catch (Exception e) {
                     Alert alert = new Alert(Alert.AlertType.ERROR, "Errore: " + "Sei già parte del Gruppo!");
                     alert.show();
-                    e.printStackTrace();
                 }
             });
             

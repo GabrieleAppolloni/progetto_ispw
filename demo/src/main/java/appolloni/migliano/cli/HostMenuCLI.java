@@ -67,7 +67,7 @@ public class HostMenuCLI {
 
             } catch (Exception e) {
                  System.out.println("Errore nel caricamento dati"); //NOSONAR
-                 e.printStackTrace();
+                 
                 back = true;
             }
         }
