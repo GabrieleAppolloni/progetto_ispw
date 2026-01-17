@@ -7,6 +7,7 @@ import appolloni.migliano.HelperErrori;
 import appolloni.migliano.bean.BeanUtenti;
 import appolloni.migliano.controller.ControllerGestioneUtente;
 import appolloni.migliano.exception.CampiVuotiException;
+import appolloni.migliano.exception.CreazioneFallita;
 import appolloni.migliano.exception.EmailNonValidaException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -134,7 +135,9 @@ public class CreazioneGUIController {
 
         }catch(SQLException e){
             HelperErrori.errore("Errore caricamento dati", e.getMessage());
- 
+
+        }catch(CreazioneFallita e){
+            HelperErrori.errore("Errore creazione utente", e.getMessage());
         } catch (Exception e) {
             HelperErrori.errore("Errore Generico:", e.getMessage());
             e.printStackTrace();

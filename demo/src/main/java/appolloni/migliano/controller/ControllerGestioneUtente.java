@@ -1,22 +1,23 @@
 package appolloni.migliano.controller;
 
-import java.io.IOException;
-import java.sql.SQLException;
 
+import java.sql.SQLException;
 import appolloni.migliano.bean.BeanUtenti;
 import appolloni.migliano.factory.FactoryDAO;
 import appolloni.migliano.factory.FactoryUtenti;
 import appolloni.migliano.interfacce.InterfacciaUtente;
 import appolloni.migliano.entity.Utente;
 import appolloni.migliano.exception.CampiVuotiException;
+import appolloni.migliano.exception.CreazioneFallita;
 import appolloni.migliano.exception.EmailNonValidaException;
+
 
 public class ControllerGestioneUtente{
 
     private InterfacciaUtente daoUtente = FactoryDAO.getDaoUtente();
     
 
-    public void creazioneUtente(BeanUtenti bean) throws IllegalArgumentException, CampiVuotiException, EmailNonValidaException,IOException, SQLException{
+    public void creazioneUtente(BeanUtenti bean) throws IllegalArgumentException, CampiVuotiException, EmailNonValidaException,CreazioneFallita, SQLException{
         String type = bean.getTipo(); 
         String nome = bean.getName();
         String cognome = bean.getCognome(); 
@@ -41,7 +42,7 @@ public class ControllerGestioneUtente{
 
         
           if(utente == null){
-            throw new IOException("Creazione fallita");
+            throw new CreazioneFallita("Creazione fallita");
          }
 
 

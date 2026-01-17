@@ -5,10 +5,8 @@ import appolloni.migliano.HelperErrori;
 import appolloni.migliano.bean.BeanStruttura;
 import appolloni.migliano.bean.BeanUtenti;
 import appolloni.migliano.controller.ControllerGestioneStrutture;
-import appolloni.migliano.controller.ControllerGestioneUtente;
 import appolloni.migliano.exception.CampiVuotiException;
-import appolloni.migliano.exception.EmailNonValidaException;
-import appolloni.migliano.exception.EntitaNonTrovata;
+import appolloni.migliano.exception.CreazioneFallita;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -30,6 +28,8 @@ import java.sql.SQLException;
 
 
 
+
+
 public class CreazioneGUIStrutture {
     @FXML private ComboBox<String> comboTipo;
     @FXML private Label lblTipoAttivita;
@@ -45,7 +45,7 @@ public class CreazioneGUIStrutture {
     @FXML private Label lblNomeFile;
     private File fileImmagineSelezionato = null;
     private BeanUtenti beanCurr;
-    private ControllerGestioneUtente controllerGestioneUtente = new ControllerGestioneUtente();
+
 
 
     private static final String COLORE = "-fx-text-fill: red;";
@@ -102,9 +102,6 @@ public class CreazioneGUIStrutture {
             if (fileImmagineSelezionato != null) {
                 nomeFotoFinale = salvaFileSuDisco(fileImmagineSelezionato);
             }
-           
-         
-              salvaUtente(beanCurr);
               beanStruttura = new BeanStruttura(tipo, nome, citta, indirizzo, wifi, ristorazione);
               beanStruttura.setOrario(orario);
               beanStruttura.setTipoAttivita(tipoAttivita);
@@ -115,7 +112,7 @@ public class CreazioneGUIStrutture {
            
               controllerGestioneStrutture.rivendicaStruttura(beanStruttura, gestore);
              } else {
-              salvaStruttura(beanStruttura);
+              controllerGestioneStrutture.creaStrutturaHost(beanCurr, beanStruttura);
              }
              pulisci(); 
              lblRisultato.setText("Registrazione Effettuata con Successo!");
@@ -139,6 +136,8 @@ public class CreazioneGUIStrutture {
 
         }catch(IOException e){
             HelperErrori.errore("Errore salvataggio:", e.getMessage());
+        }catch(CreazioneFallita e){
+            HelperErrori.errore("Errore creazione struttura", e.getMessage());
         }catch(Exception e){
             lblRisultato.setText("Errore: "+ e.getMessage());
             lblRisultato.setStyle(COLORE);
@@ -147,13 +146,7 @@ public class CreazioneGUIStrutture {
      }
 
 
-    private void salvaStruttura(BeanStruttura beanStruttura) throws CampiVuotiException, SQLException, EntitaNonTrovata, IOException, IllegalArgumentException{
-        controllerGestioneStrutture.creaStruttura(beanCurr,beanStruttura);
-    }
 
-    private void salvaUtente(BeanUtenti bean) throws IOException, CampiVuotiException, SQLException, EmailNonValidaException{
-        controllerGestioneUtente.creazioneUtente(bean);
-    }
 
     private boolean cercaOrfana(String nomeStruttura) throws IOException, SQLException{
         return controllerGestioneStrutture.esistenzaStruttura(nomeStruttura);

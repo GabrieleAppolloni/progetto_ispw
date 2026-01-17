@@ -9,6 +9,7 @@ import appolloni.migliano.bean.BeanGruppo;
 import appolloni.migliano.bean.BeanUtenti;
 import appolloni.migliano.controller.ControllerGestioneGruppo;
 import appolloni.migliano.exception.CampiVuotiException;
+import appolloni.migliano.exception.CreazioneFallita;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -105,6 +106,9 @@ public class GUICreazioneGruppo {
         }catch(CampiVuotiException e){
             lbRisultato.setText(e.getMessage());
             lbRisultato.setStyle(RED);
+
+        }catch(CreazioneFallita e){
+            HelperErrori.errore("Errore creazione gruppo:", e.getMessage());
 
         } catch(Exception e){
             e.printStackTrace();

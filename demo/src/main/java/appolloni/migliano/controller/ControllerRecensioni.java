@@ -6,6 +6,7 @@ import appolloni.migliano.entity.Recensione;
 import appolloni.migliano.entity.Struttura;
 import appolloni.migliano.entity.Utente;
 import appolloni.migliano.exception.CampiVuotiException;
+import appolloni.migliano.exception.CreazioneFallita;
 import appolloni.migliano.factory.FactoryDAO;
 import appolloni.migliano.factory.FactoryRecensioni;
 import appolloni.migliano.interfacce.InterfacciaDaoRecensioni;
@@ -22,7 +23,7 @@ public class ControllerRecensioni {
     private InterfacciaUtente daoUtente = FactoryDAO.getDaoUtente();
     private InterfacciaDaoStruttura daoStrutture = FactoryDAO.getDAOStrutture();
 
-    public void inserisciRecensione(BeanRecensioni beanRecensione) throws SQLException,IOException, CampiVuotiException {
+    public void inserisciRecensione(BeanRecensioni beanRecensione) throws SQLException,IOException, CampiVuotiException, CreazioneFallita {
 
         Utente user = daoUtente.cercaUtente(beanRecensione.getAutore());
         Struttura struttura = daoStrutture.cercaStruttura(beanRecensione.getIdStruttura(),beanRecensione.getGestoreStruttura());
@@ -43,6 +44,7 @@ public class ControllerRecensioni {
 
 
         Recensione recensione = FactoryRecensioni.creazioneRecensione(user, struttura, testo, voto);
+        if(recensione == null){ throw new CreazioneFallita("Errore creazione recensiome");}
 
         daoRecensioni.salvaRecensione(recensione);
       

@@ -3,7 +3,8 @@ package appolloni.migliano.controller;
 
 import appolloni.migliano.entity.Struttura;
 import appolloni.migliano.exception.CampiVuotiException;
-import appolloni.migliano.exception.EntitaNonTrovata;
+import appolloni.migliano.exception.CreazioneFallita;
+import appolloni.migliano.exception.EmailNonValidaException;
 import appolloni.migliano.factory.FactoryDAO;
 import appolloni.migliano.factory.FactoryStrutture;
 import appolloni.migliano.interfacce.InterfacciaDaoStruttura;
@@ -24,9 +25,10 @@ public class ControllerGestioneStrutture {
   
    private InterfacciaDaoStruttura daoStrutture = FactoryDAO.getDAOStrutture();
    private static final String GESTOREDEFAULT = "system_no_host";
+   private ControllerGestioneUtente controllerGestioneUtente;
    
 
-    public void creaStruttura(BeanUtenti bean, BeanStruttura beanStr) throws CampiVuotiException,SQLException,IOException, EntitaNonTrovata, IllegalArgumentException{
+    public void creaStruttura(BeanUtenti bean, BeanStruttura beanStr) throws CampiVuotiException,SQLException,IOException, CreazioneFallita, IllegalArgumentException{
 
       String type = beanStr.getTipo();
       String nomeStruttura = beanStr.getName();
@@ -48,7 +50,7 @@ public class ControllerGestioneStrutture {
         Struttura struttura = FactoryStrutture.creazioneStrutture(type, nomeStruttura, citta, indirizzo,wifi, ristorazione);
         
        if (struttura == null) {
-             throw new EntitaNonTrovata("Creazione struttura fallita.");
+             throw new CreazioneFallita("Creazione struttura fallita.");
        }
 
        struttura.setGestore(responsabile);
@@ -64,6 +66,15 @@ public class ControllerGestioneStrutture {
         emailHost = bean.getEmail();
       }
       daoStrutture.salvaStruttura(struttura,emailHost);
+
+    }
+
+    public void creaStrutturaHost(BeanUtenti beanUtenti,BeanStruttura beanStruttura)throws CampiVuotiException, CreazioneFallita, EmailNonValidaException, SQLException, IllegalArgumentException, IOException{
+
+      controllerGestioneUtente = new ControllerGestioneUtente();
+      controllerGestioneUtente.creazioneUtente(beanUtenti);
+
+      creaStruttura(beanUtenti, beanStruttura);
 
     }
 
