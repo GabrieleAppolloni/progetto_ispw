@@ -49,8 +49,7 @@ import org.junit.jupiter.api.Test;
     @AfterEach
     void annullaOp() throws Exception{
         Connection conn;
-         conn = DBConnection.getConnection();
-      
+         conn = DBConnection.getInstance().getConnection();    
 
          try(PreparedStatement ps = conn.prepareStatement("DELETE FROM strutture WHERE nome = ? AND gestore = ?")){
             ps.setString(1, beanStruttura.getName());

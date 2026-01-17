@@ -79,7 +79,7 @@ public class FactoryDAO {
 
     private static Connection getConn() {
         try {
-            return DBConnection.getConnection();
+            return DBConnection.getInstance().getConnection();
         } catch (SQLException e) {
           
             throw new IllegalAccessError(ERRMSG);

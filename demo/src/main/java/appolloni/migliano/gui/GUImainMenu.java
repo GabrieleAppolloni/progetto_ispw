@@ -128,7 +128,7 @@ public class GUImainMenu {
     }
 
     public void clickLogout(ActionEvent event) throws IOException {
-        DBConnection.closeConnection();
+        DBConnection.getInstance().closeConnection();
         cambiaPagina(event, "/home.fxml", null);
     }
 

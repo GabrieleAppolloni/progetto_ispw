@@ -221,7 +221,7 @@ public class GUIhostMenu {
 
     @FXML
     public void clickLogout(ActionEvent event) throws IOException {
-        DBConnection.closeConnection();
+        DBConnection.getInstance().closeConnection();
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/login.fxml")); // o home.fxml
         Parent root = loader.load();
         Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();

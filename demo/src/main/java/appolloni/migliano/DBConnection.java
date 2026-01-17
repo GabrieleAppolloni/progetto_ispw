@@ -9,14 +9,27 @@ import java.util.Properties;
 
 public class DBConnection {
 
-    private static Connection conn;
+    private static DBConnection instance = null;
 
+
+    private Connection conn = null;
+
+    
     private DBConnection() {
-        throw new UnsupportedOperationException("Questa è una classe di utilità e non può essere istanziata");
+        
     }
 
-    public static Connection getConnection() throws SQLException {
-        if (conn == null || conn.isClosed()) {
+    // metodo per ottenere l'istanza 
+    public static DBConnection getInstance() {
+        if (instance == null) {
+            instance = new DBConnection();
+        }
+        return instance;
+    }
+
+  
+    public Connection getConnection() throws SQLException {
+        if (this.conn == null || this.conn.isClosed()) {
             
             Properties props = loadConfig(); 
 
@@ -25,34 +38,30 @@ public class DBConnection {
                 String user = props.getProperty("db.user");
                 String pwd = props.getProperty("db.password");
 
-                conn = DriverManager.getConnection(url, user, pwd);
+                this.conn = DriverManager.getConnection(url, user, pwd);
 
             } catch (SQLException e) {
                 throw new SQLException("Errore di connessione al Database", e);
             }
         }
-        return conn;
+        return this.conn;
     }
-    private static Properties loadConfig() throws SQLException {
+    private Properties loadConfig() throws SQLException {
         Properties props = new Properties();
-        
         try (InputStream input = DBConnection.class.getClassLoader().getResourceAsStream("config.properties")) {
-            
             if (input == null) {
                 throw new SQLException("File config.properties non trovato nelle risorse!");
             }
             props.load(input);
             return props;
-
         } catch (IOException e) {
             throw new SQLException("Errore lettura config.properties", e);
         }
     }
-
-    public static void closeConnection() {
+    public void closeConnection() {
         try {
-            if (conn != null && !conn.isClosed()) {
-                conn.close();
+            if (this.conn != null && !this.conn.isClosed()) {
+                this.conn.close();
             }
         } catch (SQLException e) {
             e.printStackTrace();

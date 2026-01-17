@@ -39,7 +39,7 @@ import appolloni.migliano.controller.ControllerGestioneUtente;
     void clean() throws Exception{
 
         Connection conn;
-         conn = DBConnection.getConnection();
+         conn = DBConnection.getInstance().getConnection();
       
 
          try(PreparedStatement ps = conn.prepareStatement("DELETE FROM gruppi WHERE nome = ? AND email_admin = ?")){

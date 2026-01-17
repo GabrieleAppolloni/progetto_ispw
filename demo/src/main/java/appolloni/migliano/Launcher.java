@@ -31,7 +31,10 @@ public class Launcher {
 
         logger.log(Level.INFO, ">>> MODALITÀ AVVIO: {0} | INTERFACCIA: {1} <<<", new Object[]{tipoPersistenza, tipoInterfaccia});
         try {
-            DBConnection.getConnection();
+            if(tipoPersistenza.equals(Configurazione.JDBC)){
+
+                connessioneDB();
+            }
             
             InterfacciaGrafica ui = FactoryUI.getInterfaccia();
             
@@ -40,7 +43,33 @@ public class Launcher {
         } catch (Exception e) {
             logger.log(Level.SEVERE, "Errore critico durante l'avvio dell'applicazione", e);
         } finally {
-            DBConnection.closeConnection();
+            if(tipoPersistenza.equals(Configurazione.JDBC)){
+             chiudiConnessione();
+         }
         }
+    }
+
+
+    private static void connessioneDB() throws Exception{
+
+        try {
+              DBConnection.getInstance().getConnection();
+              logger.info("Connessione al Database stabilita.");
+        } catch (Exception dbEx) {
+            logger.log(Level.SEVERE, "Impossibile connettersi al Database, chiusura.", dbEx);
+            throw dbEx;
+                    
+        }
+    }
+
+
+    private static void chiudiConnessione() {
+
+        try {
+            DBConnection.getInstance().closeConnection();
+             logger.info("Connessione al Database chiusa.");
+            } catch (Exception e) {
+             logger.warning("Errore durante la chiusura della connessione DB.");
+            }
     }
 }
