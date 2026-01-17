@@ -1,2 +1,2 @@
-Link Link youtube video: https://youtu.be/ScmJxP7DJL0
+Link youtube video: https://youtu.be/ScmJxP7DJL0
 Link Sonar:https://sonarcloud.io/project/overview?id=GabrieleAppolloni_Progetto-ISPW
