@@ -19,6 +19,7 @@ import appolloni.migliano.bean.BeanGruppo;
 import appolloni.migliano.bean.BeanUtenti;
 import appolloni.migliano.controller.ControllerGestioneGruppo;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.List;
 
 public class GUImainMenu {
@@ -127,7 +128,7 @@ public class GUImainMenu {
         cambiaPagina(event, "/creazioneGruppo.fxml", controller -> ((GUICreazioneGruppo) controller).initData(bean));
     }
 
-    public void clickLogout(ActionEvent event) throws IOException {
+    public void clickLogout(ActionEvent event) throws IOException, SQLException {
         DBConnection.getInstance().closeConnection();
         cambiaPagina(event, "/home.fxml", null);
     }

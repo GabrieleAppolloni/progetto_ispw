@@ -56,13 +56,10 @@ public class DBConnection {
             throw new SQLException("Errore lettura config.properties", e);
         }
     }
-    public void closeConnection() {
-        try {
+    public void closeConnection() throws SQLException {
             if (this.conn != null && !this.conn.isClosed()) {
                 this.conn.close();
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        
     }
 }

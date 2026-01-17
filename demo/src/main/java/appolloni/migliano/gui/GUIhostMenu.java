@@ -220,7 +220,7 @@ public class GUIhostMenu {
 
 
     @FXML
-    public void clickLogout(ActionEvent event) throws IOException {
+    public void clickLogout(ActionEvent event) throws IOException, SQLException {
         DBConnection.getInstance().closeConnection();
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/login.fxml")); // o home.fxml
         Parent root = loader.load();
