@@ -33,7 +33,7 @@ import org.junit.jupiter.api.Test;
     @Test
     void testCreaStruttura(){
         try{
-            beanUtenti = new BeanUtenti("Host", "Test", "Test", "test@test", "test", "Test");
+            beanUtenti = new BeanUtenti("Host", "Test", "Test", "test@test3", "test", "Test");
             beanUtenti.setTipoAttivita("Bar");
             beanUtenti.setNomeAttivita("Test");
             controllerGestioneUtente.creazioneUtente(beanUtenti);

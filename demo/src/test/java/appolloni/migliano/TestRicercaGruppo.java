@@ -26,7 +26,7 @@ import appolloni.migliano.controller.ControllerGestioneUtente;
         Configurazione.setTipoPersistenza("DEMO");
         controllerGestioneGruppo = new ControllerGestioneGruppo();
         controllerGestioneUtente = new ControllerGestioneUtente();
-        studente = new BeanUtenti("Studente", "Test", "Test", "test@test", "Test", "Test");
+        studente = new BeanUtenti("Studente", "Test", "Test", "test@test4", "Test", "Test");
         gruppo = new BeanGruppo("Test", "Test",studente.getEmail(), "Test", "Test");
 
        controllerGestioneUtente.creazioneUtente(studente);
