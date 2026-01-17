@@ -1,6 +1,7 @@
 package appolloni.migliano;
 
 import java.util.logging.Logger;
+import java.sql.SQLException;
 import java.util.logging.Level;
 import appolloni.migliano.factory.FactoryUI;
 import appolloni.migliano.interfacce.InterfacciaGrafica;
@@ -50,12 +51,12 @@ public class Launcher {
     }
 
 
-    private static void connessioneDB() throws Exception{
+    private static void connessioneDB() throws SQLException{
 
         try {
               DBConnection.getInstance().getConnection();
               logger.info("Connessione al Database stabilita.");
-        } catch (Exception dbEx) {
+        } catch (SQLException dbEx) {
             logger.log(Level.SEVERE, "Impossibile connettersi al Database, chiusura.", dbEx);
             throw dbEx;
                     

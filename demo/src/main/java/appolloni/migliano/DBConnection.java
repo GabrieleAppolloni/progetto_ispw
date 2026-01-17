@@ -10,8 +10,6 @@ import java.util.Properties;
 public class DBConnection {
 
     private static DBConnection instance = null;
-
-
     private Connection conn = null;
 
     
