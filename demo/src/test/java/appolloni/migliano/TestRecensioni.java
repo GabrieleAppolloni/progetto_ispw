@@ -1,7 +1,6 @@
 package appolloni.migliano;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
+
 import java.util.List;
 
 import org.junit.jupiter.api.AfterEach;
@@ -31,6 +30,7 @@ class TestRecensioni {
 
     @BeforeEach
     void setup() throws Exception {
+        Configurazione.setTipoPersistenza("DEMO");
         controllerRecensioni = new ControllerRecensioni();
         controllerStrutture = new ControllerGestioneStrutture();
         controllerUtente = new ControllerGestioneUtente();
@@ -74,24 +74,7 @@ class TestRecensioni {
 
     @AfterEach
     void annullaOp() throws Exception {
-        Connection conn = DBConnection.getInstance().getConnection();
-
-        try (PreparedStatement ps = conn.prepareStatement("DELETE FROM recensioni WHERE autore = ?")) {
-            ps.setString(1, beanGuest.getEmail());
-            ps.executeUpdate();
-        }
-
-        try (PreparedStatement ps = conn.prepareStatement("DELETE FROM strutture WHERE nome = ? AND gestore = ?")) {
-            ps.setString(1, beanStruttura.getName());
-            ps.setString(2, beanStruttura.getGestore());
-            ps.executeUpdate();
-        }
-
-        try (PreparedStatement ps = conn.prepareStatement("DELETE FROM utenti WHERE email = ? OR email = ?")) {
-            ps.setString(1, beanGuest.getEmail());
-            ps.setString(2, beanHost.getEmail());
-            ps.executeUpdate();
-        }
+        
     }
 
     @Test

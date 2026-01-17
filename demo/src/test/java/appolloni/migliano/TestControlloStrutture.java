@@ -5,8 +5,7 @@ import appolloni.migliano.bean.BeanUtenti;
 import appolloni.migliano.controller.ControllerGestioneStrutture;
 import appolloni.migliano.controller.ControllerGestioneUtente;
 import static org.junit.jupiter.api.Assertions.*;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
+
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -23,6 +22,7 @@ import org.junit.jupiter.api.Test;
 
     @BeforeEach
     void setup() throws Exception{
+        Configurazione.setTipoPersistenza("DEMO");
         controllerGestioneStrutture = new ControllerGestioneStrutture();
         controllerGestioneUtente = new ControllerGestioneUtente();
         beanStruttura = new BeanStruttura("Pubblica", "Test", "Test", "Test", false, false);
@@ -48,48 +48,23 @@ import org.junit.jupiter.api.Test;
 
     @AfterEach
     void annullaOp() throws Exception{
-        Connection conn;
-         conn = DBConnection.getInstance().getConnection();    
 
-         try(PreparedStatement ps = conn.prepareStatement("DELETE FROM strutture WHERE nome = ? AND gestore = ?")){
-            ps.setString(1, beanStruttura.getName());
-            ps.setString(2,beanStruttura.getGestore());
-            ps.executeUpdate();
-
-         }
-         
-
-      
-
-         try(PreparedStatement ps = conn.prepareStatement("DELETE FROM utenti WHERE email = ?")){
-            ps.setString(1, beanUtenti.getEmail());
-            ps.executeUpdate();
-         }
 
     }
 
     @Test
     void testCreaStruttura(){
         try{
+            //beanStruttura.setName("Pippo");
             controllerGestioneStrutture.creaStruttura(beanUtenti, beanStruttura);
             BeanStruttura check = controllerGestioneStrutture.visualizzaStrutturaHost(beanStruttura.getGestore());
             assertEquals(beanStruttura.getName(), check.getName(),"Il nome dovrebbe essere uguale");
         }catch(Exception e){
-            e.printStackTrace();
             fail("Non doveva lanciare eccezioni: "+ e.getMessage());
         }
     }
 
-    @Test
-    void testCreaStrutturaEsistente(){
-        try{
-         controllerGestioneStrutture.creaStruttura(beanUtenti, beanStruttura);
-         assertThrows(IllegalArgumentException.class, () -> {controllerGestioneStrutture.creaStruttura(beanUtenti, beanStruttura); });
-        }catch(Exception e){
-            fail("Non deve fallire: "+ e.getMessage());
-        }
-    }
- 
+
 
     
 

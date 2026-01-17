@@ -1,8 +1,6 @@
 package appolloni.migliano;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.fail;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.util.List;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -25,6 +23,7 @@ import appolloni.migliano.controller.ControllerGestioneUtente;
     @BeforeEach
 
     void setup() throws Exception{
+        Configurazione.setTipoPersistenza("DEMO");
         controllerGestioneGruppo = new ControllerGestioneGruppo();
         controllerGestioneUtente = new ControllerGestioneUtente();
         studente = new BeanUtenti("Studente", "Test", "Test", "test@test", "Test", "Test");
@@ -38,22 +37,6 @@ import appolloni.migliano.controller.ControllerGestioneUtente;
 
     void clean() throws Exception{
 
-        Connection conn;
-         conn = DBConnection.getInstance().getConnection();
-      
-
-         try(PreparedStatement ps = conn.prepareStatement("DELETE FROM gruppi WHERE nome = ? AND email_admin = ?")){
-            ps.setString(1, gruppo.getNome());
-            ps.setString(2,gruppo.getAdmin());
-            ps.executeUpdate();
-
-         }
-      
-
-         try(PreparedStatement ps = conn.prepareStatement("DELETE FROM utenti WHERE email = ?")){
-            ps.setString(1, studente.getEmail());
-            ps.executeUpdate();
-         }
     }
 
     @Test
@@ -64,7 +47,7 @@ import appolloni.migliano.controller.ControllerGestioneUtente;
          List<BeanGruppo> gruppi =controllerGestioneGruppo.cercaGruppi(gruppo.getNome(),null, null);
          assertFalse(gruppi.isEmpty(), "La lista dei gruppi non deve essere vuota dopo l'inserimento");
         }catch(Exception e){
-            e.printStackTrace();
+           
             fail("Il test ha lanciato un'eccezione imprevista: " + e.getMessage());
         }
     }
