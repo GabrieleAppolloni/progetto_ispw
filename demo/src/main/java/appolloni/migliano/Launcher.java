@@ -52,15 +52,9 @@ public class Launcher {
 
 
     private static void connessioneDB() throws SQLException{
-
-        try {
-              DBConnection.getInstance().getConnection();
-              logger.info("Connessione al Database stabilita.");
-        } catch (SQLException dbEx) {
-            logger.log(Level.SEVERE, "Impossibile connettersi al Database, chiusura.", dbEx);
-            throw dbEx;
-                    
-        }
+        DBConnection.getInstance().getConnection(); 
+        logger.info("Connessione al Database stabilita.");
+    }
     }
 
 
