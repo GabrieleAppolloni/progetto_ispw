@@ -25,7 +25,7 @@ public class ControllerGestioneStrutture {
   
    private InterfacciaDaoStruttura daoStrutture = FactoryDAO.getDAOStrutture();
    private static final String GESTOREDEFAULT = "system_no_host";
-   private ControllerGestioneUtente controllerGestioneUtente;
+   
    
 
     public void creaStruttura(BeanUtenti bean, BeanStruttura beanStr) throws CampiVuotiException,SQLException,IOException, CreazioneFallita, IllegalArgumentException{
@@ -71,7 +71,7 @@ public class ControllerGestioneStrutture {
 
     public void creaStrutturaHost(BeanUtenti beanUtenti,BeanStruttura beanStruttura)throws CampiVuotiException, CreazioneFallita, EmailNonValidaException, SQLException, IllegalArgumentException, IOException{
 
-      controllerGestioneUtente = new ControllerGestioneUtente();
+      ControllerGestioneUtente controllerGestioneUtente = new ControllerGestioneUtente();
       controllerGestioneUtente.creazioneUtente(beanUtenti);
 
       creaStruttura(beanUtenti, beanStruttura);
