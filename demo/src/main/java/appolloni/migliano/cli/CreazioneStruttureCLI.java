@@ -3,8 +3,8 @@ package appolloni.migliano.cli;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.Scanner;
 
+import appolloni.migliano.LeggInputCli;
 import appolloni.migliano.bean.BeanStruttura;
 import appolloni.migliano.bean.BeanUtenti;
 import appolloni.migliano.controller.ControllerGestioneStrutture;
@@ -15,13 +15,11 @@ public class CreazioneStruttureCLI {
 
     private final ControllerGestioneStrutture controllerStrutture;
     private final ControllerGestioneUtente controllerUtente;
-    private final Scanner scanner;
     private final BeanUtenti utenteCorrente;
 
     public CreazioneStruttureCLI(BeanUtenti bean) {
         this.controllerStrutture = new ControllerGestioneStrutture();
         this.controllerUtente = new ControllerGestioneUtente();
-        this.scanner = new Scanner(System.in);
         this.utenteCorrente = bean;
     }
 
@@ -33,12 +31,10 @@ public class CreazioneStruttureCLI {
         System.out.println("Struttura: " + utenteCorrente.getNomeAttivita() + " (" + utenteCorrente.getTipoAttivita() + ")");  //NOSONAR
 
         try {
-            // 1. Acquisizione dati
-            System.out.print("Città: ");  //NOSONAR
-            String citta = scanner.nextLine().trim();
+            
+            String citta = LeggInputCli.leggiStringa("Città:");
              
-            System.out.print("Indirizzo: ");  //NOSONAR
-            String indirizzo = scanner.nextLine().trim();
+            String indirizzo = LeggInputCli.leggiStringa("Indirizzo: ");
             
             String orario = acquisisciOrario();
 
@@ -71,7 +67,7 @@ public class CreazioneStruttureCLI {
 
             System.out.println("\n[OK] Registrazione completata con successo!");  //NOSONAR
             System.out.println("Premi invio per accedere al tuo pannello...");  //NOSONAR
-            scanner.nextLine();
+            LeggInputCli.leggiStringa("");
             
             new HostMenuCLI(utenteCorrente).start(); 
 
@@ -80,7 +76,7 @@ public class CreazioneStruttureCLI {
             riprova();
         } catch (SQLException e) {
             System.err.println("\n[ERRORE DB] Errore durante il salvataggio: " + e.getMessage());  //NOSONAR
-            // Interrompe il flusso in caso di errore DB (es. email duplicata)
+            
           
         } catch (IOException e) {
             System.err.println("\n[ERRORE I/O] Impossibile gestire il file immagine.");  //NOSONAR
@@ -90,9 +86,9 @@ public class CreazioneStruttureCLI {
         }
     }
 
-    private void riprova() {
-        System.out.print("Vuoi riprovare l'inserimento? (s/n): ");  //NOSONAR
-        if(scanner.nextLine().equalsIgnoreCase("s")) {
+    private void riprova() {  
+        String scelta = LeggInputCli.leggiStringa("Vuoi riprovare l'inserimento? (si/no): ");
+        if(scelta.equalsIgnoreCase("s")) {
             start();
         }
     }
@@ -100,8 +96,7 @@ public class CreazioneStruttureCLI {
    private String acquisisciOrario() {
     String input;
     while (true) {
-        System.out.print("Orario apertura (es. 08:00-20:00): "); //NOSONAR
-        input = scanner.nextLine().trim();
+        input = LeggInputCli.leggiStringa("Orario apertura (es. 08:00-20:00): ");
 
         if (input.isEmpty()) return "";
 
@@ -116,13 +111,11 @@ public class CreazioneStruttureCLI {
 private boolean validaFormatoEIntervallo(String input) {
     String regex = "^([0-1]?\\d|2[0-3]):[0-5]\\d-([0-1]?\\d|2[0-3]):[0-5]\\d$";
     
-    // 1. Controllo Regex (Livello 1)
     if (!input.matches(regex)) {
         return false;
     }
 
     String[] parti = input.split("-");
-    // Controllo sicurezza array)
     if (parti.length < 2) return false;
 
     String[] inizio = parti[0].split(":");
@@ -130,7 +123,6 @@ private boolean validaFormatoEIntervallo(String input) {
 
     if (inizio.length < 2 || fine.length < 2) return false;
 
-    // 2. Calcolo logico
     int minutiInizio = Integer.parseInt(inizio[0]) * 60 + Integer.parseInt(inizio[1]);
     int minutiFine = Integer.parseInt(fine[0]) * 60 + Integer.parseInt(fine[1]);
 
@@ -143,9 +135,8 @@ private boolean validaFormatoEIntervallo(String input) {
 }
 
     private boolean chiediConferma(String domanda) {
-        System.out.print(domanda + " (s/n): ");  //NOSONAR
-        String risp = scanner.nextLine().trim().toLowerCase();
-        return risp.equals("s") || risp.equals("si");
+        String risp = LeggInputCli.leggiStringa(domanda + "(si/no)");
+        return risp.equals("si") || risp.equals("si");
     }
 
 }

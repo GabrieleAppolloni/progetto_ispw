@@ -1,8 +1,7 @@
 package appolloni.migliano.cli;
 
 import java.util.List;
-import java.util.Scanner;
-
+import appolloni.migliano.LeggInputCli;
 import appolloni.migliano.bean.BeanRecensioni;
 import appolloni.migliano.bean.BeanStruttura;
 import appolloni.migliano.bean.BeanUtenti;
@@ -10,13 +9,11 @@ import appolloni.migliano.controller.ControllerRecensioni;
 
 public class DettagliStrutturaCLI {
 
-    private final Scanner scanner;
     private final BeanUtenti beanUtente;
     private final BeanStruttura beanStruttura;
     private final ControllerRecensioni controllerRecensione;
 
     public DettagliStrutturaCLI(BeanUtenti utente, BeanStruttura struttura) {
-        this.scanner = new Scanner(System.in);
         this.beanUtente = utente;
         this.beanStruttura = struttura;
         this.controllerRecensione = new ControllerRecensioni();
@@ -30,10 +27,9 @@ public class DettagliStrutturaCLI {
             System.out.println("          DETTAGLI STRUTTURA            "); //NOSONAR
             System.out.println("========================================"); //NOSONAR
 
-            // 1. Visualizzazione Informazioni
             stampaInfoStruttura();
 
-            // 2. Caricamento e Visualizzazione Recensioni
+            
             System.out.println("\n--- RECENSIONI UTENTI ---"); //NOSONAR
             try {
                 List<BeanRecensioni> lista = controllerRecensione.cercaRecensioniPerStruttura(beanStruttura);
@@ -48,17 +44,15 @@ public class DettagliStrutturaCLI {
                System.out.println("Errore caricamento recensioni"); //NOSONAR
             }
             
-            // 3. Menu Azioni
+           
             System.out.println("\n----------------------------------------"); //NOSONAR
             System.out.println("S) Scrivi una recensione"); //NOSONAR
             System.out.println("I) Torna indietro"); //NOSONAR
-            System.out.print("Scelta: "); //NOSONAR
 
-            String scelta = scanner.nextLine().toUpperCase();
+            String scelta = LeggInputCli.leggiStringa("Scelta: ");
 
             switch (scelta) {
                 case "S" -> new ScriviRecensioneCLI(beanUtente, beanStruttura).start();
-                    // Al ritorno, il ciclo while ricaricherà le recensioni aggiornate
                 case "I" -> back = true;
                 default -> System.out.println("Scelta non valida."); //NOSONAR
             }

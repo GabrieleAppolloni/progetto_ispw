@@ -22,7 +22,7 @@ public class CreazioneGruppoCLI {
 
 
         try {
-            System.out.print("Tutti i campi sono obbligatori!\n"); //NOSONAR
+            System.out.println("Tutti i campi sono obbligatori!"); //NOSONAR
             
             String nome = LeggInputCli.leggiStringa("Inserisci il nome del gruppo: ");
 
