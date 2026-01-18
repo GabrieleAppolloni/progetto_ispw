@@ -15,7 +15,7 @@ public class HomeCLI {
 
         while (!exit) {
             System.out.println("\n========================================"); //NOSONAR
-            System.out.println("        BENVENUTO IN STUDIO-APP          "); //NOSONAR
+            System.out.println("        BENVENUTO IN UNIVERSITY SPOT          "); //NOSONAR
             System.out.println("========================================"); //NOSONAR
             System.out.println("1. Accedi (Login)"); //NOSONAR
             System.out.println("2. Registrati (Crea nuovo utente)"); //NOSONAR
@@ -51,5 +51,6 @@ public class HomeCLI {
         CreazioneUtenteCLI registrazioneView = new CreazioneUtenteCLI();
         registrazioneView.start();
     }
+
 
 }
