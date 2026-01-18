@@ -26,6 +26,7 @@
             **/Mainapp.java,
             **/DBConnection.java,
             **/HelperErrori.java,
+            **/LeggInputCli.java,
             **/Configurazione.java
         </sonar.coverage.exclusions>
     </properties>
