@@ -128,7 +128,7 @@ private boolean validaFormatoEIntervallo(String input) {
 }
     private boolean chiediConferma(String domanda) {
         String risp = (LeggInputCli.leggiStringa(domanda+ "(si/no):")).toLowerCase();
-        return risp.equals("s") || risp.equals("si");
+        return risp.equals("si") || risp.equals("si");
     }
 
 }
