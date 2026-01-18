@@ -14,7 +14,7 @@ public class RicercaCLI {
 
     private  ControllerGestioneStrutture controllerStrutture = new ControllerGestioneStrutture();
     private  ControllerGestioneGruppo controllerGruppo = new ControllerGestioneGruppo();
-    private final ControllerRecensioni controllerRecensioni;;
+    private final ControllerRecensioni controllerRecensioni;
     private final BeanUtenti beanUtente;
 
     public RicercaCLI(BeanUtenti beanUtente) {
