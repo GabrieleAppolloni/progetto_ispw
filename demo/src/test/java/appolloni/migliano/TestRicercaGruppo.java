@@ -8,6 +8,7 @@ import appolloni.migliano.bean.BeanGruppo;
 import appolloni.migliano.bean.BeanUtenti;
 import appolloni.migliano.controller.ControllerGestioneGruppo;
 import appolloni.migliano.controller.ControllerGestioneUtente;
+import appolloni.migliano.controller.ControllerLogin;
 
 //Appolloni Gabriele 0307344
  class TestRicercaGruppo {
@@ -37,8 +38,17 @@ import appolloni.migliano.controller.ControllerGestioneUtente;
     void testCreaGruppo(){
 
         try{
+        
+         ControllerLogin controllerLogin = new ControllerLogin();
+         controllerLogin.verificaUtente(studente);
+
          controllerGestioneGruppo.creaGruppo(studente, gruppo);
+
+         BeanGruppo beanGruppo = new BeanGruppo("test4", "test4", "teststud", "test4", "test4");
+
+         controllerGestioneGruppo.aggiungiGruppo(studente, beanGruppo);
          List<BeanGruppo> gruppi =controllerGestioneGruppo.cercaGruppi(gruppo.getNome(),null, null);
+         
          assertFalse(gruppi.isEmpty(), "La lista dei gruppi non deve essere vuota dopo l'inserimento");
         }catch(Exception e){
            
