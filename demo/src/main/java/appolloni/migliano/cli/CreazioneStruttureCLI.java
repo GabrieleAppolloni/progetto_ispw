@@ -41,16 +41,15 @@ public class CreazioneStruttureCLI {
             boolean wifi = chiediConferma("La struttura dispone di WiFi?");
             boolean ristorazione = chiediConferma("La struttura dispone di servizio ristorazione?");
 
-            // 2. Gestione Foto 
+            
             String nomeFotoFinale = "Foto non disponibili in versione CLI.";  
             System.out.print("Foto non disponibili in versione CLI. ");  //NOSONAR
              
 
-            // 3. Salvataggio Utente 
             controllerUtente.creazioneUtente(utenteCorrente);
             System.out.println("Account Host creato correttamente...");  //NOSONAR
 
-            // 4. Preparazione BeanStruttura
+           
             BeanStruttura beanStruttura = new BeanStruttura(utenteCorrente.getTipoAttivita(), utenteCorrente.getNomeAttivita(), citta, indirizzo, wifi, ristorazione);
             beanStruttura.setOrario(orario);
             beanStruttura.setTipoAttivita(utenteCorrente.getTipoAttivita());
