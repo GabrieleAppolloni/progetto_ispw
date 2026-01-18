@@ -34,12 +34,10 @@ class TestRecensioni {
         controllerStrutture = new ControllerGestioneStrutture();
         controllerUtente = new ControllerGestioneUtente();
 
-        // 1. Creazione Host
         beanHost = new BeanUtenti("Host", "Proprietario", "Test", "host@test.it", "password", "Test");
         beanHost.setTipoAttivita("Bar");
         beanHost.setNomeAttivita("StrutturaTest");
-        
-        // 2. Creazione Studente
+    
         beanGuest = new BeanUtenti("Studente", "Recensore", "Test", "guest@test.it", "password", "Test");
 
         try {
@@ -49,7 +47,7 @@ class TestRecensioni {
             e.printStackTrace();
         }
 
-        // 3. Creazione Struttura
+       
         beanStruttura = new BeanStruttura("Pubblica", "StrutturaTest", "Roma", "Via Test", false, false);
         beanStruttura.setGestore(beanHost.getEmail());
         beanStruttura.setTipoAttivita(beanHost.getTipoAttivita());
@@ -61,7 +59,7 @@ class TestRecensioni {
             e.printStackTrace();
         }
 
-        // 4. Preparazione Recensione
+  
         beanRecensione = new BeanRecensioni(
             beanGuest.getEmail(), 
             "Ottima struttura!", 

@@ -1,8 +1,8 @@
 package appolloni.migliano.cli;
 
 import java.util.List;
-import java.util.Scanner;
 
+import appolloni.migliano.LeggInputCli;
 import appolloni.migliano.bean.BeanGruppo;
 import appolloni.migliano.bean.BeanUtenti;
 import appolloni.migliano.controller.ControllerGestioneGruppo;
@@ -10,12 +10,10 @@ import appolloni.migliano.controller.ControllerGestioneGruppo;
 public class CreazioneGruppoCLI {
 
     private final ControllerGestioneGruppo controller;
-    private final Scanner scanner;
     private final BeanUtenti utenteLoggato;
 
     public CreazioneGruppoCLI(BeanUtenti utente) {
         this.controller = new ControllerGestioneGruppo();
-        this.scanner = new Scanner(System.in);
         this.utenteLoggato = utente;
     }
 
@@ -24,25 +22,20 @@ public class CreazioneGruppoCLI {
 
 
         try {
-            System.out.print("Tutti i campi sono obbligatori!"); //NOSONAR
-            // 1. Dati base
-            System.out.print("Inserisci il nome del gruppo: "); //NOSONAR
-            String nome = scanner.nextLine();
+            System.out.print("Tutti i campi sono obbligatori!\n"); //NOSONAR
+            
+            String nome = LeggInputCli.leggiStringa("Inserisci il nome del gruppo: ");
 
-            System.out.print("Inserisci la materia di studio: "); //NOSONAR
-            String materia = scanner.nextLine();
+            String materia = LeggInputCli.leggiStringa("Inserisci la materia di studio: ");
 
-            // 2. Localizzazione e recupero strutture
-            System.out.print("Inserisci la città: "); //NOSONAR
-            String citta = scanner.nextLine();
+            String citta = LeggInputCli.leggiStringa("Inserisci la città: ");
 
             List<String> strutture = controller.getListaStruttureDisponibili(citta);
             String luogoScelto = "";
 
             if (strutture.isEmpty()) {
                 System.out.println("Nessuna struttura trovata in questa città. Inserimento manuale."); //NOSONAR
-                System.out.print("Inserisci il luogo: "); //NOSONAR
-                luogoScelto = scanner.nextLine();
+                luogoScelto = LeggInputCli.leggiStringa("Inserisci Luogo");
             } else {
                 luogoScelto = selezionaStrutturaUI(strutture);
             }
@@ -72,20 +65,23 @@ public class CreazioneGruppoCLI {
         System.out.println((strutture.size() + 1) + ") Altro (inserimento manuale)"); //NOSONAR
 
         while (true) {
-            System.out.print("Seleziona un'opzione: "); //NOSONAR
-            String input = scanner.nextLine();
-            try {
+            String input = LeggInputCli.leggiStringa("Selezione un'opzione");
+            
+
+               try{
                 int scelta = Integer.parseInt(input);
                 if (scelta >= 1 && scelta <= strutture.size()) {
                     return strutture.get(scelta - 1);
                 } else if (scelta == strutture.size() + 1) {
                     System.out.print("Inserisci il nome del luogo: "); //NOSONAR
-                    return scanner.nextLine();
+                    return LeggInputCli.leggiStringa("");
+                }else{
+                    System.out.println("Numero non valido");
                 }
-            } catch (NumberFormatException e) {
-                // Continua il loop
-            }
-            System.out.println("Scelta non valida."); //NOSONAR
+               }catch(NumberFormatException e){
+                 System.out.println("Numero non valido. Riprova."); //NOSONAR
+               }
+            
         }
     }
 

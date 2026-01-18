@@ -46,7 +46,7 @@ import org.junit.jupiter.api.Test;
   
 
     @Test
-    void testCreaStruttura(){
+    void testCheckStruttura(){
         try{
             controllerGestioneStrutture.creaStruttura(beanUtenti, beanStruttura);
             BeanStruttura check = controllerGestioneStrutture.visualizzaStrutturaHost(beanStruttura.getGestore());
@@ -54,6 +54,7 @@ import org.junit.jupiter.api.Test;
             beanStruttura.setIndirizzo("via x");
             beanStruttura.setOrario("orario");
             controllerGestioneStrutture.aggiornaStruttura(beanStruttura, beanStruttura.getName());
+           
             assertEquals(beanStruttura.getName(), check.getName(),"Il nome dovrebbe essere uguale");
         }catch(Exception e){
             fail("Non doveva lanciare eccezioni: "+ e.getMessage());

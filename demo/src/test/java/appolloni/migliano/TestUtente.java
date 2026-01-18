@@ -50,8 +50,9 @@ import org.junit.jupiter.api.Test;
             ControllerChat controllerChat = new ControllerChat();
             controllerChat.inviaMessaggio(bean, beanGruppo, "test");
             List<BeanMessaggi> listaMess =  controllerChat.recuperaMessaggi(beanGruppo);
+
             assertNotNull(listaMess,"Dovrebbe esserci un messaggio");
-            
+            assertFalse(listaMess.isEmpty(),"La lista dei messaggi del gruppo non deve essere vuota");
 
             
         }catch(Exception e){
