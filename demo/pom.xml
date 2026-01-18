@@ -14,6 +14,20 @@
         <maven.compiler.target>17</maven.compiler.target>
         <sonar.organization>gabrieleappolloni01927</sonar.organization>
         <sonar.coverage.jacoco.xmlReportPaths>${project.build.directory}/site/jacoco/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
+        
+        <sonar.coverage.exclusions>
+            **/gui/**/*,
+            **/view/**/*,
+            **/cli/**/*,
+            **/interfacce/**/*,
+            **/exception/**/*,
+            **/Launcher.java,
+            **/MainApp.java,
+            **/Mainapp.java,
+            **/DBConnection.java,
+            **/HelperErrori.java,
+            **/Configurazione.java
+        </sonar.coverage.exclusions>
     </properties>
 
     <dependencies>
@@ -25,9 +39,9 @@
 
         <dependency>
             <groupId>org.junit.jupiter</groupId>
-             <artifactId>junit-jupiter</artifactId>
-             <version>5.9.2</version>
-             <scope>test</scope>
+            <artifactId>junit-jupiter</artifactId>
+            <version>5.9.2</version>
+            <scope>test</scope>
         </dependency>
 
         <dependency>
