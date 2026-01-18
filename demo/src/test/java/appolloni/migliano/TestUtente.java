@@ -7,8 +7,6 @@ import appolloni.migliano.controller.ControllerChat;
 import appolloni.migliano.controller.ControllerGestioneGruppo;
 import appolloni.migliano.controller.ControllerGestioneUtente;
 import static org.junit.jupiter.api.Assertions.*;
-
-import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -32,7 +30,7 @@ import org.junit.jupiter.api.Test;
   
 
     @Test
-    void testChat(){
+    void testInvioMessaggio(){
         try{
             beanUtenti = new BeanUtenti("Studente", "Test", "Test", "test@test3", "test", "Test");
             controllerGestioneUtente.creazioneUtente(beanUtenti);
@@ -44,19 +42,18 @@ import org.junit.jupiter.api.Test;
             BeanGruppo beanGruppo = new BeanGruppo("test", "test",bean.getEmail(), "test", "test");
 
             controllerGestioneGruppo.creaGruppo(bean, beanGruppo);
-            List<BeanGruppo> lista = new ArrayList<>();
-            lista = controllerGestioneGruppo.cercaGruppi(beanGruppo.getNome(), null, null);
+            List<BeanGruppo> lista = controllerGestioneGruppo.cercaGruppi(beanGruppo.getNome(), null, null);
             if(lista.isEmpty()){fail("Creazione gruppo fallita");}
             lista = controllerGestioneGruppo.visualizzaGruppi(bean);
             if(lista.isEmpty()){fail("Gruppo non trovato");}
 
             ControllerChat controllerChat = new ControllerChat();
             controllerChat.inviaMessaggio(bean, beanGruppo, "test");
-            List<BeanMessaggi> listaMess = new ArrayList<>();
-            listaMess =  controllerChat.recuperaMessaggi(beanGruppo);
+            List<BeanMessaggi> listaMess =  controllerChat.recuperaMessaggi(beanGruppo);
             assertNotNull(listaMess,"Dovrebbe esserci un messaggio");
+            
 
-            //assertEquals(beanUtenti.getEmail(),bean.getEmail() ,"Il nome dovrebbe essere uguale");
+            
         }catch(Exception e){
             fail("Non doveva lanciare eccezioni: "+ e.getMessage());
         }

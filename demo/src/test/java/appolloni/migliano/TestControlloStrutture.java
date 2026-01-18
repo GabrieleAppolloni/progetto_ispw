@@ -50,6 +50,10 @@ import org.junit.jupiter.api.Test;
         try{
             controllerGestioneStrutture.creaStruttura(beanUtenti, beanStruttura);
             BeanStruttura check = controllerGestioneStrutture.visualizzaStrutturaHost(beanStruttura.getGestore());
+            controllerGestioneStrutture.cambiaFoto(beanUtenti.getEmail(), "test3");
+            beanStruttura.setIndirizzo("via x");
+            beanStruttura.setOrario("orario");
+            controllerGestioneStrutture.aggiornaStruttura(beanStruttura, beanStruttura.getName());
             assertEquals(beanStruttura.getName(), check.getName(),"Il nome dovrebbe essere uguale");
         }catch(Exception e){
             fail("Non doveva lanciare eccezioni: "+ e.getMessage());
