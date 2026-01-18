@@ -1,7 +1,6 @@
 package appolloni.migliano.cli;
 
-import java.util.Scanner;
-
+import appolloni.migliano.LeggInputCli;
 import appolloni.migliano.bean.BeanRecensioni;
 import appolloni.migliano.bean.BeanStruttura;
 import appolloni.migliano.bean.BeanUtenti;
@@ -9,13 +8,12 @@ import appolloni.migliano.controller.ControllerRecensioni;
 
 public class ScriviRecensioneCLI {
 
-    private final Scanner scanner;
+   
     private final BeanUtenti beanUtente;
     private final BeanStruttura beanStruttura;
     private final ControllerRecensioni controllerRecensioni;
 
     public ScriviRecensioneCLI(BeanUtenti utente, BeanStruttura struttura) {
-        this.scanner = new Scanner(System.in);
         this.beanUtente = utente;
         this.beanStruttura = struttura;
         this.controllerRecensioni = new ControllerRecensioni();
@@ -30,18 +28,15 @@ public class ScriviRecensioneCLI {
         System.out.println("----------------------------------------"); //NOSONAR
 
         try {
-            // 1. Gestione del Voto
             int voto = richiediVoto();
 
-            // 2. Gestione del Testo
-            System.out.println("Scrivi il tuo commento (premi Invio per confermare):"); //NOSONAR
-            String testo = scanner.nextLine().trim();
+            
+            String testo = LeggInputCli.leggiStringa("Scrivi il tuo commento: ");
 
             if (testo.isEmpty()) {
                 System.out.println("Nota: Hai inviato una recensione senza testo."); //NOSONAR
             }
 
-            // 3. Creazione del Bean e invio al Controller
             BeanRecensioni beanRecensioni = new BeanRecensioni(
                 beanUtente.getEmail(), 
                 testo, 
@@ -60,17 +55,14 @@ public class ScriviRecensioneCLI {
         }
         
         System.out.println("\nPremi Invio per tornare indietro..."); //NOSONAR
-        scanner.nextLine();
+        LeggInputCli.leggiStringa("");
     }
 
-    /**
-     * Simula lo Slider garantendo che il voto sia tra 1 e 5.
-     */
+   
     private int richiediVoto() {
         int voto = -1;
         while (voto < 1 || voto > 5) {
-            System.out.print("Inserisci un voto (da 1 a 5): "); //NOSONAR
-            String input = scanner.nextLine();
+            String input = LeggInputCli.leggiStringa("Inserisci un voto da 1 a 5: ");
             try {
                 voto = Integer.parseInt(input);
                 if (voto < 1 || voto > 5) {

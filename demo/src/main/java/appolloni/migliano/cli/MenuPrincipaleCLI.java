@@ -1,20 +1,20 @@
 package appolloni.migliano.cli;
 
 import java.util.List;
-import java.util.Scanner;
 
+import appolloni.migliano.LeggInputCli;
 import appolloni.migliano.bean.BeanGruppo;
 import appolloni.migliano.bean.BeanUtenti;
 import appolloni.migliano.controller.ControllerGestioneGruppo;
 
 public class MenuPrincipaleCLI {
 
-    private final Scanner scanner;
+    
     private final BeanUtenti bean;
     private final ControllerGestioneGruppo gestioneGruppi;
 
     public MenuPrincipaleCLI(BeanUtenti utente) {
-        this.scanner = new Scanner(System.in);
+       
         this.bean = utente;
         this.gestioneGruppi = new ControllerGestioneGruppo();
     }
@@ -30,9 +30,9 @@ public class MenuPrincipaleCLI {
 
             stampaOpzioniNavigazione();
 
-            String scelta = scanner.nextLine().toUpperCase();
+            String scelta = LeggInputCli.leggiStringa("Opzione scelta: ");
 
-            // Gestione della navigazione
+            
             if (scelta.matches("\\d+")) {
                 gestioneSceltaChat(scelta, gruppiUtente);
             } else if (scelta.equals("L")) {
@@ -46,7 +46,7 @@ public class MenuPrincipaleCLI {
 
     private void stampaHeader() {
         System.out.println("\n========================================"); //NOSONAR
-        System.out.println("         STUDIO-APP: HOME               "); //NOSONAR
+        System.out.println("         UNIVERSITY SPOT: HOME               "); //NOSONAR
         System.out.println("========================================"); //NOSONAR
         System.out.println("Ciao, " + bean.getName() + "!"); //NOSONAR
         System.out.println("----------------------------------------"); //NOSONAR

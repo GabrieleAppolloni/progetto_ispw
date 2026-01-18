@@ -1,8 +1,8 @@
 package appolloni.migliano.cli;
 
 import java.util.List;
-import java.util.Scanner;
 
+import appolloni.migliano.LeggInputCli;
 import appolloni.migliano.bean.BeanGruppo;
 import appolloni.migliano.bean.BeanRecensioni;
 import appolloni.migliano.bean.BeanStruttura;
@@ -14,15 +14,13 @@ public class RicercaCLI {
 
     private  ControllerGestioneStrutture controllerStrutture = new ControllerGestioneStrutture();
     private  ControllerGestioneGruppo controllerGruppo = new ControllerGestioneGruppo();
-    private final ControllerRecensioni controllerRecensioni;
-    private final Scanner scanner;
+    private final ControllerRecensioni controllerRecensioni;;
     private final BeanUtenti beanUtente;
 
     public RicercaCLI(BeanUtenti beanUtente) {
         this.controllerStrutture = new ControllerGestioneStrutture();
         this.controllerGruppo = new ControllerGestioneGruppo();
         this.controllerRecensioni = new ControllerRecensioni();
-        this.scanner = new Scanner(System.in);
         this.beanUtente = beanUtente;
     }
 
@@ -33,9 +31,8 @@ public class RicercaCLI {
             System.out.println("1. Cerca Gruppi di Studio"); //NOSONAR
             System.out.println("2. Cerca Strutture"); //NOSONAR
             System.out.println("3. Torna al menu precedente"); //NOSONAR
-            System.out.print("Scelta: "); //NOSONAR
 
-            String scelta = scanner.nextLine();
+            String scelta = LeggInputCli.leggiStringa("Scelta: ");
 
             switch (scelta) {
                 case "1" -> gestioneRicercaGruppi();
@@ -46,7 +43,8 @@ public class RicercaCLI {
         }
     }
 
-    // --- SEZIONE GRUPPI DI STUDIO ---
+
+    
 
     private void gestioneRicercaGruppi() {
         System.out.println("\n--- RICERCA GRUPPI ---"); //NOSONAR
@@ -81,7 +79,7 @@ public class RicercaCLI {
     private void gestioneSelezioneGruppo(List<BeanGruppo> risultati) {
         System.out.print("\nInserisci il numero del gruppo per unirti (o 0 per annullare): "); //NOSONAR
         try {
-            int indice = Integer.parseInt(scanner.nextLine()) - 1;
+            int indice = Integer.parseInt(LeggInputCli.leggiStringa("")) - 1;
             if (indice >= 0 && indice < risultati.size()) {
                 controllerGruppo.aggiungiGruppo(beanUtente, risultati.get(indice));
                 System.out.println("[OK] Ti sei unito al gruppo con successo!"); //NOSONAR
@@ -91,7 +89,6 @@ public class RicercaCLI {
         }
     }
 
-    // --- SEZIONE STRUTTURE ---
 
     private void gestioneRicercaStrutture() {
         System.out.println("\n--- RICERCA STRUTTURE ---"); //NOSONAR
@@ -126,7 +123,7 @@ public class RicercaCLI {
     private void gestioneSelezioneStruttura(List<BeanStruttura> risultati) {
         System.out.print("\nInserisci il numero della struttura per i dettagli (o 0 per annullare): "); //NOSONAR
         try {
-            int indice = Integer.parseInt(scanner.nextLine()) - 1;
+            int indice = Integer.parseInt(LeggInputCli.leggiStringa("")) - 1;
             if (indice >= 0 && indice < risultati.size()) {
                 visualizzaDettagliStruttura(risultati.get(indice));
             }
@@ -148,7 +145,7 @@ public class RicercaCLI {
         System.out.println(" | RISTORAZIONE: " + (s.hasRistorazione() ? "[SI]" : "[NO]")); //NOSONAR
         System.out.println("FOTO:         " + "Foto non disponibili in versione CLI. "); //NOSONAR
 
-        // 2. Caricamento e Visualizzazione Recensioni
+        
         System.out.println("\n--- RECENSIONI UTENTI ---"); //NOSONAR
         try {
             List<BeanRecensioni> lista = controllerRecensioni.cercaRecensioniPerStruttura(s);
@@ -167,9 +164,8 @@ public class RicercaCLI {
         System.out.println("\n----------------------------------------"); //NOSONAR
         System.out.println("S) Scrivi una recensione"); //NOSONAR
         System.out.println("I) Torna indietro"); //NOSONAR
-        System.out.print("Scelta: "); //NOSONAR
 
-        String scelta = scanner.nextLine().toUpperCase();
+        String scelta = LeggInputCli.leggiStringa("Scelta: ");
 
         if (scelta.equals("S")) {
             new ScriviRecensioneCLI(beanUtente, s).start();
@@ -180,7 +176,7 @@ public class RicercaCLI {
 
 
     private String promptInput() {
-        String input = scanner.nextLine().trim();
+        String input = LeggInputCli.leggiStringa("");
         return input.isEmpty() ? null : input;
     }
 

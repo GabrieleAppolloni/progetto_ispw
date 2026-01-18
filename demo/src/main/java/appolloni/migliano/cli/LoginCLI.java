@@ -1,26 +1,23 @@
 package appolloni.migliano.cli;
 
 import java.util.Arrays;
-import java.util.Scanner;
 
+import appolloni.migliano.LeggInputCli;
 import appolloni.migliano.bean.BeanUtenti;
 import appolloni.migliano.controller.ControllerLogin;
 
 public class LoginCLI {
 
     private final ControllerLogin controller;
-    private final Scanner scanner;
 
     public LoginCLI() {
         this.controller = new ControllerLogin();
-        this.scanner = new Scanner(System.in);
     }
 
     public void start() {
         System.out.println("\n--- LOGIN UTENTE ---"); //NOSONAR
         
-        System.out.print("Email: "); //NOSONAR
-        String email = scanner.nextLine().trim();
+        String email = LeggInputCli.leggiStringa("Email: ");
         
         System.out.print("Password (I caratteri inseriti non saranno visibili): "); //NOSONAR
         String password = "";
@@ -49,7 +46,7 @@ public class LoginCLI {
         } catch (Exception e) {
             System.err.println("\n Errore di accesso: " + e.getMessage()); //NOSONAR
             System.out.println("Riprova oppure scrivi 'esci' per terminare."); //NOSONAR
-            String comando = scanner.nextLine();
+            String comando =LeggInputCli.leggiStringa("");
             if (!comando.equalsIgnoreCase("esci")) {
                 start();
             }

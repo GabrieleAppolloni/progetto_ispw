@@ -76,7 +76,7 @@ public class CreazioneGruppoCLI {
                     System.out.print("Inserisci il nome del luogo: "); //NOSONAR
                     return LeggInputCli.leggiStringa("");
                 }else{
-                    System.out.println("Numero non valido");
+                    System.out.println("Numero non valido"); //NOSONAR
                 }
                }catch(NumberFormatException e){
                  System.out.println("Numero non valido. Riprova."); //NOSONAR
