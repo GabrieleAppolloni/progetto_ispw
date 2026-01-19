@@ -40,7 +40,7 @@ public class CreazioneGruppoCLI {
                 luogoScelto = selezionaStrutturaUI(strutture);
             }
 
-            // 3. Impacchettamento nel Bean e chiamata al Controller
+
             BeanGruppo nuovoGruppo = new BeanGruppo(nome, materia, utenteLoggato.getEmail(), luogoScelto, citta);
             
             controller.creaGruppo(utenteLoggato, nuovoGruppo);

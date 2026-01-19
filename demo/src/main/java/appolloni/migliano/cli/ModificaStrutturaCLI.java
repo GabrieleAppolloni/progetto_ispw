@@ -38,13 +38,13 @@ public class ModificaStrutturaCLI {
             if (!nuovaCitta.isEmpty()) strutturaCorrente.setCitta(nuovaCitta);
 
             System.out.print("Orario attuale [" + strutturaCorrente.getOrario() + "]: "); //NOSONAR
-            String nuovoOrario = acquisisciOrario();
+            String nuovoOrario = LeggInputCli.acquisisciOrario();
             if (!nuovoOrario.isEmpty()) strutturaCorrente.setOrario(nuovoOrario);
 
-            // 5. Modifica Wifi
+       
             strutturaCorrente.setWifi(chiediModificaBoolean("WiFi", strutturaCorrente.hasWifi()));
 
-            // 6. Modifica Ristorazione
+            
             strutturaCorrente.setRistorazione(chiediModificaBoolean("Ristorazione", strutturaCorrente.hasRistorazione()));
 
             System.out.print("Foto non disponibili in versione CLI. "); //NOSONAR
@@ -55,7 +55,7 @@ public class ModificaStrutturaCLI {
                 return;
             }
 
-            // SALVATAGGIO
+        
             controllerApp.aggiornaStruttura(strutturaCorrente, vecchioNome);
             System.out.println("\n Struttura aggiornata con successo!"); //NOSONAR
 
@@ -65,20 +65,7 @@ public class ModificaStrutturaCLI {
     }
 
 
-   private String acquisisciOrario() {
-    String input;
-    while (true) {
-        input = LeggInputCli.leggiStringa("Orario apertura: (es: 08:00 - 19:00)");
-
-        if (input.isEmpty()) return "";
-
-        if (LeggInputCli.validaFormatoEIntervallo(input)) {
-            return input;
-        }
-        
-        System.out.println("[ERRORE] Formato non valido o orario incoerente."); //NOSONAR
-    }
-}
+ 
 
 
   
@@ -86,7 +73,7 @@ public class ModificaStrutturaCLI {
         String stato = valoreAttuale ? "SI" : "NO";
         String risp = LeggInputCli.leggiStringa(campo + " attuale [" + stato + "]. Cambiare? (si/no): ");
         
-        if (risp.equals("s") || risp.equals("si")) {
+        if (risp.equalsIgnoreCase("si")) {
             return !valoreAttuale; 
         }
         return valoreAttuale; 

@@ -160,7 +160,7 @@ public class RicercaCLI {
             System.out.println("[ Errore nel caricamento delle recensioni ]"); //NOSONAR
         }
 
-        // 3. Menu Azioni
+
         System.out.println("\n----------------------------------------"); //NOSONAR
         System.out.println("S) Scrivi una recensione"); //NOSONAR
         System.out.println("I) Torna indietro"); //NOSONAR
@@ -169,7 +169,7 @@ public class RicercaCLI {
 
         if (scelta.equals("S")) {
             new ScriviRecensioneCLI(beanUtente, s).start();
-            // Ricorsione per rinfrescare la pagina e mostrare la nuova recensione
+          
             visualizzaDettagliStruttura(s);
         }
     }

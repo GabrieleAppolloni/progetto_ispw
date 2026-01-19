@@ -2,8 +2,8 @@ package appolloni.migliano.cli;
 
 import java.sql.SQLException;
 import java.util.List;
-import java.util.Scanner;
 
+import appolloni.migliano.LeggInputCli;
 import appolloni.migliano.bean.BeanGruppo;
 import appolloni.migliano.bean.BeanMessaggi;
 import appolloni.migliano.bean.BeanUtenti;
@@ -11,13 +11,12 @@ import appolloni.migliano.controller.ControllerChat;
 
 public class ChatCLI {
     private final ControllerChat controller;
-    private final Scanner scanner;
+    
     private final BeanUtenti utenteLoggato;
     private final BeanGruppo gruppoCorrente;
 
     public ChatCLI(BeanUtenti utente, BeanGruppo gruppo) {
         this.controller = new ControllerChat();
-        this.scanner = new Scanner(System.in);
         this.utenteLoggato = utente;
         this.gruppoCorrente = gruppo;
     }
@@ -32,8 +31,8 @@ public class ChatCLI {
                 mostraMessaggi(); 
                 
                 System.out.println("\n[1] Invia Messaggio | [2] Refresh | [3] Abbandona Gruppo | [4] Esci"); //NOSONAR
-                System.out.print("Scelta: "); //NOSONAR
-                String scelta = scanner.nextLine();
+
+                String scelta = LeggInputCli.leggiStringa("Scelta");
 
                 switch (scelta) {
                     case "1" -> inviaMessaggioUI();
@@ -69,8 +68,8 @@ public class ChatCLI {
     }
 
     private void inviaMessaggioUI() throws SQLException{
-        System.out.print("Scrivi messaggio: "); //NOSONAR
-        String testo = scanner.nextLine();
+        
+        String testo = LeggInputCli.leggiStringa("Scrivi Messaggio:");
        try {
            controller.inviaMessaggio(utenteLoggato, gruppoCorrente, testo);
        } catch (Exception e) {
@@ -80,8 +79,8 @@ public class ChatCLI {
     }
 
     private void abbandonaGruppoUI() throws SQLException {
-        System.out.print("Sei sicuro di voler lasciare/eliminare il gruppo? (s/n): "); //NOSONAR
-        if (scanner.nextLine().equalsIgnoreCase("s")) {
+        String inp = LeggInputCli.leggiStringa("Sei sicuro di voler lasciare/eliminare il gruppo? (si/no):");
+        if (inp.equalsIgnoreCase("si")) {
            try {
                controller.abbandonaGruppo(utenteLoggato, gruppoCorrente);
            } catch (Exception e) {
