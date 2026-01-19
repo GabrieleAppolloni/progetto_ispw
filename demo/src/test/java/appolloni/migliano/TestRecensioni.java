@@ -17,6 +17,8 @@ import appolloni.migliano.controller.ControllerGestioneUtente;
 import appolloni.migliano.controller.ControllerRecensioni;
 import appolloni.migliano.exception.CampiVuotiException;
 
+//Marco Migliano 
+
 class TestRecensioni {
     private ControllerRecensioni controllerRecensioni;
     private ControllerGestioneStrutture controllerStrutture;
