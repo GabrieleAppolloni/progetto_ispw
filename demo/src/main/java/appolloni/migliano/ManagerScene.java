@@ -76,7 +76,7 @@ public class ManagerScene {
 
     }
 
-    public void avviaChat(ActionEvent event, BeanGruppo beanGruppo, BeanUtenti bean, VBox containerGruppi) throws IOException{
+    public void avviaChat(BeanGruppo beanGruppo, BeanUtenti bean, VBox containerGruppi) throws IOException{
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/chat.fxml")); 
         Parent root = loader.load();
 
@@ -140,7 +140,7 @@ public class ManagerScene {
 
     }
     
-    public void avviaDettagliStruttura(ActionEvent event, BeanUtenti beanUtenti, BeanStruttura beanStruttura, VBox containerRisultati) throws IOException{
+    public void avviaDettagliStruttura(BeanUtenti beanUtenti, BeanStruttura beanStruttura, VBox containerRisultati) throws IOException{
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/infoStruttura.fxml"));
         Parent root = loader.load();
         GUIdettagliStruttura controllerDettagli = loader.getController();
@@ -151,7 +151,7 @@ public class ManagerScene {
 
     }
     
-    public void scriviRecensione(ActionEvent event, BeanUtenti beanUtente, BeanStruttura beanStruttura) throws IOException{
+    public void scriviRecensione(BeanUtenti beanUtente, BeanStruttura beanStruttura) throws IOException{
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/scriviRecensione.fxml"));
         Parent root = loader.load();
         
@@ -167,7 +167,7 @@ public class ManagerScene {
         newStage.showAndWait(); 
     }
 
-    public void modificaDatiHost(ActionEvent event, BeanUtenti beanUtente) throws IOException, IllegalArgumentException,SQLException{
+    public void modificaDatiHost(BeanUtenti beanUtente) throws IOException, IllegalArgumentException,SQLException{
          FXMLLoader loader = new FXMLLoader(getClass().getResource("/modificaStruttura.fxml"));
         Parent root = loader.load();
 

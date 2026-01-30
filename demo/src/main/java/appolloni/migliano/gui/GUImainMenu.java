@@ -91,7 +91,7 @@ public class GUImainMenu {
 
     private void apriChat(BeanGruppo gruppoSelezionato) {
         try {
-         managerScene.avviaChat(null, gruppoSelezionato, bean, containerGruppi);
+         managerScene.avviaChat(gruppoSelezionato, bean, containerGruppi);
 
         } catch (IOException e) {
             HelperErrori.errore("Errore Generico:", e.getMessage());

@@ -120,7 +120,7 @@ public class GUIdettagliStruttura {
 
     @FXML
     public void clickScrivi(ActionEvent event) throws IOException{
-       managerScene.scriviRecensione(event, beanUtente, beanStruttura);
+       managerScene.scriviRecensione( beanUtente, beanStruttura);
     
         caricaRecensioni();
     } 

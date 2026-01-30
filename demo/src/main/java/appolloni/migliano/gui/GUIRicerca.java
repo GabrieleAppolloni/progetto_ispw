@@ -200,7 +200,7 @@ public class GUIRicerca {
             btnDettagli.setOnAction(e -> {
               try {
 
-                managerScene.avviaDettagliStruttura(e, beanUtente, s,containerRisultati);
+                managerScene.avviaDettagliStruttura(beanUtente, s,containerRisultati);
 
               } catch (IOException ex) {
                  HelperErrori.errore("Errore Generico:", ex.getMessage());

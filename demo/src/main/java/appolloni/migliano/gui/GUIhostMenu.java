@@ -202,7 +202,7 @@ public class GUIhostMenu {
     @FXML
   public void clickAggiornaDati(ActionEvent event) {
     try {
-       managerScene.modificaDatiHost(event, beanUtente);
+       managerScene.modificaDatiHost( beanUtente);
        caricaInformazioni();
 
     } catch (Exception e) {
