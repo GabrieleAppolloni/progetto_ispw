@@ -2,19 +2,16 @@ package appolloni.migliano.gui;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
-import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
 import appolloni.migliano.DBConnection;
 import appolloni.migliano.HelperErrori;
+import appolloni.migliano.ManagerScene;
 import appolloni.migliano.bean.BeanGruppo;
 import appolloni.migliano.bean.BeanUtenti;
 import appolloni.migliano.controller.ControllerGestioneGruppo;
@@ -38,6 +35,7 @@ public class GUImainMenu {
     
     private BeanUtenti bean;
     private ControllerGestioneGruppo controllerGruppo = new ControllerGestioneGruppo();
+    private ManagerScene managerScene = new ManagerScene();
 
     public void initData(BeanUtenti utente){
         this.bean = utente;
@@ -93,14 +91,7 @@ public class GUImainMenu {
 
     private void apriChat(BeanGruppo gruppoSelezionato) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/chat.fxml")); 
-            Parent root = loader.load();
-
-            GUIChat chatController = loader.getController();
-            chatController.initData(this.bean, gruppoSelezionato);
-
-            Stage stage = (Stage) containerGruppi.getScene().getWindow();
-            stage.getScene().setRoot(root); 
+         managerScene.avviaChat(null, gruppoSelezionato, bean, containerGruppi);
 
         } catch (IOException e) {
             HelperErrori.errore("Errore Generico:", e.getMessage());
@@ -109,7 +100,7 @@ public class GUImainMenu {
 
     public void clickProfilo(ActionEvent event) {
         try{
-         cambiaPagina(event, "/profiloUtente.fxml", controller ->  ((GUIprofiloUtente) controller).initData(bean));
+         managerScene.apriProfilo(event, bean);
         }catch(IOException e){
             HelperErrori.errore("Errore I/O: ", e.getMessage());
 
@@ -117,29 +108,20 @@ public class GUImainMenu {
     }
 
     public void clickRicerca(ActionEvent event) throws IOException{
-        cambiaPagina(event, "/ricerca.fxml", controller -> ((GUIRicerca) controller).initData(this.bean));
+        managerScene.avviaRicerca(event, bean);
     }
 
     public void clickNuovaStruttura(ActionEvent event) throws IOException{
-        cambiaPagina(event, "/segnalaStruttura.fxml", controller -> ((GUISegnalaStruttura) controller).initData(this.bean));
+        managerScene.avviaNuovaStruttura(event, bean);
     }
     
     public void clickNuovoGruppo(ActionEvent event) throws IOException{
-        cambiaPagina(event, "/creazioneGruppo.fxml", controller -> ((GUICreazioneGruppo) controller).initData(bean));
+        managerScene.avviaCreazioneGruppo(event, bean);
     }
 
     public void clickLogout(ActionEvent event) throws IOException, SQLException {
         DBConnection.getInstance().closeConnection();
-        cambiaPagina(event, "/home.fxml", null);
+        managerScene.cambiaScena(event, "/home.fxml");
     }
 
-    private void cambiaPagina(ActionEvent event, String fxml, InitControllerAction action) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource(fxml));
-        Parent root = loader.load();
-        if (action != null) action.init(loader.getController());
-        Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-        stage.getScene().setRoot(root);
-    }
-    
-    interface InitControllerAction { void init(Object controller); }
 }

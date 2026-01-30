@@ -2,11 +2,8 @@ package appolloni.migliano.gui;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.control.*;
-import javafx.stage.Stage;
+
 
 import appolloni.migliano.bean.BeanUtenti;
 
@@ -14,6 +11,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 
 import appolloni.migliano.HelperErrori;
+import appolloni.migliano.ManagerScene;
 import appolloni.migliano.bean.BeanStruttura;
 import appolloni.migliano.controller.ControllerGestioneStrutture;
 import appolloni.migliano.exception.CampiVuotiException;
@@ -33,6 +31,7 @@ public class GUISegnalaStruttura {
     @FXML private Label lblRisultato;
 
     private BeanUtenti studenteLoggato;
+    private ManagerScene managerScene = new ManagerScene();
     private ControllerGestioneStrutture controllerApp = new ControllerGestioneStrutture(); 
     private static final String RED = "-fx-text-fill: red;";
 
@@ -102,15 +101,8 @@ public class GUISegnalaStruttura {
     @FXML
     public void clickIndietro(ActionEvent event) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/mainMenu.fxml")); 
-            Parent root = loader.load();
-            
-            GUImainMenu controllerMenu = loader.getController();
-            controllerMenu.initData(studenteLoggato); 
+            managerScene.avviaMainMenu(event, studenteLoggato);
 
-            Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-            
-            stage.getScene().setRoot(root); 
 
         } catch (Exception e) {
             HelperErrori.errore("Errore Generico:", e.getMessage());

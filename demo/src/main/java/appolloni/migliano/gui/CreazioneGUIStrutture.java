@@ -2,6 +2,7 @@ package appolloni.migliano.gui;
 import java.io.IOException;
 
 import appolloni.migliano.HelperErrori;
+import appolloni.migliano.ManagerScene;
 import appolloni.migliano.bean.BeanStruttura;
 import appolloni.migliano.bean.BeanUtenti;
 import appolloni.migliano.controller.ControllerGestioneStrutture;
@@ -9,9 +10,7 @@ import appolloni.migliano.exception.CampiVuotiException;
 import appolloni.migliano.exception.CreazioneFallita;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -45,6 +44,7 @@ public class CreazioneGUIStrutture {
     @FXML private Label lblNomeFile;
     private File fileImmagineSelezionato = null;
     private BeanUtenti beanCurr;
+    private ManagerScene managerScene = new ManagerScene();
 
 
 
@@ -81,7 +81,7 @@ public class CreazioneGUIStrutture {
     }
 
      @FXML
-     public void clickRegistra(){
+     public void clickRegistra(ActionEvent event){
         String tipoAttivita = beanCurr.getTipoAttivita();
         String nome = beanCurr.getNomeAttivita();
         String tipo = comboTipo.getValue();
@@ -118,13 +118,7 @@ public class CreazioneGUIStrutture {
              lblRisultato.setText("Registrazione Effettuata con Successo!");
              lblRisultato.setStyle("-fx-text-fill: green;");
 
-             FXMLLoader loader =new FXMLLoader(getClass().getResource("/hostMenu.fxml"));
-             Parent root = loader.load();
-             GUIhostMenu hostMenu = loader.getController();
-             hostMenu.initData(beanCurr);
-
-             Stage stage = (Stage)(lblRisultato).getScene().getWindow();
-             stage.getScene().setRoot(root);
+             managerScene.avviaMenuHost(event, beanCurr);
 
         }catch(CampiVuotiException e){
 
@@ -159,10 +153,7 @@ public class CreazioneGUIStrutture {
      @FXML 
      public void clickIndietro(ActionEvent event) throws IOException{
         try{
-         FXMLLoader loader = new FXMLLoader(getClass().getResource("/creazioneUtente.fxml"));
-            Parent root = loader.load();
-            Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-             stage.getScene().setRoot(root);
+         managerScene.cambiaScena(event,"/home.fxml");
             
     
         } catch (Exception e) {

@@ -2,12 +2,7 @@ package appolloni.migliano.gui;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Label;
-import javafx.stage.Stage;
 import javafx.scene.image.Image;      
 import javafx.scene.image.ImageView;
 import java.io.File;
@@ -16,6 +11,7 @@ import java.sql.SQLException;
 import java.util.List;
 import javafx.scene.control.ListView;
 import appolloni.migliano.HelperErrori;
+import appolloni.migliano.ManagerScene;
 import appolloni.migliano.bean.BeanRecensioni;
 import appolloni.migliano.bean.BeanStruttura;
 import appolloni.migliano.bean.BeanUtenti;
@@ -42,6 +38,7 @@ public class GUIdettagliStruttura {
     private static final String RED = "-fx-text-fill: red;";
     private static final String FORMATO = "%s\nVoto: %d/5\n\"%s\"";
 
+    private ManagerScene managerScene = new ManagerScene();
 
  public void initData(BeanUtenti utente, BeanStruttura strutturaParziale) {
     this.beanUtente = utente;
@@ -123,33 +120,13 @@ public class GUIdettagliStruttura {
 
     @FXML
     public void clickScrivi(ActionEvent event) throws IOException{
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/scriviRecensione.fxml"));
-        Parent root = loader.load();
-        
-        GUIScriviRecensione controller = loader.getController();
-        controller.initData(beanUtente, beanStruttura); 
-
-        Stage newStage = new Stage(); 
-        newStage.setTitle("Scrivi Recensione");
-        newStage.setScene(new Scene(root));
-        
-
-        newStage.initModality(javafx.stage.Modality.APPLICATION_MODAL);
-        newStage.showAndWait(); 
+       managerScene.scriviRecensione(event, beanUtente, beanStruttura);
     
         caricaRecensioni();
     } 
 
     @FXML
     public void clickIndietro(ActionEvent event) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/ricerca.fxml"));
-        Parent root = loader.load();
-        
-        GUIRicerca controller = loader.getController();
-        controller.initData(beanUtente); 
-
-        Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-
-        stage.getScene().setRoot(root);
+        managerScene.avviaRicerca(event, beanUtente);
     }
 }

@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 import appolloni.migliano.HelperErrori;
+import appolloni.migliano.ManagerScene;
 import appolloni.migliano.bean.BeanGruppo;
 import appolloni.migliano.bean.BeanUtenti;
 import appolloni.migliano.controller.ControllerGestioneGruppo;
@@ -12,14 +13,11 @@ import appolloni.migliano.exception.CampiVuotiException;
 import appolloni.migliano.exception.CreazioneFallita;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.stage.Stage;
+
 
 public class GUICreazioneGruppo {
 
@@ -34,6 +32,7 @@ public class GUICreazioneGruppo {
     private ControllerGestioneGruppo controllerCreazioneGruppo = new ControllerGestioneGruppo();
     private static final String ORANGE= "-fx-text-fill: orange;";
     private static final String RED = "-fx-text-fill: red;";
+    private ManagerScene managerScene = new ManagerScene();
     public void initData(BeanUtenti utente){
         this.bean = utente;
         comboLuogo.setEditable(true);
@@ -91,14 +90,7 @@ public class GUICreazioneGruppo {
             pulisci();
 
             
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/mainMenu.fxml"));
-            Parent root = loader.load();
-            GUImainMenu mainMenu = loader.getController();
-            mainMenu.initData(bean);
-
-            Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-            
-            stage.getScene().setRoot(root); 
+            managerScene.avviaMainMenu(event, bean);
 
         } catch(SQLException e){
            HelperErrori.errore("Errore creazione gruppo:", "Gruppo esistente");
@@ -118,15 +110,7 @@ public class GUICreazioneGruppo {
 
     @FXML
     public void clickIndietro(ActionEvent event) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/mainMenu.fxml"));
-        Parent root = loader.load();
-        GUImainMenu guImainMenu = loader.getController();
-        guImainMenu.initData(this.bean);
-        
-        Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-        
-    
-        stage.getScene().setRoot(root); 
+     managerScene.avviaMainMenu(event, bean);
     }
 
     @FXML

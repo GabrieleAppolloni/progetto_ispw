@@ -94,6 +94,7 @@ public class ControllerGestioneStrutture {
          beanStruttura.setOrario(struttura.getOrario());
          beanStruttura.setTipoAttivita(struttura.getTipoAttivita());
          beanStruttura.setGestore(struttura.getGestore());
+         beanStruttura.setFoto(struttura.getFoto());
         return beanStruttura;
 
     }
@@ -113,6 +114,7 @@ public class ControllerGestioneStrutture {
         struttura2.setTipoAttivita(struttura.getTipoAttivita());
         struttura2.setGestore(struttura.getGestore());
         struttura2.setOrario(struttura.getOrario());
+        struttura2.setFoto(struttura.getFoto());
         daoStrutture.updateStruttura(struttura2, vecchionNome);
     
   }

@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 
 import appolloni.migliano.HelperErrori;
+import appolloni.migliano.ManagerScene;
 import appolloni.migliano.bean.BeanUtenti;
 import appolloni.migliano.controller.ControllerGestioneUtente;
 import appolloni.migliano.exception.CampiVuotiException;
@@ -11,16 +12,13 @@ import appolloni.migliano.exception.CreazioneFallita;
 import appolloni.migliano.exception.EmailNonValidaException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox; 
-import javafx.stage.Stage;
-import javafx.scene.Node;
+
 
 public class CreazioneGUIController {
 
@@ -42,7 +40,7 @@ public class CreazioneGUIController {
 
     private ControllerGestioneUtente controllerCreazioneUtente = new ControllerGestioneUtente();
     private static final String COLORE= "-fx-text-fill: red;";
-
+    private ManagerScene managerScene = new ManagerScene();
 
     @FXML
     public void initialize() {
@@ -99,28 +97,13 @@ public class CreazioneGUIController {
                 beanUtente.setTipoAttivita(tipoAtt);
                 beanUtente.setNomeAttivita(nomeAtt);
 
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/creazioneStrutture.fxml"));
-                Parent root = loader.load();
-                CreazioneGUIStrutture creazioneGUIStrutture = loader.getController();
-                creazioneGUIStrutture.initData(beanUtente);
-
-                Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-                
-                stage.getScene().setRoot(root);
-                stage.setTitle("Registrazione Struttura");
+                managerScene.avviaCreazioneStrutture(event, beanUtente);
 
                 
                 
             }else{
               controllerCreazioneUtente.creazioneUtente(beanUtente);
-              FXMLLoader loader = new FXMLLoader(getClass().getResource("/mainMenu.fxml"));
-              Parent root = loader.load();
-              GUImainMenu guImainMenu = loader.getController();
-              guImainMenu.initData(beanUtente);
-
-              Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-                
-              stage.getScene().setRoot(root);
+              managerScene.avviaMainMenu(event, beanUtente);
 
             }
 
@@ -146,10 +129,7 @@ public class CreazioneGUIController {
 
         
     public void clickIndietro(ActionEvent event) throws IOException{
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/home.fxml"));
-                Parent root = loader.load();
-                Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-                stage.getScene().setRoot(root);
+        managerScene.cambiaScena(event,"/home.fxml");
     }
     
     

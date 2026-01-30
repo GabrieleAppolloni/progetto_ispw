@@ -3,11 +3,8 @@ package appolloni.migliano.gui;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
@@ -24,6 +21,7 @@ import java.io.File;
 
 import appolloni.migliano.DBConnection;
 import appolloni.migliano.HelperErrori;
+import appolloni.migliano.ManagerScene;
 import appolloni.migliano.bean.BeanRecensioni;
 import appolloni.migliano.bean.BeanStruttura;
 import appolloni.migliano.bean.BeanUtenti;
@@ -53,6 +51,8 @@ public class GUIhostMenu {
     private BeanUtenti beanUtente;
     private ControllerGestioneStrutture controllerStruttura;
     private ControllerRecensioni controllerRecensioni = new ControllerRecensioni();
+    private ManagerScene managerScene = new ManagerScene();
+
     public void initData(BeanUtenti utente){
 
         this.beanUtente = utente;
@@ -202,17 +202,8 @@ public class GUIhostMenu {
     @FXML
   public void clickAggiornaDati(ActionEvent event) {
     try {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/modificaStruttura.fxml"));
-        Parent root = loader.load();
-
-        GUIModificaStruttura controllerModifica = loader.getController();
-        controllerModifica.initData(controllerStruttura.visualizzaStrutturaHost(beanUtente.getEmail()));
-
-        Stage stage = new Stage();
-        stage.setScene(new Scene(root));
-        stage.setTitle("Modifica Struttura");
-        stage.showAndWait(); 
-        caricaInformazioni(); 
+       managerScene.modificaDatiHost(event, beanUtente);
+       caricaInformazioni();
 
     } catch (Exception e) {
         HelperErrori.errore(ERRORE, e.getMessage());
@@ -223,10 +214,7 @@ public class GUIhostMenu {
     @FXML
     public void clickLogout(ActionEvent event) throws IOException, SQLException {
         DBConnection.getInstance().closeConnection();
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/login.fxml")); // o home.fxml
-        Parent root = loader.load();
-        Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-        stage.getScene().setRoot(root);
+        managerScene.cambiaScena(event, "/home.fxml");
     }
 
 

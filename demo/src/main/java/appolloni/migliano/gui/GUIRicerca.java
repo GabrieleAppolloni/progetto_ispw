@@ -2,21 +2,19 @@ package appolloni.migliano.gui;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
-import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
+
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 
 import appolloni.migliano.HelperErrori;
+import appolloni.migliano.ManagerScene;
 import appolloni.migliano.bean.BeanGruppo;
 import appolloni.migliano.bean.BeanStruttura;
 import appolloni.migliano.bean.BeanUtenti;
@@ -46,6 +44,7 @@ public class GUIRicerca {
     private static final String GRUPPO = "Gruppo";
     private static final String STRUTTURA = "Struttura";
     private static final String COLORE= "-fx-text-fill: red;";
+    private ManagerScene managerScene = new ManagerScene();
 
 
     @FXML
@@ -200,15 +199,8 @@ public class GUIRicerca {
            
             btnDettagli.setOnAction(e -> {
               try {
-               FXMLLoader loader = new FXMLLoader(getClass().getResource("/infoStruttura.fxml"));
-               Parent root = loader.load();
 
-               
-               GUIdettagliStruttura controllerDettagli = loader.getController();
-               controllerDettagli.initData(beanUtente, s); 
-
-               Stage stage = (Stage) containerRisultati.getScene().getWindow();
-               stage.getScene().setRoot(root); 
+                managerScene.avviaDettagliStruttura(e, beanUtente, s,containerRisultati);
 
               } catch (IOException ex) {
                  HelperErrori.errore("Errore Generico:", ex.getMessage());
@@ -228,12 +220,6 @@ public class GUIRicerca {
 
     @FXML
     public void clickIndietro(ActionEvent event) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/mainMenu.fxml"));
-        Parent root = loader.load();
-        GUImainMenu mainMenu = loader.getController();
-        mainMenu.initData(beanUtente);
-
-        Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-        stage.getScene().setRoot(root);
+        managerScene.avviaMainMenu(event, beanUtente);
     }
 }

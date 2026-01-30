@@ -4,18 +4,16 @@ import java.io.IOException;
 import java.sql.SQLException;
 
 import appolloni.migliano.HelperErrori;
+import appolloni.migliano.ManagerScene;
 import appolloni.migliano.bean.BeanUtenti;
 import appolloni.migliano.controller.ControllerGestioneUtente;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
+
 
 public class GUIprofiloUtente {
 
@@ -34,6 +32,7 @@ public class GUIprofiloUtente {
     private BeanUtenti beanUtente;
     private  static final String RED = "-fx-text-fill: red;";
     private ControllerGestioneUtente controllerProfiloUtente;
+    private ManagerScene managerScene = new ManagerScene();
 
     public void initData(BeanUtenti utente){
         this.beanUtente = utente;
@@ -61,15 +60,7 @@ public class GUIprofiloUtente {
 
     @FXML
     public void clickIndietro(ActionEvent event) throws IOException{
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/mainMenu.fxml"));
-        Parent root = loader.load();
-        GUImainMenu guImainMenu = loader.getController();
-        guImainMenu.initData(beanUtente);
-
-        Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-        
-
-        stage.getScene().setRoot(root); 
+       managerScene.avviaMainMenu(event, beanUtente);
     }
 
     @FXML
