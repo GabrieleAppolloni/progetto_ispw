@@ -10,7 +10,6 @@ import javafx.scene.control.TextField;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
-
 import appolloni.migliano.HelperErrori;
 import appolloni.migliano.ManagerScene;
 import appolloni.migliano.bean.BeanGruppo;
@@ -62,7 +61,7 @@ public class GUIChat {
         }
     }
 
-    public void aggiornaLista() {
+    private void aggiornaLista() {
         listaMessaggi.getItems().clear();
         try {
             List<BeanMessaggi> lista = controllerChat.recuperaMessaggi(this.beanGruppo);

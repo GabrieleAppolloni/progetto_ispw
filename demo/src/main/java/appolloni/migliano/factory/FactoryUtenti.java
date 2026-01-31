@@ -21,7 +21,7 @@ public class FactoryUtenti {
              
 
             default:
-                throw new IllegalArgumentException("Errore tipo di struttura non supportato: "+ type);
+                throw new IllegalArgumentException("Errore tipo di utente non supportato: "+ type);
 
           
         }

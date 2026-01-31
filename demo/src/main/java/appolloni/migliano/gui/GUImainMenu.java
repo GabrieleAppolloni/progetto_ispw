@@ -116,7 +116,7 @@ public class GUImainMenu {
     }
     
     public void clickNuovoGruppo(ActionEvent event) throws IOException{
-        managerScene.avviaCreazioneGruppo(event, bean);
+        managerScene.avviaGestioneGruppo(event, bean);
     }
 
     public void clickLogout(ActionEvent event) throws IOException, SQLException {

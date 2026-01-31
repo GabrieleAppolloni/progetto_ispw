@@ -128,7 +128,7 @@ public class ManagerScene {
 
     }
 
-    public void avviaCreazioneGruppo(ActionEvent event, BeanUtenti beanUtenti) throws IOException{
+    public void avviaGestioneGruppo(ActionEvent event, BeanUtenti beanUtenti) throws IOException{
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/creazioneGruppo.fxml")); 
         Parent root = loader.load();
 

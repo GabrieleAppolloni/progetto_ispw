@@ -114,7 +114,7 @@ public class GUICreazioneGruppo {
     }
 
     @FXML
-    public void pulisci(){
+    private void pulisci(){
         txtMateria.clear();
         txtNome.clear();
         txtCitta.clear();
