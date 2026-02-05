@@ -2,6 +2,7 @@ package appolloni.migliano.cli;
 
 
 import appolloni.migliano.LeggInputCli;
+import appolloni.migliano.ManagerCLI;
 import appolloni.migliano.bean.BeanUtenti;
 import appolloni.migliano.controller.ControllerGestioneUtente;
 import appolloni.migliano.exception.CampiVuotiException;
@@ -50,14 +51,14 @@ public class CreazioneUtenteCLI {
 
                 beanUtenti.setNomeAttivita(strutt);
                 beanUtenti.setTipoAttivita(tipoatt);
-                new CreazioneStruttureCLI(beanUtenti).start();
+                ManagerCLI.getInstance().avviaCreazioneStruttura(beanUtenti);
                 
                 
             } else {
                 
                 salvaUtente(beanUtenti);
                 System.out.println("Benvenuto Studente! Reindirizzamento al menu principale..."); //NOSONAR
-                new MenuPrincipaleCLI(beanUtenti).start();
+                ManagerCLI.getInstance().avviaMainMenu(beanUtenti);
                 
             }
 

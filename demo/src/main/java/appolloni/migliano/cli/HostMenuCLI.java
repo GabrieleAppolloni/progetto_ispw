@@ -3,6 +3,7 @@ package appolloni.migliano.cli;
 import java.util.List;
 
 import appolloni.migliano.LeggInputCli;
+import appolloni.migliano.ManagerCLI;
 import appolloni.migliano.bean.BeanRecensioni;
 import appolloni.migliano.bean.BeanStruttura;
 import appolloni.migliano.bean.BeanUtenti;
@@ -55,7 +56,7 @@ public class HostMenuCLI {
                 String scelta = LeggInputCli.leggiStringa("Scelta: ");
 
                 switch (scelta) {
-                    case "1" -> new ModificaStrutturaCLI(beanUtente, struttura).start();
+                    case "1" -> ManagerCLI.getInstance().ModificaStruttura(beanUtente, struttura);
                     case "2" -> {
                         System.out.println("Logout in corso..."); //NOSONAR
                         back = true;

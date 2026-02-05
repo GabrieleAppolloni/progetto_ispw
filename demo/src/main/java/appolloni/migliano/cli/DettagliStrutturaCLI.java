@@ -1,7 +1,9 @@
 package appolloni.migliano.cli;
 
 import java.util.List;
+
 import appolloni.migliano.LeggInputCli;
+import appolloni.migliano.ManagerCLI;
 import appolloni.migliano.bean.BeanRecensioni;
 import appolloni.migliano.bean.BeanStruttura;
 import appolloni.migliano.bean.BeanUtenti;
@@ -52,7 +54,7 @@ public class DettagliStrutturaCLI {
             String scelta = LeggInputCli.leggiStringa("Scelta: ");
 
             switch (scelta) {
-                case "S" -> new ScriviRecensioneCLI(beanUtente, beanStruttura).start();
+                case "S" -> ManagerCLI.getInstance().scriviRec(beanUtente, beanStruttura);
                 case "I" -> back = true;
                 default -> System.out.println("Scelta non valida."); //NOSONAR
             }

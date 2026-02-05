@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 
 import appolloni.migliano.LeggInputCli;
+import appolloni.migliano.ManagerCLI;
 import appolloni.migliano.bean.BeanStruttura;
 import appolloni.migliano.bean.BeanUtenti;
 import appolloni.migliano.controller.ControllerGestioneStrutture;
@@ -68,7 +69,7 @@ public class CreazioneStruttureCLI {
             System.out.println("Premi invio per accedere al tuo pannello...");  //NOSONAR
             LeggInputCli.leggiStringa("");
             
-            new HostMenuCLI(utenteCorrente).start(); 
+            ManagerCLI.getInstance().avviaMenuHost(utenteCorrente);
 
         } catch (CampiVuotiException e) {
             System.err.println("\n[ERRORE] Dati mancanti: " + e.getMessage());  //NOSONAR
@@ -101,6 +102,9 @@ public class CreazioneStruttureCLI {
     }
 
 }
+
+
+
 
 
 

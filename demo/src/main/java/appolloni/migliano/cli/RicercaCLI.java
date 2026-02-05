@@ -3,6 +3,7 @@ package appolloni.migliano.cli;
 import java.util.List;
 
 import appolloni.migliano.LeggInputCli;
+import appolloni.migliano.ManagerCLI;
 import appolloni.migliano.bean.BeanGruppo;
 import appolloni.migliano.bean.BeanRecensioni;
 import appolloni.migliano.bean.BeanStruttura;
@@ -168,7 +169,7 @@ public class RicercaCLI {
         String scelta = LeggInputCli.leggiStringa("Scelta: ");
 
         if (scelta.equals("S")) {
-            new ScriviRecensioneCLI(beanUtente, s).start();
+            ManagerCLI.getInstance().scriviRec(beanUtente, s);
           
             visualizzaDettagliStruttura(s);
         }

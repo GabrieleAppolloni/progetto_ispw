@@ -3,6 +3,7 @@ package appolloni.migliano.cli;
 import java.util.List;
 
 import appolloni.migliano.LeggInputCli;
+import appolloni.migliano.ManagerCLI;
 import appolloni.migliano.bean.BeanGruppo;
 import appolloni.migliano.bean.BeanUtenti;
 import appolloni.migliano.controller.ControllerGestioneGruppo;
@@ -78,15 +79,15 @@ public class MenuPrincipaleCLI {
         System.out.println("P) Visualizza Profilo"); //NOSONAR
         System.out.println("S) Segnala Struttura"); //NOSONAR
         System.out.println("L) Logout"); //NOSONAR
-        System.out.print("\n Scelta: "); //NOSONAR
     }
 
     private void eseguiAzioneMenu(String scelta) {
+        ManagerCLI manager = ManagerCLI.getInstance();
         switch (scelta) {
-            case "R" -> new RicercaCLI(bean).start();
-            case "P" -> new ProfiloUtenteCLI(bean).start();
-            case "G" -> new CreazioneGruppoCLI(bean).start();
-            case "S" -> new SegnalaStrutturaCLI(bean).start();
+            case "R" ->  manager.avviaRicerca(bean);
+            case "P" -> manager.apriProfilo(bean);
+            case "G" -> manager.avviaCreazioneGruppo(bean);
+            case "S" -> manager.avviaSegnalaStruttura(bean);
             default -> System.out.println("Scelta non valida."); //NOSONAR
         }
     }
@@ -97,7 +98,7 @@ public class MenuPrincipaleCLI {
             if (gruppi != null && indice >= 0 && indice < gruppi.size()) {
                 BeanGruppo selezionato = gruppi.get(indice);
                 System.out.println("\n--- Apertura Chat: " + selezionato.getNome() + " ---"); //NOSONAR
-                new ChatCLI(bean, selezionato).start();
+                ManagerCLI.getInstance().avviaChat(bean, gruppi.get(indice));
             } else {
                 System.out.println("Indice gruppo non valido."); //NOSONAR
             }

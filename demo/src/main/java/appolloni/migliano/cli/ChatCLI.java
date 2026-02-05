@@ -32,7 +32,7 @@ public class ChatCLI {
                 
                 System.out.println("\n[1] Invia Messaggio | [2] Refresh | [3] Abbandona Gruppo | [4] Esci"); //NOSONAR
 
-                String scelta = LeggInputCli.leggiStringa("Scelta");
+                String scelta = LeggInputCli.leggiStringa("Scelta:");
 
                 switch (scelta) {
                     case "1" -> inviaMessaggioUI();
@@ -91,8 +91,6 @@ public class ChatCLI {
         }
     }
 }
-
-
 
 
 

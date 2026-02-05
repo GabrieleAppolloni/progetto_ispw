@@ -1,6 +1,7 @@
 package appolloni.migliano.cli;
 
 import appolloni.migliano.LeggInputCli;
+import appolloni.migliano.ManagerCLI;
 
 public class HomeCLI {
 
@@ -35,8 +36,7 @@ public class HomeCLI {
     private void vaiALogin() {
         
         System.out.println("\n--- Apertura Login ---"); //NOSONAR
-        LoginCLI loginView = new LoginCLI();
-        loginView.start();
+         ManagerCLI.getInstance().Login();
         
         
     }
@@ -44,8 +44,7 @@ public class HomeCLI {
     private void vaiARegistrazione() {
         
         System.out.println("\n--- Apertura Registrazione ---"); //NOSONAR
-        CreazioneUtenteCLI registrazioneView = new CreazioneUtenteCLI();
-        registrazioneView.start();
+         ManagerCLI.getInstance().avviaCreazioneUtente();
     }
 
 

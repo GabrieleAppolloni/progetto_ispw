@@ -3,6 +3,7 @@ package appolloni.migliano.cli;
 import java.util.Arrays;
 
 import appolloni.migliano.LeggInputCli;
+import appolloni.migliano.ManagerCLI;
 import appolloni.migliano.bean.BeanUtenti;
 import appolloni.migliano.controller.ControllerLogin;
 
@@ -54,12 +55,13 @@ public class LoginCLI {
     }
 
     private void reindirizzaUtente(BeanUtenti utente) {
+        ManagerCLI manager = ManagerCLI.getInstance();
         if ("Studente".equalsIgnoreCase(utente.getTipo())) {
             System.out.println("[Sistema] Caricamento Menu Studente..."); //NOSONAR
-            new MenuPrincipaleCLI(utente).start();
+            manager.avviaMainMenu(utente);
         } else {
             System.out.println("[Sistema] Caricamento Menu Host..."); //NOSONAR
-            new HostMenuCLI(utente).start();
+            manager.avviaMenuHost(utente);
         }
     }
 }
