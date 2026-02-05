@@ -36,7 +36,7 @@ public class HomeCLI {
     private void vaiALogin() {
         
         System.out.println("\n--- Apertura Login ---"); //NOSONAR
-         ManagerCLI.getInstance().Login();
+         ManagerCLI.getInstance().login();
         
         
     }

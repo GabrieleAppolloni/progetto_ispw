@@ -56,7 +56,7 @@ public class HostMenuCLI {
                 String scelta = LeggInputCli.leggiStringa("Scelta: ");
 
                 switch (scelta) {
-                    case "1" -> ManagerCLI.getInstance().ModificaStruttura(beanUtente, struttura);
+                    case "1" -> ManagerCLI.getInstance().modificaStruttura(beanUtente, struttura);
                     case "2" -> {
                         System.out.println("Logout in corso..."); //NOSONAR
                         back = true;

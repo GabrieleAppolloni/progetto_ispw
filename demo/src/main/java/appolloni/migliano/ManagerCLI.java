@@ -63,10 +63,10 @@ public class ManagerCLI {
     public void scriviRec(BeanUtenti bean, BeanStruttura struttura){
         new ScriviRecensioneCLI(bean, struttura).start();
     }
-    public void Login(){
+    public void login(){
         new LoginCLI().start();
     }
-    public void ModificaStruttura(BeanUtenti bean, BeanStruttura struttura){
+    public void modificaStruttura(BeanUtenti bean, BeanStruttura struttura){
         new ModificaStrutturaCLI(bean, struttura).start();
     }
 }
