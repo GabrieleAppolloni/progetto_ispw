@@ -8,9 +8,7 @@ import appolloni.migliano.entity.Gruppo;
 import appolloni.migliano.entity.Studente;
 import appolloni.migliano.entity.Utente;
 import appolloni.migliano.exception.CampiVuotiException;
-import appolloni.migliano.exception.CreazioneFallita;
 import appolloni.migliano.factory.FactoryDAO;
-import appolloni.migliano.factory.FactoryGruppo;
 import appolloni.migliano.interfacce.InterfacciaDaoStruttura;
 import appolloni.migliano.interfacce.InterfacciaGruppo;
 import appolloni.migliano.interfacce.InterfacciaUtente;
@@ -31,7 +29,7 @@ public class ControllerGestioneGruppo {
         return daoStrutture.recuperaNomiStrutture(citta);
     }
 
-    public void creaGruppo(BeanUtenti bean, BeanGruppo beanGruppo) throws SQLException, CampiVuotiException, CreazioneFallita {
+    public void creaGruppo(BeanUtenti bean, BeanGruppo beanGruppo) throws SQLException, CampiVuotiException {
 
         if(!bean.getTipo().equals("Studente")){
              throw new IllegalArgumentException("L'utente non ha i permessi");
@@ -50,8 +48,7 @@ public class ControllerGestioneGruppo {
             throw new SQLException("Utente admin non trovato");
          }
  
-         Gruppo gruppo = FactoryGruppo.creaGruppo(beanGruppo.getNome(), u1);
-         if(gruppo == null){ throw new CreazioneFallita("Creazione gruppo fallita");}
+         Gruppo gruppo = new Gruppo(beanGruppo.getNome(), u1);
          gruppo.setMateria(beanGruppo.getMateria());
          gruppo.setCitta(beanGruppo.getCitta());
          gruppo.setLuogo(beanGruppo.getLuogo());

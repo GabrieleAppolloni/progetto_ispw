@@ -12,7 +12,6 @@ import appolloni.migliano.entity.Gruppo;
 import appolloni.migliano.entity.Messaggio;
 import appolloni.migliano.entity.Utente;
 import appolloni.migliano.factory.FactoryDAO;
-import appolloni.migliano.factory.FactoryMessaggi;
 import appolloni.migliano.interfacce.InterfacciaGruppo;
 import appolloni.migliano.interfacce.InterfacciaMessaggi;
 import appolloni.migliano.interfacce.InterfacciaUtente;
@@ -60,7 +59,7 @@ public class ControllerChat {
         if( testo.trim().isEmpty()) {throw new IllegalArgumentException("Inserire il messaggio, impossibile inviare un messsaggio vuoto");}
         Utente user = daoUtente.cercaUtente(mittente.getEmail());
         Gruppo g = daoGruppo.cercaGruppo(gruppo.getNome());
-        Messaggio messaggio = FactoryMessaggi.creaMessaggio(testo, g, user);
+        Messaggio messaggio = new Messaggio(testo, g, user);
         daoMessaggi.nuovoMessaggio(messaggio);
     
     }

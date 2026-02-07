@@ -7,12 +7,11 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextArea;
 import javafx.stage.Stage;
-import appolloni.migliano.HelperErrori;
 import appolloni.migliano.bean.BeanRecensioni;
 import appolloni.migliano.bean.BeanStruttura;
 import appolloni.migliano.bean.BeanUtenti;
 import appolloni.migliano.controller.ControllerRecensioni;
-import appolloni.migliano.exception.CreazioneFallita;
+
 
 
 public class GUIScriviRecensione {
@@ -50,10 +49,6 @@ public class GUIScriviRecensione {
             controllerRecensioni.inserisciRecensione(beanRecensioni);
 
             chiudiFinestra(event);
-
-        }catch(CreazioneFallita e){
-             HelperErrori.errore("Errore creazione recensione:", e.getMessage());
-
         } catch ( Exception e) {
             lblErrore.setText(e.getMessage());
         }
