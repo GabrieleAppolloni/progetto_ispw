@@ -27,7 +27,7 @@ public class ControllerGestioneStrutture {
    
    
 
-    public void creaStruttura(BeanUtenti bean, BeanStruttura beanStr) throws CampiVuotiException,SQLException,IOException, CreazioneFallita, IllegalArgumentException{
+    public void creaStruttura(BeanUtenti bean, BeanStruttura beanStr) throws CampiVuotiException,SQLException,IOException, IllegalArgumentException{
 
       String type = beanStr.getTipo();
       String nomeStruttura = beanStr.getName();
@@ -47,8 +47,7 @@ public class ControllerGestioneStrutture {
        if(checkStruttura(nomeStruttura, citta)){ throw new IllegalArgumentException("Errore: struttura già esistente!");}
 
         Struttura struttura = new Struttura(type, nomeStruttura, citta, indirizzo,wifi, ristorazione);
-      
-
+        
        struttura.setGestore(responsabile);
        struttura.setTipoAttivita(tipoAtt);
        struttura.setOrario(orario);

@@ -15,7 +15,6 @@ import appolloni.migliano.ManagerScene;
 import appolloni.migliano.bean.BeanStruttura;
 import appolloni.migliano.controller.ControllerGestioneStrutture;
 import appolloni.migliano.exception.CampiVuotiException;
-import appolloni.migliano.exception.CreazioneFallita;
 
 
 public class GUISegnalaStruttura {
@@ -91,10 +90,6 @@ public class GUISegnalaStruttura {
         } catch(SQLException | IOException e){
             lblRisultato.setText("Errore: salvataggio dati !");
             lblRisultato.setStyle(RED);
-        }catch(CreazioneFallita e){
-            lblRisultato.setText("Errore: caricamento dei dati!");
-            lblRisultato.setStyle(RED);
-
         }
     }
 
