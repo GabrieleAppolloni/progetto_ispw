@@ -6,6 +6,7 @@ import appolloni.migliano.bean.BeanUtenti;
 import appolloni.migliano.factory.FactoryDAO;
 import appolloni.migliano.factory.FactoryUtenti;
 import appolloni.migliano.interfacce.InterfacciaUtente;
+import appolloni.migliano.entity.Host;
 import appolloni.migliano.entity.Utente;
 import appolloni.migliano.exception.CampiVuotiException;
 import appolloni.migliano.exception.CreazioneFallita;
@@ -46,10 +47,14 @@ public class ControllerGestioneUtente{
          }
 
 
-         if (bean.getTipo().equals("Host") &&(bean.getNomeAttivita() == null || bean.getNomeAttivita().isEmpty() || 
-            bean.getTipoAttivita() == null || bean.getTipoAttivita().isEmpty())) {
+         if(utente instanceof Host){
+          if (bean.getNomeAttivita() == null || bean.getNomeAttivita().isEmpty() || 
+            bean.getTipoAttivita() == null || bean.getTipoAttivita().isEmpty()){
             throw new CampiVuotiException("Errore: Dati attività mancanti per l'Host.");
            }
+           ((Host)utente).setNomeAttivita(bean.getNomeAttivita());
+           ((Host)utente).setTipoAttivita(bean.getTipoAttivita());
+         }
           daoUtente.salvaUtente(utente);
 
 

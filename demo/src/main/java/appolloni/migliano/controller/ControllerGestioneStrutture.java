@@ -6,7 +6,6 @@ import appolloni.migliano.exception.CampiVuotiException;
 import appolloni.migliano.exception.CreazioneFallita;
 import appolloni.migliano.exception.EmailNonValidaException;
 import appolloni.migliano.factory.FactoryDAO;
-import appolloni.migliano.factory.FactoryStrutture;
 import appolloni.migliano.interfacce.InterfacciaDaoStruttura;
 
 
@@ -47,11 +46,8 @@ public class ControllerGestioneStrutture {
 
        if(checkStruttura(nomeStruttura, citta)){ throw new IllegalArgumentException("Errore: struttura già esistente!");}
 
-        Struttura struttura = FactoryStrutture.creazioneStrutture(type, nomeStruttura, citta, indirizzo,wifi, ristorazione);
-        
-       if (struttura == null) {
-             throw new CreazioneFallita("Creazione struttura fallita.");
-       }
+        Struttura struttura = new Struttura(type, nomeStruttura, citta, indirizzo,wifi, ristorazione);
+      
 
        struttura.setGestore(responsabile);
        struttura.setTipoAttivita(tipoAtt);
@@ -110,7 +106,7 @@ public class ControllerGestioneStrutture {
         if(struttura.getCitta().isEmpty() || struttura.getGestore().isEmpty() || struttura.getIndirizzo().isEmpty()|| struttura.getName().isEmpty()|| struttura.getOrario().isEmpty()||struttura.getTipoAttivita().isEmpty()){
             throw new CampiVuotiException("Dati mancanti");
         }
-        Struttura struttura2 = FactoryStrutture.creazioneStrutture(struttura.getTipo(), struttura.getName(), struttura.getCitta(), struttura.getIndirizzo(), struttura.hasWifi(), struttura.hasRistorazione());
+        Struttura struttura2 = new Struttura(struttura.getTipo(), struttura.getName(), struttura.getCitta(), struttura.getIndirizzo(), struttura.hasWifi(), struttura.hasRistorazione());
         struttura2.setTipoAttivita(struttura.getTipoAttivita());
         struttura2.setGestore(struttura.getGestore());
         struttura2.setOrario(struttura.getOrario());
@@ -149,7 +145,7 @@ public class ControllerGestioneStrutture {
 
 public void rivendicaStruttura(BeanStruttura beanDatiNuovi, String emailHost) throws IOException, SQLException {
     
-    Struttura strutturaAggiornata = FactoryStrutture.creazioneStrutture(
+    Struttura strutturaAggiornata = new Struttura(
         beanDatiNuovi.getTipo(), 
         beanDatiNuovi.getName(), 
         beanDatiNuovi.getCitta(), 

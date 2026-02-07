@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import appolloni.migliano.entity.Struttura;
 import appolloni.migliano.interfacce.InterfacciaDaoStruttura;
-import appolloni.migliano.factory.FactoryStrutture;
+
 
 public class DAOStruttureDB implements InterfacciaDaoStruttura {
 
@@ -165,7 +165,7 @@ public class DAOStruttureDB implements InterfacciaDaoStruttura {
    
     private Struttura recuperaStruttura(ResultSet rs) throws SQLException {
         
-        Struttura s = FactoryStrutture.creazioneStrutture(
+        Struttura s = new Struttura(
             rs.getString("tipo"),           
             rs.getString("nome"),           
             rs.getString("citta"),

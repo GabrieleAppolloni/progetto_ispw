@@ -9,7 +9,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import appolloni.migliano.entity.Struttura;
-import appolloni.migliano.factory.FactoryStrutture;
 import appolloni.migliano.interfacce.InterfacciaDaoStruttura;
 
 public class DAOStruttureFILE  implements InterfacciaDaoStruttura{
@@ -40,7 +39,7 @@ public class DAOStruttureFILE  implements InterfacciaDaoStruttura{
             while((line = br.readLine()) != null){
                 String[] dati = line.split(";");
                 if(dati.length >= 10 && dati[0].equals(nomeStruttura)&& dati[5].equals(gestore)){
-                    struttura = FactoryStrutture.creazioneStrutture(dati[1], dati[0],dati[2],dati[3], Boolean.parseBoolean(dati[7]), Boolean.parseBoolean(dati[8]));
+                    struttura = new Struttura(dati[1], dati[0],dati[2],dati[3], Boolean.parseBoolean(dati[7]), Boolean.parseBoolean(dati[8]));
                     struttura.setTipoAttivita(dati[9]);
                     struttura.setGestore(dati[5]);
                     struttura.setFoto(dati[6]);
@@ -94,7 +93,7 @@ public class DAOStruttureFILE  implements InterfacciaDaoStruttura{
         foto = "placeholder.png";
      }
 
-     Struttura s = FactoryStrutture.creazioneStrutture(
+     Struttura s = new Struttura(
         dati[1], 
         dati[0],
         dati[2], 
@@ -121,7 +120,7 @@ public class DAOStruttureFILE  implements InterfacciaDaoStruttura{
             while ((line = br.readLine()) != null) {
                 String[] dati = line.split(";");
                 if (dati.length >= 10 && dati[5].equals(emailHost)) {
-                    Struttura s = FactoryStrutture.creazioneStrutture(
+                    Struttura s = new Struttura(
                         dati[1], 
                         dati[0], 
                         dati[2], 
