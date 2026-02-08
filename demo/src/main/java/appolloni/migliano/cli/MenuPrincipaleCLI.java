@@ -31,8 +31,8 @@ public class MenuPrincipaleCLI {
 
             stampaOpzioniNavigazione();
 
-            String scelta = LeggInputCli.leggiStringa("Opzione scelta: ");
-
+            String scelta = LeggInputCli.leggiStringa("Opzione scelta: ").trim().toUpperCase();
+            if (scelta.isEmpty()) continue; 
             
             if (scelta.matches("\\d+")) {
                 gestioneSceltaChat(scelta, gruppiUtente);
@@ -84,7 +84,7 @@ public class MenuPrincipaleCLI {
     private void eseguiAzioneMenu(String scelta) {
         ManagerCLI manager = ManagerCLI.getInstance();
         switch (scelta) {
-            case "R" ->  manager.avviaRicerca(bean);
+            case "R" -> manager.avviaRicerca(bean);
             case "P" -> manager.apriProfilo(bean);
             case "G" -> manager.avviaCreazioneGruppo(bean);
             case "S" -> manager.avviaSegnalaStruttura(bean);

@@ -17,7 +17,6 @@ public class DBConnection {
         
     }
 
-    // metodo per ottenere l'istanza 
     public static DBConnection getInstance() {
         if (instance == null) {
             instance = new DBConnection();

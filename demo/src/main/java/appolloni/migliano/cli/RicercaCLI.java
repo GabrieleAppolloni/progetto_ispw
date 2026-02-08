@@ -78,17 +78,33 @@ public class RicercaCLI {
     }
 
     private void gestioneSelezioneGruppo(List<BeanGruppo> risultati) {
-        System.out.print("\nInserisci il numero del gruppo per unirti (o 0 per annullare): "); //NOSONAR
+    boolean continua = true;
+    while (continua) {
+        String input = LeggInputCli.leggiStringa("\nInserisci il numero del gruppo (0 per annullare): ");
+        
         try {
-            int indice = Integer.parseInt(LeggInputCli.leggiStringa("")) - 1;
-            if (indice >= 0 && indice < risultati.size()) {
-                controllerGruppo.aggiungiGruppo(beanUtente, risultati.get(indice));
-                System.out.println("[OK] Ti sei unito al gruppo con successo!"); //NOSONAR
+            int scelta = Integer.parseInt(input);
+            
+            if (scelta == 0) {
+                continua = false; 
+            } else {
+                int indice = scelta - 1;
+                if (indice >= 0 && indice < risultati.size()) {
+                    controllerGruppo.aggiungiGruppo(beanUtente, risultati.get(indice));
+                    System.out.println("Ti sei unito al gruppo!"); //NOSONAR
+                    continua = false; 
+                } else {
+                    System.out.println("Numero non presente in lista! Riprova."); //NOSONAR
+                }
             }
+        } catch (NumberFormatException e) {
+            System.out.println("ERRORE: Devi inserire un numero, non lettere o spazi vuoti!"); //NOSONAR
         } catch (Exception e) {
             System.out.println("Operazione non riuscita: " + e.getMessage()); //NOSONAR
+            continua = false;
         }
     }
+}
 
 
     private void gestioneRicercaStrutture() {
@@ -122,16 +138,35 @@ public class RicercaCLI {
     }
 
     private void gestioneSelezioneStruttura(List<BeanStruttura> risultati) {
-        System.out.print("\nInserisci il numero della struttura per i dettagli (o 0 per annullare): "); //NOSONAR
+    boolean continua = true;
+
+    while (continua) {
+
+        String input = LeggInputCli.leggiStringa("\nInserisci il numero della struttura per i dettagli (o 0 per annullare): "); //NOSONAR
+
         try {
-            int indice = Integer.parseInt(LeggInputCli.leggiStringa("")) - 1;
-            if (indice >= 0 && indice < risultati.size()) {
-                visualizzaDettagliStruttura(risultati.get(indice));
+            int scelta = Integer.parseInt(input);
+
+            if (scelta == 0) {
+                System.out.println("Ritorno alla ricerca..."); //NOSONAR
+                continua = false; 
+            } else {
+                int indice = scelta - 1;
+                if (indice >= 0 && indice < risultati.size()) {
+                    visualizzaDettagliStruttura(risultati.get(indice));
+                    continua = false; 
+                } else {
+                    System.out.println("[ERRORE] Numero non presente in lista."); //NOSONAR
+                }
             }
+        } catch (NumberFormatException e) {
+            System.out.println("[ERRORE] Digitare il numero corrispondente alla struttura."); //NOSONAR
         } catch (Exception e) {
-            System.out.println("Scelta non valida."); //NOSONAR
+            System.out.println("[ERRORE] Si è verificato un problema imprevisto: " + e.getMessage()); //NOSONAR
+            continua = false;
         }
     }
+}
 
     private void visualizzaDettagliStruttura(BeanStruttura s) {
         System.out.println("\n========================================"); //NOSONAR
@@ -166,7 +201,7 @@ public class RicercaCLI {
         System.out.println("S) Scrivi una recensione"); //NOSONAR
         System.out.println("I) Torna indietro"); //NOSONAR
 
-        String scelta = LeggInputCli.leggiStringa("Scelta: ");
+        String scelta = LeggInputCli.leggiStringa("Scelta: ").trim().toUpperCase();
 
         if (scelta.equals("S")) {
             ManagerCLI.getInstance().scriviRec(beanUtente, s);
@@ -180,5 +215,6 @@ public class RicercaCLI {
         String input = LeggInputCli.leggiStringa("");
         return input.isEmpty() ? null : input;
     }
+
 
 }

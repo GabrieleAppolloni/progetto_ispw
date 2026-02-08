@@ -87,8 +87,8 @@ public class CreazioneStruttureCLI {
     }
 
     private void riprova() {  
-        String scelta = LeggInputCli.leggiStringa("Vuoi riprovare l'inserimento? (si/no): ");
-        if(scelta.equalsIgnoreCase("s")) {
+        String scelta = (LeggInputCli.leggiStringa("Vuoi riprovare l'inserimento? (si/no): ")).toLowerCase();
+        if(scelta.equalsIgnoreCase("s") || scelta.equalsIgnoreCase("si")) {
             start();
         }
     }
@@ -97,15 +97,11 @@ public class CreazioneStruttureCLI {
 
 
     private boolean chiediConferma(String domanda) {
-        String risp = LeggInputCli.leggiStringa(domanda + "(si/no)");
-        return risp.equals("si") || risp.equals("si");
+        String risp = (LeggInputCli.leggiStringa(domanda + "(si/no)")).toLowerCase();
+        return risp.equals("s") || risp.equals("si");
     }
 
 }
-
-
-
-
 
 
 

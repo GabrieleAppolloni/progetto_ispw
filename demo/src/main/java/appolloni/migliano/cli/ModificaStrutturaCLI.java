@@ -71,9 +71,9 @@ public class ModificaStrutturaCLI {
   
     private boolean chiediModificaBoolean(String campo, boolean valoreAttuale) {
         String stato = valoreAttuale ? "SI" : "NO";
-        String risp = LeggInputCli.leggiStringa(campo + " attuale [" + stato + "]. Cambiare? (si/no): ");
+        String risp = (LeggInputCli.leggiStringa(campo + " attuale [" + stato + "]. Cambiare? (si/no): ")).toLowerCase();
         
-        if (risp.equalsIgnoreCase("si")) {
+        if (risp.equalsIgnoreCase("si") || risp.equalsIgnoreCase("s")) {
             return !valoreAttuale; 
         }
         return valoreAttuale; 
