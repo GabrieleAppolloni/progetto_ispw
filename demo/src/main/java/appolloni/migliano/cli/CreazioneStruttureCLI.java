@@ -57,7 +57,7 @@ public class CreazioneStruttureCLI {
             beanStruttura.setGestore(utenteCorrente.getEmail()); 
             beanStruttura.setFoto(nomeFotoFinale);
 
-            // 5. Logica di Rivendicazione vs Nuova Creazione
+       
             if (controllerStrutture.esistenzaStruttura(utenteCorrente.getNomeAttivita())) {
                 System.out.println("Struttura già segnalata dal sistema. Procedo con la rivendicazione...");  //NOSONAR
                 controllerStrutture.rivendicaStruttura(beanStruttura, utenteCorrente.getEmail());
