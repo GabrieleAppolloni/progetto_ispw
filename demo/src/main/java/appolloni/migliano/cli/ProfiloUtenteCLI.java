@@ -4,15 +4,15 @@ package appolloni.migliano.cli;
 
 import appolloni.migliano.LeggInputCli;
 import appolloni.migliano.bean.BeanUtenti;
-import appolloni.migliano.controller.ControllerGestioneUtente;
+import appolloni.migliano.controller.ControllerProfiloUtente;
 
 public class ProfiloUtenteCLI {
 
-    private final ControllerGestioneUtente controller;
+    private final ControllerProfiloUtente controller;
     private final BeanUtenti utenteLoggato;
 
     public ProfiloUtenteCLI(BeanUtenti utente) {
-        this.controller = new ControllerGestioneUtente();
+        this.controller = new ControllerProfiloUtente();
         this.utenteLoggato = utente;
     }
 
@@ -38,7 +38,7 @@ public class ProfiloUtenteCLI {
 
     private void mostraInfoUI() {
         try {
-            BeanUtenti risultato = controller.recuperaInformazioniUtenti(utenteLoggato);
+            BeanUtenti risultato = controller.recuperaInformazioniUtente(utenteLoggato);
             
             System.out.println("\n--- DETTAGLI PROFILO ---"); //NOSONAR
             System.out.println("Nome:    " + risultato.getName()); //NOSONAR

@@ -2,8 +2,11 @@ package appolloni.migliano;
 
 import appolloni.migliano.bean.BeanStruttura;
 import appolloni.migliano.bean.BeanUtenti;
+import appolloni.migliano.controller.ControllerCreazioneStrutturaHost;
 import appolloni.migliano.controller.ControllerGestioneStrutture;
-import appolloni.migliano.controller.ControllerGestioneUtente;
+
+import appolloni.migliano.controller.ControllerRegistrazioneUtente;
+
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -11,8 +14,9 @@ import org.junit.jupiter.api.Test;
 // Appolloni Gabriele 0307344
 
  class TestControlloStrutture {
+    private ControllerCreazioneStrutturaHost controllerStrutture;
+    private ControllerRegistrazioneUtente controllerRegistrazioneUtente;
     private ControllerGestioneStrutture controllerGestioneStrutture;
-    private ControllerGestioneUtente controllerGestioneUtente;
     private BeanStruttura beanStruttura;
     private BeanUtenti beanUtenti;
    
@@ -20,8 +24,9 @@ import org.junit.jupiter.api.Test;
     @BeforeEach
     void setup() throws Exception{
         Configurazione.setTipoPersistenza("DEMO");
+        controllerStrutture = new ControllerCreazioneStrutturaHost();
+        controllerRegistrazioneUtente = new ControllerRegistrazioneUtente();
         controllerGestioneStrutture = new ControllerGestioneStrutture();
-        controllerGestioneUtente = new ControllerGestioneUtente();
         beanStruttura = new BeanStruttura("Pubblica", "Test", "Test", "Test", false, false);
         beanStruttura.setFoto("test.png");
         beanStruttura.setGestore("test@test");
@@ -36,19 +41,18 @@ import org.junit.jupiter.api.Test;
 
         
         try{
-            controllerGestioneUtente.creazioneUtente(beanUtenti);
+            controllerRegistrazioneUtente.registraUtente(beanUtenti);
         }catch(Exception e){
             e.printStackTrace();
         }
     }
 
 
-  
 
     @Test
     void testCheckStruttura(){
         try{
-            controllerGestioneStrutture.creaStruttura(beanUtenti, beanStruttura);
+            controllerStrutture.creazioneHostStruttura(beanUtenti, beanStruttura);
             BeanStruttura check = controllerGestioneStrutture.visualizzaStrutturaHost(beanStruttura.getGestore());
             controllerGestioneStrutture.cambiaFoto(beanUtenti.getEmail(), "test3");
             beanStruttura.setIndirizzo("via x");

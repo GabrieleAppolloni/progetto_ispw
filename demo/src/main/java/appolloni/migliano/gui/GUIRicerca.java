@@ -19,7 +19,7 @@ import appolloni.migliano.bean.BeanGruppo;
 import appolloni.migliano.bean.BeanStruttura;
 import appolloni.migliano.bean.BeanUtenti;
 import appolloni.migliano.controller.ControllerGestioneGruppo;
-import appolloni.migliano.controller.ControllerGestioneStrutture;
+import appolloni.migliano.controller.ControllerRicercaStrutture;
 
 
 public class GUIRicerca {
@@ -40,7 +40,7 @@ public class GUIRicerca {
 
     private BeanUtenti beanUtente;
     private ControllerGestioneGruppo controllerGruppo = new ControllerGestioneGruppo();
-    private ControllerGestioneStrutture controllerStrutture= new ControllerGestioneStrutture();
+    private ControllerRicercaStrutture controllerRicercaStrutture= new ControllerRicercaStrutture();
     private static final String GRUPPO = "Gruppo";
     private static final String STRUTTURA = "Struttura";
     private static final String COLORE= "-fx-text-fill: red;";
@@ -161,7 +161,7 @@ public class GUIRicerca {
         if("Tutti".equals(tipo)) {tipo = null;}
 
         try{
-         List<BeanStruttura> risultati = controllerStrutture.cercaStrutture(nome, citta, tipo);
+         List<BeanStruttura> risultati = controllerRicercaStrutture.cercaStrutture(nome, citta, tipo);
       
 
          if(risultati.isEmpty()) {

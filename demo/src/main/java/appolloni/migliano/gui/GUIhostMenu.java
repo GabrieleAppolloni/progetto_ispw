@@ -150,6 +150,12 @@ public class GUIhostMenu {
          } 
         }catch (Exception e){
             HelperErrori.errore("Errore generico", e.getMessage());
+            try{
+             managerScene.cambiaScena(null, "/login.fxml");
+            }catch(IOException e2){
+                HelperErrori.errore(ERRORE, "Errore caricamento interfaccia");
+
+            }
         }
 
            

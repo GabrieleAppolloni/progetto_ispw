@@ -8,7 +8,7 @@ import appolloni.migliano.HelperErrori;
 import appolloni.migliano.ManagerScene;
 import appolloni.migliano.bean.BeanGruppo;
 import appolloni.migliano.bean.BeanUtenti;
-import appolloni.migliano.controller.ControllerGestioneGruppo;
+import appolloni.migliano.controller.ControllerCreazioneGruppo;
 import appolloni.migliano.exception.CampiVuotiException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -28,10 +28,11 @@ public class GUICreazioneGruppo {
     @FXML private Label lbRisultato;
 
     private BeanUtenti bean;
-    private ControllerGestioneGruppo controllerCreazioneGruppo = new ControllerGestioneGruppo();
+    private ControllerCreazioneGruppo controllerCreazioneGruppo = new ControllerCreazioneGruppo();
     private static final String ORANGE= "-fx-text-fill: orange;";
     private static final String RED = "-fx-text-fill: red;";
     private ManagerScene managerScene = new ManagerScene();
+
     public void initData(BeanUtenti utente){
         this.bean = utente;
         comboLuogo.setEditable(true);

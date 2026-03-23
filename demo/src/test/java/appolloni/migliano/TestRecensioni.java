@@ -12,8 +12,8 @@ import org.junit.jupiter.api.Test;
 import appolloni.migliano.bean.BeanRecensioni;
 import appolloni.migliano.bean.BeanStruttura;
 import appolloni.migliano.bean.BeanUtenti;
-import appolloni.migliano.controller.ControllerGestioneStrutture;
-import appolloni.migliano.controller.ControllerGestioneUtente;
+import appolloni.migliano.controller.ControllerCreazioneStrutturaHost;
+import appolloni.migliano.controller.ControllerRegistrazioneUtente;
 import appolloni.migliano.controller.ControllerRecensioni;
 import appolloni.migliano.exception.CampiVuotiException;
 
@@ -21,8 +21,8 @@ import appolloni.migliano.exception.CampiVuotiException;
 
 class TestRecensioni {
     private ControllerRecensioni controllerRecensioni;
-    private ControllerGestioneStrutture controllerStrutture;
-    private ControllerGestioneUtente controllerUtente;
+    private ControllerCreazioneStrutturaHost controllerStrutture;
+    private ControllerRegistrazioneUtente controllerUtente;
     
     private BeanUtenti beanGuest;      
     private BeanUtenti beanHost;       
@@ -33,8 +33,8 @@ class TestRecensioni {
     void setup() throws Exception {
         Configurazione.setTipoPersistenza("DEMO");
         controllerRecensioni = new ControllerRecensioni();
-        controllerStrutture = new ControllerGestioneStrutture();
-        controllerUtente = new ControllerGestioneUtente();
+        controllerStrutture = new ControllerCreazioneStrutturaHost();
+        controllerUtente = new ControllerRegistrazioneUtente();
 
         beanHost = new BeanUtenti("Host", "Proprietario", "Test", "host@test.it", "password", "Test");
         beanHost.setTipoAttivita("Bar");
@@ -43,8 +43,8 @@ class TestRecensioni {
         beanGuest = new BeanUtenti("Studente", "Recensore", "Test", "guest@test.it", "password", "Test");
 
         try {
-            controllerUtente.creazioneUtente(beanHost);
-            controllerUtente.creazioneUtente(beanGuest);
+            controllerUtente.registraUtente(beanHost);
+            controllerUtente.registraUtente(beanGuest);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -56,7 +56,7 @@ class TestRecensioni {
         beanStruttura.setOrario("09:00-10:00");
         
         try {
-            controllerStrutture.creaStruttura(beanHost, beanStruttura);
+            controllerStrutture.creazioneHostStruttura(beanHost, beanStruttura);
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -9,17 +9,18 @@ import appolloni.migliano.bean.BeanRecensioni;
 import appolloni.migliano.bean.BeanStruttura;
 import appolloni.migliano.bean.BeanUtenti;
 import appolloni.migliano.controller.ControllerGestioneGruppo;
-import appolloni.migliano.controller.ControllerGestioneStrutture;
+
 import appolloni.migliano.controller.ControllerRecensioni;
+import appolloni.migliano.controller.ControllerRicercaStrutture;
 public class RicercaCLI {
 
-    private  ControllerGestioneStrutture controllerStrutture = new ControllerGestioneStrutture();
+    private  ControllerRicercaStrutture controllerRicercaStrutture = new ControllerRicercaStrutture();
     private  ControllerGestioneGruppo controllerGruppo = new ControllerGestioneGruppo();
     private final ControllerRecensioni controllerRecensioni;
     private final BeanUtenti beanUtente;
 
     public RicercaCLI(BeanUtenti beanUtente) {
-        this.controllerStrutture = new ControllerGestioneStrutture();
+        this.controllerRicercaStrutture = new ControllerRicercaStrutture();
         this.controllerGruppo = new ControllerGestioneGruppo();
         this.controllerRecensioni = new ControllerRecensioni();
         this.beanUtente = beanUtente;
@@ -117,7 +118,7 @@ public class RicercaCLI {
         String tipo = promptInput();
 
         try {
-            List<BeanStruttura> risultati = controllerStrutture.cercaStrutture(nome, citta, tipo);
+            List<BeanStruttura> risultati = controllerRicercaStrutture.cercaStrutture(nome, citta, tipo);
             if (risultati.isEmpty()) {
                 System.out.println("Nessuna struttura trovata."); //NOSONAR
             } else {

@@ -5,9 +5,8 @@ import appolloni.migliano.HelperErrori;
 import appolloni.migliano.ManagerScene;
 import appolloni.migliano.bean.BeanStruttura;
 import appolloni.migliano.bean.BeanUtenti;
-import appolloni.migliano.controller.ControllerGestioneStrutture;
+import appolloni.migliano.controller.ControllerCreazioneStrutturaHost;
 import appolloni.migliano.exception.CampiVuotiException;
-import appolloni.migliano.exception.CreazioneFallita;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -49,8 +48,7 @@ public class CreazioneGUIStrutture {
 
 
     private static final String COLORE = "-fx-text-fill: red;";
-    private ControllerGestioneStrutture controllerGestioneStrutture = new ControllerGestioneStrutture();
-
+    private ControllerCreazioneStrutturaHost controllerCreazioneStrutturaHost = new ControllerCreazioneStrutturaHost();
      @FXML
      public void initialize(){
         comboTipo.getItems().addAll("Privata","Pubblica");
@@ -110,9 +108,9 @@ public class CreazioneGUIStrutture {
 
               if (cercaOrfana(nome)) {
            
-              controllerGestioneStrutture.rivendicaStruttura(beanStruttura, gestore);
+              controllerCreazioneStrutturaHost.rivendicaStruttura(beanStruttura, gestore);
              } else {
-              controllerGestioneStrutture.creaStrutturaHost(beanCurr, beanStruttura);
+              controllerCreazioneStrutturaHost.creazioneHostStruttura(beanCurr, beanStruttura);
              }
              pulisci(); 
              lblRisultato.setText("Registrazione Effettuata con Successo!");
@@ -126,12 +124,12 @@ public class CreazioneGUIStrutture {
             lblRisultato.setStyle(COLORE);
         
         }catch(SQLException e){
+            e.printStackTrace();
             HelperErrori.errore("Errore creazione struttura:", e.getMessage());
+            
 
         }catch(IOException e){
             HelperErrori.errore("Errore salvataggio:", e.getMessage());
-        }catch(CreazioneFallita e){
-            HelperErrori.errore("Errore creazione struttura", e.getMessage());
         }catch(Exception e){
             lblRisultato.setText("Errore: "+ e.getMessage());
             lblRisultato.setStyle(COLORE);
@@ -143,7 +141,7 @@ public class CreazioneGUIStrutture {
 
 
     private boolean cercaOrfana(String nomeStruttura) throws IOException, SQLException{
-        return controllerGestioneStrutture.esistenzaStruttura(nomeStruttura);
+        return controllerCreazioneStrutturaHost.esistenzaStruttura(nomeStruttura);
 
     }
 

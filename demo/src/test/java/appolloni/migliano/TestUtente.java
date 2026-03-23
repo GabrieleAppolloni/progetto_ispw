@@ -4,8 +4,12 @@ import appolloni.migliano.bean.BeanGruppo;
 import appolloni.migliano.bean.BeanMessaggi;
 import appolloni.migliano.bean.BeanUtenti;
 import appolloni.migliano.controller.ControllerChat;
+import appolloni.migliano.controller.ControllerCreazioneGruppo;
 import appolloni.migliano.controller.ControllerGestioneGruppo;
-import appolloni.migliano.controller.ControllerGestioneUtente;
+
+import appolloni.migliano.controller.ControllerProfiloUtente;
+import appolloni.migliano.controller.ControllerRegistrazioneUtente;
+
 import static org.junit.jupiter.api.Assertions.*;
 import java.util.List;
 
@@ -16,14 +20,16 @@ import org.junit.jupiter.api.Test;
 
  class TestUtente {
     
-    private ControllerGestioneUtente controllerGestioneUtente;
+    private ControllerProfiloUtente controllerGestioneUtente;
+    private ControllerRegistrazioneUtente controllerRegistrazioneUtente;
     private BeanUtenti beanUtenti;
    
 
     @BeforeEach
     void setup(){
         Configurazione.setTipoPersistenza("DEMO");
-        controllerGestioneUtente = new ControllerGestioneUtente();
+        controllerGestioneUtente = new ControllerProfiloUtente();
+        controllerRegistrazioneUtente = new ControllerRegistrazioneUtente();
     }
 
 
@@ -33,15 +39,16 @@ import org.junit.jupiter.api.Test;
     void testInvioMessaggio(){
         try{
             beanUtenti = new BeanUtenti("Studente", "Test", "Test", "test@test3", "test", "Test");
-            controllerGestioneUtente.creazioneUtente(beanUtenti);
+            controllerRegistrazioneUtente.registraUtente(beanUtenti);
 
-            BeanUtenti bean = controllerGestioneUtente.recuperaInformazioniUtenti(beanUtenti);
+            BeanUtenti bean = controllerGestioneUtente.recuperaInformazioniUtente(beanUtenti);
             if(beanUtenti == null){ fail("Utente non creao");}
             controllerGestioneUtente.modificaPassword("test", "test1", bean);
-            ControllerGestioneGruppo controllerGestioneGruppo = new ControllerGestioneGruppo();
+            ControllerCreazioneGruppo controllerCreazioneGruppo = new ControllerCreazioneGruppo();
+            ControllerGestioneGruppo controllerGestioneGruppo = new ControllerGestioneGruppo(); 
             BeanGruppo beanGruppo = new BeanGruppo("test", "test",bean.getEmail(), "test", "test");
 
-            controllerGestioneGruppo.creaGruppo(bean, beanGruppo);
+            controllerCreazioneGruppo.creaGruppo(bean, beanGruppo);
             List<BeanGruppo> lista = controllerGestioneGruppo.cercaGruppi(beanGruppo.getNome(), null, null);
             if(lista.isEmpty()){fail("Creazione gruppo fallita");}
             lista = controllerGestioneGruppo.visualizzaGruppi(bean);

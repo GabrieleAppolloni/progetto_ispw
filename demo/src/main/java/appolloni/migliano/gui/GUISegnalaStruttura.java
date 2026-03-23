@@ -13,7 +13,7 @@ import java.sql.SQLException;
 import appolloni.migliano.HelperErrori;
 import appolloni.migliano.ManagerScene;
 import appolloni.migliano.bean.BeanStruttura;
-import appolloni.migliano.controller.ControllerGestioneStrutture;
+import appolloni.migliano.controller.ControllerSegnalaStruttura;
 import appolloni.migliano.exception.CampiVuotiException;
 
 
@@ -31,7 +31,7 @@ public class GUISegnalaStruttura {
 
     private BeanUtenti studenteLoggato;
     private ManagerScene managerScene = new ManagerScene();
-    private ControllerGestioneStrutture controllerApp = new ControllerGestioneStrutture(); 
+    private ControllerSegnalaStruttura controllerSegnalaStruttura = new ControllerSegnalaStruttura();
     private static final String RED = "-fx-text-fill: red;";
 
     public void initData(BeanUtenti utente) {
@@ -70,7 +70,7 @@ public class GUISegnalaStruttura {
             struttura.setGestore("Sconosciuto");
             struttura.setTipoAttivita(tipoAtt);
             
-            controllerApp.creaStruttura(studenteLoggato, struttura); 
+            controllerSegnalaStruttura.segnalaStruttura(studenteLoggato, struttura); 
             
 
             Alert alert = new Alert(Alert.AlertType.INFORMATION);

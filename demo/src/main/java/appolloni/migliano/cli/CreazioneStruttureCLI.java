@@ -8,19 +8,19 @@ import appolloni.migliano.LeggInputCli;
 import appolloni.migliano.ManagerCLI;
 import appolloni.migliano.bean.BeanStruttura;
 import appolloni.migliano.bean.BeanUtenti;
-import appolloni.migliano.controller.ControllerGestioneStrutture;
-import appolloni.migliano.controller.ControllerGestioneUtente;
+import appolloni.migliano.controller.ControllerCreazioneStrutturaHost;
+//import appolloni.migliano.controller.ControllerRegistrazioneUtente;
 import appolloni.migliano.exception.CampiVuotiException;
 
 public class CreazioneStruttureCLI {
 
-    private final ControllerGestioneStrutture controllerStrutture;
-    private final ControllerGestioneUtente controllerUtente;
+    //private final ControllerRegistrazioneUtente controllerUtente;
+    private final ControllerCreazioneStrutturaHost controllerCreazioneStrutturaHost;
     private final BeanUtenti utenteCorrente;
 
     public CreazioneStruttureCLI(BeanUtenti bean) {
-        this.controllerStrutture = new ControllerGestioneStrutture();
-        this.controllerUtente = new ControllerGestioneUtente();
+        //this.controllerUtente = new ControllerRegistrazioneUtente();
+        this.controllerCreazioneStrutturaHost = new ControllerCreazioneStrutturaHost();
         this.utenteCorrente = bean;
     }
 
@@ -47,7 +47,7 @@ public class CreazioneStruttureCLI {
             System.out.print("Foto non disponibili in versione CLI. ");  //NOSONAR
              
 
-            controllerUtente.creazioneUtente(utenteCorrente);
+            //controllerUtente.registraUtente(utenteCorrente);
             System.out.println("Account Host creato correttamente...");  //NOSONAR
 
            
@@ -58,11 +58,11 @@ public class CreazioneStruttureCLI {
             beanStruttura.setFoto(nomeFotoFinale);
 
        
-            if (controllerStrutture.esistenzaStruttura(utenteCorrente.getNomeAttivita())) {
+            if (controllerCreazioneStrutturaHost.esistenzaStruttura(utenteCorrente.getNomeAttivita())) {
                 System.out.println("Struttura già segnalata dal sistema. Procedo con la rivendicazione...");  //NOSONAR
-                controllerStrutture.rivendicaStruttura(beanStruttura, utenteCorrente.getEmail());
+                controllerCreazioneStrutturaHost.rivendicaStruttura(beanStruttura, utenteCorrente.getEmail());
             } else {
-                controllerStrutture.creaStruttura(utenteCorrente, beanStruttura);
+                controllerCreazioneStrutturaHost.creazioneHostStruttura(utenteCorrente, beanStruttura);
             }
 
             System.out.println("\n[OK] Registrazione completata con successo!");  //NOSONAR

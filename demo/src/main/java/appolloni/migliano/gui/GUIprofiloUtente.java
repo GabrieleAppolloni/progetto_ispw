@@ -6,7 +6,7 @@ import java.sql.SQLException;
 import appolloni.migliano.HelperErrori;
 import appolloni.migliano.ManagerScene;
 import appolloni.migliano.bean.BeanUtenti;
-import appolloni.migliano.controller.ControllerGestioneUtente;
+import appolloni.migliano.controller.ControllerProfiloUtente;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -31,12 +31,12 @@ public class GUIprofiloUtente {
 
     private BeanUtenti beanUtente;
     private  static final String RED = "-fx-text-fill: red;";
-    private ControllerGestioneUtente controllerProfiloUtente;
+    private ControllerProfiloUtente controllerProfiloUtente;
     private ManagerScene managerScene = new ManagerScene();
 
     public void initData(BeanUtenti utente){
         this.beanUtente = utente;
-        controllerProfiloUtente = new ControllerGestioneUtente();
+        controllerProfiloUtente = new ControllerProfiloUtente();
         caricaInformazioni(beanUtente);
     }
 
@@ -44,7 +44,7 @@ public class GUIprofiloUtente {
 
       try{
   
-        BeanUtenti newBean = controllerProfiloUtente.recuperaInformazioniUtenti(beanUtenti);
+        BeanUtenti newBean = controllerProfiloUtente.recuperaInformazioniUtente(beanUtenti);
         
         lblNome.setText(newBean.getName());
         lblCognome.setText(newBean.getCognome());

@@ -3,18 +3,12 @@ package appolloni.migliano.controller;
 
 import appolloni.migliano.entity.Struttura;
 import appolloni.migliano.exception.CampiVuotiException;
-import appolloni.migliano.exception.CreazioneFallita;
-import appolloni.migliano.exception.EmailNonValidaException;
+
 import appolloni.migliano.factory.FactoryDAO;
 import appolloni.migliano.interfacce.InterfacciaDaoStruttura;
-
-
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 
-import appolloni.migliano.bean.BeanUtenti;
 import appolloni.migliano.bean.BeanStruttura;
 
 
@@ -23,57 +17,9 @@ public class ControllerGestioneStrutture {
 
   
    private InterfacciaDaoStruttura daoStrutture = FactoryDAO.getDAOStrutture();
-   private static final String GESTOREDEFAULT = "system_no_host";
+  
    
    
-
-    public void creaStruttura(BeanUtenti bean, BeanStruttura beanStr) throws CampiVuotiException,SQLException,IOException, IllegalArgumentException{
-
-      String type = beanStr.getTipo();
-      String nomeStruttura = beanStr.getName();
-      String citta = beanStr.getCitta();
-      String indirizzo = beanStr.getIndirizzo();
-      String orario = beanStr.getOrario();
-      boolean wifi = beanStr.hasWifi();
-      boolean ristorazione = beanStr.hasRistorazione();
-      String responsabile = beanStr.getGestore();
-      String tipoAtt = beanStr.getTipoAttivita();
-      String foto = beanStr.getFoto();
-      
-        if(type.isEmpty() || nomeStruttura.isEmpty() || citta.isEmpty()|| indirizzo.isEmpty() || orario.isEmpty() ||responsabile.isEmpty()|| tipoAtt.isEmpty()){
-          throw new CampiVuotiException("Completa tutti i campi.");
-        }
-
-       if(checkStruttura(nomeStruttura, citta)){ throw new IllegalArgumentException("Errore: struttura già esistente!");}
-
-        Struttura struttura = new Struttura(type, nomeStruttura, citta, indirizzo,wifi, ristorazione);
-        
-       struttura.setGestore(responsabile);
-       struttura.setTipoAttivita(tipoAtt);
-       struttura.setOrario(orario);
-
-       struttura.setFoto(foto);
-
-        String emailHost = null;
-
-      if(bean.getTipo().equals("Host")){
-        
-        emailHost = bean.getEmail();
-      }
-      daoStrutture.salvaStruttura(struttura,emailHost);
-
-    }
-
-    public void creaStrutturaHost(BeanUtenti beanUtenti,BeanStruttura beanStruttura)throws CampiVuotiException, CreazioneFallita, EmailNonValidaException, SQLException, IllegalArgumentException, IOException{
-
-      ControllerGestioneUtente controllerGestioneUtente = new ControllerGestioneUtente();
-      controllerGestioneUtente.creazioneUtente(beanUtenti);
-
-      creaStruttura(beanUtenti, beanStruttura);
-
-    }
-
-
 
    
     public BeanStruttura visualizzaStrutturaHost(String emailHost) throws SQLException, IOException, IllegalArgumentException {
@@ -114,63 +60,8 @@ public class ControllerGestioneStrutture {
     
   }
 
-  
-  public List<BeanStruttura> cercaStrutture(String nome, String citta, String tipo) throws IOException, SQLException {
-    
-        if(nome != null && nome.isEmpty()) {nome = null;}
-        if(citta != null && citta.isEmpty()) {citta = null;}
-        if(tipo != null && (tipo.isEmpty() || tipo.equals("Tutti"))) {tipo = null;}
-
-        List<BeanStruttura> listaBeans = new ArrayList<>();
-        List<Struttura> listaEntities = daoStrutture.ricercaStruttureConFiltri(nome, citta, tipo);
-        
-        for (Struttura s : listaEntities) {
-            BeanStruttura b = new BeanStruttura(s.getTipo(),s.getName(),s.getCitta(),s.getIndirizzo(),s.hasWifi(),s.hasRistorazione());
-            b.setFoto(s.getFoto()); 
-            b.setOrario(s.getOrario());
-            b.setTipoAttivita(s.getTipoAttivita());
-            b.setGestore(s.getGestore());
-            
-            listaBeans.add(b);
-        }
-
-        return listaBeans;
-  }
-
-  public boolean esistenzaStruttura(String nomeStruttura) throws SQLException, IOException {
-    return daoStrutture.cercaStruttura(nomeStruttura, GESTOREDEFAULT) != null;
-  }
-
-
-public void rivendicaStruttura(BeanStruttura beanDatiNuovi, String emailHost) throws IOException, SQLException {
-    
-    Struttura strutturaAggiornata = new Struttura(
-        beanDatiNuovi.getTipo(), 
-        beanDatiNuovi.getName(), 
-        beanDatiNuovi.getCitta(), 
-        beanDatiNuovi.getIndirizzo(), 
-        beanDatiNuovi.hasWifi(), 
-        beanDatiNuovi.hasRistorazione()
-    );
-    
-    strutturaAggiornata.setGestore(emailHost); 
-    strutturaAggiornata.setOrario(beanDatiNuovi.getOrario());
-    strutturaAggiornata.setTipoAttivita(beanDatiNuovi.getTipoAttivita());
-    strutturaAggiornata.setFoto(beanDatiNuovi.getFoto());
-
-  
-    daoStrutture.aggiornaHost(strutturaAggiornata, GESTOREDEFAULT); 
-  }
-    
-
- private boolean checkStruttura(String nome, String citta) throws SQLException, IOException{
-  List<Struttura> strutture = daoStrutture.ricercaStruttureConFiltri(nome, citta, null);
-   for(Struttura s : strutture){
-    if(s.getName().equalsIgnoreCase(nome)){
-      return true;
-    }
-   }
-   return false;
- } 
 
 }
+    
+
+

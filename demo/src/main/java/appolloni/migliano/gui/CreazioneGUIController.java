@@ -6,9 +6,8 @@ import java.sql.SQLException;
 import appolloni.migliano.HelperErrori;
 import appolloni.migliano.ManagerScene;
 import appolloni.migliano.bean.BeanUtenti;
-import appolloni.migliano.controller.ControllerGestioneUtente;
+import appolloni.migliano.controller.ControllerRegistrazioneUtente;
 import appolloni.migliano.exception.CampiVuotiException;
-import appolloni.migliano.exception.CreazioneFallita;
 import appolloni.migliano.exception.EmailNonValidaException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -38,7 +37,7 @@ public class CreazioneGUIController {
     @FXML private ComboBox<String> comboTipoAtt;
     
 
-    private ControllerGestioneUtente controllerCreazioneUtente = new ControllerGestioneUtente();
+    private ControllerRegistrazioneUtente controllerCreazioneUtente = new ControllerRegistrazioneUtente();
     private static final String COLORE= "-fx-text-fill: red;";
     private ManagerScene managerScene = new ManagerScene();
 
@@ -102,7 +101,7 @@ public class CreazioneGUIController {
                 
                 
             }else{
-              controllerCreazioneUtente.creazioneUtente(beanUtente);
+              controllerCreazioneUtente.registraUtente(beanUtente);
               managerScene.avviaMainMenu(event, beanUtente);
 
             }
@@ -119,8 +118,6 @@ public class CreazioneGUIController {
         }catch(SQLException e){
             HelperErrori.errore("Errore caricamento dati", e.getMessage());
 
-        }catch(CreazioneFallita e){
-            HelperErrori.errore("Errore creazione utente", e.getMessage());
         } catch (Exception e) {
             HelperErrori.errore("Errore Generico:", e.getMessage());
             
