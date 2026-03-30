@@ -6,7 +6,7 @@ import appolloni.migliano.bean.BeanGruppo;
 import appolloni.migliano.bean.BeanUtenti;
 import appolloni.migliano.entity.Gruppo;
 import appolloni.migliano.factory.FactoryDAO;
-import appolloni.migliano.interfacce.InterfacciaGruppo;
+import appolloni.migliano.interfacce.InterfacciaDaoGruppo;
 
 
 
@@ -16,7 +16,7 @@ import java.util.List;
 
 public class ControllerGestioneGruppo {
 
-    private InterfacciaGruppo daoGruppo = FactoryDAO.getDaoGruppo();
+    private InterfacciaDaoGruppo daoGruppo = FactoryDAO.getDaoGruppo();
 
 
 

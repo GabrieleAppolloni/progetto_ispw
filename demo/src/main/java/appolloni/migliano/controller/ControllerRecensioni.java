@@ -9,7 +9,7 @@ import appolloni.migliano.exception.CampiVuotiException;
 import appolloni.migliano.factory.FactoryDAO;
 import appolloni.migliano.interfacce.InterfacciaDaoRecensioni;
 import appolloni.migliano.interfacce.InterfacciaDaoStruttura;
-import appolloni.migliano.interfacce.InterfacciaUtente;
+import appolloni.migliano.interfacce.InterfacciaDaoUtente;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -18,7 +18,7 @@ import java.util.List;
 public class ControllerRecensioni {
 
     private InterfacciaDaoRecensioni daoRecensioni = FactoryDAO.getDaoRecensioni();
-    private InterfacciaUtente daoUtente = FactoryDAO.getDaoUtente();
+    private InterfacciaDaoUtente daoUtente = FactoryDAO.getDaoUtente();
     private InterfacciaDaoStruttura daoStrutture = FactoryDAO.getDAOStrutture();
 
     public void inserisciRecensione(BeanRecensioni beanRecensione) throws SQLException,IOException, CampiVuotiException{
@@ -42,6 +42,7 @@ public class ControllerRecensioni {
 
 
         Recensione recensione = new Recensione(testo,voto,user, struttura);
+        struttura.aggiungiRecensione(recensione);
         daoRecensioni.salvaRecensione(recensione);
       
     }

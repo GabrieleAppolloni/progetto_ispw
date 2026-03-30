@@ -13,11 +13,11 @@ import appolloni.migliano.exception.EmailNonValidaException;
 import appolloni.migliano.factory.FactoryDAO;
 import appolloni.migliano.factory.FactoryUtenti;
 import appolloni.migliano.interfacce.InterfacciaDaoStruttura;
-import appolloni.migliano.interfacce.InterfacciaUtente;
+import appolloni.migliano.interfacce.InterfacciaDaoUtente;
 
 public class ControllerCreazioneStrutturaHost {
     private InterfacciaDaoStruttura daoStruttura = FactoryDAO.getDAOStrutture();
-    private InterfacciaUtente daoUtente = FactoryDAO.getDaoUtente();
+    private InterfacciaDaoUtente daoUtente = FactoryDAO.getDaoUtente();
     private static final String GESTOREDEFAULT = "system_no_host";
 
     public void creazioneHostStruttura(BeanUtenti beanUtente, BeanStruttura beanStruttura) throws CampiVuotiException, EmailNonValidaException,SQLException, IOException{

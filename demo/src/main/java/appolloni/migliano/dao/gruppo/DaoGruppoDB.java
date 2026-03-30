@@ -10,10 +10,10 @@ import appolloni.migliano.entity.Gruppo;
 import appolloni.migliano.entity.Utente;
 import appolloni.migliano.factory.FactoryDAO;
 import appolloni.migliano.factory.FactoryUtenti;
-import appolloni.migliano.interfacce.InterfacciaGruppo;
-import appolloni.migliano.interfacce.InterfacciaUtente;
+import appolloni.migliano.interfacce.InterfacciaDaoGruppo;
+import appolloni.migliano.interfacce.InterfacciaDaoUtente;
 
-public class DaoGruppoDB implements InterfacciaGruppo {
+public class DaoGruppoDB implements InterfacciaDaoGruppo {
 
     private final Connection conn;
     private static final String INSERTGRUPPO = "INSERT INTO gruppi (nome, materia_studio, email_admin,citta,luogo) VALUES (?, ?, ?,?,?)";
@@ -85,7 +85,7 @@ public class DaoGruppoDB implements InterfacciaGruppo {
                     String citta = rs.getString(4);
                     String luogo = rs.getString(5);
 
-                    InterfacciaUtente dao = FactoryDAO.getDaoUtente();
+                    InterfacciaDaoUtente dao = FactoryDAO.getDaoUtente();
                     Utente user = dao.cercaUtente(admin);
                 
                     gruppoCercato = new Gruppo(nomeGruppo, user);
@@ -163,7 +163,7 @@ public class DaoGruppoDB implements InterfacciaGruppo {
    @Override
     public List<Gruppo> ricercaGruppiConFiltri(String nome, String citta, String materia) throws SQLException {
         List<Gruppo> lista = new ArrayList<>();
-        InterfacciaUtente daoUtente = FactoryDAO.getDaoUtente();
+        InterfacciaDaoUtente daoUtente = FactoryDAO.getDaoUtente();
         
         String sql = SELECTRICERCAFILTRI; 
         

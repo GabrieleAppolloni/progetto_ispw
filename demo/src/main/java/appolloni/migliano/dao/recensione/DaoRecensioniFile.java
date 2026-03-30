@@ -11,7 +11,7 @@ import appolloni.migliano.entity.Utente;
 import appolloni.migliano.factory.FactoryDAO;
 import appolloni.migliano.interfacce.InterfacciaDaoRecensioni;
 import appolloni.migliano.interfacce.InterfacciaDaoStruttura;
-import appolloni.migliano.interfacce.InterfacciaUtente;
+import appolloni.migliano.interfacce.InterfacciaDaoUtente;
 
 public class DaoRecensioniFile implements InterfacciaDaoRecensioni {
 
@@ -46,7 +46,7 @@ public class DaoRecensioniFile implements InterfacciaDaoRecensioni {
 
         if (!file.exists()) {return lista;}
         InterfacciaDaoStruttura daoStruttura = FactoryDAO.getDAOStrutture();
-        InterfacciaUtente daoUtente = FactoryDAO.getDaoUtente();
+        InterfacciaDaoUtente daoUtente = FactoryDAO.getDaoUtente();
         Struttura strutturaTarget = null;
 
 

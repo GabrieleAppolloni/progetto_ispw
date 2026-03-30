@@ -6,9 +6,9 @@ import java.util.Iterator;
 import java.util.List;
 
 import appolloni.migliano.entity.Gruppo;
-import appolloni.migliano.interfacce.InterfacciaGruppo;
+import appolloni.migliano.interfacce.InterfacciaDaoGruppo;
 
-public class DaoGruppoDemo implements InterfacciaGruppo {
+public class DaoGruppoDemo implements InterfacciaDaoGruppo {
 
     private static List<Gruppo> gruppiDB = new ArrayList<>();
     private static List<String[]> iscrizioniDB = new ArrayList<>();

@@ -18,9 +18,9 @@ import appolloni.migliano.dao.utente.DaoUtenteDB;
 import appolloni.migliano.dao.utente.DaoUtenteDEMO;
 import appolloni.migliano.interfacce.InterfacciaDaoRecensioni;
 import appolloni.migliano.interfacce.InterfacciaDaoStruttura;
-import appolloni.migliano.interfacce.InterfacciaGruppo;
-import appolloni.migliano.interfacce.InterfacciaMessaggi;
-import appolloni.migliano.interfacce.InterfacciaUtente;
+import appolloni.migliano.interfacce.InterfacciaDaoGruppo;
+import appolloni.migliano.interfacce.InterfacciaDaoMessaggi;
+import appolloni.migliano.interfacce.InterfacciaDaoUtente;
 
 public class FactoryDAO {
     
@@ -52,7 +52,7 @@ public class FactoryDAO {
         }
     }
     
-    public static InterfacciaGruppo getDaoGruppo() {
+    public static InterfacciaDaoGruppo getDaoGruppo() {
         if (Configurazione.JDBC.equals(TIPO)) {
             return new DaoGruppoDB(getConn());
         } else {
@@ -60,7 +60,7 @@ public class FactoryDAO {
         }
     }
 
-    public static InterfacciaMessaggi getDaoMessaggi() {
+    public static InterfacciaDaoMessaggi getDaoMessaggi() {
         if (Configurazione.JDBC.equals(TIPO)) {
             return new DaoMessaggioDB(getConn());
         } else {
@@ -68,7 +68,7 @@ public class FactoryDAO {
         }
     }
 
-    public static InterfacciaUtente getDaoUtente() {
+    public static InterfacciaDaoUtente getDaoUtente() {
         if (Configurazione.JDBC.equals(TIPO)) {
             return new DaoUtenteDB(getConn());
         } else {

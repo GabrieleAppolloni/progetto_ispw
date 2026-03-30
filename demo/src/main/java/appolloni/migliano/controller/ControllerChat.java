@@ -12,15 +12,15 @@ import appolloni.migliano.entity.Gruppo;
 import appolloni.migliano.entity.Messaggio;
 import appolloni.migliano.entity.Utente;
 import appolloni.migliano.factory.FactoryDAO;
-import appolloni.migliano.interfacce.InterfacciaGruppo;
-import appolloni.migliano.interfacce.InterfacciaMessaggi;
-import appolloni.migliano.interfacce.InterfacciaUtente;
+import appolloni.migliano.interfacce.InterfacciaDaoGruppo;
+import appolloni.migliano.interfacce.InterfacciaDaoMessaggi;
+import appolloni.migliano.interfacce.InterfacciaDaoUtente;
 
 public class ControllerChat {
 
-    private InterfacciaGruppo daoGruppo;
-    private InterfacciaMessaggi daoMessaggi;
-    private InterfacciaUtente daoUtente;
+    private InterfacciaDaoGruppo daoGruppo;
+    private InterfacciaDaoMessaggi daoMessaggi;
+    private InterfacciaDaoUtente daoUtente;
 
     public ControllerChat() {
         this.daoGruppo = FactoryDAO.getDaoGruppo();
@@ -60,6 +60,7 @@ public class ControllerChat {
         Utente user = daoUtente.cercaUtente(mittente.getEmail());
         Gruppo g = daoGruppo.cercaGruppo(gruppo.getNome());
         Messaggio messaggio = new Messaggio(testo, g, user);
+        g.addMess(messaggio);
         daoMessaggi.nuovoMessaggio(messaggio);
     
     }

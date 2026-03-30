@@ -8,9 +8,9 @@ import java.util.List;
 
 import appolloni.migliano.entity.Gruppo;
 import appolloni.migliano.entity.Messaggio;
-import appolloni.migliano.interfacce.InterfacciaMessaggi;
+import appolloni.migliano.interfacce.InterfacciaDaoMessaggi;
 
-public class DaoMessaggioDemo implements InterfacciaMessaggi{
+public class DaoMessaggioDemo implements InterfacciaDaoMessaggi{
     private static final List<Messaggio> tabellaMessaggi = new ArrayList<>();
 
     @Override

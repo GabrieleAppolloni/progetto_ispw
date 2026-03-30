@@ -2,7 +2,7 @@ package appolloni.migliano.dao.recensione;
 
 import appolloni.migliano.interfacce.InterfacciaDaoRecensioni;
 import appolloni.migliano.interfacce.InterfacciaDaoStruttura;
-import appolloni.migliano.interfacce.InterfacciaUtente;
+import appolloni.migliano.interfacce.InterfacciaDaoUtente;
 
 import java.io.IOException;
 import java.sql.*;
@@ -18,7 +18,7 @@ import appolloni.migliano.entity.Struttura;
 public class DaoRecensioniDB implements InterfacciaDaoRecensioni {
 
     private final Connection conn;
-    private final InterfacciaUtente daoUtente;
+    private final InterfacciaDaoUtente daoUtente;
     private final InterfacciaDaoStruttura daoStruttura;
 
     private static final String SELECTDB = "SELECT autore, nome_struttura, gestore_struttura, voto, testo  FROM recensioni WHERE nome_struttura = ? AND gestore_struttura = ?";

@@ -5,12 +5,12 @@ import appolloni.migliano.entity.Messaggio;
 import java.util.*;
 import appolloni.migliano.entity.Utente;
 import appolloni.migliano.factory.FactoryDAO;
-import appolloni.migliano.interfacce.InterfacciaMessaggi;
-import appolloni.migliano.interfacce.InterfacciaUtente;
+import appolloni.migliano.interfacce.InterfacciaDaoMessaggi;
+import appolloni.migliano.interfacce.InterfacciaDaoUtente;
 
 import java.sql.*;
 
-public class DaoMessaggioDB implements InterfacciaMessaggi {
+public class DaoMessaggioDB implements InterfacciaDaoMessaggi {
     private static final String CERCAMESSAGGIO = "SELECT testo, nome_gruppo, email_mittente, data_invio FROM messaggi WHERE nome_gruppo = ? ORDER BY data_invio ASC";
     private static final String NUOVOMESS = "INSERT INTO MESSAGGI (testo,nome_gruppo, email_mittente, data_invio ) VALUES (?,?,?,?) ";
    
@@ -48,7 +48,7 @@ public class DaoMessaggioDB implements InterfacciaMessaggi {
                  String mess = rs.getString(1);
                  String emailMitt= rs.getString(3);
                  Timestamp time = rs.getTimestamp(4);
-                 InterfacciaUtente dao = FactoryDAO.getDaoUtente();
+                 InterfacciaDaoUtente dao = FactoryDAO.getDaoUtente();
                  Utente mittente = dao.cercaUtente(emailMitt);
                  Messaggio messaggio = new Messaggio(mess, gruppo, mittente);
                  messaggio.setTime(time);

@@ -4,7 +4,7 @@ import java.sql.SQLException;
 
 import appolloni.migliano.entity.Utente;
 
-public interface InterfacciaUtente {
+public interface InterfacciaDaoUtente {
 
     void salvaUtente(Utente u) throws SQLException;
     Utente cercaUtente(String email) throws SQLException;

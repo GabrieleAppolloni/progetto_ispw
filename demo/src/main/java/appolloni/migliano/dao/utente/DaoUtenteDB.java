@@ -4,9 +4,9 @@ import java.sql.*;
 import appolloni.migliano.entity.Utente;
 import appolloni.migliano.factory.FactoryUtenti;
 import appolloni.migliano.entity.Host;
-import appolloni.migliano.interfacce.InterfacciaUtente;
+import appolloni.migliano.interfacce.InterfacciaDaoUtente;
 
-public class DaoUtenteDB implements InterfacciaUtente{
+public class DaoUtenteDB implements InterfacciaDaoUtente{
     private static final String SALVAUTENTE = "INSERT INTO utenti(dtype,nome,cognome,email,citta,password,nome_attivita,tipo_attivita)" + "VALUES (?,?,?,?,?,?,?,?)";
     private static final String CERCAUTENTE = "SELECT dtype, nome, cognome, email, citta, password, nome_attivita, tipo_attivita FROM utenti WHERE email = ?" ;
     private static final String UPDATE = "UPDATE utenti SET password = ? WHERE email = ?";

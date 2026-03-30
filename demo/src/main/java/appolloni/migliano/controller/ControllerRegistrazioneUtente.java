@@ -7,12 +7,12 @@ import appolloni.migliano.entity.Utente;
 import appolloni.migliano.entity.Host;
 import appolloni.migliano.factory.FactoryDAO;
 import appolloni.migliano.factory.FactoryUtenti;
-import appolloni.migliano.interfacce.InterfacciaUtente;
+import appolloni.migliano.interfacce.InterfacciaDaoUtente;
 import appolloni.migliano.exception.CampiVuotiException;
 import appolloni.migliano.exception.EmailNonValidaException;
 
 public class ControllerRegistrazioneUtente {
-    private InterfacciaUtente daoUtente = FactoryDAO.getDaoUtente();
+    private InterfacciaDaoUtente daoUtente = FactoryDAO.getDaoUtente();
 
     public void registraUtente(BeanUtenti bean) throws SQLException, CampiVuotiException, EmailNonValidaException, IllegalArgumentException {
         String nome = bean.getName();

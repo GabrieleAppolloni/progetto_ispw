@@ -5,7 +5,7 @@ import java.util.List;
 
 import appolloni.migliano.entity.Gruppo;
 
-public interface InterfacciaGruppo {
+public interface InterfacciaDaoGruppo {
     void creaGruppo(Gruppo gruppo) throws SQLException;
     Gruppo cercaGruppo(String nome) throws SQLException;
     List<Gruppo> recuperaGruppiUtente(String email) throws SQLException;
