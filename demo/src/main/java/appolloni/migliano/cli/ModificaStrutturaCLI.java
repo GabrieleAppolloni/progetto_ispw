@@ -4,19 +4,19 @@ package appolloni.migliano.cli;
 import appolloni.migliano.LeggInputCli;
 import appolloni.migliano.bean.BeanStruttura;
 import appolloni.migliano.bean.BeanUtenti;
-import appolloni.migliano.controller.ControllerGestioneStrutture;
+import appolloni.migliano.controller.ControllerMenuHost;
 
 public class ModificaStrutturaCLI {
 
     private final BeanStruttura strutturaCorrente;
     private final String vecchioNome;
-    private final ControllerGestioneStrutture controllerApp;
+    private final ControllerMenuHost controllerApp;
     private final BeanUtenti host;
 
     public ModificaStrutturaCLI(BeanUtenti host, BeanStruttura struttura) {
         this.strutturaCorrente = struttura;
         this.vecchioNome = struttura.getName(); 
-        this.controllerApp = new ControllerGestioneStrutture();
+        this.controllerApp = new ControllerMenuHost();
         this.host = host;
     }
 

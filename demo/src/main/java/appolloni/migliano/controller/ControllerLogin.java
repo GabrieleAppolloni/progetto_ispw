@@ -28,7 +28,7 @@ public class ControllerLogin {
             throw new CredenzialiSbagliateException("Password non corretta.");
          }
 
-      return new BeanUtenti(user.getTipo(), user.getName(), user.getCognome(), user.getEmail(), user.getPass(), user.getCitta());
+      return new BeanUtenti(user.getRuolo(), user.getName(), user.getCognome(), user.getEmail(), user.getPass(), user.getCitta());
 
 
    

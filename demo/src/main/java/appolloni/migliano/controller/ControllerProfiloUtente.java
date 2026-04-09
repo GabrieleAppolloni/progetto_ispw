@@ -13,7 +13,7 @@ public class ControllerProfiloUtente {
 
     public BeanUtenti recuperaInformazioniUtente(BeanUtenti utente) throws SQLException{
         Utente utente2 = daoUtente.cercaUtente(utente.getEmail());
-        BeanUtenti beanUtente = new BeanUtenti(utente2.getTipo(), utente2.getName(), utente2.getCognome(), utente2.getEmail(), utente2.getPass(), utente2.getCitta());
+        BeanUtenti beanUtente = new BeanUtenti(utente2.getRuolo(), utente2.getName(), utente2.getCognome(), utente2.getEmail(), utente2.getPass(), utente2.getCitta());
         return beanUtente;
     }
 

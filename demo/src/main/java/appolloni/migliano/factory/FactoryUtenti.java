@@ -13,11 +13,11 @@ public class FactoryUtenti {
     public static Utente creazione(String type, String nome, String cognome, String email, String citta, String pass ){
         switch (type) {
             case "Studente" :
-                return  new Studente(nome,cognome, email, citta,type, pass);
+                return  new Studente(nome,cognome, email, citta, pass);
        
        
             case "Host":
-                return new Host(nome, cognome, email,citta, type, pass);
+                return new Host(nome, cognome, email,citta, pass);
              
 
             default:

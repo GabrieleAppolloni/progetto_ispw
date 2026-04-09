@@ -6,7 +6,7 @@ import java.sql.SQLException;
 import appolloni.migliano.bean.BeanGruppo;
 import appolloni.migliano.bean.BeanStruttura;
 import appolloni.migliano.bean.BeanUtenti;
-import appolloni.migliano.controller.ControllerGestioneStrutture;
+import appolloni.migliano.controller.ControllerMenuHost;
 import appolloni.migliano.gui.CreazioneGUIStrutture;
 import appolloni.migliano.gui.GUIChat;
 import appolloni.migliano.gui.GUICreazioneGruppo;
@@ -171,7 +171,7 @@ public class ManagerScene {
          FXMLLoader loader = new FXMLLoader(getClass().getResource("/modificaStruttura.fxml"));
         Parent root = loader.load();
 
-        ControllerGestioneStrutture controllerStruttura = new ControllerGestioneStrutture();
+        ControllerMenuHost controllerStruttura = new ControllerMenuHost();
 
         GUIModificaStruttura controllerModifica = loader.getController();
         controllerModifica.initData(controllerStruttura.visualizzaStrutturaHost(beanUtente.getEmail()));

@@ -3,7 +3,7 @@ package appolloni.migliano;
 import appolloni.migliano.bean.BeanStruttura;
 import appolloni.migliano.bean.BeanUtenti;
 import appolloni.migliano.controller.ControllerCreazioneStrutturaHost;
-import appolloni.migliano.controller.ControllerGestioneStrutture;
+import appolloni.migliano.controller.ControllerMenuHost;
 
 import appolloni.migliano.controller.ControllerRegistrazioneUtente;
 
@@ -16,7 +16,7 @@ import org.junit.jupiter.api.Test;
  class TestControlloStrutture {
     private ControllerCreazioneStrutturaHost controllerStrutture;
     private ControllerRegistrazioneUtente controllerRegistrazioneUtente;
-    private ControllerGestioneStrutture controllerGestioneStrutture;
+    private ControllerMenuHost controllerGestioneStrutture;
     private BeanStruttura beanStruttura;
     private BeanUtenti beanUtenti;
    
@@ -26,7 +26,7 @@ import org.junit.jupiter.api.Test;
         Configurazione.setTipoPersistenza("DEMO");
         controllerStrutture = new ControllerCreazioneStrutturaHost();
         controllerRegistrazioneUtente = new ControllerRegistrazioneUtente();
-        controllerGestioneStrutture = new ControllerGestioneStrutture();
+        controllerGestioneStrutture = new ControllerMenuHost();
         beanStruttura = new BeanStruttura("Pubblica", "Test", "Test", "Test", false, false);
         beanStruttura.setFoto("test.png");
         beanStruttura.setGestore("test@test");

@@ -25,8 +25,7 @@ import appolloni.migliano.ManagerScene;
 import appolloni.migliano.bean.BeanRecensioni;
 import appolloni.migliano.bean.BeanStruttura;
 import appolloni.migliano.bean.BeanUtenti;
-import appolloni.migliano.controller.ControllerGestioneStrutture;
-import appolloni.migliano.controller.ControllerRecensioni;
+import appolloni.migliano.controller.ControllerMenuHost;
 
 public class GUIhostMenu {
 
@@ -45,18 +44,18 @@ public class GUIhostMenu {
     @FXML private Label lblRistorazione;
     @FXML private Label lblTipoAttivita;
     @FXML private Label lblGestore;
+    @FXML private Label lblMediaRecensioni;
     
 
     private static final String ERRORE = "ERRORE GENERICO";
     private BeanUtenti beanUtente;
-    private ControllerGestioneStrutture controllerStruttura;
-    private ControllerRecensioni controllerRecensioni = new ControllerRecensioni();
+    private ControllerMenuHost controllerStruttura;
     private ManagerScene managerScene = new ManagerScene();
 
     public void initData(BeanUtenti utente){
 
         this.beanUtente = utente;
-        this.controllerStruttura = new ControllerGestioneStrutture();       
+        this.controllerStruttura = new ControllerMenuHost();       
         lblNome.setText(this.beanUtente.getName());
 
         caricaInformazioni();
@@ -88,7 +87,7 @@ public class GUIhostMenu {
       
      try{
         BeanStruttura struttura = controllerStruttura.visualizzaStrutturaHost(this.beanUtente.getEmail());
-        List<BeanRecensioni> recensioni = controllerRecensioni.cercaRecensioniPerStruttura(struttura);
+        List<BeanRecensioni> recensioni = controllerStruttura.cercaRecensioniPerStruttura(struttura);
         
         
         containerRecensioni.getChildren().clear();
@@ -114,7 +113,7 @@ public class GUIhostMenu {
         try {
 
             BeanStruttura struttura = controllerStruttura.visualizzaStrutturaHost(this.beanUtente.getEmail());
-
+            lblMediaRecensioni.setText(String.format("Voto medio: %.2f/5", controllerStruttura.calcolaMediaVoti(struttura, beanUtente)));
             lblStrutturaNome.setText(struttura.getName());
             lblCitta.setText(struttura.getCitta());
             lblIndirizzo.setText(struttura.getIndirizzo());

@@ -7,20 +7,18 @@ import appolloni.migliano.ManagerCLI;
 import appolloni.migliano.bean.BeanRecensioni;
 import appolloni.migliano.bean.BeanStruttura;
 import appolloni.migliano.bean.BeanUtenti;
-import appolloni.migliano.controller.ControllerGestioneStrutture;
-import appolloni.migliano.controller.ControllerRecensioni;
+import appolloni.migliano.controller.ControllerMenuHost;
 
 public class HostMenuCLI {
 
 
     private final BeanUtenti beanUtente;
-    private final ControllerGestioneStrutture controllerGestioneStruttura;
-    private final ControllerRecensioni controllerRecensioni;
+    private final ControllerMenuHost controllerGestioneStruttura;
+
 
     public HostMenuCLI(BeanUtenti utente) {
         this.beanUtente = utente;
-        this.controllerGestioneStruttura = new ControllerGestioneStrutture();
-        this.controllerRecensioni = new ControllerRecensioni();
+        this.controllerGestioneStruttura = new ControllerMenuHost();
     }
 
     public void start() {
@@ -38,7 +36,7 @@ public class HostMenuCLI {
                 mostraDettagliStruttura(struttura);
 
                 System.out.println("\n--- ULTIME RECENSIONI ---"); //NOSONAR
-                List<BeanRecensioni> recensioni = controllerRecensioni.cercaRecensioniPerStruttura(struttura);
+                List<BeanRecensioni> recensioni = controllerGestioneStruttura.cercaRecensioniPerStruttura(struttura);
                 if (recensioni.isEmpty()) {
                     System.out.println("[ Nessuna recensione ricevuta ]"); //NOSONAR
                 } else {

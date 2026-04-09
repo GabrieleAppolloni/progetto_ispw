@@ -90,7 +90,7 @@ public class ControllerCreazioneStrutturaHost {
     }
 
 
-public void rivendicaStruttura(BeanStruttura beanDatiNuovi, String emailHost) throws IOException, SQLException {
+ public void rivendicaStruttura(BeanStruttura beanDatiNuovi, String emailHost) throws IOException, SQLException {
     
     Struttura strutturaAggiornata = new Struttura(
         beanDatiNuovi.getTipo(), 
@@ -109,5 +109,7 @@ public void rivendicaStruttura(BeanStruttura beanDatiNuovi, String emailHost) th
   
     daoStruttura.aggiornaHost(strutturaAggiornata, GESTOREDEFAULT); 
   }
-    
+
+  
 }
+

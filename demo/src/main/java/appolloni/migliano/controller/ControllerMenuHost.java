@@ -1,22 +1,29 @@
 package appolloni.migliano.controller;
 
 
+import appolloni.migliano.entity.Recensione;
 import appolloni.migliano.entity.Struttura;
 import appolloni.migliano.exception.CampiVuotiException;
 
 import appolloni.migliano.factory.FactoryDAO;
+import appolloni.migliano.interfacce.InterfacciaDaoRecensioni;
 import appolloni.migliano.interfacce.InterfacciaDaoStruttura;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
+import appolloni.migliano.bean.BeanRecensioni;
 import appolloni.migliano.bean.BeanStruttura;
+import appolloni.migliano.bean.BeanUtenti;
 
 
 
-public class ControllerGestioneStrutture {
+public class ControllerMenuHost {
 
   
    private InterfacciaDaoStruttura daoStrutture = FactoryDAO.getDAOStrutture();
+   private InterfacciaDaoRecensioni daoRecensioni = FactoryDAO.getDaoRecensioni();
   
    
    
@@ -40,6 +47,7 @@ public class ControllerGestioneStrutture {
 
     }
 
+    // aggiorna struttura e  foto vanno messe in un altro caso d'uso
     public void cambiaFoto(String emailHost, String nomeFoto) throws CampiVuotiException, SQLException,IOException {
      if (emailHost == null || nomeFoto == null) {throw new CampiVuotiException("Dati mancanti");}
       daoStrutture.aggiornaFotoStruttura(emailHost, nomeFoto);
@@ -59,7 +67,32 @@ public class ControllerGestioneStrutture {
         daoStrutture.updateStruttura(struttura2, vecchionNome);
     
   }
+  public List<BeanRecensioni> cercaRecensioniPerStruttura(BeanStruttura beanStruttura) throws SQLException, IOException {
+    List<BeanRecensioni> listaBean = new ArrayList<>();
+         List<Recensione> listaEntity = daoRecensioni.getRecensioniByStruttura(
+            beanStruttura.getName(), 
+            beanStruttura.getGestore()
+         );
+         for (Recensione r : listaEntity) {
+            BeanRecensioni b = new BeanRecensioni(r.getAutore().getEmail(),r.getTesto(),r.getVoto(),r.getStrutturaRecensita().getName(),r.getStrutturaRecensita().getGestore());
+            listaBean.add(b);
+           }
+        
+     return listaBean;
+    }
 
+  public double calcolaMediaVoti(BeanStruttura beanStruttura, BeanUtenti beanUtenti) throws SQLException,IOException{
+    Struttura struttura = daoStrutture.cercaStruttura(beanStruttura.getName(), beanUtenti.getEmail());
+
+    if(struttura == null){
+        throw new IllegalArgumentException("Struttura non trovata.");
+
+    }
+    List<Recensione> list = daoRecensioni.getRecensioniByStruttura(struttura.getName(), struttura.getGestore());
+    struttura.setRecensioni(list);
+    return struttura.calcolaMediaVoto();
+    
+  }
 
 }
     
