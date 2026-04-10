@@ -15,7 +15,7 @@ import appolloni.migliano.ManagerScene;
 import appolloni.migliano.bean.BeanRecensioni;
 import appolloni.migliano.bean.BeanStruttura;
 import appolloni.migliano.bean.BeanUtenti;
-import appolloni.migliano.controller.ControllerRecensioni;
+import appolloni.migliano.controller.ControllerDettagliStruttura;
 
 public class GUIdettagliStruttura {
   
@@ -31,7 +31,7 @@ public class GUIdettagliStruttura {
     @FXML private Label lblGestore;
     @FXML private ListView<String> listRecensioni;
     
-    private ControllerRecensioni controllerRecensione = new ControllerRecensioni();
+    private ControllerDettagliStruttura controllerDettagliStruttura = new ControllerDettagliStruttura();
     private BeanUtenti beanUtente;
     private BeanStruttura beanStruttura;
 
@@ -96,7 +96,7 @@ public class GUIdettagliStruttura {
     public void caricaRecensioni(){
         listRecensioni.getItems().clear(); 
         try {
-            List<BeanRecensioni> lista = controllerRecensione.cercaRecensioniPerStruttura(this.beanStruttura);
+            List<BeanRecensioni> lista = controllerDettagliStruttura.recuperaRecensioniStruttura(beanStruttura);
             
             if (lista.isEmpty()) {
                 listRecensioni.getItems().add("Nessuna recensione ancora presente.");
