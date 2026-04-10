@@ -23,19 +23,10 @@ public class GUILogin {
     private ControllerLogin login = new ControllerLogin();
     
     public void clickAccedi(ActionEvent event){
-        String email = txtEmail.getText().trim();
-        String pass = txtPass.getText().trim();
 
-        if(email.isEmpty() || pass.isEmpty()){
-            lblRisultato.setText("Errore: informazioni mancanti");
-            lblRisultato.setStyle(RED);
-            return;
-        }
 
         try {
-         BeanUtenti userBean = new BeanUtenti(null, null,null, null, null, null);
-         userBean.setEmail(email);
-         userBean.setPassword(pass);
+         BeanUtenti userBean = new BeanUtenti(null, null,null, txtEmail.getText().trim(),txtPass.getText().trim(), null);
          BeanUtenti beanUtenteLoggato = login.verificaUtente(userBean);
 
         
@@ -46,15 +37,15 @@ public class GUILogin {
           }
 
         }catch(CredenzialiSbagliateException e){
-          lblRisultato.setText("Credenziali errate, riprova.");
+          lblRisultato.setText(e.getMessage());
           lblRisultato.setStyle(RED);
 
 
         }catch(EmailNonValidaException e){
-            lblRisultato.setText("Formato email non corretto.");
+            lblRisultato.setText(e.getMessage());
             lblRisultato.setStyle(RED);
         }catch(Exception e){
-            lblRisultato.setText("Errore generico.");
+            lblRisultato.setText(e.getMessage());
             lblRisultato.setStyle(RED);
         }
 

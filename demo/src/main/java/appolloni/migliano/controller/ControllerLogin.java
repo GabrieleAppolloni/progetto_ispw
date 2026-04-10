@@ -15,6 +15,11 @@ public class ControllerLogin {
     public BeanUtenti verificaUtente(BeanUtenti bean) throws SQLException,EmailNonValidaException,CredenzialiSbagliateException{
 
 
+       if(bean.getEmail().isEmpty() || bean.getPassword().isEmpty()){
+         throw new CredenzialiSbagliateException("Credenziali mancanti");
+
+       }
+
         if(!bean.getEmail().contains("@")){
           throw new EmailNonValidaException("Formato email non valida");
         }
@@ -34,6 +39,6 @@ public class ControllerLogin {
    
 
         
-    }
+   }
 
 }

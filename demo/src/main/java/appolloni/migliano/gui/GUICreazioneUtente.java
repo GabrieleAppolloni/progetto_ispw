@@ -19,7 +19,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox; 
 
 
-public class CreazioneGUIController {
+public class GUICreazioneUtente {
 
     
     @FXML private ComboBox<String> comboTipo; 
