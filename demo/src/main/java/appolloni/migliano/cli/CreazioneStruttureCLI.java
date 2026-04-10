@@ -9,17 +9,17 @@ import appolloni.migliano.ManagerCLI;
 import appolloni.migliano.bean.BeanStruttura;
 import appolloni.migliano.bean.BeanUtenti;
 import appolloni.migliano.controller.ControllerCreazioneStrutturaHost;
-//import appolloni.migliano.controller.ControllerRegistrazioneUtente;
+
 import appolloni.migliano.exception.CampiVuotiException;
 
 public class CreazioneStruttureCLI {
 
-    //private final ControllerRegistrazioneUtente controllerUtente;
+    
     private final ControllerCreazioneStrutturaHost controllerCreazioneStrutturaHost;
     private final BeanUtenti utenteCorrente;
 
     public CreazioneStruttureCLI(BeanUtenti bean) {
-        //this.controllerUtente = new ControllerRegistrazioneUtente();
+       
         this.controllerCreazioneStrutturaHost = new ControllerCreazioneStrutturaHost();
         this.utenteCorrente = bean;
     }
@@ -58,12 +58,9 @@ public class CreazioneStruttureCLI {
             beanStruttura.setFoto(nomeFotoFinale);
 
        
-            if (controllerCreazioneStrutturaHost.esistenzaStruttura(utenteCorrente.getNomeAttivita())) {
-                System.out.println("Struttura già segnalata dal sistema. Procedo con la rivendicazione...");  //NOSONAR
-                controllerCreazioneStrutturaHost.rivendicaStruttura(beanStruttura, utenteCorrente.getEmail());
-            } else {
-                controllerCreazioneStrutturaHost.creazioneHostStruttura(utenteCorrente, beanStruttura);
-            }
+           
+            controllerCreazioneStrutturaHost.creazioneHostStruttura(utenteCorrente, beanStruttura);
+            
 
             System.out.println("\n[OK] Registrazione completata con successo!");  //NOSONAR
             System.out.println("Premi invio per accedere al tuo pannello...");  //NOSONAR

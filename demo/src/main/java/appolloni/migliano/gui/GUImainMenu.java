@@ -14,7 +14,8 @@ import appolloni.migliano.HelperErrori;
 import appolloni.migliano.ManagerScene;
 import appolloni.migliano.bean.BeanGruppo;
 import appolloni.migliano.bean.BeanUtenti;
-import appolloni.migliano.controller.ControllerGestioneGruppo;
+import appolloni.migliano.controller.ControllerMainMenu;
+
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
@@ -34,7 +35,7 @@ public class GUImainMenu {
     @FXML private Button bProfilo;
     
     private BeanUtenti bean;
-    private ControllerGestioneGruppo controllerGruppo = new ControllerGestioneGruppo();
+    private ControllerMainMenu controller = new ControllerMainMenu();
     private ManagerScene managerScene = new ManagerScene();
 
     public void initData(BeanUtenti utente){
@@ -56,7 +57,7 @@ public class GUImainMenu {
     private void caricaGruppi(){
         containerGruppi.getChildren().clear();
         try{
-            List<BeanGruppo> gruppoUser = controllerGruppo.visualizzaGruppi(bean);
+            List<BeanGruppo> gruppoUser = controller.recuperaGruppiUtente(bean);
             
             if (gruppoUser != null && !gruppoUser.isEmpty()) {
                 for(BeanGruppo g : gruppoUser){
