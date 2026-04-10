@@ -13,7 +13,7 @@ import java.sql.SQLException;
 import appolloni.migliano.HelperErrori;
 
 import appolloni.migliano.bean.BeanStruttura;
-import appolloni.migliano.controller.ControllerMenuHost;
+import appolloni.migliano.controller.ControllerModificaStrutturHost;
 
 public class GUIModificaStruttura {
 
@@ -28,7 +28,7 @@ public class GUIModificaStruttura {
 
     private String vecchioNome; 
 
-    private ControllerMenuHost controllerApp = new ControllerMenuHost();
+    private ControllerModificaStrutturHost controllerApp = new ControllerModificaStrutturHost();
     public void initData(BeanStruttura struttura) {
         this.strutturaCorrente = struttura;
         this.vecchioNome = struttura.getName(); 
