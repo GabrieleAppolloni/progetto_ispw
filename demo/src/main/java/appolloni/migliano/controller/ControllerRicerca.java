@@ -46,7 +46,7 @@ public class ControllerRicerca {
 
         if(beanStruttura.getName() != null && beanStruttura.getName().isEmpty()) beanStruttura.setName(null);
         if(beanStruttura.getCitta() != null && beanStruttura.getCitta().isEmpty()) beanStruttura.setCitta(null);
-        if(beanStruttura.getTipoAttivita() != null || beanStruttura.getTipoAttivita().equals("Tutti")) beanStruttura.setTipoAttivita(null);
+        if(beanStruttura.getTipoAttivita() != null && (beanStruttura.getTipoAttivita().equals("Tutti")|| beanStruttura.getTipoAttivita().isEmpty())) beanStruttura.setTipoAttivita(null);
 
         List<Struttura> list = daoStruttura.ricercaStruttureConFiltri(beanStruttura.getName(), beanStruttura.getCitta(), beanStruttura.getTipoAttivita());
 

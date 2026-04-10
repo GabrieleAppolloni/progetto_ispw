@@ -159,7 +159,8 @@ public class GUIRicerca {
         String citta = txtStrutturaCitta.getText().trim();
         String tipo = comboStrutturaTipo.getValue();
         if("Tutti".equals(tipo)) {tipo = null;}
-        BeanStruttura beanStruttura = new BeanStruttura(tipo, nome, citta, tipo, false, false);
+        BeanStruttura beanStruttura = new BeanStruttura(null, nome, citta, null, false, false);
+        beanStruttura.setTipoAttivita(tipo);
 
         try{
          List<BeanStruttura> risultati = controllerRicerca.ricercaStruttura(beanStruttura);

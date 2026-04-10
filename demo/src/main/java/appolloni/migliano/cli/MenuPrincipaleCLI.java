@@ -6,18 +6,18 @@ import appolloni.migliano.LeggInputCli;
 import appolloni.migliano.ManagerCLI;
 import appolloni.migliano.bean.BeanGruppo;
 import appolloni.migliano.bean.BeanUtenti;
-import appolloni.migliano.controller.ControllerGestioneGruppo;
+import appolloni.migliano.controller.ControllerMainMenu;;
 
 public class MenuPrincipaleCLI {
 
     
     private final BeanUtenti bean;
-    private final ControllerGestioneGruppo gestioneGruppi;
+    private final ControllerMainMenu controllerMainMenu;
 
     public MenuPrincipaleCLI(BeanUtenti utente) {
        
         this.bean = utente;
-        this.gestioneGruppi = new ControllerGestioneGruppo();
+        this.controllerMainMenu = new ControllerMainMenu();
     }
 
     public void start() {
@@ -56,7 +56,7 @@ public class MenuPrincipaleCLI {
     private List<BeanGruppo> caricaEVisualizzaGruppi() {
         List<BeanGruppo> gruppi = null;
         try {
-            gruppi = gestioneGruppi.visualizzaGruppi(bean);
+            gruppi = controllerMainMenu.recuperaGruppiUtente(bean);
             System.out.println("I TUOI GRUPPI:"); //NOSONAR
             if (gruppi == null || gruppi.isEmpty()) {
                 System.out.println("[ Nessun gruppo iscritto ]"); //NOSONAR
