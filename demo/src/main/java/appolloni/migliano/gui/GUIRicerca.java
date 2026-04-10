@@ -18,8 +18,7 @@ import appolloni.migliano.ManagerScene;
 import appolloni.migliano.bean.BeanGruppo;
 import appolloni.migliano.bean.BeanStruttura;
 import appolloni.migliano.bean.BeanUtenti;
-import appolloni.migliano.controller.ControllerGestioneGruppo;
-import appolloni.migliano.controller.ControllerRicercaStrutture;
+import appolloni.migliano.controller.ControllerRicerca;
 
 
 public class GUIRicerca {
@@ -39,8 +38,7 @@ public class GUIRicerca {
     @FXML private ComboBox<String> comboStrutturaTipo;
 
     private BeanUtenti beanUtente;
-    private ControllerGestioneGruppo controllerGruppo = new ControllerGestioneGruppo();
-    private ControllerRicercaStrutture controllerRicercaStrutture= new ControllerRicercaStrutture();
+    private ControllerRicerca controllerRicerca = new ControllerRicerca();
     private static final String GRUPPO = "Gruppo";
     private static final String STRUTTURA = "Struttura";
     private static final String COLORE= "-fx-text-fill: red;";
@@ -103,8 +101,10 @@ public class GUIRicerca {
         String citta = txtGruppoCitta.getText().trim();
         String materia = txtGruppoMateria.getText().trim();
 
+        BeanGruppo beanGruppo = new BeanGruppo(nome, materia,null ,null , citta);
+
         try{
-         List<BeanGruppo> risultati = controllerGruppo.cercaGruppi(nome, citta, materia);
+         List<BeanGruppo> risultati = controllerRicerca.ricercaGruppi(beanGruppo);
         
         if(risultati.isEmpty()) {
             Label empty = new Label("Nessun gruppo trovato.");
@@ -137,7 +137,7 @@ public class GUIRicerca {
             
             btnJoin.setOnAction(event -> {
                 try {
-                    controllerGruppo.aggiungiGruppo(beanUtente, g);
+                    controllerRicerca.aggiungiGruppo(beanUtente, g);
                     btnJoin.setText("Iscritto!");
                     btnJoin.setDisable(true);
                 } catch (Exception e) {
@@ -159,9 +159,10 @@ public class GUIRicerca {
         String citta = txtStrutturaCitta.getText().trim();
         String tipo = comboStrutturaTipo.getValue();
         if("Tutti".equals(tipo)) {tipo = null;}
+        BeanStruttura beanStruttura = new BeanStruttura(tipo, nome, citta, tipo, false, false);
 
         try{
-         List<BeanStruttura> risultati = controllerRicercaStrutture.cercaStrutture(nome, citta, tipo);
+         List<BeanStruttura> risultati = controllerRicerca.ricercaStruttura(beanStruttura);
       
 
          if(risultati.isEmpty()) {
