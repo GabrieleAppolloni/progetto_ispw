@@ -28,7 +28,7 @@ import java.sql.SQLException;
 
 
 
-public class CreazioneGUIStrutture {
+public class GUICreazioneStrutture {
     @FXML private ComboBox<String> comboTipo;
     @FXML private Label lblTipoAttivita;
     @FXML private CheckBox checkWifi;
@@ -105,18 +105,12 @@ public class CreazioneGUIStrutture {
               beanStruttura.setTipoAttivita(tipoAttivita);
               beanStruttura.setGestore(gestore);
               beanStruttura.setFoto(nomeFotoFinale);
-
-              if (cercaOrfana(nome)) {
-           
-              controllerCreazioneStrutturaHost.rivendicaStruttura(beanStruttura, gestore);
-             } else {
               controllerCreazioneStrutturaHost.creazioneHostStruttura(beanCurr, beanStruttura);
-             }
-             pulisci(); 
-             lblRisultato.setText("Registrazione Effettuata con Successo!");
-             lblRisultato.setStyle("-fx-text-fill: green;");
+              pulisci(); 
+              lblRisultato.setText("Registrazione Effettuata con Successo!");
+              lblRisultato.setStyle("-fx-text-fill: green;");
 
-             managerScene.avviaMenuHost(event, beanCurr);
+              managerScene.avviaMenuHost(event, beanCurr);
 
         }catch(CampiVuotiException e){
 
@@ -137,17 +131,6 @@ public class CreazioneGUIStrutture {
 
      }
 
-
-
-
-    private boolean cercaOrfana(String nomeStruttura) throws IOException, SQLException{
-        return controllerCreazioneStrutturaHost.esistenzaStruttura(nomeStruttura);
-
-    }
-
-   
-
-
      @FXML 
      public void clickIndietro(ActionEvent event) throws IOException{
         try{
@@ -157,9 +140,6 @@ public class CreazioneGUIStrutture {
         } catch (Exception e) {
             lblRisultato.setText("errore, impossibile tornare indietro");
         }
-
-
-
      }
 
 

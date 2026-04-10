@@ -20,6 +20,30 @@ public class ControllerCreazioneStrutturaHost {
     private InterfacciaDaoUtente daoUtente = FactoryDAO.getDaoUtente();
     private static final String GESTOREDEFAULT = "system_no_host";
 
+     private boolean esistenzaStruttura(String nomeStruttura) throws SQLException, IOException {
+     return daoStruttura.cercaStruttura(nomeStruttura, GESTOREDEFAULT) != null;
+    }
+
+    private void rivendicaStruttura(BeanStruttura beanDatiNuovi, String emailHost) throws IOException, SQLException {
+    
+     Struttura strutturaAggiornata = new Struttura(
+        beanDatiNuovi.getTipo(), 
+        beanDatiNuovi.getName(), 
+        beanDatiNuovi.getCitta(), 
+        beanDatiNuovi.getIndirizzo(), 
+        beanDatiNuovi.hasWifi(), 
+        beanDatiNuovi.hasRistorazione()
+       );
+    
+     strutturaAggiornata.setGestore(emailHost); 
+     strutturaAggiornata.setOrario(beanDatiNuovi.getOrario());
+     strutturaAggiornata.setTipoAttivita(beanDatiNuovi.getTipoAttivita());
+     strutturaAggiornata.setFoto(beanDatiNuovi.getFoto());
+
+  
+     daoStruttura.aggiornaHost(strutturaAggiornata, GESTOREDEFAULT); 
+    }
+
     public void creazioneHostStruttura(BeanUtenti beanUtente, BeanStruttura beanStruttura) throws CampiVuotiException, EmailNonValidaException,SQLException, IOException{
 
         String nome = beanUtente.getName();
@@ -41,6 +65,8 @@ public class ControllerCreazioneStrutturaHost {
 
             String nomeAttivita = beanUtente.getNomeAttivita();
             String tipoAttivita = beanUtente.getTipoAttivita();
+
+
 
             if(nomeAttivita.isEmpty() || tipoAttivita.isEmpty()){
                 throw new CampiVuotiException("Dati attività mancanti. ");
@@ -64,52 +90,33 @@ public class ControllerCreazioneStrutturaHost {
               throw new CampiVuotiException("Completa tutti i campi.");
             }
 
-            Struttura struttura = new Struttura(type, nomeStruttura, cittaStr, indirizzo, wifi, ristorazione);
-            struttura.setGestore(responsabile);
-            struttura.setFoto(foto);
-            struttura.setTipoAttivita(tipoAtt);
-            struttura.setOrario(orario);
+            
+            boolean check = esistenzaStruttura(nomeAttivita);
+            if(check){
+              daoUtente.salvaUtente(utente);
+              rivendicaStruttura(beanStruttura, email);
+            }else{
+             Struttura struttura = new Struttura(type, nomeStruttura, cittaStr, indirizzo, wifi, ristorazione);
+             struttura.setGestore(responsabile);
+             struttura.setFoto(foto);
+             struttura.setTipoAttivita(tipoAtt);
+             struttura.setOrario(orario);
 
-            Struttura struttura2 = daoStruttura.cercaStruttura(nomeStruttura, utente.getEmail());
+             Struttura struttura2 = daoStruttura.cercaStruttura(nomeStruttura, utente.getEmail());
 
-            if(struttura2 != null){
+             if(struttura2 != null){
                 throw new IllegalArgumentException("Struttura già esistente per questo Host.");
-            }
+             }
 
-            daoUtente.salvaUtente(utente);
-            daoStruttura.salvaStruttura(struttura, email);
+             daoUtente.salvaUtente(utente);
+             daoStruttura.salvaStruttura(struttura, email);
+            }
         }else{
             throw new IllegalArgumentException("tipo Utente non valido.");
         }
         
 
     }
-
-    public boolean esistenzaStruttura(String nomeStruttura) throws SQLException, IOException {
-     return daoStruttura.cercaStruttura(nomeStruttura, GESTOREDEFAULT) != null;
-    }
-
-
- public void rivendicaStruttura(BeanStruttura beanDatiNuovi, String emailHost) throws IOException, SQLException {
-    
-    Struttura strutturaAggiornata = new Struttura(
-        beanDatiNuovi.getTipo(), 
-        beanDatiNuovi.getName(), 
-        beanDatiNuovi.getCitta(), 
-        beanDatiNuovi.getIndirizzo(), 
-        beanDatiNuovi.hasWifi(), 
-        beanDatiNuovi.hasRistorazione()
-    );
-    
-    strutturaAggiornata.setGestore(emailHost); 
-    strutturaAggiornata.setOrario(beanDatiNuovi.getOrario());
-    strutturaAggiornata.setTipoAttivita(beanDatiNuovi.getTipoAttivita());
-    strutturaAggiornata.setFoto(beanDatiNuovi.getFoto());
-
-  
-    daoStruttura.aggiornaHost(strutturaAggiornata, GESTOREDEFAULT); 
-  }
-
   
 }
 

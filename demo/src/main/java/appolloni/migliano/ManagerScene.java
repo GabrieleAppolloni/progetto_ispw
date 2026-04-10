@@ -7,7 +7,7 @@ import appolloni.migliano.bean.BeanGruppo;
 import appolloni.migliano.bean.BeanStruttura;
 import appolloni.migliano.bean.BeanUtenti;
 import appolloni.migliano.controller.ControllerMenuHost;
-import appolloni.migliano.gui.CreazioneGUIStrutture;
+import appolloni.migliano.gui.GUICreazioneStrutture;
 import appolloni.migliano.gui.GUIChat;
 import appolloni.migliano.gui.GUICreazioneGruppo;
 import appolloni.migliano.gui.GUIModificaStruttura;
@@ -68,7 +68,7 @@ public class ManagerScene {
     public void avviaCreazioneStrutture(ActionEvent event, BeanUtenti beanUtenti) throws IOException{
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/creazioneStrutture.fxml"));
         Parent root = loader.load();
-        CreazioneGUIStrutture creazioneGUIStrutture = loader.getController();
+        GUICreazioneStrutture creazioneGUIStrutture = loader.getController();
         creazioneGUIStrutture.initData(beanUtenti);
         Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         stage.getScene().setRoot(root);
