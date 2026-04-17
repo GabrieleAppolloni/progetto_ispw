@@ -6,7 +6,7 @@ import java.sql.SQLException;
 import appolloni.migliano.bean.BeanStruttura;
 import appolloni.migliano.entity.Struttura;
 import appolloni.migliano.exception.CampiVuotiException;
-import appolloni.migliano.factory.FactoryDAO;
+import appolloni.migliano.factory.AbstractFactoryDao;
 import appolloni.migliano.interfacce.InterfacciaDaoStruttura;
 
 public class ControllerModificaStrutturHost {
@@ -14,7 +14,7 @@ public class ControllerModificaStrutturHost {
     private InterfacciaDaoStruttura daoStruttura;
 
     public ControllerModificaStrutturHost(){
-        this.daoStruttura = FactoryDAO.getDAOStrutture();
+        this.daoStruttura = AbstractFactoryDao.getDao().getDaoStruttura();
     }
     
     public void aggiornaStruttura(BeanStruttura beanStruttura, String vecchioNome) throws SQLException, IOException, CampiVuotiException{

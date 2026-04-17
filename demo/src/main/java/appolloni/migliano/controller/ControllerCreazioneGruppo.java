@@ -10,7 +10,7 @@ import appolloni.migliano.entity.Gruppo;
 import appolloni.migliano.entity.Studente;
 import appolloni.migliano.entity.Utente;
 import appolloni.migliano.exception.CampiVuotiException;
-import appolloni.migliano.factory.FactoryDAO;
+import appolloni.migliano.factory.AbstractFactoryDao;
 import appolloni.migliano.interfacce.InterfacciaDaoStruttura;
 import appolloni.migliano.interfacce.InterfacciaDaoGruppo;
 import appolloni.migliano.interfacce.InterfacciaDaoUtente;
@@ -18,9 +18,9 @@ import appolloni.migliano.interfacce.InterfacciaDaoUtente;
 
 public class ControllerCreazioneGruppo {
 
-        private InterfacciaDaoUtente daoUtente = FactoryDAO.getDaoUtente();
-        private InterfacciaDaoGruppo daoGruppo = FactoryDAO.getDaoGruppo();
-        private InterfacciaDaoStruttura daoStruttura = FactoryDAO.getDAOStrutture();
+        private InterfacciaDaoUtente daoUtente = AbstractFactoryDao.getDao().getDaoUtente();
+        private InterfacciaDaoGruppo daoGruppo = AbstractFactoryDao.getDao().getDaoGruppo();
+        private InterfacciaDaoStruttura daoStruttura = AbstractFactoryDao.getDao().getDaoStruttura();
 
         public void creaGruppo(BeanUtenti bean, BeanGruppo beanGruppo) throws SQLException, CampiVuotiException {
 

@@ -1,6 +1,6 @@
 package appolloni.migliano.controller;
 
-import appolloni.migliano.factory.FactoryDAO;
+import appolloni.migliano.factory.AbstractFactoryDao;
 import appolloni.migliano.interfacce.InterfacciaDaoRecensioni;
 import appolloni.migliano.entity.Recensione;
 
@@ -15,7 +15,7 @@ public class ControllerDettagliStruttura {
     private InterfacciaDaoRecensioni daoRecensioni;
 
     public ControllerDettagliStruttura(){
-        this.daoRecensioni = FactoryDAO.getDaoRecensioni();
+        this.daoRecensioni = AbstractFactoryDao.getDao().getDaoRecensioni();
     }
 
     public List<BeanRecensioni> recuperaRecensioniStruttura(BeanStruttura beanStruttura) throws SQLException, IOException{

@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import appolloni.migliano.entity.Recensione;
 import appolloni.migliano.entity.Utente;
-import appolloni.migliano.factory.FactoryDAO;
+import appolloni.migliano.factory.AbstractFactoryDao;
 import appolloni.migliano.entity.Struttura;
 
 
@@ -26,8 +26,8 @@ public class DaoRecensioniDB implements InterfacciaDaoRecensioni {
 
     public DaoRecensioniDB(Connection conn) {
         this.conn = conn;
-        this.daoStruttura = FactoryDAO.getDAOStrutture();
-        this.daoUtente = FactoryDAO.getDaoUtente();
+        this.daoStruttura = AbstractFactoryDao.getDao().getDaoStruttura();
+        this.daoUtente = AbstractFactoryDao.getDao().getDaoUtente();
     }
 
     @Override

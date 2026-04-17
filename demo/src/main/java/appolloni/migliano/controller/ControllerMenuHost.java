@@ -4,8 +4,7 @@ package appolloni.migliano.controller;
 import appolloni.migliano.entity.Recensione;
 import appolloni.migliano.entity.Struttura;
 import appolloni.migliano.exception.CampiVuotiException;
-
-import appolloni.migliano.factory.FactoryDAO;
+import appolloni.migliano.factory.AbstractFactoryDao;
 import appolloni.migliano.interfacce.InterfacciaDaoRecensioni;
 import appolloni.migliano.interfacce.InterfacciaDaoStruttura;
 import java.io.IOException;
@@ -22,8 +21,8 @@ import appolloni.migliano.bean.BeanUtenti;
 public class ControllerMenuHost {
 
   
-   private InterfacciaDaoStruttura daoStrutture = FactoryDAO.getDAOStrutture();
-   private InterfacciaDaoRecensioni daoRecensioni = FactoryDAO.getDaoRecensioni();
+   private InterfacciaDaoStruttura daoStrutture = AbstractFactoryDao.getDao().getDaoStruttura();
+   private InterfacciaDaoRecensioni daoRecensioni = AbstractFactoryDao.getDao().getDaoRecensioni();
   
    
    

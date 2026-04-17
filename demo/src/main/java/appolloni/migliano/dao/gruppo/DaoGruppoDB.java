@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import appolloni.migliano.entity.Gruppo;
 import appolloni.migliano.entity.Utente;
-import appolloni.migliano.factory.FactoryDAO;
+import appolloni.migliano.factory.AbstractFactoryDao;
 import appolloni.migliano.factory.FactoryUtenti;
 import appolloni.migliano.interfacce.InterfacciaDaoGruppo;
 import appolloni.migliano.interfacce.InterfacciaDaoUtente;
@@ -85,7 +85,7 @@ public class DaoGruppoDB implements InterfacciaDaoGruppo {
                     String citta = rs.getString(4);
                     String luogo = rs.getString(5);
 
-                    InterfacciaDaoUtente dao = FactoryDAO.getDaoUtente();
+                    InterfacciaDaoUtente dao = AbstractFactoryDao.getDao().getDaoUtente();
                     Utente user = dao.cercaUtente(admin);
                 
                     gruppoCercato = new Gruppo(nomeGruppo, user);
@@ -163,7 +163,7 @@ public class DaoGruppoDB implements InterfacciaDaoGruppo {
    @Override
     public List<Gruppo> ricercaGruppiConFiltri(String nome, String citta, String materia) throws SQLException {
         List<Gruppo> lista = new ArrayList<>();
-        InterfacciaDaoUtente daoUtente = FactoryDAO.getDaoUtente();
+        InterfacciaDaoUtente daoUtente = AbstractFactoryDao.getDao().getDaoUtente();
         
         String sql = SELECTRICERCAFILTRI; 
         

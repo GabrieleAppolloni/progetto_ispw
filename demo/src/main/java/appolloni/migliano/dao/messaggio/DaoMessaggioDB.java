@@ -4,7 +4,7 @@ import appolloni.migliano.entity.Gruppo;
 import appolloni.migliano.entity.Messaggio;
 import java.util.*;
 import appolloni.migliano.entity.Utente;
-import appolloni.migliano.factory.FactoryDAO;
+import appolloni.migliano.factory.AbstractFactoryDao;
 import appolloni.migliano.interfacce.InterfacciaDaoMessaggi;
 import appolloni.migliano.interfacce.InterfacciaDaoUtente;
 
@@ -48,7 +48,7 @@ public class DaoMessaggioDB implements InterfacciaDaoMessaggi {
                  String mess = rs.getString(1);
                  String emailMitt= rs.getString(3);
                  Timestamp time = rs.getTimestamp(4);
-                 InterfacciaDaoUtente dao = FactoryDAO.getDaoUtente();
+                 InterfacciaDaoUtente dao = AbstractFactoryDao.getDao().getDaoUtente();
                  Utente mittente = dao.cercaUtente(emailMitt);
                  Messaggio messaggio = new Messaggio(mess, gruppo, mittente);
                  messaggio.setTime(time);

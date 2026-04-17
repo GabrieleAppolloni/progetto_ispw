@@ -8,11 +8,11 @@ import appolloni.migliano.bean.BeanStruttura;
 import appolloni.migliano.bean.BeanUtenti;
 import appolloni.migliano.entity.Struttura;
 import appolloni.migliano.exception.CampiVuotiException;
-import appolloni.migliano.factory.FactoryDAO;
+import appolloni.migliano.factory.AbstractFactoryDao;
 import appolloni.migliano.interfacce.InterfacciaDaoStruttura;
 
 public class ControllerSegnalaStruttura {
-    private InterfacciaDaoStruttura daoStruttura = FactoryDAO.getDAOStrutture();
+    private InterfacciaDaoStruttura daoStruttura = AbstractFactoryDao.getDao().getDaoStruttura();
     private static final String GESTOREDEFAULT = "system_no_host";
 
     public void segnalaStruttura(BeanUtenti utente, BeanStruttura beanStruttura) throws IOException, SQLException, IllegalArgumentException, CampiVuotiException{

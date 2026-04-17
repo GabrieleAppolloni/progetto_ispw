@@ -7,7 +7,7 @@ import java.util.List;
 import appolloni.migliano.bean.BeanGruppo;
 import appolloni.migliano.bean.BeanUtenti;
 import appolloni.migliano.entity.Gruppo;
-import appolloni.migliano.factory.FactoryDAO;
+import appolloni.migliano.factory.AbstractFactoryDao;
 import appolloni.migliano.interfacce.InterfacciaDaoGruppo;
 
 public class ControllerMainMenu {
@@ -15,7 +15,7 @@ public class ControllerMainMenu {
     private InterfacciaDaoGruppo daoGruppo;
 
     public ControllerMainMenu(){
-        this.daoGruppo = FactoryDAO.getDaoGruppo();
+        this.daoGruppo = AbstractFactoryDao.getDao().getDaoGruppo();
     }
 
     public List<BeanGruppo>  recuperaGruppiUtente(BeanUtenti beanUtente) throws SQLException, IOException{

@@ -9,7 +9,7 @@ import appolloni.migliano.bean.BeanStruttura;
 import appolloni.migliano.bean.BeanUtenti;
 import appolloni.migliano.entity.Gruppo;
 import appolloni.migliano.entity.Struttura;
-import appolloni.migliano.factory.FactoryDAO;
+import appolloni.migliano.factory.AbstractFactoryDao;
 import appolloni.migliano.interfacce.InterfacciaDaoGruppo;
 import appolloni.migliano.interfacce.InterfacciaDaoStruttura;
 
@@ -19,8 +19,8 @@ public class ControllerRicerca {
     private InterfacciaDaoStruttura daoStruttura;
 
     public ControllerRicerca(){
-        this.daoGruppo = FactoryDAO.getDaoGruppo();
-        this.daoStruttura = FactoryDAO.getDAOStrutture();
+        this.daoGruppo = AbstractFactoryDao.getDao().getDaoGruppo();
+        this.daoStruttura = AbstractFactoryDao.getDao().getDaoStruttura();
     }
 
     public List<BeanGruppo> ricercaGruppi(BeanGruppo beanGruppo) throws SQLException{

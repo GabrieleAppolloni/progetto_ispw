@@ -8,7 +8,7 @@ import java.util.List;
 import appolloni.migliano.entity.Recensione;
 import appolloni.migliano.entity.Struttura;
 import appolloni.migliano.entity.Utente;
-import appolloni.migliano.factory.FactoryDAO;
+import appolloni.migliano.factory.AbstractFactoryDao;
 import appolloni.migliano.interfacce.InterfacciaDaoRecensioni;
 import appolloni.migliano.interfacce.InterfacciaDaoStruttura;
 import appolloni.migliano.interfacce.InterfacciaDaoUtente;
@@ -45,8 +45,8 @@ public class DaoRecensioniFile implements InterfacciaDaoRecensioni {
         File file = new File(CSVFILE);
 
         if (!file.exists()) {return lista;}
-        InterfacciaDaoStruttura daoStruttura = FactoryDAO.getDAOStrutture();
-        InterfacciaDaoUtente daoUtente = FactoryDAO.getDaoUtente();
+        InterfacciaDaoStruttura daoStruttura = AbstractFactoryDao.getDao().getDaoStruttura();
+        InterfacciaDaoUtente daoUtente = AbstractFactoryDao.getDao().getDaoUtente();
         Struttura strutturaTarget = null;
 
 

@@ -1,6 +1,6 @@
 package appolloni.migliano.controller;
 
-import appolloni.migliano.factory.FactoryDAO;
+import appolloni.migliano.factory.AbstractFactoryDao;
 import appolloni.migliano.interfacce.InterfacciaDaoUtente;
 
 import java.sql.SQLException;
@@ -9,7 +9,7 @@ import appolloni.migliano.bean.BeanUtenti;
 import appolloni.migliano.entity.Utente;
 
 public class ControllerProfiloUtente {
-    private InterfacciaDaoUtente daoUtente = FactoryDAO.getDaoUtente();
+    private InterfacciaDaoUtente daoUtente = AbstractFactoryDao.getDao().getDaoUtente();
 
     public BeanUtenti recuperaInformazioniUtente(BeanUtenti utente) throws SQLException{
         Utente utente2 = daoUtente.cercaUtente(utente.getEmail());

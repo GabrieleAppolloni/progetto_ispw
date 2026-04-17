@@ -6,11 +6,11 @@ import appolloni.migliano.bean.BeanUtenti;
 import appolloni.migliano.entity.Utente;
 import appolloni.migliano.exception.CredenzialiSbagliateException;
 import appolloni.migliano.exception.EmailNonValidaException;
-import appolloni.migliano.factory.FactoryDAO;
+import appolloni.migliano.factory.AbstractFactoryDao;
 import appolloni.migliano.interfacce.InterfacciaDaoUtente;
 
 public class ControllerLogin {
-    private InterfacciaDaoUtente daoUtente = FactoryDAO.getDaoUtente();
+    private InterfacciaDaoUtente daoUtente = AbstractFactoryDao.getDao().getDaoUtente();
 
     public BeanUtenti verificaUtente(BeanUtenti bean) throws SQLException,EmailNonValidaException,CredenzialiSbagliateException{
 

@@ -6,7 +6,7 @@ import appolloni.migliano.entity.Recensione;
 import appolloni.migliano.entity.Struttura;
 import appolloni.migliano.entity.Utente;
 import appolloni.migliano.exception.CampiVuotiException;
-import appolloni.migliano.factory.FactoryDAO;
+import appolloni.migliano.factory.AbstractFactoryDao;
 import appolloni.migliano.interfacce.InterfacciaDaoRecensioni;
 import appolloni.migliano.interfacce.InterfacciaDaoStruttura;
 import appolloni.migliano.interfacce.InterfacciaDaoUtente;
@@ -18,9 +18,9 @@ import java.util.List;
 
 public class ControllerRecensioni {
 
-    private InterfacciaDaoRecensioni daoRecensioni = FactoryDAO.getDaoRecensioni();
-    private InterfacciaDaoUtente daoUtente = FactoryDAO.getDaoUtente();
-    private InterfacciaDaoStruttura daoStrutture = FactoryDAO.getDAOStrutture();
+    private InterfacciaDaoRecensioni daoRecensioni = AbstractFactoryDao.getDao().getDaoRecensioni();
+    private InterfacciaDaoUtente daoUtente = AbstractFactoryDao.getDao().getDaoUtente();
+    private InterfacciaDaoStruttura daoStrutture = AbstractFactoryDao.getDao().getDaoStruttura();
 
     public void inserisciRecensione(BeanRecensioni beanRecensione) throws SQLException,IOException, CampiVuotiException{
 

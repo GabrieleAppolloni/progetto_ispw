@@ -10,14 +10,14 @@ import appolloni.migliano.entity.Struttura;
 import appolloni.migliano.entity.Utente;
 import appolloni.migliano.exception.CampiVuotiException;
 import appolloni.migliano.exception.EmailNonValidaException;
-import appolloni.migliano.factory.FactoryDAO;
+import appolloni.migliano.factory.AbstractFactoryDao;
 import appolloni.migliano.factory.FactoryUtenti;
 import appolloni.migliano.interfacce.InterfacciaDaoStruttura;
 import appolloni.migliano.interfacce.InterfacciaDaoUtente;
 
 public class ControllerCreazioneStrutturaHost {
-    private InterfacciaDaoStruttura daoStruttura = FactoryDAO.getDAOStrutture();
-    private InterfacciaDaoUtente daoUtente = FactoryDAO.getDaoUtente();
+    private InterfacciaDaoStruttura daoStruttura = AbstractFactoryDao.getDao().getDaoStruttura();
+    private InterfacciaDaoUtente daoUtente = AbstractFactoryDao.getDao().getDaoUtente();
     private static final String GESTOREDEFAULT = "system_no_host";
 
      private boolean esistenzaStruttura(String nomeStruttura) throws SQLException, IOException {

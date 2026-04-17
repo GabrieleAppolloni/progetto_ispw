@@ -11,7 +11,7 @@ import appolloni.migliano.bean.BeanUtenti;
 import appolloni.migliano.entity.Gruppo;
 import appolloni.migliano.entity.Messaggio;
 import appolloni.migliano.entity.Utente;
-import appolloni.migliano.factory.FactoryDAO;
+import appolloni.migliano.factory.AbstractFactoryDao;
 import appolloni.migliano.interfacce.InterfacciaDaoGruppo;
 import appolloni.migliano.interfacce.InterfacciaDaoMessaggi;
 import appolloni.migliano.interfacce.InterfacciaDaoUtente;
@@ -23,9 +23,9 @@ public class ControllerChat {
     private InterfacciaDaoUtente daoUtente;
 
     public ControllerChat() {
-        this.daoGruppo = FactoryDAO.getDaoGruppo();
-        this.daoMessaggi = FactoryDAO.getDaoMessaggi();
-        this.daoUtente = FactoryDAO.getDaoUtente();
+        this.daoGruppo = AbstractFactoryDao.getDao().getDaoGruppo();
+        this.daoMessaggi = AbstractFactoryDao.getDao().getDaoMessaggi();
+        this.daoUtente = AbstractFactoryDao.getDao().getDaoUtente();
     }
     public BeanGruppo recuperaInfoGruppo(BeanGruppo beanInput) throws  SQLException{
         Gruppo g = daoGruppo.cercaGruppo(beanInput.getNome());
