@@ -13,6 +13,19 @@ import appolloni.migliano.interfacce.InterfacciaDaoUtente;
 
 public class FactoryDaoDemo extends AbstractFactoryDao {
 
+    private static FactoryDaoDemo instance = null;
+
+    private FactoryDaoDemo(){}
+
+    public static FactoryDaoDemo getInstance(){
+        if(instance == null){
+            instance = new FactoryDaoDemo();
+
+        }
+        return instance;
+    }
+
+
     @Override
     public InterfacciaDaoUtente getDaoUtente(){
         return new DaoUtenteDEMO();

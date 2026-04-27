@@ -15,12 +15,23 @@ import appolloni.migliano.interfacce.InterfacciaDaoRecensioni;
 import appolloni.migliano.interfacce.InterfacciaDaoStruttura;
 import appolloni.migliano.interfacce.InterfacciaDaoUtente;
 
-// fare sigleton 
+
 public class FactoryDaoDB extends AbstractFactoryDao {
 
     private static final String ERRMSG = "Impossibile connettersi al Database";
+    private static FactoryDaoDB instance = null;
 
-    private static Connection getConn(){
+    private FactoryDaoDB(){}
+
+    public static FactoryDaoDB getInstance(){
+        if(instance == null){
+            instance = new FactoryDaoDB();
+        }
+        return instance;
+
+    }
+
+    private Connection getConn(){
         try{
             return DBConnection.getInstance().getConnection();
 

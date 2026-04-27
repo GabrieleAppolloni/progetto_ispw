@@ -17,7 +17,17 @@ import appolloni.migliano.interfacce.InterfacciaDaoUtente;
 
 public class FactoryDaoFile extends AbstractFactoryDao {
 
-     private static final String ERRMSG = "Impossibile connettersi al Database";
+     private static final String ERRMSG = "Impossibile leggere da file";
+     private static FactoryDaoFile instance = null;
+
+     private FactoryDaoFile(){}
+
+     public static FactoryDaoFile getInstance(){
+        if(instance == null){
+            instance = new FactoryDaoFile();
+        }
+        return instance;
+     }
 
     private Connection getConn(){
         try{
