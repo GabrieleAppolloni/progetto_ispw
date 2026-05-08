@@ -10,6 +10,7 @@ import appolloni.migliano.entity.Gruppo;
 import appolloni.migliano.entity.Studente;
 import appolloni.migliano.entity.Utente;
 import appolloni.migliano.exception.CampiVuotiException;
+import appolloni.migliano.exception.ErroreDiSistema;
 import appolloni.migliano.factory.AbstractFactoryDao;
 import appolloni.migliano.interfacce.InterfacciaDaoStruttura;
 import appolloni.migliano.interfacce.InterfacciaDaoGruppo;
@@ -22,7 +23,7 @@ public class ControllerCreazioneGruppo {
         private InterfacciaDaoGruppo daoGruppo = AbstractFactoryDao.getDao().getDaoGruppo();
         private InterfacciaDaoStruttura daoStruttura = AbstractFactoryDao.getDao().getDaoStruttura();
 
-        public void creaGruppo(BeanUtenti bean, BeanGruppo beanGruppo) throws SQLException, CampiVuotiException {
+        public void creaGruppo(BeanUtenti bean, BeanGruppo beanGruppo) throws SQLException, CampiVuotiException, ErroreDiSistema {
 
         if(!bean.getTipo().equals("Studente")){
              throw new IllegalArgumentException("L'utente non ha i permessi");
@@ -52,7 +53,7 @@ public class ControllerCreazioneGruppo {
          daoGruppo.creaGruppo(gruppo);
          
     }
-    public List<String> getListaStruttureDisponibili(String citta) throws CampiVuotiException, SQLException, IOException{
+    public List<String> getListaStruttureDisponibili(String citta) throws CampiVuotiException, SQLException, IOException, ErroreDiSistema{
         if(citta == null || citta.trim().isEmpty()) throw new CampiVuotiException(citta);
         return daoStruttura.recuperaNomiStrutture(citta);
     }

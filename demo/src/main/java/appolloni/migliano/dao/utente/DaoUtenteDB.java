@@ -1,12 +1,17 @@
 package appolloni.migliano.dao.utente;
 
 import java.sql.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import appolloni.migliano.entity.Utente;
+import appolloni.migliano.exception.ErroreDiSistema;
 import appolloni.migliano.factory.FactoryUtenti;
 import appolloni.migliano.entity.Host;
 import appolloni.migliano.interfacce.InterfacciaDaoUtente;
 
 public class DaoUtenteDB implements InterfacciaDaoUtente{
+    private static final Logger logger = Logger.getLogger(DaoUtenteDB.class.getName());
     private static final String SALVAUTENTE = "INSERT INTO utenti(dtype,nome,cognome,email,citta,password,nome_attivita,tipo_attivita)" + "VALUES (?,?,?,?,?,?,?,?)";
     private static final String CERCAUTENTE = "SELECT dtype, nome, cognome, email, citta, password, nome_attivita, tipo_attivita FROM utenti WHERE email = ?" ;
     private static final String UPDATE = "UPDATE utenti SET password = ? WHERE email = ?";
@@ -16,7 +21,7 @@ public class DaoUtenteDB implements InterfacciaDaoUtente{
     }
 
     @Override
-    public void salvaUtente(Utente u) throws SQLException{
+    public void salvaUtente(Utente u) throws ErroreDiSistema{
 
         String sql = SALVAUTENTE;
 
@@ -38,11 +43,16 @@ public class DaoUtenteDB implements InterfacciaDaoUtente{
                 ps.setNull(8, Types.VARCHAR);
             }
             ps.executeUpdate();
-        } 
+        }catch(SQLException e){
+
+            logger.log(Level.SEVERE, "salvataggio utente fallito"+ u.getEmail(),e);
+
+            throw new ErroreDiSistema("Errore salvataggio utente",e);
+        }
     }
 
     @Override
-    public Utente cercaUtente(String search) throws SQLException{
+    public Utente cercaUtente(String search) throws ErroreDiSistema{
         String sql = CERCAUTENTE;
         Utente u = null;
 
@@ -61,20 +71,28 @@ public class DaoUtenteDB implements InterfacciaDaoUtente{
 
              }
             }
-        } 
+        }catch(SQLException e){
+            logger.log(Level.SEVERE,"Ricerca utente fallita"+ u.getEmail(),e);
+            throw new ErroreDiSistema("Errore ricerca Utente.",e);
+
+        }
 
         return u;
     }
 
 
     @Override
-    public void aggiornaPassword(String email, String nuovaPass) throws SQLException{
+    public void aggiornaPassword(String email, String nuovaPass) throws ErroreDiSistema{
         String sql = UPDATE;
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, nuovaPass);
             ps.setString(2, email);
             ps.executeUpdate();
-        } 
+        }catch(SQLException e){
+            logger.log(Level.SEVERE, "Aggiornamento password fallito per "+email,e);
+            throw new ErroreDiSistema("Aggiornamento Password fallito.",e);
+
+        }
     }
 
 }

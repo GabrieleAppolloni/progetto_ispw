@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import appolloni.migliano.entity.Gruppo;
 import appolloni.migliano.entity.Utente;
+import appolloni.migliano.exception.ErroreDiSistema;
 import appolloni.migliano.factory.AbstractFactoryDao;
 import appolloni.migliano.factory.FactoryUtenti;
 import appolloni.migliano.interfacce.InterfacciaDaoGruppo;
@@ -161,7 +162,7 @@ public class DaoGruppoDB implements InterfacciaDaoGruppo {
 
     
    @Override
-    public List<Gruppo> ricercaGruppiConFiltri(String nome, String citta, String materia) throws SQLException {
+    public List<Gruppo> ricercaGruppiConFiltri(String nome, String citta, String materia) throws SQLException, ErroreDiSistema {
         List<Gruppo> lista = new ArrayList<>();
         InterfacciaDaoUtente daoUtente = AbstractFactoryDao.getDao().getDaoUtente();
         

@@ -6,12 +6,18 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import appolloni.migliano.dao.utente.DaoUtenteDB;
 import appolloni.migliano.entity.Struttura;
+import appolloni.migliano.exception.ErroreDiSistema;
 import appolloni.migliano.interfacce.InterfacciaDaoStruttura;
 
 
 public class DAOStruttureDB implements InterfacciaDaoStruttura {
 
+    private static final Logger logger = Logger.getLogger(DaoUtenteDB.class.getName());
     private static final String IMMAGINE = "placeholder.png";
     private final Connection conn;
     private static final String UPDATE_HOST = "UPDATE strutture SET gestore = ?, indirizzo = ?, orario_apertura = ?, wifi = ?, ristorazione = ?, foto = ? " + "WHERE nome = ? AND gestore = ?";
@@ -38,7 +44,7 @@ public class DAOStruttureDB implements InterfacciaDaoStruttura {
     }
  
     @Override
-    public void salvaStruttura(Struttura struttura, String email) throws SQLException{
+    public void salvaStruttura(Struttura struttura, String email) throws ErroreDiSistema{
         final String GESTORE_DEFAULT = "system_no_host";
         String gestore = (email != null && !email.isEmpty()) ? email : GESTORE_DEFAULT;
 
@@ -59,11 +65,15 @@ public class DAOStruttureDB implements InterfacciaDaoStruttura {
             if (!conn.getAutoCommit()) {
                 conn.commit();
             }
+        }catch(SQLException e){
+            logger.log(Level.SEVERE,"Errore salvataggio struttura" + struttura.getName(),e);
+            throw new ErroreDiSistema("Errore creazione struttura", e);
+
         }
     }
 
     @Override
-    public Struttura cercaStruttura(String nome, String gestore) throws SQLException{
+    public Struttura cercaStruttura(String nome, String gestore) throws ErroreDiSistema{
         Struttura struttura = null;
         try (PreparedStatement ps = conn.prepareStatement(CERCASTRUTTURA)) {
             ps.setString(1, nome);
@@ -74,12 +84,15 @@ public class DAOStruttureDB implements InterfacciaDaoStruttura {
                     struttura = recuperaStruttura(rs);
                 }
             }
+        }catch(SQLException e){
+            logger.log(Level.SEVERE,"Errore ricerca struttura"+ nome, e);
+            throw new ErroreDiSistema("Errore ricerca struttura", e);
         }
         return struttura;
     }
 
     @Override
-    public List<Struttura> ricercaStruttureConFiltri(String nome, String citta, String tipo) throws SQLException {
+    public List<Struttura> ricercaStruttureConFiltri(String nome, String citta, String tipo) throws ErroreDiSistema{
         List<Struttura> lista = new ArrayList<>();
         StringBuilder sql = new StringBuilder(RICERCAFILTRI);
 
@@ -98,12 +111,15 @@ public class DAOStruttureDB implements InterfacciaDaoStruttura {
                     lista.add(recuperaStruttura(rs));
                 }
             }
+        }catch(SQLException e){
+            logger.log(Level.SEVERE,"Errore ricerca struttura con filtri", e);
+            throw new ErroreDiSistema("Errore di ricerca filtri", e);
         }
         return lista;
     }
 
     @Override
-    public Struttura recuperaStrutturaPerHost(String emailHost) throws SQLException {
+    public Struttura recuperaStrutturaPerHost(String emailHost) throws ErroreDiSistema {
         Struttura struttura = null;
         try (PreparedStatement ps = conn.prepareStatement(RECUPERABYHOST)) {
             ps.setString(1, emailHost);
@@ -112,12 +128,15 @@ public class DAOStruttureDB implements InterfacciaDaoStruttura {
                      struttura = recuperaStruttura(rs);
                 }
             }
-        } 
+        }catch(SQLException e){
+                logger.log(Level.SEVERE,"Errore recupero struttura per host"+ emailHost, e);
+                throw new ErroreDiSistema("Errore recupero struttura per host", e);
+            } 
         return struttura;
     }
     
     @Override
-    public void updateStruttura(Struttura s, String vecchioNome) throws SQLException {
+    public void updateStruttura(Struttura s, String vecchioNome) throws ErroreDiSistema {
         
         try (PreparedStatement ps = conn.prepareStatement(UPDATESTRUTTURA)) {
             ps.setString(1, s.getIndirizzo());
@@ -136,20 +155,28 @@ public class DAOStruttureDB implements InterfacciaDaoStruttura {
             if (righeAggiornate == 0) {
                 throw new SQLException("Update fallito: Struttura non trovata.");
             }
+        }catch(SQLException e){
+            logger.log(Level.SEVERE,"Errore aggiornamento struttura"+ s.getName(),e);
+            throw new ErroreDiSistema("Errore aggiornamento struttura", e);
+
         }
     }
 
     @Override
-    public void aggiornaFotoStruttura(String emailHost, String nomeNuovaFoto) throws SQLException {
+    public void aggiornaFotoStruttura(String emailHost, String nomeNuovaFoto) throws ErroreDiSistema {
         try (PreparedStatement ps = conn.prepareStatement(UPDATEFOTO)) {
             ps.setString(1, nomeNuovaFoto);
             ps.setString(2, emailHost);
             ps.executeUpdate();
+        }catch(SQLException e){
+            logger.log(Level.SEVERE,"Errore aggiornamento foto struttura"+emailHost,e);
+            throw new ErroreDiSistema("Errore aggiornamento foto struttura", e);
+
         }
     }
 
     @Override
-    public List<String> recuperaNomiStrutture(String citta) throws SQLException {
+    public List<String> recuperaNomiStrutture(String citta) throws ErroreDiSistema {
         List<String> nomi = new ArrayList<>();
         try (PreparedStatement ps = conn.prepareStatement(RECUPERANOMI)){
             ps.setString(1, citta);
@@ -158,6 +185,10 @@ public class DAOStruttureDB implements InterfacciaDaoStruttura {
                    nomi.add(rs.getString("nome"));
                 }
             }
+        }catch(SQLException e){
+            logger.log(Level.SEVERE,"Errore recupero nomi strutture"+ citta,e);
+            throw new ErroreDiSistema("Errore recupero nomi strutture", e);
+
         }
         return nomi;
     }
@@ -190,7 +221,7 @@ public class DAOStruttureDB implements InterfacciaDaoStruttura {
     }
 
     @Override
-    public void aggiornaHost(Struttura strutturaAggiornata, String vecchioGestore) throws SQLException {
+    public void aggiornaHost(Struttura strutturaAggiornata, String vecchioGestore) throws ErroreDiSistema {
     
      try (PreparedStatement ps = conn.prepareStatement(UPDATE_HOST)) {
         
@@ -212,6 +243,10 @@ public class DAOStruttureDB implements InterfacciaDaoStruttura {
             throw new SQLException("Rivendicazione fallita: Non è stata trovata nessuna struttura '" 
                 + strutturaAggiornata.getName() + "' gestita da '" + vecchioGestore + "'.");
         }
-    }
+    }catch(SQLException e){
+            logger.log(Level.SEVERE,"Errore aggiornamento host struttura"+ vecchioGestore,e);
+            throw new ErroreDiSistema("Errore aggiornamento host struttura", e);
+
+        }
 }
 }

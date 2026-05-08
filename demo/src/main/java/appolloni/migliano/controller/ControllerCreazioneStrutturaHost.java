@@ -10,6 +10,7 @@ import appolloni.migliano.entity.Struttura;
 import appolloni.migliano.entity.Utente;
 import appolloni.migliano.exception.CampiVuotiException;
 import appolloni.migliano.exception.EmailNonValidaException;
+import appolloni.migliano.exception.ErroreDiSistema;
 import appolloni.migliano.factory.AbstractFactoryDao;
 import appolloni.migliano.factory.FactoryUtenti;
 import appolloni.migliano.interfacce.InterfacciaDaoStruttura;
@@ -20,11 +21,11 @@ public class ControllerCreazioneStrutturaHost {
     private InterfacciaDaoUtente daoUtente = AbstractFactoryDao.getDao().getDaoUtente();
     private static final String GESTOREDEFAULT = "system_no_host";
 
-     private boolean esistenzaStruttura(String nomeStruttura) throws SQLException, IOException {
+     private boolean esistenzaStruttura(String nomeStruttura) throws SQLException, IOException, ErroreDiSistema {
      return daoStruttura.cercaStruttura(nomeStruttura, GESTOREDEFAULT) != null;
     }
 
-    private void rivendicaStruttura(BeanStruttura beanDatiNuovi, String emailHost) throws IOException, SQLException {
+    private void rivendicaStruttura(BeanStruttura beanDatiNuovi, String emailHost) throws IOException, SQLException, ErroreDiSistema {
     
      Struttura strutturaAggiornata = new Struttura(
         beanDatiNuovi.getTipo(), 
@@ -44,7 +45,7 @@ public class ControllerCreazioneStrutturaHost {
      daoStruttura.aggiornaHost(strutturaAggiornata, GESTOREDEFAULT); 
     }
 
-    public void creazioneHostStruttura(BeanUtenti beanUtente, BeanStruttura beanStruttura) throws CampiVuotiException, EmailNonValidaException,SQLException, IOException{
+    public void creazioneHostStruttura(BeanUtenti beanUtente, BeanStruttura beanStruttura) throws CampiVuotiException, EmailNonValidaException,SQLException, IOException, ErroreDiSistema{
 
         String nome = beanUtente.getName();
         String tipo = beanUtente.getTipo();

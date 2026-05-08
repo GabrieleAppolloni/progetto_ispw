@@ -9,6 +9,7 @@ import appolloni.migliano.bean.BeanStruttura;
 import appolloni.migliano.bean.BeanUtenti;
 import appolloni.migliano.entity.Gruppo;
 import appolloni.migliano.entity.Struttura;
+import appolloni.migliano.exception.ErroreDiSistema;
 import appolloni.migliano.factory.AbstractFactoryDao;
 import appolloni.migliano.interfacce.InterfacciaDaoGruppo;
 import appolloni.migliano.interfacce.InterfacciaDaoStruttura;
@@ -23,7 +24,7 @@ public class ControllerRicerca {
         this.daoStruttura = AbstractFactoryDao.getDao().getDaoStruttura();
     }
 
-    public List<BeanGruppo> ricercaGruppi(BeanGruppo beanGruppo) throws SQLException{
+    public List<BeanGruppo> ricercaGruppi(BeanGruppo beanGruppo) throws SQLException, ErroreDiSistema{
         List<BeanGruppo> list = new java.util.ArrayList<>();
         if(beanGruppo.getNome() != null && beanGruppo.getNome().isEmpty()) beanGruppo.setNome(null);
         if(beanGruppo.getCitta() != null && beanGruppo.getCitta().isEmpty()) beanGruppo.setCitta(null);
@@ -41,7 +42,7 @@ public class ControllerRicerca {
 
     }
 
-    public List<BeanStruttura> ricercaStruttura(BeanStruttura beanStruttura) throws SQLException, IOException{
+    public List<BeanStruttura> ricercaStruttura(BeanStruttura beanStruttura) throws SQLException, IOException, ErroreDiSistema{
         List<BeanStruttura> listStrutture = new java.util.ArrayList<>();
 
         if(beanStruttura.getName() != null && beanStruttura.getName().isEmpty()) beanStruttura.setName(null);

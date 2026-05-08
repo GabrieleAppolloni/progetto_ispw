@@ -11,6 +11,7 @@ import appolloni.migliano.bean.BeanUtenti;
 import appolloni.migliano.entity.Gruppo;
 import appolloni.migliano.entity.Messaggio;
 import appolloni.migliano.entity.Utente;
+import appolloni.migliano.exception.ErroreDiSistema;
 import appolloni.migliano.factory.AbstractFactoryDao;
 import appolloni.migliano.interfacce.InterfacciaDaoGruppo;
 import appolloni.migliano.interfacce.InterfacciaDaoMessaggi;
@@ -55,7 +56,7 @@ public class ControllerChat {
      
     }
 
-    public void inviaMessaggio(BeanUtenti mittente, BeanGruppo gruppo, String testo) throws SQLException, IllegalArgumentException{
+    public void inviaMessaggio(BeanUtenti mittente, BeanGruppo gruppo, String testo) throws ErroreDiSistema, IllegalArgumentException, SQLException{
         if( testo.trim().isEmpty()) {throw new IllegalArgumentException("Inserire il messaggio, impossibile inviare un messsaggio vuoto");}
         Utente user = daoUtente.cercaUtente(mittente.getEmail());
         Gruppo g = daoGruppo.cercaGruppo(gruppo.getNome());
@@ -65,7 +66,7 @@ public class ControllerChat {
     
     }
 
-    public void abbandonaGruppo(BeanUtenti utente, BeanGruppo gruppo) throws SQLException {
+    public void abbandonaGruppo(BeanUtenti utente, BeanGruppo gruppo) throws SQLException, ErroreDiSistema {
 
 
         Utente user = daoUtente.cercaUtente(utente.getEmail());

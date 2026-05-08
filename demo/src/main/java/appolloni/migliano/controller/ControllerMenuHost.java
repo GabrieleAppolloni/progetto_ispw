@@ -4,6 +4,7 @@ package appolloni.migliano.controller;
 import appolloni.migliano.entity.Recensione;
 import appolloni.migliano.entity.Struttura;
 import appolloni.migliano.exception.CampiVuotiException;
+import appolloni.migliano.exception.ErroreDiSistema;
 import appolloni.migliano.factory.AbstractFactoryDao;
 import appolloni.migliano.interfacce.InterfacciaDaoRecensioni;
 import appolloni.migliano.interfacce.InterfacciaDaoStruttura;
@@ -28,7 +29,7 @@ public class ControllerMenuHost {
    
 
    
-    public BeanStruttura visualizzaStrutturaHost(String emailHost) throws SQLException, IOException, IllegalArgumentException {
+    public BeanStruttura visualizzaStrutturaHost(String emailHost) throws SQLException, IOException, IllegalArgumentException, ErroreDiSistema {
         if(emailHost == null ){
             throw new IllegalArgumentException("Host non vaido");
 
@@ -47,14 +48,14 @@ public class ControllerMenuHost {
     }
 
     // aggiorna struttura e  foto vanno messe in un altro caso d'uso
-    public void cambiaFoto(String emailHost, String nomeFoto) throws CampiVuotiException, SQLException,IOException {
+    public void cambiaFoto(String emailHost, String nomeFoto) throws CampiVuotiException, SQLException,IOException, ErroreDiSistema {
      if (emailHost == null || nomeFoto == null) {throw new CampiVuotiException("Dati mancanti");}
       daoStrutture.aggiornaFotoStruttura(emailHost, nomeFoto);
     
     }
 
 
-    public void aggiornaStruttura(BeanStruttura struttura, String vecchionNome) throws IOException, SQLException, CampiVuotiException{
+    public void aggiornaStruttura(BeanStruttura struttura, String vecchionNome) throws IOException, SQLException, CampiVuotiException, ErroreDiSistema{
         if(struttura.getCitta().isEmpty() || struttura.getGestore().isEmpty() || struttura.getIndirizzo().isEmpty()|| struttura.getName().isEmpty()|| struttura.getOrario().isEmpty()||struttura.getTipoAttivita().isEmpty()){
             throw new CampiVuotiException("Dati mancanti");
         }
@@ -80,7 +81,7 @@ public class ControllerMenuHost {
      return listaBean;
     }
 
-  public double calcolaMediaVoti(BeanStruttura beanStruttura, BeanUtenti beanUtenti) throws SQLException,IOException{
+  public double calcolaMediaVoti(BeanStruttura beanStruttura, BeanUtenti beanUtenti) throws SQLException,IOException, ErroreDiSistema{
     Struttura struttura = daoStrutture.cercaStruttura(beanStruttura.getName(), beanUtenti.getEmail());
 
     if(struttura == null){

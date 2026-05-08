@@ -16,6 +16,7 @@ import appolloni.migliano.bean.BeanGruppo;
 import appolloni.migliano.bean.BeanMessaggi;
 import appolloni.migliano.bean.BeanUtenti;
 import appolloni.migliano.controller.ControllerChat;
+import appolloni.migliano.exception.ErroreDiSistema;
 
 public class GUIChat {
 
@@ -95,6 +96,9 @@ public class GUIChat {
             
         } catch (SQLException e) {
            HelperErrori.errore("Errore: ", e.getMessage());
+
+        }catch(ErroreDiSistema e){
+            HelperErrori.errore("Errore: ", e.getMessage());
         }catch(IllegalArgumentException e){
             HelperErrori.errore(ERROREGENERICO,e.getMessage());
         }

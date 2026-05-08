@@ -1,20 +1,18 @@
 package appolloni.migliano.interfacce;
 
 import appolloni.migliano.entity.Struttura;
-
-import java.io.IOException;
-import java.sql.SQLException;
+import appolloni.migliano.exception.ErroreDiSistema;
 import java.util.List;
 public interface InterfacciaDaoStruttura {
 
-     void salvaStruttura(Struttura struttura2, String email) throws SQLException,IOException;
-     Struttura cercaStruttura(String nome, String gestore) throws SQLException, IOException;
-     List<Struttura> ricercaStruttureConFiltri(String nome,String citta, String tipo) throws SQLException,IOException;
-     Struttura recuperaStrutturaPerHost(String email) throws SQLException, IOException;
-     void updateStruttura(Struttura struttura, String vecchioNome) throws SQLException, IOException;
-     List<String> recuperaNomiStrutture(String citta) throws SQLException,IOException;
-     void aggiornaFotoStruttura(String emailHost, String fotoNuova) throws SQLException, IOException;
-     void aggiornaHost(Struttura struttura, String nuovaEmail) throws SQLException, IOException;
+     void salvaStruttura(Struttura struttura2, String email) throws ErroreDiSistema;
+     Struttura cercaStruttura(String nome, String gestore) throws ErroreDiSistema;
+     List<Struttura> ricercaStruttureConFiltri(String nome,String citta, String tipo) throws ErroreDiSistema;
+     Struttura recuperaStrutturaPerHost(String email) throws ErroreDiSistema;
+     void updateStruttura(Struttura struttura, String vecchioNome) throws ErroreDiSistema;
+     List<String> recuperaNomiStrutture(String citta) throws ErroreDiSistema;
+     void aggiornaFotoStruttura(String emailHost, String fotoNuova) throws ErroreDiSistema;
+     void aggiornaHost(Struttura struttura, String nuovaEmail) throws ErroreDiSistema;
      
      
 

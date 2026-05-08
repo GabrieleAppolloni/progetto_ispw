@@ -11,6 +11,7 @@ public class Launcher {
     public static void main(String[] args) {
         
 
+
         String tipoPersistenza = Configurazione.JDBC;
         String tipoInterfaccia = "GUI";
         
@@ -29,6 +30,7 @@ public class Launcher {
 
         Configurazione.setTipoPersistenza(tipoPersistenza);
         Configurazione.setTipoInterfaccia(tipoInterfaccia);
+        ConfigLogger.inizializzaLog();
 
         logger.log(Level.INFO, ">>> MODALITÀ AVVIO: {0} | INTERFACCIA: {1} <<<", new Object[]{tipoPersistenza, tipoInterfaccia});
         try {

@@ -1,11 +1,10 @@
 package appolloni.migliano.dao.strutture;
 
-import java.io.IOException;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 import appolloni.migliano.entity.Struttura;
+
 import appolloni.migliano.interfacce.InterfacciaDaoStruttura;
 
 public class DAOStruttureDemo implements InterfacciaDaoStruttura {
@@ -15,17 +14,16 @@ public class DAOStruttureDemo implements InterfacciaDaoStruttura {
 
 
     @Override
-    public void salvaStruttura(Struttura s, String email) throws SQLException {
+    public void salvaStruttura(Struttura s, String email) {
      
         if (email != null && (s.getGestore() == null || s.getGestore().isEmpty())) {
-           throw new SQLException("Errore");
         }
         
         tabellaStrutture.add(s);
     }
 
     @Override
-    public Struttura cercaStruttura(String nomeStruttura, String gestore) throws IOException {
+    public Struttura cercaStruttura(String nomeStruttura, String gestore)  {
         for (Struttura s : tabellaStrutture) {
             if (s.getName().equals(nomeStruttura) && s.getGestore().equals(gestore)) {
                 return s;
@@ -56,7 +54,7 @@ public class DAOStruttureDemo implements InterfacciaDaoStruttura {
      return !(tipo != null && !tipo.isEmpty() && !s.getTipoAttivita().equalsIgnoreCase(tipo)) ;
     }
     @Override
-    public Struttura recuperaStrutturaPerHost(String emailHost) throws IOException {
+    public Struttura recuperaStrutturaPerHost(String emailHost) {
         for (Struttura s : tabellaStrutture) {
             if (s.getGestore().equalsIgnoreCase(emailHost)) {
                 return s;
@@ -66,7 +64,7 @@ public class DAOStruttureDemo implements InterfacciaDaoStruttura {
     }
 
     @Override
-    public void updateStruttura(Struttura strutturaNuova, String vecchioNome) throws IOException {
+    public void updateStruttura(Struttura strutturaNuova, String vecchioNome)  {
         for (int i = 0; i < tabellaStrutture.size(); i++) {
             Struttura s = tabellaStrutture.get(i);
             
@@ -78,7 +76,7 @@ public class DAOStruttureDemo implements InterfacciaDaoStruttura {
     }
 
     @Override
-    public void aggiornaFotoStruttura(String emailHost, String fotoNuova) throws IOException {
+    public void aggiornaFotoStruttura(String emailHost, String fotoNuova) {
         for (Struttura s : tabellaStrutture) {
             if (s.getGestore().equalsIgnoreCase(emailHost)) {
                 s.setFoto(fotoNuova);
@@ -88,7 +86,7 @@ public class DAOStruttureDemo implements InterfacciaDaoStruttura {
     }
 
     @Override
-    public List<String> recuperaNomiStrutture(String citta) throws IOException {
+    public List<String> recuperaNomiStrutture(String citta)  {
         List<String> nomi = new ArrayList<>();
         
         for (Struttura s : tabellaStrutture) {
@@ -100,7 +98,7 @@ public class DAOStruttureDemo implements InterfacciaDaoStruttura {
     }
 
     @Override
-    public void aggiornaHost(Struttura strutturaNuova, String gestore) throws IOException {
+    public void aggiornaHost(Struttura strutturaNuova, String gestore)  {
         for (Struttura s : tabellaStrutture) {
             if (s.getGestore().equalsIgnoreCase("system_no_host") && 
                 s.getName().equalsIgnoreCase(strutturaNuova.getName())) {

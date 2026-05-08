@@ -10,11 +10,12 @@ import appolloni.migliano.factory.FactoryUtenti;
 import appolloni.migliano.interfacce.InterfacciaDaoUtente;
 import appolloni.migliano.exception.CampiVuotiException;
 import appolloni.migliano.exception.EmailNonValidaException;
+import appolloni.migliano.exception.ErroreDiSistema;
 
 public class ControllerRegistrazioneUtente {
     private InterfacciaDaoUtente daoUtente = AbstractFactoryDao.getDao().getDaoUtente();
 
-    public void registraUtente(BeanUtenti bean) throws SQLException, CampiVuotiException, EmailNonValidaException, IllegalArgumentException {
+    public void registraUtente(BeanUtenti bean) throws SQLException, CampiVuotiException, EmailNonValidaException, IllegalArgumentException, ErroreDiSistema {
         String nome = bean.getName();
         String tipo = bean.getTipo();
         String cognome = bean.getCognome();

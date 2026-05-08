@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import appolloni.migliano.bean.BeanStruttura;
 import appolloni.migliano.entity.Struttura;
 import appolloni.migliano.exception.CampiVuotiException;
+import appolloni.migliano.exception.ErroreDiSistema;
 import appolloni.migliano.factory.AbstractFactoryDao;
 import appolloni.migliano.interfacce.InterfacciaDaoStruttura;
 
@@ -17,7 +18,7 @@ public class ControllerModificaStrutturHost {
         this.daoStruttura = AbstractFactoryDao.getDao().getDaoStruttura();
     }
     
-    public void aggiornaStruttura(BeanStruttura beanStruttura, String vecchioNome) throws SQLException, IOException, CampiVuotiException{
+    public void aggiornaStruttura(BeanStruttura beanStruttura, String vecchioNome) throws SQLException, IOException, CampiVuotiException, ErroreDiSistema{
         if(beanStruttura.getName().isEmpty() || beanStruttura.getCitta().isEmpty() || beanStruttura.getOrario().isEmpty() || beanStruttura.getIndirizzo().isEmpty()) throw new CampiVuotiException("Nessuna modifica applicata");
         Struttura struttura = new Struttura(beanStruttura.getTipo(), beanStruttura.getName(), beanStruttura.getCitta(), beanStruttura.getIndirizzo(), beanStruttura.hasWifi(), beanStruttura.hasRistorazione());
         struttura.setOrario(beanStruttura.getOrario());

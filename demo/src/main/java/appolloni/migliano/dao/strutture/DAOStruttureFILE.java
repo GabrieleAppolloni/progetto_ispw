@@ -8,15 +8,21 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import appolloni.migliano.dao.utente.DaoUtenteDB;
 import appolloni.migliano.entity.Struttura;
+import appolloni.migliano.exception.ErroreDiSistema;
 import appolloni.migliano.interfacce.InterfacciaDaoStruttura;
 
 public class DAOStruttureFILE  implements InterfacciaDaoStruttura{
     private static final String CSVFILE = "strutture.csv";
     private static final String FORMATOCSV = "%s;%s;%s;%s;%s;%s;%s;%b;%b;%s";
+    private static final Logger logger = Logger.getLogger(DaoUtenteDB.class.getName());
 
     @Override
-    public void salvaStruttura(Struttura s, String email) throws IOException {
+    public void salvaStruttura(Struttura s, String email) throws ErroreDiSistema {
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(CSVFILE, true))) {
             String riga = String.format(FORMATOCSV,
                 s.getName(), s.getTipo(), s.getCitta(), s.getIndirizzo(), s.getOrario(),
@@ -25,11 +31,15 @@ public class DAOStruttureFILE  implements InterfacciaDaoStruttura{
             );
             bw.write(riga);
             bw.newLine();
+        }catch(IOException e){
+            logger.log(Level.SEVERE,"Errore salvataggioo struttura"+ s.getName(),e);
+            throw new ErroreDiSistema("Errore salvataggio struttura", e);
+
         }
     }
 
     @Override
-    public Struttura cercaStruttura(String nomeStruttura, String gestore) throws IOException{
+    public Struttura cercaStruttura(String nomeStruttura, String gestore) throws ErroreDiSistema{
         File file = new File(CSVFILE);
         
         if(!file.exists()) return null;
@@ -48,13 +58,17 @@ public class DAOStruttureFILE  implements InterfacciaDaoStruttura{
                 }
 
             }
+        }catch(IOException e){
+            logger.log(Level.SEVERE,"Errore ricerca struttura"+ nomeStruttura,e);
+            throw new ErroreDiSistema("Errore ricerca struttura", e);
+
         }
         return struttura;
         
     }
 
    @Override
-    public List<Struttura> ricercaStruttureConFiltri(String nome, String citta, String tipo) throws IOException {
+    public List<Struttura> ricercaStruttureConFiltri(String nome, String citta, String tipo) throws ErroreDiSistema {
      List<Struttura> lista = new ArrayList<>();
      File file = new File(CSVFILE);
      if (!file.exists()) {return lista;}
@@ -68,7 +82,11 @@ public class DAOStruttureFILE  implements InterfacciaDaoStruttura{
                 lista.add(creaStrutturaDaCsv(dati));
             }
         }
-     }
+     }catch(IOException e){
+            logger.log(Level.SEVERE,"Errore ricerca struttura con filtri"+ nome,e);
+            throw new ErroreDiSistema("Errore ricerca struttura con filtri", e);
+
+        }
      return lista;
     }
 
@@ -111,7 +129,7 @@ public class DAOStruttureFILE  implements InterfacciaDaoStruttura{
 
 
     @Override
-    public Struttura recuperaStrutturaPerHost(String emailHost) throws IOException {
+    public Struttura recuperaStrutturaPerHost(String emailHost) throws ErroreDiSistema {
         File file = new File(CSVFILE);
         if (!file.exists()) { return null;}
 
@@ -135,19 +153,23 @@ public class DAOStruttureFILE  implements InterfacciaDaoStruttura{
                     return s;
                 }
             }
+        }catch(IOException e){
+            logger.log(Level.SEVERE,"Errore ricerca struttura host"+ emailHost,e);
+            throw new ErroreDiSistema("Errore ricerca struttura host", e);
+
         }
         return null;
     }
 
    @Override
-   public void updateStruttura(Struttura struttura, String vecchioNome) throws IOException {
+   public void updateStruttura(Struttura struttura, String vecchioNome) throws ErroreDiSistema {
     File file = new File(CSVFILE);
     if (!file.exists()) {return;}
 
-     List<String> righeDaRiscrivere = new ArrayList<>();
-     boolean trovato = false;
+    List<String> righeDaRiscrivere = new ArrayList<>();
+    boolean trovato = false;
 
-     try (BufferedReader br = new BufferedReader(new FileReader(file))) {
+    try (BufferedReader br = new BufferedReader(new FileReader(file))) {
         String line;
         while ((line = br.readLine()) != null) {
             String[] dati = line.split(";");
@@ -166,7 +188,11 @@ public class DAOStruttureFILE  implements InterfacciaDaoStruttura{
                 righeDaRiscrivere.add(line); 
             }
         }
-     } 
+    }catch(IOException e){
+            logger.log(Level.SEVERE,"Errore aggiornamento struttura"+ struttura.getName(),e);
+            throw new ErroreDiSistema("Errore aggiornamento struttura", e);
+
+    }
 
 
       if (trovato) {
@@ -175,12 +201,17 @@ public class DAOStruttureFILE  implements InterfacciaDaoStruttura{
                 bw.write(riga);
                 bw.newLine();
             }
+
+        }catch(IOException e){
+            logger.log(Level.SEVERE,"Errore aggiornamento struttura"+ struttura.getName(),e);
+            throw new ErroreDiSistema("Errore aggiornamento struttura", e);
+
         }
-     }
+    }
     }
 
     @Override
-    public void aggiornaFotoStruttura(String emailHost, String fotoNuova) throws IOException {
+    public void aggiornaFotoStruttura(String emailHost, String fotoNuova) throws ErroreDiSistema {
         File file = new File(CSVFILE);
         if (!file.exists()) return;
 
@@ -205,6 +236,10 @@ public class DAOStruttureFILE  implements InterfacciaDaoStruttura{
                     righeDaScrivere.add(line);
                 }
             }
+        }catch(IOException e){
+            logger.log(Level.SEVERE,"Errore aggiornamento foto struttura"+ emailHost ,e);
+            throw new ErroreDiSistema("Errore aggiornamento foto struttura", e);
+
         }
         if (modificato) {
             riscriviFile(file, righeDaScrivere);
@@ -213,7 +248,7 @@ public class DAOStruttureFILE  implements InterfacciaDaoStruttura{
     
     
     @Override 
-    public List<String> recuperaNomiStrutture(String citta) throws IOException {
+    public List<String> recuperaNomiStrutture(String citta) throws ErroreDiSistema {
         List<String> listaNomi = new ArrayList<>();
         
         File file = new File(CSVFILE);
@@ -232,13 +267,17 @@ public class DAOStruttureFILE  implements InterfacciaDaoStruttura{
                     }
                 }
             }
-        } 
+        }catch(IOException e){
+            logger.log(Level.SEVERE,"Errore recupero struttura citta"+ citta,e);
+            throw new ErroreDiSistema("Errore recupero struttura citta", e);
+
+        }
 
         return listaNomi;
     }
 
 @Override
-    public void aggiornaHost(Struttura s, String nuovoGestore) throws IOException {
+    public void aggiornaHost(Struttura s, String nuovoGestore) throws ErroreDiSistema {
         File file = new File(CSVFILE);
         if (!file.exists()) return;
 
@@ -274,6 +313,9 @@ public class DAOStruttureFILE  implements InterfacciaDaoStruttura{
                     righeDaScrivere.add(line); 
                 }
             }
+        }catch(IOException e){
+            logger.log(Level.SEVERE,"Errore aggiornamento host struttura"+ s.getName(),e);
+            throw new ErroreDiSistema("Errore aggiornamento host struttura", e);
         }
 
         if (trovato) {
@@ -282,12 +324,16 @@ public class DAOStruttureFILE  implements InterfacciaDaoStruttura{
     }
 
     
-    private void riscriviFile(File file, List<String> righe) throws IOException {
+    private void riscriviFile(File file, List<String> righe) throws ErroreDiSistema {
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(file, false))) {
             for (String riga : righe) {
                 bw.write(riga);
                 bw.newLine();
             }
+        }catch(IOException e){
+            logger.log(Level.SEVERE,"Errore aggiornamento struttura"+ file,e);
+            throw new ErroreDiSistema("Errore aggiornamento struttura", e);
+
         }
     }
 
