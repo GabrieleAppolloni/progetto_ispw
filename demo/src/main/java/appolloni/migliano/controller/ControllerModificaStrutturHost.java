@@ -21,6 +21,6 @@ public class ControllerModificaStrutturHost {
         struttura.setTipoAttivita(beanStruttura.getTipoAttivita());
         struttura.setFoto(beanStruttura.getFoto());
         struttura.setGestore(beanStruttura.getGestore());
-        daoStruttura.aggiornaHost(struttura, vecchioNome);
+        daoStruttura.updateStruttura(struttura, vecchioNome);
     }
 }

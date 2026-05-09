@@ -152,7 +152,7 @@ public class ManagerScene {
 
     }
     
-    public void scriviRecensione(BeanUtenti beanUtente, BeanStruttura beanStruttura) throws IOException{
+    public void scriviRecensione(BeanUtenti beanUtente, BeanStruttura beanStruttura, Node nodoSorgente) throws IOException{
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/scriviRecensione.fxml"));
         Parent root = loader.load();
         
@@ -162,37 +162,45 @@ public class ManagerScene {
         Stage newStage = new Stage(); 
         newStage.setTitle("Scrivi Recensione");
         newStage.setScene(new Scene(root));
-        
+        newStage.initOwner(nodoSorgente.getScene().getWindow());
 
         newStage.initModality(javafx.stage.Modality.APPLICATION_MODAL);
         newStage.showAndWait(); 
     }
 
-    public void modificaDatiHost(BeanUtenti beanUtente) throws IOException, IllegalArgumentException,SQLException, ErroreDiSistema{
+    public void modificaDatiHost(BeanUtenti beanUtente, Node nodoSorgente) throws IOException, IllegalArgumentException,SQLException, ErroreDiSistema{
          FXMLLoader loader = new FXMLLoader(getClass().getResource("/modificaStruttura.fxml"));
         Parent root = loader.load();
 
         ControllerMenuHost controllerStruttura = new ControllerMenuHost();
-
         GUIModificaStruttura controllerModifica = loader.getController();
         controllerModifica.initData(controllerStruttura.visualizzaStrutturaHost(beanUtente.getEmail()));
 
         Stage stage = new Stage();
         stage.setScene(new Scene(root));
         stage.setTitle("Modifica Struttura");
-        stage.showAndWait(); 
+        stage.initOwner(nodoSorgente.getScene().getWindow());
+        stage.initModality(javafx.stage.Modality.WINDOW_MODAL);
+        stage.showAndWait();
     }
 
-    private void tornaHomeDaNodo(Node nodoCorrente) throws IOException {
-        
+   private void tornaHomeDaNodo(Node nodoCorrente) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/home.fxml"));
         Parent root = loader.load();
-        Stage stage = (Stage) nodoCorrente.getScene().getWindow();
-        stage.setScene(new Scene(root));
-        stage.setTitle("Home");
-        stage.show();
-    }
+        
+        Stage stageAttuale = (Stage) nodoCorrente.getScene().getWindow();
 
+
+        if (stageAttuale.getOwner() != null) {
+            Stage finestraMadre = (Stage) stageAttuale.getOwner();
+            stageAttuale.close(); 
+            finestraMadre.setScene(new Scene(root));
+            finestraMadre.setTitle("Home");
+        } else {
+            stageAttuale.setScene(new Scene(root));
+            stageAttuale.setTitle("Home");
+        }
+    }
     public void gestioneErrore(String codice, String messaggio, Node nodo){
         HelperErrori.errore(codice, messaggio);
         try{

@@ -46,6 +46,7 @@ public class GUIModificaStruttura {
 
             if (txtNome.getText().trim().isEmpty()) {
                 HelperErrori.errore("Il nome non può essere vuoto!","Inserire il nome");
+                return;
             }
             strutturaCorrente.setName(txtNome.getText().trim());
             strutturaCorrente.setIndirizzo(txtIndirizzo.getText().trim());

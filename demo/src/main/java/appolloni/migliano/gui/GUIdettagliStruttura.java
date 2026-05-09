@@ -116,7 +116,7 @@ public class GUIdettagliStruttura {
     @FXML
     public void clickScrivi(ActionEvent event){
         try{
-            managerScene.scriviRecensione( beanUtente, beanStruttura);
+            managerScene.scriviRecensione( beanUtente, beanStruttura,lblGestore);
 
         }catch(IOException e){
             managerScene.gestioneErrore("Errore di sistema", "Errore di lettura/scrittura nel server", imgStruttura);
