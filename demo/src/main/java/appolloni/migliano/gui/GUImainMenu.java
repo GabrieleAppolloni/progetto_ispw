@@ -15,7 +15,7 @@ import appolloni.migliano.ManagerScene;
 import appolloni.migliano.bean.BeanGruppo;
 import appolloni.migliano.bean.BeanUtenti;
 import appolloni.migliano.controller.ControllerMainMenu;
-
+import appolloni.migliano.exception.ErroreDiSistema;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
@@ -85,8 +85,8 @@ public class GUImainMenu {
             } else {
                 containerGruppi.getChildren().add(new Label("Non sei iscritto a nessun gruppo."));
             }
-        } catch(Exception e){
-           HelperErrori.errore("Errore Generico:", e.getMessage());
+        }catch(ErroreDiSistema e){
+            managerScene.gestioneErrore("Errore di sistema",e.getMessage(), bNuovaStruttura);
         }
     }
 
@@ -95,7 +95,7 @@ public class GUImainMenu {
          managerScene.avviaChat(gruppoSelezionato, bean, containerGruppi);
 
         } catch (IOException e) {
-            HelperErrori.errore("Errore Generico:", e.getMessage());
+             HelperErrori.errore("Errore grave di sistema", "Impossibile caricare l'interfaccia grafica.");
         }
     }
 
@@ -103,26 +103,47 @@ public class GUImainMenu {
         try{
          managerScene.apriProfilo(event, bean);
         }catch(IOException e){
-            HelperErrori.errore("Errore I/O: ", e.getMessage());
-
+           HelperErrori.errore("Errore grave di sistema", "Impossibile caricare l'interfaccia grafica.");
         }
     }
 
-    public void clickRicerca(ActionEvent event) throws IOException{
-        managerScene.avviaRicerca(event, bean);
+    public void clickRicerca(ActionEvent event){
+        try{
+         managerScene.avviaRicerca(event, bean);
+        }catch(IOException e){
+            HelperErrori.errore("Errore grave di sistema", "Impossibile caricare l'interfaccia grafica.");
+        }
     }
 
-    public void clickNuovaStruttura(ActionEvent event) throws IOException{
-        managerScene.avviaNuovaStruttura(event, bean);
+    public void clickNuovaStruttura(ActionEvent event) {
+        try{
+         managerScene.avviaNuovaStruttura(event, bean);
+        }catch(IOException e){
+             HelperErrori.errore("Errore grave di sistema", "Impossibile caricare l'interfaccia grafica.");
+        }
     }
     
-    public void clickNuovoGruppo(ActionEvent event) throws IOException{
-        managerScene.avviaGestioneGruppo(event, bean);
+    public void clickNuovoGruppo(ActionEvent event) {
+
+        try{
+         managerScene.avviaGestioneGruppo(event, bean);
+        }catch(IOException e){
+             HelperErrori.errore("Errore grave di sistema", "Impossibile caricare l'interfaccia grafica.");
+        }
     }
 
-    public void clickLogout(ActionEvent event) throws IOException, SQLException {
-        DBConnection.getInstance().closeConnection();
-        managerScene.cambiaScena(event, "/home.fxml");
+    public void clickLogout(ActionEvent event)  {
+        try{
+
+         DBConnection.getInstance().closeConnection();
+         managerScene.cambiaScena(event, "/home.fxml");
+        }catch(IOException e){
+             HelperErrori.errore("Errore grave di sistema", "Impossibile caricare l'interfaccia grafica.");
+
+        }catch(SQLException e){
+             HelperErrori.errore("Errore grave di sistema", "Impossibile chiudere la connessione.");
+
+        }
     }
 
 }

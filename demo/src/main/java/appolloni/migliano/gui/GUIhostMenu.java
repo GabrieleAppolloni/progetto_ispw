@@ -26,6 +26,8 @@ import appolloni.migliano.bean.BeanRecensioni;
 import appolloni.migliano.bean.BeanStruttura;
 import appolloni.migliano.bean.BeanUtenti;
 import appolloni.migliano.controller.ControllerMenuHost;
+import appolloni.migliano.exception.CampiVuotiException;
+import appolloni.migliano.exception.ErroreDiSistema;
 
 public class GUIhostMenu {
 
@@ -102,10 +104,9 @@ public class GUIhostMenu {
             VBox boxRecensione = creaBoxRecensione(r);
             containerRecensioni.getChildren().add(boxRecensione);
         }
-
-        } catch (Exception e) {
-           HelperErrori.errore(ERRORE, e.getMessage());
-        }
+      }catch(ErroreDiSistema e){
+        managerScene.gestioneErrore("Errore di sistema", e.getMessage(), btnModifica);
+      }
     }
     
     private void caricaInformazioni(){
@@ -147,8 +148,8 @@ public class GUIhostMenu {
              String imageUrl = fileFoto.toURI().toString();
              imgStruttura.setImage(new Image(imageUrl));
          } 
-        }catch (Exception e){
-            HelperErrori.errore("Errore generico", e.getMessage());
+        }catch (ErroreDiSistema e){
+            managerScene.gestioneErrore("Errore di sistema", e.getMessage(), btnModifica);
             try{
              managerScene.cambiaScena(null, "/login.fxml");
             }catch(IOException e2){
@@ -181,11 +182,12 @@ public class GUIhostMenu {
 
                 imgStruttura.setImage(new Image(fileSelezionato.toURI().toString()));
 
-            }catch(IOException | SQLException e){
-                HelperErrori.errore("Errore salvataggio:", e.getMessage());
-            } catch (Exception e) {
-                HelperErrori.errore(ERRORE, e.getMessage());
-               
+            }catch(IOException e){
+                 HelperErrori.errore("Errore grave di sistema", "Impossibile salvare i dati.");
+            } catch(ErroreDiSistema e){
+                managerScene.gestioneErrore("Errore di sistema", e.getMessage(), btnModifica);
+            }catch(CampiVuotiException e){
+                HelperErrori.errore("Dati mancanti", "Inserire tutti i dati richiesti.");
             }
         }
     }
@@ -210,16 +212,25 @@ public class GUIhostMenu {
        managerScene.modificaDatiHost( beanUtente);
        caricaInformazioni();
 
-    } catch (Exception e) {
-        HelperErrori.errore(ERRORE, e.getMessage());
+    } catch (ErroreDiSistema e) {
+        managerScene.gestioneErrore("Errore di sistema", e.getMessage(), btnModifica);
+    }catch(IOException | SQLException e){
+         HelperErrori.errore("Errore grave di sistema", "Errore durante l'accesso ai dati.");
     }
   }
 
 
     @FXML
-    public void clickLogout(ActionEvent event) throws IOException, SQLException {
-        DBConnection.getInstance().closeConnection();
-        managerScene.cambiaScena(event, "/home.fxml");
+    public void clickLogout(ActionEvent event) {
+        try{
+         DBConnection.getInstance().closeConnection();
+         managerScene.cambiaScena(event, "/home.fxml");
+        }catch(IOException e){
+             HelperErrori.errore("Errore grave di sistema", "Impossibile caricare l'interfaccia grafica.");
+
+        }catch(SQLException e){
+             HelperErrori.errore("Errore grave di sistema", "Impossibile chiudere la connessione.");
+        }
     }
 
 

@@ -7,6 +7,8 @@ import appolloni.migliano.bean.BeanStruttura;
 import appolloni.migliano.bean.BeanUtenti;
 import appolloni.migliano.controller.ControllerCreazioneStrutturaHost;
 import appolloni.migliano.exception.CampiVuotiException;
+import appolloni.migliano.exception.EmailNonValidaException;
+import appolloni.migliano.exception.ErroreDiSistema;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -21,7 +23,6 @@ import javafx.stage.Stage;
 import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
-import java.sql.SQLException;
 
 
 
@@ -112,21 +113,17 @@ public class GUICreazioneStrutture {
 
               managerScene.avviaMenuHost(event, beanCurr);
 
-        }catch(CampiVuotiException e){
+        }catch(CampiVuotiException | EmailNonValidaException e){
 
             lblRisultato.setText(e.getMessage());
             lblRisultato.setStyle(COLORE);
-        
-        }catch(SQLException e){
-            e.printStackTrace();
-            HelperErrori.errore("Errore creazione struttura:", e.getMessage());
-            
 
+        }catch(ErroreDiSistema e){
+          managerScene.gestioneErrore("Errore di sistema",e.getMessage(), checkRistorazione);
         }catch(IOException e){
-            HelperErrori.errore("Errore salvataggio:", e.getMessage());
-        }catch(Exception e){
-            lblRisultato.setText("Errore: "+ e.getMessage());
+            lblRisultato.setText("Impossibile tornare indietro, riprovare");
             lblRisultato.setStyle(COLORE);
+
         }
 
      }
@@ -137,8 +134,8 @@ public class GUICreazioneStrutture {
          managerScene.cambiaScena(event,"/home.fxml");
             
     
-        } catch (Exception e) {
-            lblRisultato.setText("errore, impossibile tornare indietro");
+        } catch (IOException e) {
+             HelperErrori.errore("Errore grave di sistema", "Impossibile caricare l'interfaccia grafica.");
         }
      }
 

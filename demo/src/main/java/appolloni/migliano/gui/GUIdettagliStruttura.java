@@ -7,7 +7,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import java.io.File;
 import java.io.IOException;
-import java.sql.SQLException;
 import java.util.List;
 import javafx.scene.control.ListView;
 import appolloni.migliano.HelperErrori;
@@ -16,6 +15,7 @@ import appolloni.migliano.bean.BeanRecensioni;
 import appolloni.migliano.bean.BeanStruttura;
 import appolloni.migliano.bean.BeanUtenti;
 import appolloni.migliano.controller.ControllerDettagliStruttura;
+import appolloni.migliano.exception.ErroreDiSistema;
 
 public class GUIdettagliStruttura {
   
@@ -108,25 +108,30 @@ public class GUIdettagliStruttura {
                     listRecensioni.getItems().add(riga);
                 }
             }
-        }catch(SQLException e){
-            HelperErrori.errore("Errore caricamento recensioni: ", e.getMessage());
-        }catch(IOException e){
-          HelperErrori.errore("Errore salvataggio:", e.getMessage());
-        } catch (Exception e) {
-            
-            listRecensioni.getItems().add("Errore caricamento recensioni.");
+        }catch(ErroreDiSistema e){
+            managerScene.gestioneErrore("Errore di sistema", e.getMessage(), imgStruttura);
         }
     }
 
     @FXML
-    public void clickScrivi(ActionEvent event) throws IOException{
-       managerScene.scriviRecensione( beanUtente, beanStruttura);
-    
+    public void clickScrivi(ActionEvent event){
+        try{
+            managerScene.scriviRecensione( beanUtente, beanStruttura);
+
+        }catch(IOException e){
+            managerScene.gestioneErrore("Errore di sistema", "Errore di lettura/scrittura nel server", imgStruttura);
+
+        }
         caricaRecensioni();
     } 
 
     @FXML
-    public void clickIndietro(ActionEvent event) throws IOException {
-        managerScene.avviaRicerca(event, beanUtente);
+    public void clickIndietro(ActionEvent event) {
+        try{
+         managerScene.avviaRicerca(event, beanUtente);
+        }catch(IOException e){
+            HelperErrori.errore("Errore grave di sistema", "Impossibile caricare l'interfaccia grafica.");
+
+        }
     }
 }

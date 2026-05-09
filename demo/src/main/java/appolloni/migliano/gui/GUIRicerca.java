@@ -10,7 +10,6 @@ import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 
 import java.io.IOException;
-import java.sql.SQLException;
 import java.util.List;
 
 import appolloni.migliano.HelperErrori;
@@ -19,6 +18,7 @@ import appolloni.migliano.bean.BeanGruppo;
 import appolloni.migliano.bean.BeanStruttura;
 import appolloni.migliano.bean.BeanUtenti;
 import appolloni.migliano.controller.ControllerRicerca;
+import appolloni.migliano.exception.ErroreDiSistema;
 
 
 public class GUIRicerca {
@@ -149,8 +149,8 @@ public class GUIRicerca {
             riga.getChildren().addAll(info, spacer, btnJoin);
             containerRisultati.getChildren().add(riga);
         }
-     }catch(SQLException e){
-        HelperErrori.errore("Errore caricamento dati", e.getMessage());
+     }catch(ErroreDiSistema e){
+        managerScene.gestioneErrore("Errore di sistema", e.getMessage(), boxGruppi);
      }
     }
 
@@ -213,15 +213,19 @@ public class GUIRicerca {
             riga.getChildren().addAll(info,spacer,btnDettagli);
             containerRisultati.getChildren().add(riga);
         }
-     }catch(SQLException e){
-        HelperErrori.errore("Errore caricamento:" ,e.getMessage());
-     }catch(IOException e){
-        HelperErrori.errore("Errore caricamento file: ", e.getMessage());
+     }catch(ErroreDiSistema e){
+        managerScene.gestioneErrore("Errore di sistema", e.getMessage(), boxStrutture);
      }
     }
 
     @FXML
-    public void clickIndietro(ActionEvent event) throws IOException {
-        managerScene.avviaMainMenu(event, beanUtente);
+    public void clickIndietro(ActionEvent event) {
+        try{
+            managerScene.avviaMainMenu(event, beanUtente);
+        }catch(IOException e){
+          HelperErrori.errore("Errore", "Impossibile caricare l'interfaccia grafica");
+
+        }
+        
     }
 }

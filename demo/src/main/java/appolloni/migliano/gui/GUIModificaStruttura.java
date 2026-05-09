@@ -6,14 +6,12 @@ import javafx.scene.Node;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-
-import java.io.IOException;
-import java.sql.SQLException;
-
 import appolloni.migliano.HelperErrori;
-
+import appolloni.migliano.ManagerScene;
 import appolloni.migliano.bean.BeanStruttura;
 import appolloni.migliano.controller.ControllerModificaStrutturHost;
+import appolloni.migliano.exception.CampiVuotiException;
+import appolloni.migliano.exception.ErroreDiSistema;
 
 public class GUIModificaStruttura {
 
@@ -27,6 +25,7 @@ public class GUIModificaStruttura {
     private BeanStruttura strutturaCorrente;
 
     private String vecchioNome; 
+    private ManagerScene managerScene = new ManagerScene();
 
     private ControllerModificaStrutturHost controllerApp = new ControllerModificaStrutturHost();
     public void initData(BeanStruttura struttura) {
@@ -60,14 +59,10 @@ public class GUIModificaStruttura {
 
             chiudiFinestra(event);
 
-        }catch(IOException e){
-          HelperErrori.errore("Errore salvataggio:", e.getMessage());
-        }catch(SQLException e ){
-            
-            HelperErrori.errore("Errore caricamento dati:", e.getMessage());
-        } catch (Exception e) {
-            
-            HelperErrori.errore("Errore:", e.getMessage());
+        }catch(ErroreDiSistema e){
+            managerScene.gestioneErrore("Errore di sistema", e.getMessage(), chkRistorazione);
+        }catch(CampiVuotiException e){
+            HelperErrori.errore("Dati mancanti ", "Perfavore inserire tutti i dati");
         }
     }
 

@@ -1,16 +1,12 @@
 package appolloni.migliano.cli;
-
-
-import java.io.IOException;
-import java.sql.SQLException;
-
 import appolloni.migliano.LeggInputCli;
 import appolloni.migliano.ManagerCLI;
 import appolloni.migliano.bean.BeanStruttura;
 import appolloni.migliano.bean.BeanUtenti;
 import appolloni.migliano.controller.ControllerCreazioneStrutturaHost;
-
 import appolloni.migliano.exception.CampiVuotiException;
+import appolloni.migliano.exception.EmailNonValidaException;
+import appolloni.migliano.exception.ErroreDiSistema;
 
 public class CreazioneStruttureCLI {
 
@@ -71,15 +67,11 @@ public class CreazioneStruttureCLI {
         } catch (CampiVuotiException e) {
             System.err.println("\n[ERRORE] Dati mancanti: " + e.getMessage());  //NOSONAR
             riprova();
-        } catch (SQLException e) {
-            System.err.println("\n[ERRORE DB] Errore durante il salvataggio: " + e.getMessage());  //NOSONAR
-            
-          
-        } catch (IOException e) {
-            System.err.println("\n[ERRORE I/O] Impossibile gestire il file immagine.");  //NOSONAR
-           
-        } catch (Exception e) {
-            System.err.println("\n[ERRORE] " + e.getMessage());  //NOSONAR
+        } catch(ErroreDiSistema e){
+             System.err.println("\n[ERRORE] " + e.getMessage());  //NOSONAR 
+        }catch (EmailNonValidaException e){
+             System.err.println("\n[ERRORE] " + e.getMessage());  //NOSONAR
+
         }
     }
 

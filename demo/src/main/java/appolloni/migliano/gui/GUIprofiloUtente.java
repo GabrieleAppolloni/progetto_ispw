@@ -1,12 +1,10 @@
 package appolloni.migliano.gui;
 
 import java.io.IOException;
-import java.sql.SQLException;
-
-import appolloni.migliano.HelperErrori;
 import appolloni.migliano.ManagerScene;
 import appolloni.migliano.bean.BeanUtenti;
 import appolloni.migliano.controller.ControllerProfiloUtente;
+import appolloni.migliano.exception.ErroreDiSistema;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -51,10 +49,8 @@ public class GUIprofiloUtente {
         lblEmail.setText(newBean.getEmail());
         lblCitta.setText(newBean.getCitta());
         lblTipo.setText(newBean.getTipo());
-      }catch(SQLException e){
-        HelperErrori.errore("Errore caricamento", e.getMessage());
-      }catch(Exception e){
-        HelperErrori.errore("Errore generico:", e.getMessage());
+      }catch(ErroreDiSistema e){
+        managerScene.gestioneErrore("Errore di sistema", e.getMessage(), boxPassword);
       }
     }
 
@@ -119,9 +115,9 @@ public class GUIprofiloUtente {
             lblErrorePass.setStyle(RED);
          }
 
-        }catch(Exception e){
+        }catch(ErroreDiSistema e){
+            managerScene.gestioneErrore("Errore di sistema", e.getMessage(), boxPassword);
 
-            HelperErrori.errore("Errore:", e.getMessage());
         }
     }
 }

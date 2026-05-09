@@ -1,7 +1,5 @@
 package appolloni.migliano.controller;
 
-import java.sql.SQLException;
-
 import appolloni.migliano.bean.BeanUtenti;
 import appolloni.migliano.entity.Utente;
 import appolloni.migliano.entity.Host;
@@ -15,7 +13,7 @@ import appolloni.migliano.exception.ErroreDiSistema;
 public class ControllerRegistrazioneUtente {
     private InterfacciaDaoUtente daoUtente = AbstractFactoryDao.getDao().getDaoUtente();
 
-    public void registraUtente(BeanUtenti bean) throws SQLException, CampiVuotiException, EmailNonValidaException, IllegalArgumentException, ErroreDiSistema {
+    public void registraUtente(BeanUtenti bean) throws CampiVuotiException, EmailNonValidaException, IllegalArgumentException, ErroreDiSistema {
         String nome = bean.getName();
         String tipo = bean.getTipo();
         String cognome = bean.getCognome();

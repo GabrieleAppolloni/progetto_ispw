@@ -2,7 +2,7 @@ package appolloni.migliano;
 
 import java.io.IOException;
 import java.sql.SQLException;
-
+import javafx.stage.Stage;
 import appolloni.migliano.bean.BeanGruppo;
 import appolloni.migliano.bean.BeanStruttura;
 import appolloni.migliano.bean.BeanUtenti;
@@ -26,7 +26,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
+
 
 public class ManagerScene {
 
@@ -183,5 +183,23 @@ public class ManagerScene {
         stage.showAndWait(); 
     }
 
+    private void tornaHomeDaNodo(Node nodoCorrente) throws IOException {
+        
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/home.fxml"));
+        Parent root = loader.load();
+        Stage stage = (Stage) nodoCorrente.getScene().getWindow();
+        stage.setScene(new Scene(root));
+        stage.setTitle("Home");
+        stage.show();
+    }
+
+    public void gestioneErrore(String codice, String messaggio, Node nodo){
+        HelperErrori.errore(codice, messaggio);
+        try{
+            tornaHomeDaNodo(nodo);
+        }catch(IOException e){
+            HelperErrori.errore("Errore", "impossibile caricare la schermata");
+        }
+    }
     
 }

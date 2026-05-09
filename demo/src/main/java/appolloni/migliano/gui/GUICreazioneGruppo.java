@@ -1,7 +1,7 @@
 package appolloni.migliano.gui;
 
+
 import java.io.IOException;
-import java.sql.SQLException;
 import java.util.List;
 
 import appolloni.migliano.HelperErrori;
@@ -10,6 +10,8 @@ import appolloni.migliano.bean.BeanGruppo;
 import appolloni.migliano.bean.BeanUtenti;
 import appolloni.migliano.controller.ControllerCreazioneGruppo;
 import appolloni.migliano.exception.CampiVuotiException;
+import appolloni.migliano.exception.CreazioneFallita;
+import appolloni.migliano.exception.ErroreDiSistema;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -61,11 +63,9 @@ public class GUICreazioneGruppo {
                 lbRisultato.setText(""); 
                 comboLuogo.getItems().addAll(strutture);
             }
-        
-        }catch(SQLException exception){
-            HelperErrori.errore("Errore", exception.getMessage());
-
-        } catch (Exception e) {
+        }catch(ErroreDiSistema e){
+            managerScene.gestioneErrore("Errore di sistema", e.getMessage(), bCrea);
+        }catch(CampiVuotiException e){
             lbRisultato.setText(e.getMessage());
             lbRisultato.setStyle(RED);
         }
@@ -92,22 +92,29 @@ public class GUICreazioneGruppo {
             
             managerScene.avviaMainMenu(event, bean);
 
-        } catch(SQLException e){
-           HelperErrori.errore("Errore creazione gruppo:", "Gruppo esistente");
+        } catch(ErroreDiSistema | CreazioneFallita e){
+           managerScene.gestioneErrore("Errore di sistema", e.getMessage(), bCrea);
         }catch(CampiVuotiException e){
             lbRisultato.setText(e.getMessage());
             lbRisultato.setStyle(RED);
 
-        } catch(Exception e){
-            
+        }catch(IOException e){
             lbRisultato.setText("Errore creazione: " + e.getMessage());
             lbRisultato.setStyle(RED);
+        
         }
     }
 
     @FXML
-    public void clickIndietro(ActionEvent event) throws IOException {
-     managerScene.avviaMainMenu(event, bean);
+    public void clickIndietro(ActionEvent event) {
+        try{
+            managerScene.avviaMainMenu(event, bean);
+
+        }catch(IOException ez){
+         HelperErrori.errore("Errore grave di sistema", "Impossibile caricare l'interfaccia grafica.");HelperErrori.errore("Errore:", ez.getMessage());
+
+
+        }
     }
 
     @FXML

@@ -14,6 +14,7 @@ import appolloni.migliano.bean.BeanGruppo;
 import appolloni.migliano.bean.BeanMessaggi;
 import appolloni.migliano.bean.BeanUtenti;
 import appolloni.migliano.controller.ControllerChat;
+import appolloni.migliano.exception.CreazioneFallita;
 import appolloni.migliano.exception.ErroreDiSistema;
 
 public class GUIChat {
@@ -42,6 +43,7 @@ public class GUIChat {
         aggiornaLista();
     }
 
+
     private void caricaInformazioniGruppo() {
 
         try{
@@ -51,12 +53,8 @@ public class GUIChat {
             lbCitta.setText(infoComplete.getCitta());
             lbLuogo.setText(infoComplete.getLuogo() != null ? infoComplete.getLuogo() : "Non specificato");
         }
-        }catch(ErroreDiSistema e){
-         HelperErrori.errore("Errore caricamento: ", e.getMessage());
-
-        }catch(Exception e){
-
-            HelperErrori.errore("Errore imprevisto: ", e.getMessage());
+        }catch(ErroreDiSistema | CreazioneFallita e){
+         managerScene.gestioneErrore("Errore di sistema", e.getMessage(), lbCitta);
         }
     }
 
@@ -75,8 +73,8 @@ public class GUIChat {
                 listaMessaggi.scrollTo(listaMessaggi.getItems().size() - 1);
             }
         } catch (ErroreDiSistema e) {
-            HelperErrori.errore("Errore:", e.getMessage());
-        }catch(IllegalArgumentException e){
+           managerScene.gestioneErrore("Errore di sistema", e.getMessage(), lbCitta);
+        }catch(IllegalArgumentException e){ 
             HelperErrori.errore(ERROREGENERICO,e.getMessage());
         }
     }
@@ -92,7 +90,7 @@ public class GUIChat {
             txtMessaggio.clear();
             lbInvio.setText(""); 
         }catch(ErroreDiSistema e){
-            HelperErrori.errore("Errore: ", e.getMessage());
+            managerScene.gestioneErrore("Errore di sistema", e.getMessage(), lbCitta);
         }catch(IllegalArgumentException e){
             HelperErrori.errore(ERROREGENERICO,e.getMessage());
         }
@@ -104,10 +102,7 @@ public class GUIChat {
             controllerChat.abbandonaGruppo(beanUtente, beanGruppo);
             tornaIndietro(event);
         } catch(ErroreDiSistema e) {
-           HelperErrori.errore("Errore", e.getMessage());
-        } catch(Exception e){
-            HelperErrori.errore(ERROREGENERICO,e.getMessage());
-
+          managerScene.gestioneErrore("Errore di sistema", e.getMessage(), lbCitta);
         }
     }
 
@@ -117,8 +112,11 @@ public class GUIChat {
             managerScene.avviaMainMenu(event, beanUtente);
 
         } catch (IOException e) {
-         
-            lbInvio.setText("Errore navigazione.");
+         HelperErrori.errore("Errore grave di sistema", "Impossibile caricare l'interfaccia grafica.");
         }
     }
+
 }
+
+
+    

@@ -1,7 +1,6 @@
 package appolloni.migliano.gui;
 
 import java.io.IOException;
-import java.sql.SQLException;
 
 import appolloni.migliano.HelperErrori;
 import appolloni.migliano.ManagerScene;
@@ -9,6 +8,7 @@ import appolloni.migliano.bean.BeanUtenti;
 import appolloni.migliano.controller.ControllerRegistrazioneUtente;
 import appolloni.migliano.exception.CampiVuotiException;
 import appolloni.migliano.exception.EmailNonValidaException;
+import appolloni.migliano.exception.ErroreDiSistema;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -115,18 +115,21 @@ public class GUICreazioneUtente {
             lblRisultato.setText( e.getMessage());
             lblRisultato.setStyle(COLORE);
 
-        }catch(SQLException e){
-            HelperErrori.errore("Errore caricamento dati", e.getMessage());
+        }catch(ErroreDiSistema ex){
+            managerScene.gestioneErrore("Errore di sistema", ex.getMessage(), boxDatiHost);
 
-        } catch (Exception e) {
-            HelperErrori.errore("Errore Generico:", e.getMessage());
-            
         }
+
+            
     }
 
         
-    public void clickIndietro(ActionEvent event) throws IOException{
-        managerScene.cambiaScena(event,"/home.fxml");
+    public void clickIndietro(ActionEvent event){
+        try{
+         managerScene.cambiaScena(event,"/home.fxml");
+        }catch(IOException e){
+            HelperErrori.errore("Errore grave di sistema", "Impossibile caricare l'interfaccia grafica.");
+        }
     }
     
     
