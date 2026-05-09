@@ -1,12 +1,10 @@
 package appolloni.migliano.controller;
-
-import java.io.IOException;
-import java.sql.SQLException;
 import java.util.List;
 
 import appolloni.migliano.bean.BeanGruppo;
 import appolloni.migliano.bean.BeanUtenti;
 import appolloni.migliano.entity.Gruppo;
+import appolloni.migliano.exception.ErroreDiSistema;
 import appolloni.migliano.factory.AbstractFactoryDao;
 import appolloni.migliano.interfacce.InterfacciaDaoGruppo;
 
@@ -18,7 +16,7 @@ public class ControllerMainMenu {
         this.daoGruppo = AbstractFactoryDao.getDao().getDaoGruppo();
     }
 
-    public List<BeanGruppo>  recuperaGruppiUtente(BeanUtenti beanUtente) throws SQLException, IOException{
+    public List<BeanGruppo>  recuperaGruppiUtente(BeanUtenti beanUtente) throws ErroreDiSistema{
 
         List<Gruppo> gruppi = daoGruppo.recuperaGruppiUtente(beanUtente.getEmail());
         List<BeanGruppo> listaBean = new java.util.ArrayList<>();

@@ -7,6 +7,7 @@ import appolloni.migliano.bean.BeanGruppo;
 import appolloni.migliano.bean.BeanStruttura;
 import appolloni.migliano.bean.BeanUtenti;
 import appolloni.migliano.controller.ControllerMenuHost;
+import appolloni.migliano.exception.ErroreDiSistema;
 import appolloni.migliano.gui.GUICreazioneStrutture;
 import appolloni.migliano.gui.GUIChat;
 import appolloni.migliano.gui.GUICreazioneGruppo;
@@ -167,7 +168,7 @@ public class ManagerScene {
         newStage.showAndWait(); 
     }
 
-    public void modificaDatiHost(BeanUtenti beanUtente) throws IOException, IllegalArgumentException,SQLException{
+    public void modificaDatiHost(BeanUtenti beanUtente) throws IOException, IllegalArgumentException,SQLException, ErroreDiSistema{
          FXMLLoader loader = new FXMLLoader(getClass().getResource("/modificaStruttura.fxml"));
         Parent root = loader.load();
 

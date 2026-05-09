@@ -1,7 +1,4 @@
 package appolloni.migliano.controller;
-
-import java.io.IOException;
-import java.sql.SQLException;
 import java.util.List;
 
 import appolloni.migliano.bean.BeanGruppo;
@@ -10,6 +7,7 @@ import appolloni.migliano.entity.Gruppo;
 import appolloni.migliano.entity.Studente;
 import appolloni.migliano.entity.Utente;
 import appolloni.migliano.exception.CampiVuotiException;
+import appolloni.migliano.exception.CreazioneFallita;
 import appolloni.migliano.exception.ErroreDiSistema;
 import appolloni.migliano.factory.AbstractFactoryDao;
 import appolloni.migliano.interfacce.InterfacciaDaoStruttura;
@@ -23,7 +21,7 @@ public class ControllerCreazioneGruppo {
         private InterfacciaDaoGruppo daoGruppo = AbstractFactoryDao.getDao().getDaoGruppo();
         private InterfacciaDaoStruttura daoStruttura = AbstractFactoryDao.getDao().getDaoStruttura();
 
-        public void creaGruppo(BeanUtenti bean, BeanGruppo beanGruppo) throws SQLException, CampiVuotiException, ErroreDiSistema {
+        public void creaGruppo(BeanUtenti bean, BeanGruppo beanGruppo) throws CampiVuotiException, ErroreDiSistema, CreazioneFallita {
 
         if(!bean.getTipo().equals("Studente")){
              throw new IllegalArgumentException("L'utente non ha i permessi");
@@ -39,7 +37,7 @@ public class ControllerCreazioneGruppo {
 
          if(u1 == null){
 
-            throw new SQLException("Utente admin non trovato");
+            throw new CreazioneFallita("Utente admin non trovato");
          }
  
          Gruppo gruppo = new Gruppo(beanGruppo.getNome(), u1);
@@ -53,7 +51,7 @@ public class ControllerCreazioneGruppo {
          daoGruppo.creaGruppo(gruppo);
          
     }
-    public List<String> getListaStruttureDisponibili(String citta) throws CampiVuotiException, SQLException, IOException, ErroreDiSistema{
+    public List<String> getListaStruttureDisponibili(String citta) throws CampiVuotiException, ErroreDiSistema{
         if(citta == null || citta.trim().isEmpty()) throw new CampiVuotiException(citta);
         return daoStruttura.recuperaNomiStrutture(citta);
     }

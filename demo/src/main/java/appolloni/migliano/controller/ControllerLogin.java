@@ -1,7 +1,4 @@
 package appolloni.migliano.controller;
-
-import java.sql.SQLException;
-
 import appolloni.migliano.bean.BeanUtenti;
 import appolloni.migliano.entity.Utente;
 import appolloni.migliano.exception.CampiVuotiException;
@@ -15,7 +12,7 @@ import appolloni.migliano.interfacce.InterfacciaDaoUtente;
 public class ControllerLogin {
     private InterfacciaDaoUtente daoUtente = AbstractFactoryDao.getDao().getDaoUtente();
 
-    public BeanUtenti verificaUtente(BeanUtenti bean) throws SQLException,EmailNonValidaException,CredenzialiSbagliateException,CampiVuotiException,CreazioneFallita, ErroreDiSistema{
+    public BeanUtenti verificaUtente(BeanUtenti bean) throws EmailNonValidaException,CredenzialiSbagliateException,CampiVuotiException,CreazioneFallita, ErroreDiSistema{
 
 
        if(bean.getEmail().isEmpty() || bean.getPassword().isEmpty()){

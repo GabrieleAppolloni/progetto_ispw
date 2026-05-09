@@ -3,9 +3,8 @@ package appolloni.migliano.controller;
 import appolloni.migliano.factory.AbstractFactoryDao;
 import appolloni.migliano.interfacce.InterfacciaDaoRecensioni;
 import appolloni.migliano.entity.Recensione;
+import appolloni.migliano.exception.ErroreDiSistema;
 
-import java.io.IOException;
-import java.sql.SQLException;
 import java.util.List;
 import appolloni.migliano.bean.BeanRecensioni;
 import appolloni.migliano.bean.BeanStruttura;
@@ -18,7 +17,7 @@ public class ControllerDettagliStruttura {
         this.daoRecensioni = AbstractFactoryDao.getDao().getDaoRecensioni();
     }
 
-    public List<BeanRecensioni> recuperaRecensioniStruttura(BeanStruttura beanStruttura) throws SQLException, IOException{
+    public List<BeanRecensioni> recuperaRecensioniStruttura(BeanStruttura beanStruttura) throws ErroreDiSistema{
 
         List<Recensione> recensioni = daoRecensioni.getRecensioniByStruttura(beanStruttura.getName(), beanStruttura.getGestore());
         List <BeanRecensioni> lista = new java.util.ArrayList<>();

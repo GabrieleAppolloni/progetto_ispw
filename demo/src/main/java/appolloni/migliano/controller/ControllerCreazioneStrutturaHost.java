@@ -1,7 +1,5 @@
 package appolloni.migliano.controller;
 
-import java.io.IOException;
-import java.sql.SQLException;
 
 import appolloni.migliano.bean.BeanStruttura;
 import appolloni.migliano.bean.BeanUtenti;
@@ -21,11 +19,11 @@ public class ControllerCreazioneStrutturaHost {
     private InterfacciaDaoUtente daoUtente = AbstractFactoryDao.getDao().getDaoUtente();
     private static final String GESTOREDEFAULT = "system_no_host";
 
-     private boolean esistenzaStruttura(String nomeStruttura) throws SQLException, IOException, ErroreDiSistema {
+     private boolean esistenzaStruttura(String nomeStruttura) throws  ErroreDiSistema {
      return daoStruttura.cercaStruttura(nomeStruttura, GESTOREDEFAULT) != null;
     }
 
-    private void rivendicaStruttura(BeanStruttura beanDatiNuovi, String emailHost) throws IOException, SQLException, ErroreDiSistema {
+    private void rivendicaStruttura(BeanStruttura beanDatiNuovi, String emailHost) throws  ErroreDiSistema {
     
      Struttura strutturaAggiornata = new Struttura(
         beanDatiNuovi.getTipo(), 
@@ -45,7 +43,7 @@ public class ControllerCreazioneStrutturaHost {
      daoStruttura.aggiornaHost(strutturaAggiornata, GESTOREDEFAULT); 
     }
 
-    public void creazioneHostStruttura(BeanUtenti beanUtente, BeanStruttura beanStruttura) throws CampiVuotiException, EmailNonValidaException,SQLException, IOException, ErroreDiSistema{
+    public void creazioneHostStruttura(BeanUtenti beanUtente, BeanStruttura beanStruttura) throws CampiVuotiException, EmailNonValidaException, ErroreDiSistema{
 
         String nome = beanUtente.getName();
         String tipo = beanUtente.getTipo();

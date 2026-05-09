@@ -11,8 +11,6 @@ import appolloni.migliano.factory.AbstractFactoryDao;
 import appolloni.migliano.interfacce.InterfacciaDaoRecensioni;
 import appolloni.migliano.interfacce.InterfacciaDaoStruttura;
 import appolloni.migliano.interfacce.InterfacciaDaoUtente;
-import java.io.IOException;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,7 +21,7 @@ public class ControllerRecensioni {
     private InterfacciaDaoUtente daoUtente = AbstractFactoryDao.getDao().getDaoUtente();
     private InterfacciaDaoStruttura daoStrutture = AbstractFactoryDao.getDao().getDaoStruttura();
 
-    public void inserisciRecensione(BeanRecensioni beanRecensione) throws SQLException,IOException, CampiVuotiException, ErroreDiSistema{
+    public void inserisciRecensione(BeanRecensioni beanRecensione) throws CampiVuotiException, ErroreDiSistema{
 
         Utente user = daoUtente.cercaUtente(beanRecensione.getAutore());
         Struttura struttura = daoStrutture.cercaStruttura(beanRecensione.getIdStruttura(),beanRecensione.getGestoreStruttura());
@@ -49,7 +47,7 @@ public class ControllerRecensioni {
       
     }
 
-    public List<BeanRecensioni> cercaRecensioniPerStruttura(BeanStruttura beanStruttura) throws SQLException, IOException {
+    public List<BeanRecensioni> cercaRecensioniPerStruttura(BeanStruttura beanStruttura) throws ErroreDiSistema {
     List<BeanRecensioni> listaBean = new ArrayList<>();
          List<Recensione> listaEntity = daoRecensioni.getRecensioniByStruttura(
             beanStruttura.getName(), 

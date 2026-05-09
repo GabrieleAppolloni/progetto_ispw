@@ -1,7 +1,5 @@
 package appolloni.migliano.controller;
 
-import java.io.IOException;
-import java.sql.SQLException;
 import java.util.List;
 
 import appolloni.migliano.bean.BeanStruttura;
@@ -16,7 +14,7 @@ public class ControllerSegnalaStruttura {
     private InterfacciaDaoStruttura daoStruttura = AbstractFactoryDao.getDao().getDaoStruttura();
     private static final String GESTOREDEFAULT = "system_no_host";
 
-    public void segnalaStruttura(BeanUtenti utente, BeanStruttura beanStruttura) throws IOException, SQLException, IllegalArgumentException, CampiVuotiException, ErroreDiSistema{
+    public void segnalaStruttura(BeanUtenti utente, BeanStruttura beanStruttura) throws IllegalArgumentException, CampiVuotiException, ErroreDiSistema{
 
         if(beanStruttura.getName().isEmpty() || beanStruttura.getCitta().isEmpty() || beanStruttura.getIndirizzo().isEmpty() || beanStruttura.getTipoAttivita().isEmpty() || beanStruttura.getTipo().isEmpty()){
             throw new CampiVuotiException("Dati mancati per la creazione della struttura");

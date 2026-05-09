@@ -6,9 +6,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 
-
 import java.io.IOException;
-import java.sql.SQLException;
 import java.util.List;
 import appolloni.migliano.HelperErrori;
 import appolloni.migliano.ManagerScene;
@@ -53,7 +51,7 @@ public class GUIChat {
             lbCitta.setText(infoComplete.getCitta());
             lbLuogo.setText(infoComplete.getLuogo() != null ? infoComplete.getLuogo() : "Non specificato");
         }
-        }catch(SQLException e){
+        }catch(ErroreDiSistema e){
          HelperErrori.errore("Errore caricamento: ", e.getMessage());
 
         }catch(Exception e){
@@ -76,7 +74,7 @@ public class GUIChat {
             if (!listaMessaggi.getItems().isEmpty()) {
                 listaMessaggi.scrollTo(listaMessaggi.getItems().size() - 1);
             }
-        } catch (SQLException e) {
+        } catch (ErroreDiSistema e) {
             HelperErrori.errore("Errore:", e.getMessage());
         }catch(IllegalArgumentException e){
             HelperErrori.errore(ERROREGENERICO,e.getMessage());
@@ -93,10 +91,6 @@ public class GUIChat {
             aggiornaLista();
             txtMessaggio.clear();
             lbInvio.setText(""); 
-            
-        } catch (SQLException e) {
-           HelperErrori.errore("Errore: ", e.getMessage());
-
         }catch(ErroreDiSistema e){
             HelperErrori.errore("Errore: ", e.getMessage());
         }catch(IllegalArgumentException e){
@@ -109,7 +103,7 @@ public class GUIChat {
         try {
             controllerChat.abbandonaGruppo(beanUtente, beanGruppo);
             tornaIndietro(event);
-        } catch (SQLException e) {
+        } catch(ErroreDiSistema e) {
            HelperErrori.errore("Errore", e.getMessage());
         } catch(Exception e){
             HelperErrori.errore(ERROREGENERICO,e.getMessage());

@@ -1,7 +1,5 @@
 package appolloni.migliano.controller;
 
-
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,6 +9,7 @@ import appolloni.migliano.bean.BeanUtenti;
 import appolloni.migliano.entity.Gruppo;
 import appolloni.migliano.entity.Messaggio;
 import appolloni.migliano.entity.Utente;
+import appolloni.migliano.exception.CreazioneFallita;
 import appolloni.migliano.exception.ErroreDiSistema;
 import appolloni.migliano.factory.AbstractFactoryDao;
 import appolloni.migliano.interfacce.InterfacciaDaoGruppo;
@@ -28,14 +27,14 @@ public class ControllerChat {
         this.daoMessaggi = AbstractFactoryDao.getDao().getDaoMessaggi();
         this.daoUtente = AbstractFactoryDao.getDao().getDaoUtente();
     }
-    public BeanGruppo recuperaInfoGruppo(BeanGruppo beanInput) throws  SQLException{
+    public BeanGruppo recuperaInfoGruppo(BeanGruppo beanInput) throws  ErroreDiSistema, CreazioneFallita{
         Gruppo g = daoGruppo.cercaGruppo(beanInput.getNome());
         
-        if (g == null){ throw new SQLException("Gruppo non esistente");}
+        if (g == null){ throw new CreazioneFallita ("Gruppo non esistente" );}
          return new BeanGruppo(g.getNome(),g.getMateria(),g.getAdmin().getName(),g.getLuogo(),g.getMateria());
     }
 
-    public List<BeanMessaggi> recuperaMessaggi(BeanGruppo beanGruppo) throws SQLException {
+    public List<BeanMessaggi> recuperaMessaggi(BeanGruppo beanGruppo) throws ErroreDiSistema {
         List<BeanMessaggi> listaBeans = new ArrayList<>();
 
         Gruppo entityGruppo = daoGruppo.cercaGruppo(beanGruppo.getNome());
@@ -56,7 +55,7 @@ public class ControllerChat {
      
     }
 
-    public void inviaMessaggio(BeanUtenti mittente, BeanGruppo gruppo, String testo) throws ErroreDiSistema, IllegalArgumentException, SQLException{
+    public void inviaMessaggio(BeanUtenti mittente, BeanGruppo gruppo, String testo) throws ErroreDiSistema, IllegalArgumentException{
         if( testo.trim().isEmpty()) {throw new IllegalArgumentException("Inserire il messaggio, impossibile inviare un messsaggio vuoto");}
         Utente user = daoUtente.cercaUtente(mittente.getEmail());
         Gruppo g = daoGruppo.cercaGruppo(gruppo.getNome());
@@ -66,7 +65,7 @@ public class ControllerChat {
     
     }
 
-    public void abbandonaGruppo(BeanUtenti utente, BeanGruppo gruppo) throws SQLException, ErroreDiSistema {
+    public void abbandonaGruppo(BeanUtenti utente, BeanGruppo gruppo) throws  ErroreDiSistema {
 
 
         Utente user = daoUtente.cercaUtente(utente.getEmail());

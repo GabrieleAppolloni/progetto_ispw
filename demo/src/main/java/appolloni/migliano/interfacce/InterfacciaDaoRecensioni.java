@@ -1,15 +1,13 @@
 package appolloni.migliano.interfacce;
-
-import java.io.IOException;
-import java.sql.SQLException;
 import java.util.List;
 
 import appolloni.migliano.entity.Recensione;
+import appolloni.migliano.exception.ErroreDiSistema;
 
 public interface InterfacciaDaoRecensioni {
 
-    void salvaRecensione(Recensione rec) throws SQLException,IOException;
-    List<Recensione> getRecensioniByStruttura(String nomeStruttura, String nomeGestore) throws SQLException,IOException;
+    void salvaRecensione(Recensione rec) throws ErroreDiSistema;
+    List<Recensione> getRecensioniByStruttura(String nomeStruttura, String nomeGestore) throws ErroreDiSistema;
 
     
 }
