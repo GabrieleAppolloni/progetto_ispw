@@ -15,7 +15,7 @@ public class ControllerModificaStrutturHost {
     }
     
     public void aggiornaStruttura(BeanStruttura beanStruttura, String vecchioNome) throws CampiVuotiException, ErroreDiSistema{
-        if(beanStruttura.getName().isEmpty() || beanStruttura.getCitta().isEmpty() || beanStruttura.getOrario().isEmpty() || beanStruttura.getIndirizzo().isEmpty()) throw new CampiVuotiException("Nessuna modifica applicata");
+        if(beanStruttura.getName().isBlank() || beanStruttura.getCitta().isBlank() || beanStruttura.getOrario().isBlank() || beanStruttura.getIndirizzo().isBlank()) throw new CampiVuotiException("Nessuna modifica applicata");
         Struttura struttura = new Struttura(beanStruttura.getTipo(), beanStruttura.getName(), beanStruttura.getCitta(), beanStruttura.getIndirizzo(), beanStruttura.hasWifi(), beanStruttura.hasRistorazione());
         struttura.setOrario(beanStruttura.getOrario());
         struttura.setTipoAttivita(beanStruttura.getTipoAttivita());

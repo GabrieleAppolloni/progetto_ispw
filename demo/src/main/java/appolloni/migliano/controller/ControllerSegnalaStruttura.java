@@ -16,7 +16,7 @@ public class ControllerSegnalaStruttura {
 
     public void segnalaStruttura(BeanUtenti utente, BeanStruttura beanStruttura) throws IllegalArgumentException, CampiVuotiException, ErroreDiSistema{
 
-        if(beanStruttura.getName().isEmpty() || beanStruttura.getCitta().isEmpty() || beanStruttura.getIndirizzo().isEmpty() || beanStruttura.getTipoAttivita().isEmpty() || beanStruttura.getTipo().isEmpty()){
+        if(beanStruttura.getName().isBlank() || beanStruttura.getCitta().isBlank() || beanStruttura.getIndirizzo().isBlank() || beanStruttura.getTipoAttivita().isBlank() || beanStruttura.getTipo().isBlank()){
             throw new CampiVuotiException("Dati mancati per la creazione della struttura");
         }
 

@@ -9,11 +9,10 @@ import java.io.IOException;
 
 import appolloni.migliano.controller.ControllerLogin;
 import appolloni.migliano.exception.CampiVuotiException;
-import appolloni.migliano.exception.CreazioneFallita;
+import appolloni.migliano.exception.EntitaNonTrovata;
 import appolloni.migliano.exception.CredenzialiSbagliateException;
 import appolloni.migliano.exception.EmailNonValidaException;
 import appolloni.migliano.exception.ErroreDiSistema;
-import appolloni.migliano.HelperErrori;
 import appolloni.migliano.ManagerScene;
 import appolloni.migliano.bean.BeanUtenti;
 
@@ -48,11 +47,11 @@ public class GUILogin {
         }catch(EmailNonValidaException e){
             lblRisultato.setText(e.getMessage());
             lblRisultato.setStyle(RED);
-        }catch(ErroreDiSistema | CreazioneFallita e){
+        }catch(ErroreDiSistema | EntitaNonTrovata e){
             managerScene.gestioneErrore("Errore di sistema", e.getMessage(), lblRisultato);
 
         }catch(IOException e){
-             HelperErrori.errore("Errore grave di sistema", "Impossibile caricare l'interfaccia grafica.");
+             managerScene.gestioneErrore("Errore grave di sistema", "Impossibile caricare l'interfaccia", lblRisultato);
         }
 
         txtEmail.clear();
@@ -63,7 +62,7 @@ public class GUILogin {
         try{
            managerScene.cambiaScena(event, "/home.fxml");
         }catch(IOException e){
-             HelperErrori.errore("Errore grave di sistema", "Impossibile caricare l'interfaccia grafica.");
+             managerScene.gestioneErrore("Errore grave di sistema", "Impossibile caricare l'interfaccia grafica.", lblRisultato);
         }
     }
 }

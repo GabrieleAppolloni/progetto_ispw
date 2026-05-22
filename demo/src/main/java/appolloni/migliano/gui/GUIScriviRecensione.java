@@ -7,11 +7,13 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextArea;
 import javafx.stage.Stage;
+import appolloni.migliano.HelperErrori;
 import appolloni.migliano.bean.BeanRecensioni;
 import appolloni.migliano.bean.BeanStruttura;
 import appolloni.migliano.bean.BeanUtenti;
 import appolloni.migliano.controller.ControllerRecensioni;
 import appolloni.migliano.exception.CampiVuotiException;
+import appolloni.migliano.exception.EntitaNonTrovata;
 import appolloni.migliano.exception.ErroreDiSistema;
 
 
@@ -54,8 +56,11 @@ public class GUIScriviRecensione {
         } catch ( CampiVuotiException e) {
             lblErrore.setText(e.getMessage());
         }catch(ErroreDiSistema e){
-            lblErrore.setText(e.getMessage());
+            HelperErrori.errore("Errore di sistema:", e.getMessage());
+        }catch(EntitaNonTrovata ex){
+         HelperErrori.errore("Errore caricamento:", ex.getMessage());
         }
+        
     }
 
     @FXML

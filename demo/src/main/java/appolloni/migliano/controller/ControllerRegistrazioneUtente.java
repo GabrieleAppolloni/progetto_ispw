@@ -20,7 +20,7 @@ public class ControllerRegistrazioneUtente {
         String email = bean.getEmail();
         String citta = bean.getCitta();
         String pass = bean.getPassword();
-        if(nome.isEmpty() || tipo.isEmpty() || cognome.isEmpty() || email.isEmpty() || citta.isEmpty() ||pass.isEmpty() ){
+        if(nome.isBlank() || tipo.isBlank() || cognome.isBlank() || email.isBlank() || citta.isBlank() ||pass.isBlank() ){
             throw new CampiVuotiException("Informazioni Utente mancanti.");
         }
         if(!email.contains("@")){
@@ -34,7 +34,7 @@ public class ControllerRegistrazioneUtente {
                 String nomeAttivita = bean.getNomeAttivita();
                 String tipoAttivita = bean.getTipoAttivita();
 
-                if(nomeAttivita.isEmpty() || tipoAttivita.isEmpty()){
+                if(nomeAttivita.isBlank() || tipoAttivita.isBlank()){
                     throw new CampiVuotiException("Dati attività mancanti. ");
                 }
 

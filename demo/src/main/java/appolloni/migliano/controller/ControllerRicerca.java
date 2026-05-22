@@ -23,9 +23,9 @@ public class ControllerRicerca {
 
     public List<BeanGruppo> ricercaGruppi(BeanGruppo beanGruppo) throws  ErroreDiSistema{
         List<BeanGruppo> list = new java.util.ArrayList<>();
-        if(beanGruppo.getNome() != null && beanGruppo.getNome().isEmpty()) beanGruppo.setNome(null);
-        if(beanGruppo.getCitta() != null && beanGruppo.getCitta().isEmpty()) beanGruppo.setCitta(null);
-        if(beanGruppo.getMateria() != null && beanGruppo.getMateria().isEmpty()) beanGruppo.setMateria(null);
+        if(beanGruppo.getNome() != null && beanGruppo.getNome().isBlank()) beanGruppo.setNome(null);
+        if(beanGruppo.getCitta() != null && beanGruppo.getCitta().isBlank()) beanGruppo.setCitta(null);
+        if(beanGruppo.getMateria() != null && beanGruppo.getMateria().isBlank()) beanGruppo.setMateria(null);
 
         List<Gruppo> gruppi = daoGruppo.ricercaGruppiConFiltri(beanGruppo.getNome(), beanGruppo.getCitta(), beanGruppo.getMateria());
 
@@ -33,8 +33,7 @@ public class ControllerRicerca {
             BeanGruppo bean = new BeanGruppo(g.getNome(), g.getMateria(), g.getAdmin().getEmail(), g.getLuogo(), g.getCitta());
             list.add(bean);
         }
-
-        // verifica se la lista è vuota e  gestisci caso
+        
         return list;
 
     }
@@ -42,9 +41,9 @@ public class ControllerRicerca {
     public List<BeanStruttura> ricercaStruttura(BeanStruttura beanStruttura) throws ErroreDiSistema{
         List<BeanStruttura> listStrutture = new java.util.ArrayList<>();
 
-        if(beanStruttura.getName() != null && beanStruttura.getName().isEmpty()) beanStruttura.setName(null);
-        if(beanStruttura.getCitta() != null && beanStruttura.getCitta().isEmpty()) beanStruttura.setCitta(null);
-        if(beanStruttura.getTipoAttivita() != null && (beanStruttura.getTipoAttivita().equals("Tutti")|| beanStruttura.getTipoAttivita().isEmpty())) beanStruttura.setTipoAttivita(null);
+        if(beanStruttura.getName() != null && beanStruttura.getName().isBlank()) beanStruttura.setName(null);
+        if(beanStruttura.getCitta() != null && beanStruttura.getCitta().isBlank()) beanStruttura.setCitta(null);
+        if(beanStruttura.getTipoAttivita() != null && (beanStruttura.getTipoAttivita().equals("Tutti")|| beanStruttura.getTipoAttivita().isBlank())) beanStruttura.setTipoAttivita(null);
 
         List<Struttura> list = daoStruttura.ricercaStruttureConFiltri(beanStruttura.getName(), beanStruttura.getCitta(), beanStruttura.getTipoAttivita());
 
@@ -59,7 +58,6 @@ public class ControllerRicerca {
 
         }
 
-        //verifica controllo lista vuota
         return listStrutture;
         
     }

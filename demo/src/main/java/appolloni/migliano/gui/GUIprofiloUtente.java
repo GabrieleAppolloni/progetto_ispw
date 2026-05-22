@@ -4,6 +4,7 @@ import java.io.IOException;
 import appolloni.migliano.ManagerScene;
 import appolloni.migliano.bean.BeanUtenti;
 import appolloni.migliano.controller.ControllerProfiloUtente;
+import appolloni.migliano.exception.EntitaNonTrovata;
 import appolloni.migliano.exception.ErroreDiSistema;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -51,6 +52,8 @@ public class GUIprofiloUtente {
         lblTipo.setText(newBean.getTipo());
       }catch(ErroreDiSistema e){
         managerScene.gestioneErrore("Errore di sistema", e.getMessage(), boxPassword);
+      }catch(EntitaNonTrovata ex){
+        managerScene.gestioneErrore("Errore caricamento", ex.getMessage(), boxPassword);
       }
     }
 
@@ -118,6 +121,9 @@ public class GUIprofiloUtente {
         }catch(ErroreDiSistema e){
             managerScene.gestioneErrore("Errore di sistema", e.getMessage(), boxPassword);
 
+        }catch(EntitaNonTrovata ex){
+         managerScene.gestioneErrore("Errore caricamento", ex.getMessage(), boxPassword);
         }
+    
     }
 }

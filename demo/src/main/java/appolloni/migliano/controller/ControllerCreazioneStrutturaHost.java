@@ -52,7 +52,7 @@ public class ControllerCreazioneStrutturaHost {
         String citta = beanUtente.getCitta();
         String pass = beanUtente.getPassword();
         
-        if(nome.isEmpty() || tipo.isEmpty() || cognome.isEmpty() || email.isEmpty() || citta.isEmpty() ||pass.isEmpty() ){
+        if(nome.isBlank() || tipo.isBlank() || cognome.isBlank() || email.isBlank() || citta.isBlank() ||pass.isBlank() ){
             throw new CampiVuotiException("Informazioni Utente mancanti.");
         }
         if(!email.contains("@")){
@@ -67,7 +67,7 @@ public class ControllerCreazioneStrutturaHost {
 
 
 
-            if(nomeAttivita.isEmpty() || tipoAttivita.isEmpty()){
+            if(nomeAttivita.isBlank() || tipoAttivita.isBlank()){
                 throw new CampiVuotiException("Dati attività mancanti. ");
             }
 
@@ -85,7 +85,7 @@ public class ControllerCreazioneStrutturaHost {
             String tipoAtt = beanStruttura.getTipoAttivita();
             String foto = beanStruttura.getFoto();
       
-             if(type.isEmpty() || nomeStruttura.isEmpty() || cittaStr.isEmpty()|| indirizzo.isEmpty() || orario.isEmpty() ||responsabile.isEmpty()|| tipoAtt.isEmpty()){
+             if(type.isBlank() || nomeStruttura.isBlank() || cittaStr.isBlank()|| indirizzo.isBlank() || orario.isBlank() ||responsabile.isBlank()|| tipoAtt.isBlank()){
               throw new CampiVuotiException("Completa tutti i campi.");
             }
 

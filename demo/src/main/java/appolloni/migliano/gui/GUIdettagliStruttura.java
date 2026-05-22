@@ -9,7 +9,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import javafx.scene.control.ListView;
-import appolloni.migliano.HelperErrori;
 import appolloni.migliano.ManagerScene;
 import appolloni.migliano.bean.BeanRecensioni;
 import appolloni.migliano.bean.BeanStruttura;
@@ -130,7 +129,7 @@ public class GUIdettagliStruttura {
         try{
          managerScene.avviaRicerca(event, beanUtente);
         }catch(IOException e){
-            HelperErrori.errore("Errore grave di sistema", "Impossibile caricare l'interfaccia grafica.");
+               managerScene.gestioneErrore("Errore:", "Impossibile caricare l'interfaccia", lblCitta);
 
         }
     }

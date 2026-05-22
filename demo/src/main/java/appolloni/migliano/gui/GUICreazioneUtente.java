@@ -1,8 +1,6 @@
 package appolloni.migliano.gui;
 
 import java.io.IOException;
-
-import appolloni.migliano.HelperErrori;
 import appolloni.migliano.ManagerScene;
 import appolloni.migliano.bean.BeanUtenti;
 import appolloni.migliano.controller.ControllerRegistrazioneUtente;
@@ -128,7 +126,7 @@ public class GUICreazioneUtente {
         try{
          managerScene.cambiaScena(event,"/home.fxml");
         }catch(IOException e){
-            HelperErrori.errore("Errore grave di sistema", "Impossibile caricare l'interfaccia grafica.");
+            managerScene.gestioneErrore("Errore grave di sistema", "Impossibile caricare l'interfaccia grafica.", boxDatiHost);
         }
     }
     

@@ -7,7 +7,6 @@ import org.junit.jupiter.api.Test;
 import appolloni.migliano.bean.BeanGruppo;
 import appolloni.migliano.bean.BeanUtenti;
 import appolloni.migliano.controller.ControllerCreazioneGruppo;
-import appolloni.migliano.controller.ControllerGestioneGruppo;
 import appolloni.migliano.controller.ControllerRegistrazioneUtente;
 import appolloni.migliano.controller.ControllerLogin;
 
@@ -16,7 +15,6 @@ import appolloni.migliano.controller.ControllerLogin;
 
     private ControllerCreazioneGruppo controllerCrezioneGruppo;
     private ControllerRegistrazioneUtente controllerRegistrazioneUtente;
-    private ControllerGestioneGruppo controllerGestioneGruppo;
     private BeanGruppo gruppo;
     private BeanUtenti studente;
 

@@ -5,8 +5,6 @@ import appolloni.migliano.bean.BeanMessaggi;
 import appolloni.migliano.bean.BeanUtenti;
 import appolloni.migliano.controller.ControllerChat;
 import appolloni.migliano.controller.ControllerCreazioneGruppo;
-import appolloni.migliano.controller.ControllerGestioneGruppo;
-
 import appolloni.migliano.controller.ControllerProfiloUtente;
 import appolloni.migliano.controller.ControllerRegistrazioneUtente;
 

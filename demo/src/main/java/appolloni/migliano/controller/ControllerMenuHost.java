@@ -4,6 +4,7 @@ package appolloni.migliano.controller;
 import appolloni.migliano.entity.Recensione;
 import appolloni.migliano.entity.Struttura;
 import appolloni.migliano.exception.CampiVuotiException;
+import appolloni.migliano.exception.EntitaNonTrovata;
 import appolloni.migliano.exception.ErroreDiSistema;
 import appolloni.migliano.factory.AbstractFactoryDao;
 import appolloni.migliano.interfacce.InterfacciaDaoRecensioni;
@@ -27,10 +28,9 @@ public class ControllerMenuHost {
    
 
    
-    public BeanStruttura visualizzaStrutturaHost(String emailHost) throws IllegalArgumentException, ErroreDiSistema {
-        if(emailHost == null ){
-            throw new IllegalArgumentException("Host non vaido");
-
+    public BeanStruttura visualizzaStrutturaHost(String emailHost) throws IllegalArgumentException, ErroreDiSistema, CampiVuotiException {
+        if(emailHost == null || emailHost.isBlank() ){
+            throw new CampiVuotiException("Host non vaido");
         }
       
          Struttura struttura = daoStrutture.recuperaStrutturaPerHost(emailHost);
@@ -45,7 +45,7 @@ public class ControllerMenuHost {
 
     }
 
-    // aggiorna struttura e  foto vanno messe in un altro caso d'uso
+    
     public void cambiaFoto(String emailHost, String nomeFoto) throws CampiVuotiException, ErroreDiSistema {
      if (emailHost == null || nomeFoto == null) {throw new CampiVuotiException("Dati mancanti");}
       daoStrutture.aggiornaFotoStruttura(emailHost, nomeFoto);
@@ -53,18 +53,7 @@ public class ControllerMenuHost {
     }
 
 
-    public void aggiornaStruttura(BeanStruttura struttura, String vecchionNome) throws  CampiVuotiException, ErroreDiSistema{
-        if(struttura.getCitta().isEmpty() || struttura.getGestore().isEmpty() || struttura.getIndirizzo().isEmpty()|| struttura.getName().isEmpty()|| struttura.getOrario().isEmpty()||struttura.getTipoAttivita().isEmpty()){
-            throw new CampiVuotiException("Dati mancanti");
-        }
-        Struttura struttura2 = new Struttura(struttura.getTipo(), struttura.getName(), struttura.getCitta(), struttura.getIndirizzo(), struttura.hasWifi(), struttura.hasRistorazione());
-        struttura2.setTipoAttivita(struttura.getTipoAttivita());
-        struttura2.setGestore(struttura.getGestore());
-        struttura2.setOrario(struttura.getOrario());
-        struttura2.setFoto(struttura.getFoto());
-        daoStrutture.updateStruttura(struttura2, vecchionNome);
-    
-  }
+
   public List<BeanRecensioni> cercaRecensioniPerStruttura(BeanStruttura beanStruttura) throws ErroreDiSistema  {
     List<BeanRecensioni> listaBean = new ArrayList<>();
          List<Recensione> listaEntity = daoRecensioni.getRecensioniByStruttura(
@@ -79,11 +68,11 @@ public class ControllerMenuHost {
      return listaBean;
     }
 
-  public double calcolaMediaVoti(BeanStruttura beanStruttura, BeanUtenti beanUtenti) throws  ErroreDiSistema{
+  public double calcolaMediaVoti(BeanStruttura beanStruttura, BeanUtenti beanUtenti) throws  ErroreDiSistema, EntitaNonTrovata{
     Struttura struttura = daoStrutture.cercaStruttura(beanStruttura.getName(), beanUtenti.getEmail());
 
     if(struttura == null){
-        throw new IllegalArgumentException("Struttura non trovata.");
+        throw new EntitaNonTrovata("Struttura non trovata.");
 
     }
     List<Recensione> list = daoRecensioni.getRecensioniByStruttura(struttura.getName(), struttura.getGestore());

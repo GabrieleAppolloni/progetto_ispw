@@ -1,7 +1,5 @@
 package appolloni.migliano.gui;
 import java.io.IOException;
-
-import appolloni.migliano.HelperErrori;
 import appolloni.migliano.ManagerScene;
 import appolloni.migliano.bean.BeanStruttura;
 import appolloni.migliano.bean.BeanUtenti;
@@ -135,7 +133,7 @@ public class GUICreazioneStrutture {
             
     
         } catch (IOException e) {
-             HelperErrori.errore("Errore grave di sistema", "Impossibile caricare l'interfaccia grafica.");
+             managerScene.gestioneErrore("Errore grave di sistema", "Impossibile caricare l'interfaccia grafica.", checkRistorazione);
         }
      }
 

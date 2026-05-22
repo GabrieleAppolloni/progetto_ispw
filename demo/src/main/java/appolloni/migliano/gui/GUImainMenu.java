@@ -10,7 +10,6 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import appolloni.migliano.DBConnection;
-import appolloni.migliano.HelperErrori;
 import appolloni.migliano.ManagerScene;
 import appolloni.migliano.bean.BeanGruppo;
 import appolloni.migliano.bean.BeanUtenti;
@@ -95,7 +94,7 @@ public class GUImainMenu {
          managerScene.avviaChat(gruppoSelezionato, bean, containerGruppi);
 
         } catch (IOException e) {
-             HelperErrori.errore("Errore grave di sistema", "Impossibile caricare l'interfaccia grafica.");
+             managerScene.gestioneErrore("Errore grave di sistema", "Impossibile caricare l'interfaccia grafica.", bNuovaStruttura);
         }
     }
 
@@ -103,7 +102,7 @@ public class GUImainMenu {
         try{
          managerScene.apriProfilo(event, bean);
         }catch(IOException e){
-           HelperErrori.errore("Errore grave di sistema", "Impossibile caricare l'interfaccia grafica.");
+           managerScene.gestioneErrore("Errore:", "Impossibile caricare l'interfaccia", bNuovaStruttura);
         }
     }
 
@@ -111,7 +110,7 @@ public class GUImainMenu {
         try{
          managerScene.avviaRicerca(event, bean);
         }catch(IOException e){
-            HelperErrori.errore("Errore grave di sistema", "Impossibile caricare l'interfaccia grafica.");
+               managerScene.gestioneErrore("Errore:", "Impossibile caricare l'interfaccia", bNuovaStruttura);
         }
     }
 
@@ -119,7 +118,7 @@ public class GUImainMenu {
         try{
          managerScene.avviaNuovaStruttura(event, bean);
         }catch(IOException e){
-             HelperErrori.errore("Errore grave di sistema", "Impossibile caricare l'interfaccia grafica.");
+             managerScene.gestioneErrore("Errore:", "Impossibile caricare l'interfaccia", bNuovaStruttura);
         }
     }
     
@@ -128,7 +127,7 @@ public class GUImainMenu {
         try{
          managerScene.avviaGestioneGruppo(event, bean);
         }catch(IOException e){
-             HelperErrori.errore("Errore grave di sistema", "Impossibile caricare l'interfaccia grafica.");
+             managerScene.gestioneErrore("Errore:","Impossibile caricare l'interfaccia", bNuovaStruttura);
         }
     }
 
@@ -137,13 +136,9 @@ public class GUImainMenu {
 
          DBConnection.getInstance().closeConnection();
          managerScene.cambiaScena(event, "/home.fxml");
-        }catch(IOException e){
-             HelperErrori.errore("Errore grave di sistema", "Impossibile caricare l'interfaccia grafica.");
-
-        }catch(SQLException e){
-             HelperErrori.errore("Errore grave di sistema", "Impossibile chiudere la connessione.");
+        }catch(IOException | SQLException e){
+             managerScene.gestioneErrore("Errore grave di sistema", "Impossibile caricare l'interfaccia grafica.", bNuovaStruttura);
 
         }
     }
-
 }

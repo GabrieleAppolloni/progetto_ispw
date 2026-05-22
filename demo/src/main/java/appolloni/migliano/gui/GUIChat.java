@@ -8,13 +8,13 @@ import javafx.scene.control.TextField;
 
 import java.io.IOException;
 import java.util.List;
-import appolloni.migliano.HelperErrori;
 import appolloni.migliano.ManagerScene;
 import appolloni.migliano.bean.BeanGruppo;
 import appolloni.migliano.bean.BeanMessaggi;
 import appolloni.migliano.bean.BeanUtenti;
 import appolloni.migliano.controller.ControllerChat;
-import appolloni.migliano.exception.CreazioneFallita;
+import appolloni.migliano.exception.CampiVuotiException;
+import appolloni.migliano.exception.EntitaNonTrovata;
 import appolloni.migliano.exception.ErroreDiSistema;
 
 public class GUIChat {
@@ -29,7 +29,6 @@ public class GUIChat {
 
     private BeanUtenti beanUtente;
     private BeanGruppo beanGruppo;
-    private static final String ERROREGENERICO = "Errore generico: ";
     private ManagerScene managerScene = new ManagerScene();
     
     private ControllerChat controllerChat = new ControllerChat();
@@ -53,7 +52,7 @@ public class GUIChat {
             lbCitta.setText(infoComplete.getCitta());
             lbLuogo.setText(infoComplete.getLuogo() != null ? infoComplete.getLuogo() : "Non specificato");
         }
-        }catch(ErroreDiSistema | CreazioneFallita e){
+        }catch(ErroreDiSistema | EntitaNonTrovata e){
          managerScene.gestioneErrore("Errore di sistema", e.getMessage(), lbCitta);
         }
     }
@@ -75,7 +74,10 @@ public class GUIChat {
         } catch (ErroreDiSistema e) {
            managerScene.gestioneErrore("Errore di sistema", e.getMessage(), lbCitta);
         }catch(IllegalArgumentException e){ 
-            HelperErrori.errore(ERROREGENERICO,e.getMessage());
+            managerScene.gestioneErrore("Errore generico", e.getMessage(), lbCitta);
+        }catch(EntitaNonTrovata ex){
+            managerScene.gestioneErrore("Errore caricamento", ex.getMessage(), lbCitta);
+
         }
     }
 
@@ -92,7 +94,12 @@ public class GUIChat {
         }catch(ErroreDiSistema e){
             managerScene.gestioneErrore("Errore di sistema", e.getMessage(), lbCitta);
         }catch(IllegalArgumentException e){
-            HelperErrori.errore(ERROREGENERICO,e.getMessage());
+            managerScene.gestioneErrore("Errore generico", e.getMessage(), lbCitta);
+        }catch(EntitaNonTrovata e){
+            managerScene.gestioneErrore("Errore caricamento dati", e.getMessage(), lbCitta);
+        }catch(CampiVuotiException e){
+            managerScene.gestioneErrore("Dati mancanti", e.getMessage(), lbCitta);
+
         }
     }
     
@@ -103,6 +110,9 @@ public class GUIChat {
             tornaIndietro(event);
         } catch(ErroreDiSistema e) {
           managerScene.gestioneErrore("Errore di sistema", e.getMessage(), lbCitta);
+        }catch(EntitaNonTrovata e){
+            managerScene.gestioneErrore("Errore:", e.getMessage(), lbCitta);
+
         }
     }
 
@@ -112,7 +122,7 @@ public class GUIChat {
             managerScene.avviaMainMenu(event, beanUtente);
 
         } catch (IOException e) {
-         HelperErrori.errore("Errore grave di sistema", "Impossibile caricare l'interfaccia grafica.");
+         managerScene.gestioneErrore("Errore grave di sistema", "Impossibile caricare l'interfaccia grafica.", lbCitta);
         }
     }
 

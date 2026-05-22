@@ -7,7 +7,7 @@ import appolloni.migliano.entity.Gruppo;
 import appolloni.migliano.entity.Studente;
 import appolloni.migliano.entity.Utente;
 import appolloni.migliano.exception.CampiVuotiException;
-import appolloni.migliano.exception.CreazioneFallita;
+import appolloni.migliano.exception.EntitaNonTrovata;
 import appolloni.migliano.exception.ErroreDiSistema;
 import appolloni.migliano.factory.AbstractFactoryDao;
 import appolloni.migliano.interfacce.InterfacciaDaoStruttura;
@@ -21,15 +21,15 @@ public class ControllerCreazioneGruppo {
         private InterfacciaDaoGruppo daoGruppo = AbstractFactoryDao.getDao().getDaoGruppo();
         private InterfacciaDaoStruttura daoStruttura = AbstractFactoryDao.getDao().getDaoStruttura();
 
-        public void creaGruppo(BeanUtenti bean, BeanGruppo beanGruppo) throws CampiVuotiException, ErroreDiSistema, CreazioneFallita {
+        public void creaGruppo(BeanUtenti bean, BeanGruppo beanGruppo) throws CampiVuotiException, ErroreDiSistema, EntitaNonTrovata {
 
         if(!bean.getTipo().equals("Studente")){
              throw new IllegalArgumentException("L'utente non ha i permessi");
         }
         
-         if(beanGruppo.getLuogo().isEmpty()){beanGruppo.setLuogo("Sconosciuto");}
+         if(beanGruppo.getLuogo().isBlank()){beanGruppo.setLuogo("Sconosciuto");}
     
-         if(beanGruppo.getAdmin().isEmpty() || beanGruppo.getCitta().isEmpty() || beanGruppo.getLuogo().isEmpty() || beanGruppo.getMateria().isEmpty()|| beanGruppo.getNome().isEmpty()){
+         if(beanGruppo.getAdmin().isBlank() || beanGruppo.getCitta().isBlank() || beanGruppo.getLuogo().isBlank() || beanGruppo.getMateria().isBlank()|| beanGruppo.getNome().isBlank()){
 
             throw new CampiVuotiException("Dati mancanti, inserire tutti i campi");
          }
@@ -37,7 +37,7 @@ public class ControllerCreazioneGruppo {
 
          if(u1 == null){
 
-            throw new CreazioneFallita("Utente admin non trovato");
+            throw new EntitaNonTrovata("Utente admin non trovato");
          }
  
          Gruppo gruppo = new Gruppo(beanGruppo.getNome(), u1);

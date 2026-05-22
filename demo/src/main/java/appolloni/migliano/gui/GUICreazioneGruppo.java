@@ -4,13 +4,12 @@ package appolloni.migliano.gui;
 import java.io.IOException;
 import java.util.List;
 
-import appolloni.migliano.HelperErrori;
 import appolloni.migliano.ManagerScene;
 import appolloni.migliano.bean.BeanGruppo;
 import appolloni.migliano.bean.BeanUtenti;
 import appolloni.migliano.controller.ControllerCreazioneGruppo;
 import appolloni.migliano.exception.CampiVuotiException;
-import appolloni.migliano.exception.CreazioneFallita;
+import appolloni.migliano.exception.EntitaNonTrovata;
 import appolloni.migliano.exception.ErroreDiSistema;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -92,7 +91,7 @@ public class GUICreazioneGruppo {
             
             managerScene.avviaMainMenu(event, bean);
 
-        } catch(ErroreDiSistema | CreazioneFallita e){
+        } catch(ErroreDiSistema | EntitaNonTrovata e){
            managerScene.gestioneErrore("Errore di sistema", e.getMessage(), bCrea);
         }catch(CampiVuotiException e){
             lbRisultato.setText(e.getMessage());
@@ -111,7 +110,7 @@ public class GUICreazioneGruppo {
             managerScene.avviaMainMenu(event, bean);
 
         }catch(IOException ez){
-         HelperErrori.errore("Errore grave di sistema", "Impossibile caricare l'interfaccia grafica.");HelperErrori.errore("Errore:", ez.getMessage());
+         managerScene.gestioneErrore("Errore grave di sistema", "Impossibile caricare l'interfaccia grafica.", bCrea);
 
 
         }
