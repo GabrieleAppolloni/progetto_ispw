@@ -6,18 +6,18 @@ package appolloni.migliano.cli;
 import appolloni.migliano.LeggInputCli;
 import appolloni.migliano.bean.BeanStruttura;
 import appolloni.migliano.bean.BeanUtenti;
-import appolloni.migliano.controller.ControllerGestioneStrutture;
+import appolloni.migliano.controller.ControllerCreazioneStrutturaHost;
 
 
 public class SegnalaStrutturaCLI {
 
     
     private final BeanUtenti studenteLoggato;
-    private final ControllerGestioneStrutture controller;
+    private final ControllerCreazioneStrutturaHost controller;
 
     public SegnalaStrutturaCLI(BeanUtenti utente) {
         this.studenteLoggato = utente;
-        this.controller = new ControllerGestioneStrutture();
+        this.controller = new ControllerCreazioneStrutturaHost();
     }
 
     public void start() {
@@ -52,7 +52,7 @@ public class SegnalaStrutturaCLI {
 
             
 
-            controller.creaStruttura(studenteLoggato, struttura);
+            controller.creazioneHostStruttura(studenteLoggato, struttura);
 
             System.out.println("\n Grazie! La tua segnalazione è stata salvata."); //NOSONAR
             System.out.println("Premi Invio per tornare al menu..."); //NOSONAR

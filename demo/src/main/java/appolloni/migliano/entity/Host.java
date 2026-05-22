@@ -7,8 +7,8 @@ public class Host extends Utente {
     private String tipoAttivita;
     private Struttura struttura;
   
-     public Host(String nome, String cognome, String email, String citta,String tipo, String password){
-        super(nome, cognome,email,citta,tipo, password);
+     public Host(String nome, String cognome, String email, String citta, String password){
+        super(nome, cognome,email,citta, password);
         struttura = null;
         
     }
@@ -33,5 +33,10 @@ public class Host extends Utente {
 
     public Struttura getStruttura(){
         return this.struttura;
+    }
+
+    @Override
+    public String getRuolo(){
+        return "Host";
     }
 }

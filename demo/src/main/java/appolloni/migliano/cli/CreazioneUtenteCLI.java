@@ -4,16 +4,16 @@ package appolloni.migliano.cli;
 import appolloni.migliano.LeggInputCli;
 import appolloni.migliano.ManagerCLI;
 import appolloni.migliano.bean.BeanUtenti;
-import appolloni.migliano.controller.ControllerGestioneUtente;
+import appolloni.migliano.controller.ControllerRegistrazioneUtente;
 import appolloni.migliano.exception.CampiVuotiException;
 import appolloni.migliano.exception.EmailNonValidaException;
 
 public class CreazioneUtenteCLI {
 
-    private final ControllerGestioneUtente controller;
+    private final ControllerRegistrazioneUtente controller;
 
     public CreazioneUtenteCLI() {
-        this.controller = new ControllerGestioneUtente();
+        this.controller = new ControllerRegistrazioneUtente();
     
     }
 
@@ -73,7 +73,7 @@ public class CreazioneUtenteCLI {
 
     private void salvaUtente(BeanUtenti beanUtenti) {
         try {
-            controller.creazioneUtente(beanUtenti);
+            controller.registraUtente(beanUtenti);
             System.out.println("\n Registrazione effettuata con successo!"); //NOSONAR
         } catch (Exception e) {
             System.out.println("Errore caricamento: " + e.getMessage()); //NOSONAR

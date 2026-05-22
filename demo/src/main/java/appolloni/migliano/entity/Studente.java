@@ -7,8 +7,8 @@ public class Studente extends Utente {
     private ArrayList<Gruppo> gruppi;
 
 
-    public Studente(String nome, String cognome, String email, String citta, String tipo, String password){
-        super(nome, cognome,email,citta,tipo, password);
+    public Studente(String nome, String cognome, String email, String citta, String password){
+        super(nome, cognome,email,citta,password);
         gruppi = new ArrayList<>();
     }
 
@@ -22,6 +22,11 @@ public class Studente extends Utente {
 
     public List<Gruppo> getGruppo(){
         return this.gruppi;
+    }
+
+    @Override
+    public String getRuolo(){
+        return "Studente";
     }
     
 }

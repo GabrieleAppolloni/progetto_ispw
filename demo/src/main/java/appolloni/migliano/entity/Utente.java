@@ -6,16 +6,14 @@ public abstract class Utente {
     private String cognome;
     private String email;
     private String citta;
-    private String tipo;
     private String password;
 
-    protected Utente(String nomeUtente, String cognomeUtente, String emailUtente, String cittaUtente, String tipoUtente, String ps){
+    public Utente(String nomeUtente, String cognomeUtente, String emailUtente, String cittaUtente, String ps){
 
         this.nome = nomeUtente;
         this.cognome = cognomeUtente;
         this.email = emailUtente;
         this.citta = cittaUtente;
-        this.tipo = tipoUtente;
         this.password = ps;
     }
 
@@ -45,9 +43,6 @@ public abstract class Utente {
         this.citta = cittaUtente;
     }
 
-    public void setTipo(String tipoUtente){
-        this.tipo = tipoUtente;
-    }
 
     public String getName(){
         return this.nome;
@@ -64,7 +59,6 @@ public abstract class Utente {
         return citta;
 
     }
-    public String getTipo(){
-        return tipo;
-    }
+    public abstract String getRuolo();
+
 }

@@ -1,12 +1,11 @@
 package appolloni.migliano.gui;
 
 import java.io.IOException;
-import java.sql.SQLException;
-
-import appolloni.migliano.HelperErrori;
 import appolloni.migliano.ManagerScene;
 import appolloni.migliano.bean.BeanUtenti;
-import appolloni.migliano.controller.ControllerGestioneUtente;
+import appolloni.migliano.controller.ControllerProfiloUtente;
+import appolloni.migliano.exception.EntitaNonTrovata;
+import appolloni.migliano.exception.ErroreDiSistema;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -31,12 +30,12 @@ public class GUIprofiloUtente {
 
     private BeanUtenti beanUtente;
     private  static final String RED = "-fx-text-fill: red;";
-    private ControllerGestioneUtente controllerProfiloUtente;
+    private ControllerProfiloUtente controllerProfiloUtente;
     private ManagerScene managerScene = new ManagerScene();
 
     public void initData(BeanUtenti utente){
         this.beanUtente = utente;
-        controllerProfiloUtente = new ControllerGestioneUtente();
+        controllerProfiloUtente = new ControllerProfiloUtente();
         caricaInformazioni(beanUtente);
     }
 
@@ -44,17 +43,17 @@ public class GUIprofiloUtente {
 
       try{
   
-        BeanUtenti newBean = controllerProfiloUtente.recuperaInformazioniUtenti(beanUtenti);
+        BeanUtenti newBean = controllerProfiloUtente.recuperaInformazioniUtente(beanUtenti);
         
         lblNome.setText(newBean.getName());
         lblCognome.setText(newBean.getCognome());
         lblEmail.setText(newBean.getEmail());
         lblCitta.setText(newBean.getCitta());
         lblTipo.setText(newBean.getTipo());
-      }catch(SQLException e){
-        HelperErrori.errore("Errore caricamento", e.getMessage());
-      }catch(Exception e){
-        HelperErrori.errore("Errore generico:", e.getMessage());
+      }catch(ErroreDiSistema e){
+        managerScene.gestioneErrore("Errore di sistema", e.getMessage(), boxPassword);
+      }catch(EntitaNonTrovata ex){
+        managerScene.gestioneErrore("Errore caricamento", ex.getMessage(), boxPassword);
       }
     }
 
@@ -119,9 +118,12 @@ public class GUIprofiloUtente {
             lblErrorePass.setStyle(RED);
          }
 
-        }catch(Exception e){
+        }catch(ErroreDiSistema e){
+            managerScene.gestioneErrore("Errore di sistema", e.getMessage(), boxPassword);
 
-            HelperErrori.errore("Errore:", e.getMessage());
+        }catch(EntitaNonTrovata ex){
+         managerScene.gestioneErrore("Errore caricamento", ex.getMessage(), boxPassword);
         }
+    
     }
 }

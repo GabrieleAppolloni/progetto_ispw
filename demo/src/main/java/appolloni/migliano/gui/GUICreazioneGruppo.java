@@ -1,15 +1,16 @@
 package appolloni.migliano.gui;
 
+
 import java.io.IOException;
-import java.sql.SQLException;
 import java.util.List;
 
-import appolloni.migliano.HelperErrori;
 import appolloni.migliano.ManagerScene;
 import appolloni.migliano.bean.BeanGruppo;
 import appolloni.migliano.bean.BeanUtenti;
-import appolloni.migliano.controller.ControllerGestioneGruppo;
+import appolloni.migliano.controller.ControllerCreazioneGruppo;
 import appolloni.migliano.exception.CampiVuotiException;
+import appolloni.migliano.exception.EntitaNonTrovata;
+import appolloni.migliano.exception.ErroreDiSistema;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -28,10 +29,11 @@ public class GUICreazioneGruppo {
     @FXML private Label lbRisultato;
 
     private BeanUtenti bean;
-    private ControllerGestioneGruppo controllerCreazioneGruppo = new ControllerGestioneGruppo();
+    private ControllerCreazioneGruppo controllerCreazioneGruppo = new ControllerCreazioneGruppo();
     private static final String ORANGE= "-fx-text-fill: orange;";
     private static final String RED = "-fx-text-fill: red;";
     private ManagerScene managerScene = new ManagerScene();
+
     public void initData(BeanUtenti utente){
         this.bean = utente;
         comboLuogo.setEditable(true);
@@ -60,11 +62,9 @@ public class GUICreazioneGruppo {
                 lbRisultato.setText(""); 
                 comboLuogo.getItems().addAll(strutture);
             }
-        
-        }catch(SQLException exception){
-            HelperErrori.errore("Errore", exception.getMessage());
-
-        } catch (Exception e) {
+        }catch(ErroreDiSistema e){
+            managerScene.gestioneErrore("Errore di sistema", e.getMessage(), bCrea);
+        }catch(CampiVuotiException e){
             lbRisultato.setText(e.getMessage());
             lbRisultato.setStyle(RED);
         }
@@ -91,22 +91,29 @@ public class GUICreazioneGruppo {
             
             managerScene.avviaMainMenu(event, bean);
 
-        } catch(SQLException e){
-           HelperErrori.errore("Errore creazione gruppo:", "Gruppo esistente");
+        } catch(ErroreDiSistema | EntitaNonTrovata e){
+           managerScene.gestioneErrore("Errore di sistema", e.getMessage(), bCrea);
         }catch(CampiVuotiException e){
             lbRisultato.setText(e.getMessage());
             lbRisultato.setStyle(RED);
 
-        } catch(Exception e){
-            
+        }catch(IOException e){
             lbRisultato.setText("Errore creazione: " + e.getMessage());
             lbRisultato.setStyle(RED);
+        
         }
     }
 
     @FXML
-    public void clickIndietro(ActionEvent event) throws IOException {
-     managerScene.avviaMainMenu(event, bean);
+    public void clickIndietro(ActionEvent event) {
+        try{
+            managerScene.avviaMainMenu(event, bean);
+
+        }catch(IOException ez){
+         managerScene.gestioneErrore("Errore grave di sistema", "Impossibile caricare l'interfaccia grafica.", bCrea);
+
+
+        }
     }
 
     @FXML

@@ -1,43 +1,40 @@
 package appolloni.migliano.dao.gruppo;
 
-import java.sql.SQLException;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
 import appolloni.migliano.entity.Gruppo;
-import appolloni.migliano.interfacce.InterfacciaGruppo;
+import appolloni.migliano.interfacce.InterfacciaDaoGruppo;
 
-public class DaoGruppoDemo implements InterfacciaGruppo {
+public class DaoGruppoDemo implements InterfacciaDaoGruppo {
 
     private static List<Gruppo> gruppiDB = new ArrayList<>();
     private static List<String[]> iscrizioniDB = new ArrayList<>();
 
     @Override
-    public void creaGruppo(Gruppo gruppo) throws SQLException {
+    public void creaGruppo(Gruppo gruppo) {
         gruppiDB.add(gruppo);
 
         if (gruppo.getAdmin() != null) {
             String[] rigaIscrizione = {gruppo.getNome(), gruppo.getAdmin().getEmail()};
             iscrizioniDB.add(rigaIscrizione);
-        }else{
-            throw new SQLException("Impossibile creare il gruppo");
         }
     }
 
     @Override
-    public Gruppo cercaGruppo(String nome) throws SQLException {
+    public Gruppo cercaGruppo(String nome)  {
         for (Gruppo g : gruppiDB) {
             if (g.getNome().equals(nome)) {
                 return g;
             }
         }
-        throw new SQLException("Gruppo non trovato");
-
+        return null;
     }
 
     @Override
-    public List<Gruppo> recuperaGruppiUtente(String emailUtente) throws SQLException {
+    public List<Gruppo> recuperaGruppiUtente(String emailUtente) {
         List<Gruppo> lista = new ArrayList<>();
 
         for (String[] riga : iscrizioniDB) {
@@ -55,19 +52,19 @@ public class DaoGruppoDemo implements InterfacciaGruppo {
     }
 
     @Override
-    public void iscriviUtente(String nomeGruppo, String emailUtente) throws SQLException {
+    public void iscriviUtente(String nomeGruppo, String emailUtente)  {
         String[] nuovaIscrizione = {nomeGruppo, emailUtente};
         iscrizioniDB.add(nuovaIscrizione);
     }
 
     @Override
-    public boolean esisteGruppo(String nomeGruppo) throws SQLException {
+    public boolean esisteGruppo(String nomeGruppo)  {
             return cercaGruppo(nomeGruppo) != null;
               
         }
 
     @Override
-    public List<Gruppo> ricercaGruppiConFiltri(String nome, String citta, String materia) throws SQLException {
+    public List<Gruppo> ricercaGruppiConFiltri(String nome, String citta, String materia)  {
         List<Gruppo> risultati = new ArrayList<>();
 
         for (Gruppo g : gruppiDB) {
@@ -92,7 +89,7 @@ public class DaoGruppoDemo implements InterfacciaGruppo {
     }
 
     @Override
-    public void abbandonaGruppo(String nomeGruppo, String emailUtente) throws SQLException {
+    public void abbandonaGruppo(String nomeGruppo, String emailUtente) {
         Iterator<String[]> iter = iscrizioniDB.iterator();
         while (iter.hasNext()) {
             String[] riga = iter.next();
@@ -103,10 +100,9 @@ public class DaoGruppoDemo implements InterfacciaGruppo {
     }
 
     @Override
-    public void eliminaGruppo(String nomeGruppo) throws SQLException {
+    public void eliminaGruppo(String nomeGruppo) {
         gruppiDB.removeIf(g -> g.getNome().equals(nomeGruppo));
         iscrizioniDB.removeIf(riga -> riga[0].equals(nomeGruppo));
         
-        // (Nota: se avessi una lista Messaggi, dovresti pulire anche quella qui)
     }
 }

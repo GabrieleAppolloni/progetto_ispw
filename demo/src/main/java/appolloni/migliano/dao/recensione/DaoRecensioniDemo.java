@@ -1,6 +1,5 @@
 package appolloni.migliano.dao.recensione;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,12 +11,12 @@ public class DaoRecensioniDemo implements InterfacciaDaoRecensioni {
     private static final List<Recensione> tabellaRecensioni = new ArrayList<>();
 
     @Override
-    public void salvaRecensione(Recensione r) throws IOException {
+    public void salvaRecensione(Recensione r)  {
         tabellaRecensioni.add(r);
     }
 
     @Override
-    public List<Recensione> getRecensioniByStruttura(String nomeStr, String gestore) throws IOException {
+    public List<Recensione> getRecensioniByStruttura(String nomeStr, String gestore)  {
         List<Recensione> risultati = new ArrayList<>();
 
         for (Recensione r : tabellaRecensioni) {

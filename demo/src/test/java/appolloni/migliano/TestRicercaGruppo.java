@@ -6,15 +6,18 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import appolloni.migliano.bean.BeanGruppo;
 import appolloni.migliano.bean.BeanUtenti;
-import appolloni.migliano.controller.ControllerGestioneGruppo;
-import appolloni.migliano.controller.ControllerGestioneUtente;
+import appolloni.migliano.controller.ControllerCreazioneGruppo;
+import appolloni.migliano.controller.ControllerRegistrazioneUtente;
+
 import appolloni.migliano.controller.ControllerLogin;
+import appolloni.migliano.controller.ControllerMainMenu;
 
 //Appolloni Gabriele 0307344
  class TestRicercaGruppo {
 
-    private ControllerGestioneGruppo controllerGestioneGruppo;
-    private ControllerGestioneUtente controllerGestioneUtente;
+    private ControllerCreazioneGruppo controllerCrezioneGruppo;
+    private ControllerRegistrazioneUtente controllerRegistrazioneUtente;
+    private ControllerMainMenu controllerMainMenu;
     private BeanGruppo gruppo;
     private BeanUtenti studente;
 
@@ -24,12 +27,14 @@ import appolloni.migliano.controller.ControllerLogin;
 
     void setup() throws Exception{
         Configurazione.setTipoPersistenza("DEMO");
-        controllerGestioneGruppo = new ControllerGestioneGruppo();
-        controllerGestioneUtente = new ControllerGestioneUtente();
+        controllerCrezioneGruppo = new ControllerCreazioneGruppo();
+        controllerCrezioneGruppo = new ControllerCreazioneGruppo();
+        controllerRegistrazioneUtente = new ControllerRegistrazioneUtente();
+        controllerMainMenu = new ControllerMainMenu();
         studente = new BeanUtenti("Studente", "Test", "Test", "test@test4", "Test", "Test");
         gruppo = new BeanGruppo("Test", "Test",studente.getEmail(), "Test", "Test");
 
-       controllerGestioneUtente.creazioneUtente(studente);
+       controllerRegistrazioneUtente.registraUtente(studente);
 
     }
 
@@ -42,12 +47,8 @@ import appolloni.migliano.controller.ControllerLogin;
          ControllerLogin controllerLogin = new ControllerLogin();
          controllerLogin.verificaUtente(studente);
 
-         controllerGestioneGruppo.creaGruppo(studente, gruppo);
-
-         BeanGruppo beanGruppo = new BeanGruppo("test4", "test4", "teststud", "test4", "test4");
-
-         controllerGestioneGruppo.aggiungiGruppo(studente, beanGruppo);
-         List<BeanGruppo> gruppi =controllerGestioneGruppo.cercaGruppi(gruppo.getNome(),null, null);
+         controllerCrezioneGruppo.creaGruppo(studente, gruppo);
+         List<BeanGruppo> gruppi =controllerMainMenu.recuperaGruppiUtente(studente);
          
          assertFalse(gruppi.isEmpty(), "La lista dei gruppi non deve essere vuota dopo l'inserimento");
         }catch(Exception e){

@@ -3,18 +3,14 @@ package appolloni.migliano.gui;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-
-
 import appolloni.migliano.bean.BeanUtenti;
-
 import java.io.IOException;
-import java.sql.SQLException;
-
 import appolloni.migliano.HelperErrori;
 import appolloni.migliano.ManagerScene;
 import appolloni.migliano.bean.BeanStruttura;
-import appolloni.migliano.controller.ControllerGestioneStrutture;
+import appolloni.migliano.controller.ControllerSegnalaStruttura;
 import appolloni.migliano.exception.CampiVuotiException;
+import appolloni.migliano.exception.ErroreDiSistema;
 
 
 public class GUISegnalaStruttura {
@@ -31,7 +27,7 @@ public class GUISegnalaStruttura {
 
     private BeanUtenti studenteLoggato;
     private ManagerScene managerScene = new ManagerScene();
-    private ControllerGestioneStrutture controllerApp = new ControllerGestioneStrutture(); 
+    private ControllerSegnalaStruttura controllerSegnalaStruttura = new ControllerSegnalaStruttura();
     private static final String RED = "-fx-text-fill: red;";
 
     public void initData(BeanUtenti utente) {
@@ -70,7 +66,7 @@ public class GUISegnalaStruttura {
             struttura.setGestore("Sconosciuto");
             struttura.setTipoAttivita(tipoAtt);
             
-            controllerApp.creaStruttura(studenteLoggato, struttura); 
+            controllerSegnalaStruttura.segnalaStruttura(studenteLoggato, struttura); 
             
 
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -87,9 +83,8 @@ public class GUISegnalaStruttura {
         } catch (IllegalArgumentException e) {
             lblRisultato.setText("Errore: " + "Struttura già esistente !");
             lblRisultato.setStyle(RED);
-        } catch(SQLException | IOException e){
-            lblRisultato.setText("Errore: salvataggio dati !");
-            lblRisultato.setStyle(RED);
+        } catch(ErroreDiSistema e){
+           managerScene.gestioneErrore("Errore di sistema", e.getMessage(), checkRistorazione);
         }
     }
 
@@ -99,8 +94,8 @@ public class GUISegnalaStruttura {
             managerScene.avviaMainMenu(event, studenteLoggato);
 
 
-        } catch (Exception e) {
-            HelperErrori.errore("Errore Generico:", e.getMessage());
+        } catch (IOException e) {
+             HelperErrori.errore("Errore", "Impossibile caricare l'interfaccia grafica");
         }
     }
 }

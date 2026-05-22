@@ -8,19 +8,19 @@ import appolloni.migliano.bean.BeanGruppo;
 import appolloni.migliano.bean.BeanRecensioni;
 import appolloni.migliano.bean.BeanStruttura;
 import appolloni.migliano.bean.BeanUtenti;
-import appolloni.migliano.controller.ControllerGestioneGruppo;
-import appolloni.migliano.controller.ControllerGestioneStrutture;
+
+
 import appolloni.migliano.controller.ControllerRecensioni;
+import appolloni.migliano.controller.ControllerRicerca;
 public class RicercaCLI {
 
-    private  ControllerGestioneStrutture controllerStrutture = new ControllerGestioneStrutture();
-    private  ControllerGestioneGruppo controllerGruppo = new ControllerGestioneGruppo();
+   
+    private  ControllerRicerca controllerRicerca;
     private final ControllerRecensioni controllerRecensioni;
     private final BeanUtenti beanUtente;
 
     public RicercaCLI(BeanUtenti beanUtente) {
-        this.controllerStrutture = new ControllerGestioneStrutture();
-        this.controllerGruppo = new ControllerGestioneGruppo();
+        this.controllerRicerca = new ControllerRicerca();
         this.controllerRecensioni = new ControllerRecensioni();
         this.beanUtente = beanUtente;
     }
@@ -55,9 +55,10 @@ public class RicercaCLI {
         String citta = promptInput();
         System.out.print("Filtra per materia (vuoto per skip): "); //NOSONAR
         String materia = promptInput();
+        BeanGruppo beanGruppo = new BeanGruppo(nome, materia, null, null, citta);
 
         try {
-            List<BeanGruppo> risultati = controllerGruppo.cercaGruppi(nome, citta, materia);
+            List<BeanGruppo> risultati = controllerRicerca.ricercaGruppi(beanGruppo);
             if (risultati.isEmpty()) {
                 System.out.println("Nessun gruppo trovato."); //NOSONAR
             } else {
@@ -90,7 +91,7 @@ public class RicercaCLI {
             } else {
                 int indice = scelta - 1;
                 if (indice >= 0 && indice < risultati.size()) {
-                    controllerGruppo.aggiungiGruppo(beanUtente, risultati.get(indice));
+                    controllerRicerca.aggiungiGruppo(beanUtente, risultati.get(indice));
                     System.out.println("Ti sei unito al gruppo!"); //NOSONAR
                     continua = false; 
                 } else {
@@ -115,9 +116,11 @@ public class RicercaCLI {
         String citta = promptInput();
         System.out.print("Tipo (Tutti, Bar, Biblioteca, Università): "); //NOSONAR
         String tipo = promptInput();
+        BeanStruttura beanStruttura = new BeanStruttura(null, nome, citta, null, false, false);
+        beanStruttura.setTipoAttivita(tipo);
 
         try {
-            List<BeanStruttura> risultati = controllerStrutture.cercaStrutture(nome, citta, tipo);
+            List<BeanStruttura> risultati = controllerRicerca.ricercaStruttura(beanStruttura);
             if (risultati.isEmpty()) {
                 System.out.println("Nessuna struttura trovata."); //NOSONAR
             } else {

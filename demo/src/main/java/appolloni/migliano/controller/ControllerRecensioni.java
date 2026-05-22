@@ -6,25 +6,27 @@ import appolloni.migliano.entity.Recensione;
 import appolloni.migliano.entity.Struttura;
 import appolloni.migliano.entity.Utente;
 import appolloni.migliano.exception.CampiVuotiException;
-import appolloni.migliano.factory.FactoryDAO;
+import appolloni.migliano.exception.EntitaNonTrovata;
+import appolloni.migliano.exception.ErroreDiSistema;
+import appolloni.migliano.factory.AbstractFactoryDao;
 import appolloni.migliano.interfacce.InterfacciaDaoRecensioni;
 import appolloni.migliano.interfacce.InterfacciaDaoStruttura;
-import appolloni.migliano.interfacce.InterfacciaUtente;
-import java.io.IOException;
-import java.sql.SQLException;
+import appolloni.migliano.interfacce.InterfacciaDaoUtente;
 import java.util.ArrayList;
 import java.util.List;
 
+
 public class ControllerRecensioni {
 
-    private InterfacciaDaoRecensioni daoRecensioni = FactoryDAO.getDaoRecensioni();
-    private InterfacciaUtente daoUtente = FactoryDAO.getDaoUtente();
-    private InterfacciaDaoStruttura daoStrutture = FactoryDAO.getDAOStrutture();
+    private InterfacciaDaoRecensioni daoRecensioni = AbstractFactoryDao.getDao().getDaoRecensioni();
+    private InterfacciaDaoUtente daoUtente = AbstractFactoryDao.getDao().getDaoUtente();
+    private InterfacciaDaoStruttura daoStrutture = AbstractFactoryDao.getDao().getDaoStruttura();
 
-    public void inserisciRecensione(BeanRecensioni beanRecensione) throws SQLException,IOException, CampiVuotiException{
+    public void inserisciRecensione(BeanRecensioni beanRecensione) throws CampiVuotiException, ErroreDiSistema, EntitaNonTrovata{
 
         Utente user = daoUtente.cercaUtente(beanRecensione.getAutore());
         Struttura struttura = daoStrutture.cercaStruttura(beanRecensione.getIdStruttura(),beanRecensione.getGestoreStruttura());
+        if(struttura == null || user == null){ throw new EntitaNonTrovata("utente o struttura non trovati, riprovare"); }
         String autore = user.getEmail();
         String testo = beanRecensione.getTesto();
         int voto = beanRecensione.getVoto();
@@ -42,11 +44,12 @@ public class ControllerRecensioni {
 
 
         Recensione recensione = new Recensione(testo,voto,user, struttura);
+        struttura.aggiungiRecensione(recensione);
         daoRecensioni.salvaRecensione(recensione);
       
     }
 
-    public List<BeanRecensioni> cercaRecensioniPerStruttura(BeanStruttura beanStruttura) throws SQLException, IOException {
+    public List<BeanRecensioni> cercaRecensioniPerStruttura(BeanStruttura beanStruttura) throws ErroreDiSistema {
     List<BeanRecensioni> listaBean = new ArrayList<>();
          List<Recensione> listaEntity = daoRecensioni.getRecensioniByStruttura(
             beanStruttura.getName(), 
@@ -59,4 +62,6 @@ public class ControllerRecensioni {
         
      return listaBean;
     }
+
+    
 }

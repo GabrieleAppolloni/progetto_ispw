@@ -1,13 +1,12 @@
 package appolloni.migliano.gui;
 import java.io.IOException;
-
-import appolloni.migliano.HelperErrori;
 import appolloni.migliano.ManagerScene;
 import appolloni.migliano.bean.BeanStruttura;
 import appolloni.migliano.bean.BeanUtenti;
-import appolloni.migliano.controller.ControllerGestioneStrutture;
+import appolloni.migliano.controller.ControllerCreazioneStrutturaHost;
 import appolloni.migliano.exception.CampiVuotiException;
-import appolloni.migliano.exception.CreazioneFallita;
+import appolloni.migliano.exception.EmailNonValidaException;
+import appolloni.migliano.exception.ErroreDiSistema;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -22,14 +21,13 @@ import javafx.stage.Stage;
 import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
-import java.sql.SQLException;
 
 
 
 
 
 
-public class CreazioneGUIStrutture {
+public class GUICreazioneStrutture {
     @FXML private ComboBox<String> comboTipo;
     @FXML private Label lblTipoAttivita;
     @FXML private CheckBox checkWifi;
@@ -49,8 +47,7 @@ public class CreazioneGUIStrutture {
 
 
     private static final String COLORE = "-fx-text-fill: red;";
-    private ControllerGestioneStrutture controllerGestioneStrutture = new ControllerGestioneStrutture();
-
+    private ControllerCreazioneStrutturaHost controllerCreazioneStrutturaHost = new ControllerCreazioneStrutturaHost();
      @FXML
      public void initialize(){
         comboTipo.getItems().addAll("Privata","Pubblica");
@@ -107,48 +104,27 @@ public class CreazioneGUIStrutture {
               beanStruttura.setTipoAttivita(tipoAttivita);
               beanStruttura.setGestore(gestore);
               beanStruttura.setFoto(nomeFotoFinale);
+              controllerCreazioneStrutturaHost.creazioneHostStruttura(beanCurr, beanStruttura);
+              pulisci(); 
+              lblRisultato.setText("Registrazione Effettuata con Successo!");
+              lblRisultato.setStyle("-fx-text-fill: green;");
 
-              if (cercaOrfana(nome)) {
-           
-              controllerGestioneStrutture.rivendicaStruttura(beanStruttura, gestore);
-             } else {
-              controllerGestioneStrutture.creaStrutturaHost(beanCurr, beanStruttura);
-             }
-             pulisci(); 
-             lblRisultato.setText("Registrazione Effettuata con Successo!");
-             lblRisultato.setStyle("-fx-text-fill: green;");
+              managerScene.avviaMenuHost(event, beanCurr);
 
-             managerScene.avviaMenuHost(event, beanCurr);
-
-        }catch(CampiVuotiException e){
+        }catch(CampiVuotiException | EmailNonValidaException e){
 
             lblRisultato.setText(e.getMessage());
             lblRisultato.setStyle(COLORE);
-        
-        }catch(SQLException e){
-            HelperErrori.errore("Errore creazione struttura:", e.getMessage());
 
+        }catch(ErroreDiSistema e){
+          managerScene.gestioneErrore("Errore di sistema",e.getMessage(), checkRistorazione);
         }catch(IOException e){
-            HelperErrori.errore("Errore salvataggio:", e.getMessage());
-        }catch(CreazioneFallita e){
-            HelperErrori.errore("Errore creazione struttura", e.getMessage());
-        }catch(Exception e){
-            lblRisultato.setText("Errore: "+ e.getMessage());
+            lblRisultato.setText("Impossibile tornare indietro, riprovare");
             lblRisultato.setStyle(COLORE);
+
         }
 
      }
-
-
-
-
-    private boolean cercaOrfana(String nomeStruttura) throws IOException, SQLException{
-        return controllerGestioneStrutture.esistenzaStruttura(nomeStruttura);
-
-    }
-
-   
-
 
      @FXML 
      public void clickIndietro(ActionEvent event) throws IOException{
@@ -156,12 +132,9 @@ public class CreazioneGUIStrutture {
          managerScene.cambiaScena(event,"/home.fxml");
             
     
-        } catch (Exception e) {
-            lblRisultato.setText("errore, impossibile tornare indietro");
+        } catch (IOException e) {
+             managerScene.gestioneErrore("Errore grave di sistema", "Impossibile caricare l'interfaccia grafica.", checkRistorazione);
         }
-
-
-
      }
 
 

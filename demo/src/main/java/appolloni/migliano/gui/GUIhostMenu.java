@@ -20,13 +20,14 @@ import javafx.stage.FileChooser;
 import java.io.File;
 
 import appolloni.migliano.DBConnection;
-import appolloni.migliano.HelperErrori;
 import appolloni.migliano.ManagerScene;
 import appolloni.migliano.bean.BeanRecensioni;
 import appolloni.migliano.bean.BeanStruttura;
 import appolloni.migliano.bean.BeanUtenti;
-import appolloni.migliano.controller.ControllerGestioneStrutture;
-import appolloni.migliano.controller.ControllerRecensioni;
+import appolloni.migliano.controller.ControllerMenuHost;
+import appolloni.migliano.exception.CampiVuotiException;
+import appolloni.migliano.exception.EntitaNonTrovata;
+import appolloni.migliano.exception.ErroreDiSistema;
 
 public class GUIhostMenu {
 
@@ -45,18 +46,17 @@ public class GUIhostMenu {
     @FXML private Label lblRistorazione;
     @FXML private Label lblTipoAttivita;
     @FXML private Label lblGestore;
+    @FXML private Label lblMediaRecensioni;
     
-
-    private static final String ERRORE = "ERRORE GENERICO";
     private BeanUtenti beanUtente;
-    private ControllerGestioneStrutture controllerStruttura;
-    private ControllerRecensioni controllerRecensioni = new ControllerRecensioni();
+    private BeanStruttura beanStruttura;
+    private ControllerMenuHost controllerStruttura;
     private ManagerScene managerScene = new ManagerScene();
 
     public void initData(BeanUtenti utente){
 
         this.beanUtente = utente;
-        this.controllerStruttura = new ControllerGestioneStrutture();       
+        this.controllerStruttura = new ControllerMenuHost();       
         lblNome.setText(this.beanUtente.getName());
 
         caricaInformazioni();
@@ -87,8 +87,8 @@ public class GUIhostMenu {
     private void caricaRecensioni() {
       
      try{
-        BeanStruttura struttura = controllerStruttura.visualizzaStrutturaHost(this.beanUtente.getEmail());
-        List<BeanRecensioni> recensioni = controllerRecensioni.cercaRecensioniPerStruttura(struttura);
+        beanStruttura = controllerStruttura.visualizzaStrutturaHost(this.beanUtente.getEmail());
+        List<BeanRecensioni> recensioni = controllerStruttura.cercaRecensioniPerStruttura(beanStruttura);
         
         
         containerRecensioni.getChildren().clear();
@@ -103,18 +103,29 @@ public class GUIhostMenu {
             VBox boxRecensione = creaBoxRecensione(r);
             containerRecensioni.getChildren().add(boxRecensione);
         }
+      }catch(ErroreDiSistema e){
+        managerScene.gestioneErrore("Errore di sistema", e.getMessage(), btnModifica);
+      }catch(CampiVuotiException ex){
+        managerScene.gestioneErrore("Dati mancanti", ex.getMessage(), btnModifica);
 
-        } catch (Exception e) {
-           HelperErrori.errore(ERRORE, e.getMessage());
-        }
+      }
     }
     
     private void caricaInformazioni(){
        
         try {
+            double mediaVoto = 0.0;
 
             BeanStruttura struttura = controllerStruttura.visualizzaStrutturaHost(this.beanUtente.getEmail());
+            try{
+             mediaVoto = controllerStruttura.calcolaMediaVoti(struttura, beanUtente);
+            }catch(EntitaNonTrovata e){
+                managerScene.gestioneErrore("Dati mancanti", e.getMessage(), btnModifica);
 
+            }
+
+
+            lblMediaRecensioni.setText(String.format("Voto medio: %.2f/5",Double.toString(mediaVoto) ));
             lblStrutturaNome.setText(struttura.getName());
             lblCitta.setText(struttura.getCitta());
             lblIndirizzo.setText(struttura.getIndirizzo());
@@ -148,12 +159,17 @@ public class GUIhostMenu {
              String imageUrl = fileFoto.toURI().toString();
              imgStruttura.setImage(new Image(imageUrl));
          } 
-        }catch (Exception e){
-            HelperErrori.errore("Errore generico", e.getMessage());
+        }catch (ErroreDiSistema e){
+            managerScene.gestioneErrore("Errore di sistema", e.getMessage(), btnModifica);
+            try{
+             managerScene.cambiaScena(null, "/login.fxml");
+            }catch(IOException e2){
+              managerScene.gestioneErrore("Errore caricamento interfaccia", "Riprovare", btnModifica);
+
+            }
+        }catch(CampiVuotiException ex){
+         managerScene.gestioneErrore("Errore, dati mancanti",ex.getMessage() , btnModifica);
         }
-
-           
-
     }
     @FXML
     public void clickModificaImmagini(ActionEvent event) {
@@ -176,11 +192,12 @@ public class GUIhostMenu {
 
                 imgStruttura.setImage(new Image(fileSelezionato.toURI().toString()));
 
-            }catch(IOException | SQLException e){
-                HelperErrori.errore("Errore salvataggio:", e.getMessage());
-            } catch (Exception e) {
-                HelperErrori.errore(ERRORE, e.getMessage());
-               
+            }catch(IOException e){
+                 managerScene.gestioneErrore("Errore grave di sistema", "Impossibile salvare i dati.", btnModifica);
+            } catch(ErroreDiSistema e){
+                managerScene.gestioneErrore("Errore di sistema", e.getMessage(), btnModifica);
+            }catch(CampiVuotiException e){
+                managerScene.gestioneErrore("Errore caricamento", e.getMessage(), btnModifica);
             }
         }
     }
@@ -202,19 +219,26 @@ public class GUIhostMenu {
     @FXML
   public void clickAggiornaDati(ActionEvent event) {
     try {
-       managerScene.modificaDatiHost( beanUtente);
+       managerScene.modificaDatiHost( beanUtente, beanStruttura, btnModifica);
        caricaInformazioni();
 
-    } catch (Exception e) {
-        HelperErrori.errore(ERRORE, e.getMessage());
+    } catch (ErroreDiSistema e) {
+        managerScene.gestioneErrore("Errore di sistema", e.getMessage(), btnModifica);
+    }catch(IOException | SQLException e){
+         managerScene.gestioneErrore("Errore grave di sistema", "Errore durante l'accesso ai dati.", btnModifica);
     }
   }
 
 
     @FXML
-    public void clickLogout(ActionEvent event) throws IOException, SQLException {
-        DBConnection.getInstance().closeConnection();
-        managerScene.cambiaScena(event, "/home.fxml");
+    public void clickLogout(ActionEvent event) {
+        try{
+         DBConnection.getInstance().closeConnection();
+         managerScene.cambiaScena(event, "/home.fxml");
+        }catch(IOException |SQLException e ){
+             managerScene.gestioneErrore("Errore grave di sistema", "Impossibile caricare l'interfaccia grafica.", btnModifica);
+
+        }
     }
 
 

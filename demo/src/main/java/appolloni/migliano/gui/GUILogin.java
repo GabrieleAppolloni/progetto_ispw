@@ -8,8 +8,11 @@ import javafx.scene.control.TextField;
 import java.io.IOException;
 
 import appolloni.migliano.controller.ControllerLogin;
+import appolloni.migliano.exception.CampiVuotiException;
+import appolloni.migliano.exception.EntitaNonTrovata;
 import appolloni.migliano.exception.CredenzialiSbagliateException;
 import appolloni.migliano.exception.EmailNonValidaException;
+import appolloni.migliano.exception.ErroreDiSistema;
 import appolloni.migliano.ManagerScene;
 import appolloni.migliano.bean.BeanUtenti;
 
@@ -23,19 +26,10 @@ public class GUILogin {
     private ControllerLogin login = new ControllerLogin();
     
     public void clickAccedi(ActionEvent event){
-        String email = txtEmail.getText().trim();
-        String pass = txtPass.getText().trim();
 
-        if(email.isEmpty() || pass.isEmpty()){
-            lblRisultato.setText("Errore: informazioni mancanti");
-            lblRisultato.setStyle(RED);
-            return;
-        }
 
         try {
-         BeanUtenti userBean = new BeanUtenti(null, null,null, null, null, null);
-         userBean.setEmail(email);
-         userBean.setPassword(pass);
+         BeanUtenti userBean = new BeanUtenti(null, null,null, txtEmail.getText().trim(),txtPass.getText().trim(), null);
          BeanUtenti beanUtenteLoggato = login.verificaUtente(userBean);
 
         
@@ -45,24 +39,30 @@ public class GUILogin {
                 managerScene.avviaMenuHost(event, beanUtenteLoggato);
           }
 
-        }catch(CredenzialiSbagliateException e){
-          lblRisultato.setText("Credenziali errate, riprova.");
+        }catch(CredenzialiSbagliateException | CampiVuotiException e){
+          lblRisultato.setText(e.getMessage());
           lblRisultato.setStyle(RED);
 
 
         }catch(EmailNonValidaException e){
-            lblRisultato.setText("Formato email non corretto.");
+            lblRisultato.setText(e.getMessage());
             lblRisultato.setStyle(RED);
-        }catch(Exception e){
-            lblRisultato.setText("Errore generico.");
-            lblRisultato.setStyle(RED);
+        }catch(ErroreDiSistema | EntitaNonTrovata e){
+            managerScene.gestioneErrore("Errore di sistema", e.getMessage(), lblRisultato);
+
+        }catch(IOException e){
+             managerScene.gestioneErrore("Errore grave di sistema", "Impossibile caricare l'interfaccia", lblRisultato);
         }
 
         txtEmail.clear();
         txtPass.clear();
     }
     
-    public void clickIndietro(ActionEvent event) throws IOException{
+    public void clickIndietro(ActionEvent event) {
+        try{
            managerScene.cambiaScena(event, "/home.fxml");
+        }catch(IOException e){
+             managerScene.gestioneErrore("Errore grave di sistema", "Impossibile caricare l'interfaccia grafica.", lblRisultato);
+        }
     }
 }

@@ -1,6 +1,7 @@
 package appolloni.migliano.entity;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Struttura {
 
@@ -14,7 +15,7 @@ public class Struttura {
     private boolean ristorazione;
     private String orario;
     private String gestore;
-    private  ArrayList<Recensione> recensioni;
+    private  List<Recensione> recensioni;
     private String foto;
 
 
@@ -112,6 +113,27 @@ public class Struttura {
 
     public void aggiungiRecensione(Recensione recensione){
         recensioni.add(recensione);
+    }
+
+    public List<Recensione> getRecensioni(){
+        return this.recensioni;
+    }
+
+    public void setRecensioni(List<Recensione> recensioni){
+        this.recensioni = recensioni;
+    }
+
+    public double calcolaMediaVoto(){
+        if(recensioni.isEmpty()){
+            return 0.0;
+        }else{
+            double somma = 0.0;
+            for(Recensione r : recensioni){
+                somma += r.getVoto();
+            }
+            return (somma/ recensioni.size());
+        }
+
     }
 
    

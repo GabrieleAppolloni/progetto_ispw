@@ -1,15 +1,12 @@
 package appolloni.migliano.gui;
 
 import java.io.IOException;
-import java.sql.SQLException;
-
-import appolloni.migliano.HelperErrori;
 import appolloni.migliano.ManagerScene;
 import appolloni.migliano.bean.BeanUtenti;
-import appolloni.migliano.controller.ControllerGestioneUtente;
+import appolloni.migliano.controller.ControllerRegistrazioneUtente;
 import appolloni.migliano.exception.CampiVuotiException;
-import appolloni.migliano.exception.CreazioneFallita;
 import appolloni.migliano.exception.EmailNonValidaException;
+import appolloni.migliano.exception.ErroreDiSistema;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -20,7 +17,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox; 
 
 
-public class CreazioneGUIController {
+public class GUICreazioneUtente {
 
     
     @FXML private ComboBox<String> comboTipo; 
@@ -38,7 +35,7 @@ public class CreazioneGUIController {
     @FXML private ComboBox<String> comboTipoAtt;
     
 
-    private ControllerGestioneUtente controllerCreazioneUtente = new ControllerGestioneUtente();
+    private ControllerRegistrazioneUtente controllerCreazioneUtente = new ControllerRegistrazioneUtente();
     private static final String COLORE= "-fx-text-fill: red;";
     private ManagerScene managerScene = new ManagerScene();
 
@@ -102,7 +99,7 @@ public class CreazioneGUIController {
                 
                 
             }else{
-              controllerCreazioneUtente.creazioneUtente(beanUtente);
+              controllerCreazioneUtente.registraUtente(beanUtente);
               managerScene.avviaMainMenu(event, beanUtente);
 
             }
@@ -116,20 +113,21 @@ public class CreazioneGUIController {
             lblRisultato.setText( e.getMessage());
             lblRisultato.setStyle(COLORE);
 
-        }catch(SQLException e){
-            HelperErrori.errore("Errore caricamento dati", e.getMessage());
+        }catch(ErroreDiSistema ex){
+            managerScene.gestioneErrore("Errore di sistema", ex.getMessage(), boxDatiHost);
 
-        }catch(CreazioneFallita e){
-            HelperErrori.errore("Errore creazione utente", e.getMessage());
-        } catch (Exception e) {
-            HelperErrori.errore("Errore Generico:", e.getMessage());
-            
         }
+
+            
     }
 
         
-    public void clickIndietro(ActionEvent event) throws IOException{
-        managerScene.cambiaScena(event,"/home.fxml");
+    public void clickIndietro(ActionEvent event){
+        try{
+         managerScene.cambiaScena(event,"/home.fxml");
+        }catch(IOException e){
+            managerScene.gestioneErrore("Errore grave di sistema", "Impossibile caricare l'interfaccia grafica.", boxDatiHost);
+        }
     }
     
     

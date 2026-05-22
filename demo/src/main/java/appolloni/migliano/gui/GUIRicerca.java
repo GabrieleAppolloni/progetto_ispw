@@ -10,7 +10,6 @@ import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 
 import java.io.IOException;
-import java.sql.SQLException;
 import java.util.List;
 
 import appolloni.migliano.HelperErrori;
@@ -18,8 +17,8 @@ import appolloni.migliano.ManagerScene;
 import appolloni.migliano.bean.BeanGruppo;
 import appolloni.migliano.bean.BeanStruttura;
 import appolloni.migliano.bean.BeanUtenti;
-import appolloni.migliano.controller.ControllerGestioneGruppo;
-import appolloni.migliano.controller.ControllerGestioneStrutture;
+import appolloni.migliano.controller.ControllerRicerca;
+import appolloni.migliano.exception.ErroreDiSistema;
 
 
 public class GUIRicerca {
@@ -39,8 +38,7 @@ public class GUIRicerca {
     @FXML private ComboBox<String> comboStrutturaTipo;
 
     private BeanUtenti beanUtente;
-    private ControllerGestioneGruppo controllerGruppo = new ControllerGestioneGruppo();
-    private ControllerGestioneStrutture controllerStrutture= new ControllerGestioneStrutture();
+    private ControllerRicerca controllerRicerca = new ControllerRicerca();
     private static final String GRUPPO = "Gruppo";
     private static final String STRUTTURA = "Struttura";
     private static final String COLORE= "-fx-text-fill: red;";
@@ -103,8 +101,10 @@ public class GUIRicerca {
         String citta = txtGruppoCitta.getText().trim();
         String materia = txtGruppoMateria.getText().trim();
 
+        BeanGruppo beanGruppo = new BeanGruppo(nome, materia,null ,null , citta);
+
         try{
-         List<BeanGruppo> risultati = controllerGruppo.cercaGruppi(nome, citta, materia);
+         List<BeanGruppo> risultati = controllerRicerca.ricercaGruppi(beanGruppo);
         
         if(risultati.isEmpty()) {
             Label empty = new Label("Nessun gruppo trovato.");
@@ -137,7 +137,7 @@ public class GUIRicerca {
             
             btnJoin.setOnAction(event -> {
                 try {
-                    controllerGruppo.aggiungiGruppo(beanUtente, g);
+                    controllerRicerca.aggiungiGruppo(beanUtente, g);
                     btnJoin.setText("Iscritto!");
                     btnJoin.setDisable(true);
                 } catch (Exception e) {
@@ -149,8 +149,8 @@ public class GUIRicerca {
             riga.getChildren().addAll(info, spacer, btnJoin);
             containerRisultati.getChildren().add(riga);
         }
-     }catch(SQLException e){
-        HelperErrori.errore("Errore caricamento dati", e.getMessage());
+     }catch(ErroreDiSistema e){
+        managerScene.gestioneErrore("Errore di sistema", e.getMessage(), boxGruppi);
      }
     }
 
@@ -159,9 +159,11 @@ public class GUIRicerca {
         String citta = txtStrutturaCitta.getText().trim();
         String tipo = comboStrutturaTipo.getValue();
         if("Tutti".equals(tipo)) {tipo = null;}
+        BeanStruttura beanStruttura = new BeanStruttura(null, nome, citta, null, false, false);
+        beanStruttura.setTipoAttivita(tipo);
 
         try{
-         List<BeanStruttura> risultati = controllerStrutture.cercaStrutture(nome, citta, tipo);
+         List<BeanStruttura> risultati = controllerRicerca.ricercaStruttura(beanStruttura);
       
 
          if(risultati.isEmpty()) {
@@ -211,15 +213,19 @@ public class GUIRicerca {
             riga.getChildren().addAll(info,spacer,btnDettagli);
             containerRisultati.getChildren().add(riga);
         }
-     }catch(SQLException e){
-        HelperErrori.errore("Errore caricamento:" ,e.getMessage());
-     }catch(IOException e){
-        HelperErrori.errore("Errore caricamento file: ", e.getMessage());
+     }catch(ErroreDiSistema e){
+        managerScene.gestioneErrore("Errore di sistema", e.getMessage(), boxStrutture);
      }
     }
 
     @FXML
-    public void clickIndietro(ActionEvent event) throws IOException {
-        managerScene.avviaMainMenu(event, beanUtente);
+    public void clickIndietro(ActionEvent event) {
+        try{
+            managerScene.avviaMainMenu(event, beanUtente);
+        }catch(IOException e){
+          HelperErrori.errore("Errore", "Impossibile caricare l'interfaccia grafica");
+
+        }
+        
     }
 }

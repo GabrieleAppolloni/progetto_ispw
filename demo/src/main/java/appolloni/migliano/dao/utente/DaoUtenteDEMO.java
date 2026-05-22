@@ -1,13 +1,13 @@
 package appolloni.migliano.dao.utente;
 
-import appolloni.migliano.interfacce.InterfacciaUtente;
+import appolloni.migliano.interfacce.InterfacciaDaoUtente;
 
 import java.util.ArrayList;
 import java.util.List;
 import appolloni.migliano.entity.Utente;
 
 
-public class DaoUtenteDEMO implements InterfacciaUtente {
+public class DaoUtenteDEMO implements InterfacciaDaoUtente {
   private static List<Utente> tabellaUtenti = new ArrayList<>();
 
    

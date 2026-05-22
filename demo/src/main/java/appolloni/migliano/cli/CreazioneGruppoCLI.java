@@ -5,15 +5,16 @@ import java.util.List;
 import appolloni.migliano.LeggInputCli;
 import appolloni.migliano.bean.BeanGruppo;
 import appolloni.migliano.bean.BeanUtenti;
-import appolloni.migliano.controller.ControllerGestioneGruppo;
+import appolloni.migliano.controller.ControllerCreazioneGruppo;
+
 
 public class CreazioneGruppoCLI {
 
-    private final ControllerGestioneGruppo controller;
+    private final ControllerCreazioneGruppo controller;
     private final BeanUtenti utenteLoggato;
 
     public CreazioneGruppoCLI(BeanUtenti utente) {
-        this.controller = new ControllerGestioneGruppo();
+        this.controller = new ControllerCreazioneGruppo();
         this.utenteLoggato = utente;
     }
 

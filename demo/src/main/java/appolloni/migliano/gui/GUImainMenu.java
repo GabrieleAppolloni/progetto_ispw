@@ -10,11 +10,11 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import appolloni.migliano.DBConnection;
-import appolloni.migliano.HelperErrori;
 import appolloni.migliano.ManagerScene;
 import appolloni.migliano.bean.BeanGruppo;
 import appolloni.migliano.bean.BeanUtenti;
-import appolloni.migliano.controller.ControllerGestioneGruppo;
+import appolloni.migliano.controller.ControllerMainMenu;
+import appolloni.migliano.exception.ErroreDiSistema;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
@@ -34,7 +34,7 @@ public class GUImainMenu {
     @FXML private Button bProfilo;
     
     private BeanUtenti bean;
-    private ControllerGestioneGruppo controllerGruppo = new ControllerGestioneGruppo();
+    private ControllerMainMenu controller = new ControllerMainMenu();
     private ManagerScene managerScene = new ManagerScene();
 
     public void initData(BeanUtenti utente){
@@ -56,7 +56,7 @@ public class GUImainMenu {
     private void caricaGruppi(){
         containerGruppi.getChildren().clear();
         try{
-            List<BeanGruppo> gruppoUser = controllerGruppo.visualizzaGruppi(bean);
+            List<BeanGruppo> gruppoUser = controller.recuperaGruppiUtente(bean);
             
             if (gruppoUser != null && !gruppoUser.isEmpty()) {
                 for(BeanGruppo g : gruppoUser){
@@ -84,8 +84,8 @@ public class GUImainMenu {
             } else {
                 containerGruppi.getChildren().add(new Label("Non sei iscritto a nessun gruppo."));
             }
-        } catch(Exception e){
-           HelperErrori.errore("Errore Generico:", e.getMessage());
+        }catch(ErroreDiSistema e){
+            managerScene.gestioneErrore("Errore di sistema",e.getMessage(), bNuovaStruttura);
         }
     }
 
@@ -94,7 +94,7 @@ public class GUImainMenu {
          managerScene.avviaChat(gruppoSelezionato, bean, containerGruppi);
 
         } catch (IOException e) {
-            HelperErrori.errore("Errore Generico:", e.getMessage());
+             managerScene.gestioneErrore("Errore grave di sistema", "Impossibile caricare l'interfaccia grafica.", bNuovaStruttura);
         }
     }
 
@@ -102,26 +102,43 @@ public class GUImainMenu {
         try{
          managerScene.apriProfilo(event, bean);
         }catch(IOException e){
-            HelperErrori.errore("Errore I/O: ", e.getMessage());
-
+           managerScene.gestioneErrore("Errore:", "Impossibile caricare l'interfaccia", bNuovaStruttura);
         }
     }
 
-    public void clickRicerca(ActionEvent event) throws IOException{
-        managerScene.avviaRicerca(event, bean);
+    public void clickRicerca(ActionEvent event){
+        try{
+         managerScene.avviaRicerca(event, bean);
+        }catch(IOException e){
+               managerScene.gestioneErrore("Errore:", "Impossibile caricare l'interfaccia", bNuovaStruttura);
+        }
     }
 
-    public void clickNuovaStruttura(ActionEvent event) throws IOException{
-        managerScene.avviaNuovaStruttura(event, bean);
+    public void clickNuovaStruttura(ActionEvent event) {
+        try{
+         managerScene.avviaNuovaStruttura(event, bean);
+        }catch(IOException e){
+             managerScene.gestioneErrore("Errore:", "Impossibile caricare l'interfaccia", bNuovaStruttura);
+        }
     }
     
-    public void clickNuovoGruppo(ActionEvent event) throws IOException{
-        managerScene.avviaGestioneGruppo(event, bean);
+    public void clickNuovoGruppo(ActionEvent event) {
+
+        try{
+         managerScene.avviaGestioneGruppo(event, bean);
+        }catch(IOException e){
+             managerScene.gestioneErrore("Errore:","Impossibile caricare l'interfaccia", bNuovaStruttura);
+        }
     }
 
-    public void clickLogout(ActionEvent event) throws IOException, SQLException {
-        DBConnection.getInstance().closeConnection();
-        managerScene.cambiaScena(event, "/home.fxml");
-    }
+    public void clickLogout(ActionEvent event)  {
+        try{
 
+         DBConnection.getInstance().closeConnection();
+         managerScene.cambiaScena(event, "/home.fxml");
+        }catch(IOException | SQLException e){
+             managerScene.gestioneErrore("Errore grave di sistema", "Impossibile caricare l'interfaccia grafica.", bNuovaStruttura);
+
+        }
+    }
 }

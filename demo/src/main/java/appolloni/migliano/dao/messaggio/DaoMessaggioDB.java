@@ -3,14 +3,19 @@ package appolloni.migliano.dao.messaggio;
 import appolloni.migliano.entity.Gruppo;
 import appolloni.migliano.entity.Messaggio;
 import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import appolloni.migliano.entity.Utente;
-import appolloni.migliano.factory.FactoryDAO;
-import appolloni.migliano.interfacce.InterfacciaMessaggi;
-import appolloni.migliano.interfacce.InterfacciaUtente;
+import appolloni.migliano.exception.ErroreDiSistema;
+import appolloni.migliano.factory.AbstractFactoryDao;
+import appolloni.migliano.interfacce.InterfacciaDaoMessaggi;
+import appolloni.migliano.interfacce.InterfacciaDaoUtente;
 
 import java.sql.*;
 
-public class DaoMessaggioDB implements InterfacciaMessaggi {
+public class DaoMessaggioDB implements InterfacciaDaoMessaggi {
+    private static final Logger logger = Logger.getLogger(DaoMessaggioDB.class.getName());
     private static final String CERCAMESSAGGIO = "SELECT testo, nome_gruppo, email_mittente, data_invio FROM messaggi WHERE nome_gruppo = ? ORDER BY data_invio ASC";
     private static final String NUOVOMESS = "INSERT INTO MESSAGGI (testo,nome_gruppo, email_mittente, data_invio ) VALUES (?,?,?,?) ";
    
@@ -20,7 +25,7 @@ public class DaoMessaggioDB implements InterfacciaMessaggi {
     }
     
     @Override
-    public void nuovoMessaggio(Messaggio messaggio) throws SQLException {
+    public void nuovoMessaggio(Messaggio messaggio) throws ErroreDiSistema {
 
         String sql = NUOVOMESS;
         try (PreparedStatement ps = conn.prepareStatement(sql)){
@@ -30,12 +35,15 @@ public class DaoMessaggioDB implements InterfacciaMessaggi {
             ps.setTimestamp(4, messaggio.getTime());
 
             ps.executeUpdate();
-        } 
+        }catch(SQLException e){
+            logger.log(Level.SEVERE,"Errore creazione messaggio",e);
+            throw new ErroreDiSistema("Errore creazione messsaggio", e);
+        }
 
     }
     
     @Override
-    public List<Messaggio> cercaMessaggio(Gruppo gruppo) throws SQLException{
+    public List<Messaggio> cercaMessaggio(Gruppo gruppo) throws ErroreDiSistema{
         List<Messaggio> messaggi = new ArrayList<>();
 
         String sql = CERCAMESSAGGIO;
@@ -48,7 +56,7 @@ public class DaoMessaggioDB implements InterfacciaMessaggi {
                  String mess = rs.getString(1);
                  String emailMitt= rs.getString(3);
                  Timestamp time = rs.getTimestamp(4);
-                 InterfacciaUtente dao = FactoryDAO.getDaoUtente();
+                 InterfacciaDaoUtente dao = AbstractFactoryDao.getDao().getDaoUtente();
                  Utente mittente = dao.cercaUtente(emailMitt);
                  Messaggio messaggio = new Messaggio(mess, gruppo, mittente);
                  messaggio.setTime(time);
@@ -56,7 +64,11 @@ public class DaoMessaggioDB implements InterfacciaMessaggi {
              }
 
             }
-        } 
+        }catch(SQLException e){
+            logger.log(Level.SEVERE,"Errore ricerca messaggi", e);
+            throw new ErroreDiSistema("Errore ricerca messaggi", e);
+
+        }
 
 
 

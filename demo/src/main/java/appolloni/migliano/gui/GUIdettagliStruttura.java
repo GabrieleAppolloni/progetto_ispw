@@ -7,15 +7,14 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import java.io.File;
 import java.io.IOException;
-import java.sql.SQLException;
 import java.util.List;
 import javafx.scene.control.ListView;
-import appolloni.migliano.HelperErrori;
 import appolloni.migliano.ManagerScene;
 import appolloni.migliano.bean.BeanRecensioni;
 import appolloni.migliano.bean.BeanStruttura;
 import appolloni.migliano.bean.BeanUtenti;
-import appolloni.migliano.controller.ControllerRecensioni;
+import appolloni.migliano.controller.ControllerDettagliStruttura;
+import appolloni.migliano.exception.ErroreDiSistema;
 
 public class GUIdettagliStruttura {
   
@@ -31,7 +30,7 @@ public class GUIdettagliStruttura {
     @FXML private Label lblGestore;
     @FXML private ListView<String> listRecensioni;
     
-    private ControllerRecensioni controllerRecensione = new ControllerRecensioni();
+    private ControllerDettagliStruttura controllerDettagliStruttura = new ControllerDettagliStruttura();
     private BeanUtenti beanUtente;
     private BeanStruttura beanStruttura;
 
@@ -96,7 +95,7 @@ public class GUIdettagliStruttura {
     public void caricaRecensioni(){
         listRecensioni.getItems().clear(); 
         try {
-            List<BeanRecensioni> lista = controllerRecensione.cercaRecensioniPerStruttura(this.beanStruttura);
+            List<BeanRecensioni> lista = controllerDettagliStruttura.recuperaRecensioniStruttura(beanStruttura);
             
             if (lista.isEmpty()) {
                 listRecensioni.getItems().add("Nessuna recensione ancora presente.");
@@ -108,25 +107,30 @@ public class GUIdettagliStruttura {
                     listRecensioni.getItems().add(riga);
                 }
             }
-        }catch(SQLException e){
-            HelperErrori.errore("Errore caricamento recensioni: ", e.getMessage());
-        }catch(IOException e){
-          HelperErrori.errore("Errore salvataggio:", e.getMessage());
-        } catch (Exception e) {
-            
-            listRecensioni.getItems().add("Errore caricamento recensioni.");
+        }catch(ErroreDiSistema e){
+            managerScene.gestioneErrore("Errore di sistema", e.getMessage(), imgStruttura);
         }
     }
 
     @FXML
-    public void clickScrivi(ActionEvent event) throws IOException{
-       managerScene.scriviRecensione( beanUtente, beanStruttura);
-    
+    public void clickScrivi(ActionEvent event){
+        try{
+            managerScene.scriviRecensione( beanUtente, beanStruttura,lblGestore);
+
+        }catch(IOException e){
+            managerScene.gestioneErrore("Errore di sistema", "Errore di lettura/scrittura nel server", imgStruttura);
+
+        }
         caricaRecensioni();
     } 
 
     @FXML
-    public void clickIndietro(ActionEvent event) throws IOException {
-        managerScene.avviaRicerca(event, beanUtente);
+    public void clickIndietro(ActionEvent event) {
+        try{
+         managerScene.avviaRicerca(event, beanUtente);
+        }catch(IOException e){
+               managerScene.gestioneErrore("Errore:", "Impossibile caricare l'interfaccia", lblCitta);
+
+        }
     }
 }

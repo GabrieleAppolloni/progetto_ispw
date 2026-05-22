@@ -1,7 +1,5 @@
 package appolloni.migliano.controller;
 
-
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,30 +9,33 @@ import appolloni.migliano.bean.BeanUtenti;
 import appolloni.migliano.entity.Gruppo;
 import appolloni.migliano.entity.Messaggio;
 import appolloni.migliano.entity.Utente;
-import appolloni.migliano.factory.FactoryDAO;
-import appolloni.migliano.interfacce.InterfacciaGruppo;
-import appolloni.migliano.interfacce.InterfacciaMessaggi;
-import appolloni.migliano.interfacce.InterfacciaUtente;
+import appolloni.migliano.exception.CampiVuotiException;
+import appolloni.migliano.exception.EntitaNonTrovata;
+import appolloni.migliano.exception.ErroreDiSistema;
+import appolloni.migliano.factory.AbstractFactoryDao;
+import appolloni.migliano.interfacce.InterfacciaDaoGruppo;
+import appolloni.migliano.interfacce.InterfacciaDaoMessaggi;
+import appolloni.migliano.interfacce.InterfacciaDaoUtente;
 
 public class ControllerChat {
 
-    private InterfacciaGruppo daoGruppo;
-    private InterfacciaMessaggi daoMessaggi;
-    private InterfacciaUtente daoUtente;
+    private InterfacciaDaoGruppo daoGruppo;
+    private InterfacciaDaoMessaggi daoMessaggi;
+    private InterfacciaDaoUtente daoUtente;
 
     public ControllerChat() {
-        this.daoGruppo = FactoryDAO.getDaoGruppo();
-        this.daoMessaggi = FactoryDAO.getDaoMessaggi();
-        this.daoUtente = FactoryDAO.getDaoUtente();
+        this.daoGruppo = AbstractFactoryDao.getDao().getDaoGruppo();
+        this.daoMessaggi = AbstractFactoryDao.getDao().getDaoMessaggi();
+        this.daoUtente = AbstractFactoryDao.getDao().getDaoUtente();
     }
-    public BeanGruppo recuperaInfoGruppo(BeanGruppo beanInput) throws  SQLException{
+    public BeanGruppo recuperaInfoGruppo(BeanGruppo beanInput) throws  ErroreDiSistema, EntitaNonTrovata{
         Gruppo g = daoGruppo.cercaGruppo(beanInput.getNome());
         
-        if (g == null){ throw new SQLException("Gruppo non esistente");}
-         return new BeanGruppo(g.getNome(),g.getMateria(),g.getAdmin().getName(),g.getLuogo(),g.getMateria());
+        if (g == null){ throw new EntitaNonTrovata ("Gruppo non esistente" );}
+         return new BeanGruppo(g.getNome(),g.getMateria(),g.getAdmin().getName(),g.getLuogo(),g.getCitta());
     }
 
-    public List<BeanMessaggi> recuperaMessaggi(BeanGruppo beanGruppo) throws SQLException {
+    public List<BeanMessaggi> recuperaMessaggi(BeanGruppo beanGruppo) throws ErroreDiSistema, EntitaNonTrovata {
         List<BeanMessaggi> listaBeans = new ArrayList<>();
 
         Gruppo entityGruppo = daoGruppo.cercaGruppo(beanGruppo.getNome());
@@ -50,25 +51,30 @@ public class ControllerChat {
                 
                 listaBeans.add(b);
             }
+        }else{
+            throw new EntitaNonTrovata("Gruppo non trovato");
         }
         return listaBeans;
      
     }
 
-    public void inviaMessaggio(BeanUtenti mittente, BeanGruppo gruppo, String testo) throws SQLException, IllegalArgumentException{
-        if( testo.trim().isEmpty()) {throw new IllegalArgumentException("Inserire il messaggio, impossibile inviare un messsaggio vuoto");}
+    public void inviaMessaggio(BeanUtenti mittente, BeanGruppo gruppo, String testo) throws ErroreDiSistema, CampiVuotiException, EntitaNonTrovata{
+        if( testo.trim().isEmpty()) {throw new CampiVuotiException("Inserire il messaggio, impossibile inviare un messsaggio vuoto");}
         Utente user = daoUtente.cercaUtente(mittente.getEmail());
         Gruppo g = daoGruppo.cercaGruppo(gruppo.getNome());
+        if(user == null || g == null){ throw new EntitaNonTrovata("Errore recupero dati.");}
         Messaggio messaggio = new Messaggio(testo, g, user);
+        g.addMess(messaggio);
         daoMessaggi.nuovoMessaggio(messaggio);
     
     }
 
-    public void abbandonaGruppo(BeanUtenti utente, BeanGruppo gruppo) throws SQLException {
+    public void abbandonaGruppo(BeanUtenti utente, BeanGruppo gruppo) throws  ErroreDiSistema, EntitaNonTrovata{
 
 
         Utente user = daoUtente.cercaUtente(utente.getEmail());
         Gruppo gruppoUtente = daoGruppo.cercaGruppo(gruppo.getNome());
+        if(user == null || gruppoUtente == null){ throw new EntitaNonTrovata("Impossobile uscire dal gruppo, riprovare.");}
         if(utente.getEmail().equals(gruppo.getAdmin())){
 
             daoGruppo.eliminaGruppo(gruppoUtente.getNome());

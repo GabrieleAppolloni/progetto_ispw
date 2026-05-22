@@ -2,15 +2,18 @@ package appolloni.migliano.dao.recensione;
 
 import appolloni.migliano.interfacce.InterfacciaDaoRecensioni;
 import appolloni.migliano.interfacce.InterfacciaDaoStruttura;
-import appolloni.migliano.interfacce.InterfacciaUtente;
+import appolloni.migliano.interfacce.InterfacciaDaoUtente;
 
-import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import appolloni.migliano.entity.Recensione;
 import appolloni.migliano.entity.Utente;
-import appolloni.migliano.factory.FactoryDAO;
+import appolloni.migliano.exception.ErroreDiSistema;
+import appolloni.migliano.factory.AbstractFactoryDao;
 import appolloni.migliano.entity.Struttura;
 
 
@@ -18,20 +21,22 @@ import appolloni.migliano.entity.Struttura;
 public class DaoRecensioniDB implements InterfacciaDaoRecensioni {
 
     private final Connection conn;
-    private final InterfacciaUtente daoUtente;
+    private final InterfacciaDaoUtente daoUtente;
     private final InterfacciaDaoStruttura daoStruttura;
+
+    private static final Logger logger = Logger.getLogger(DaoRecensioniDB.class.getName());
 
     private static final String SELECTDB = "SELECT autore, nome_struttura, gestore_struttura, voto, testo  FROM recensioni WHERE nome_struttura = ? AND gestore_struttura = ?";
     private static final String INSERTRECENSIONE =  "INSERT INTO recensioni(autore, nome_struttura, gestore_struttura, voto, testo) VALUES (?, ?, ?, ?, ?)";
 
     public DaoRecensioniDB(Connection conn) {
         this.conn = conn;
-        this.daoStruttura = FactoryDAO.getDAOStrutture();
-        this.daoUtente = FactoryDAO.getDaoUtente();
+        this.daoStruttura = AbstractFactoryDao.getDao().getDaoStruttura();
+        this.daoUtente = AbstractFactoryDao.getDao().getDaoUtente();
     }
 
     @Override
-    public void salvaRecensione(Recensione r) throws SQLException {
+    public void salvaRecensione(Recensione r) throws ErroreDiSistema{
 
         String sql = INSERTRECENSIONE;
 
@@ -50,11 +55,15 @@ public class DaoRecensioniDB implements InterfacciaDaoRecensioni {
         if (!conn.getAutoCommit()) {
             conn.commit();
         }
-    }
+    }catch(SQLException e){
+        logger.log(Level.SEVERE,"Errore salvataggio di recensione",e);
+        throw new ErroreDiSistema("Errore salvataggio recensione", e);
 
     }
 
-    public List<Recensione> getRecensioniByStruttura(String idStruttura, String nomeGestore) throws SQLException, IOException {
+    }
+
+    public List<Recensione> getRecensioniByStruttura(String idStruttura, String nomeGestore) throws ErroreDiSistema {
         List<Recensione> lista = new ArrayList<>();
         String sql = SELECTDB;
 
@@ -72,6 +81,9 @@ public class DaoRecensioniDB implements InterfacciaDaoRecensioni {
                 }
             }
 
+        }catch(SQLException e){
+            logger.log(Level.SEVERE,"Errore recupero recensioni struttura",e);
+            throw new ErroreDiSistema("Errore recupero recensioni struttura", e);
         }
         return lista;
     }

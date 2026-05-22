@@ -1,26 +1,29 @@
 package appolloni.migliano.dao.recensione;
 
 import java.io.*;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import appolloni.migliano.entity.Recensione;
 import appolloni.migliano.entity.Struttura;
 import appolloni.migliano.entity.Utente;
-import appolloni.migliano.factory.FactoryDAO;
+import appolloni.migliano.exception.ErroreDiSistema;
+import appolloni.migliano.factory.AbstractFactoryDao;
 import appolloni.migliano.interfacce.InterfacciaDaoRecensioni;
 import appolloni.migliano.interfacce.InterfacciaDaoStruttura;
-import appolloni.migliano.interfacce.InterfacciaUtente;
+import appolloni.migliano.interfacce.InterfacciaDaoUtente;
 
 public class DaoRecensioniFile implements InterfacciaDaoRecensioni {
 
+    private static final Logger logger = Logger.getLogger(DaoRecensioniDB.class.getName());
     private static final String CSVFILE = "recensioni.csv";
     private static final String FORMATOCSV = "%s;%s;%s;%d;%s";
 
 
     @Override
-    public void salvaRecensione(Recensione r) throws IOException {
+    public void salvaRecensione(Recensione r) throws ErroreDiSistema {
         
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(CSVFILE, true))) {
             
@@ -36,17 +39,20 @@ public class DaoRecensioniFile implements InterfacciaDaoRecensioni {
 
             bw.write(riga);
             bw.newLine();
+        }catch(IOException e){
+            logger.log(Level.SEVERE,"Errore salvataggio recensione su file",e);
+            throw new ErroreDiSistema("Errore salvataggio recensione", e);
         }
     }
 
     @Override
-    public List<Recensione> getRecensioniByStruttura(String nomeStr, String gestore) throws IOException,SQLException {
+    public List<Recensione> getRecensioniByStruttura(String nomeStr, String gestore) throws ErroreDiSistema {
         List<Recensione> lista = new ArrayList<>();
         File file = new File(CSVFILE);
 
         if (!file.exists()) {return lista;}
-        InterfacciaDaoStruttura daoStruttura = FactoryDAO.getDAOStrutture();
-        InterfacciaUtente daoUtente = FactoryDAO.getDaoUtente();
+        InterfacciaDaoStruttura daoStruttura = AbstractFactoryDao.getDao().getDaoStruttura();
+        InterfacciaDaoUtente daoUtente = AbstractFactoryDao.getDao().getDaoUtente();
         Struttura strutturaTarget = null;
 
 
@@ -77,7 +83,11 @@ public class DaoRecensioniFile implements InterfacciaDaoRecensioni {
                     }
                 }
             }
-        } 
+        }catch(IOException e){
+            logger.log(Level.SEVERE,"Errore lettura recensioni da file",e);
+            throw new ErroreDiSistema("Errore recupero recensioni ", e);
+
+        }
         return lista;
     }
 }

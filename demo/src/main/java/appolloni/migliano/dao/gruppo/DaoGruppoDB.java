@@ -6,16 +6,21 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import appolloni.migliano.entity.Gruppo;
 import appolloni.migliano.entity.Utente;
-import appolloni.migliano.factory.FactoryDAO;
+import appolloni.migliano.exception.ErroreDiSistema;
+import appolloni.migliano.factory.AbstractFactoryDao;
 import appolloni.migliano.factory.FactoryUtenti;
-import appolloni.migliano.interfacce.InterfacciaGruppo;
-import appolloni.migliano.interfacce.InterfacciaUtente;
+import appolloni.migliano.interfacce.InterfacciaDaoGruppo;
+import appolloni.migliano.interfacce.InterfacciaDaoUtente;
 
-public class DaoGruppoDB implements InterfacciaGruppo {
+public class DaoGruppoDB implements InterfacciaDaoGruppo {
 
     private final Connection conn;
+    private static final Logger logger = Logger.getLogger(DaoGruppoDB.class.getName());
     private static final String INSERTGRUPPO = "INSERT INTO gruppi (nome, materia_studio, email_admin,citta,luogo) VALUES (?, ?, ?,?,?)";
     private static final String INSERTISCRIZIONE = "INSERT INTO iscrizioni (nome_gruppo, email_utente) VALUES (?, ?)";
     private static final String SELECTCERCAGRUPPO = "SELECT nome, materia_studio, email_admin, citta, luogo FROM gruppi WHERE nome =?";
@@ -37,11 +42,12 @@ public class DaoGruppoDB implements InterfacciaGruppo {
     }
 
     @Override
-    public void creaGruppo(Gruppo gruppo) throws SQLException {
+    public void creaGruppo(Gruppo gruppo) throws ErroreDiSistema {
         String sqlGruppo = INSERTGRUPPO;
         String sqlIscrizione = INSERTISCRIZIONE;
 
         try {
+       
             conn.setAutoCommit(false);
 
             try (PreparedStatement ps = conn.prepareStatement(sqlGruppo)) {
@@ -58,19 +64,35 @@ public class DaoGruppoDB implements InterfacciaGruppo {
                 ps.setString(2, gruppo.getAdmin().getEmail());
                 ps.executeUpdate();
             }
+            
             conn.commit();
 
         } catch (SQLException e) {
-            conn.rollback();
-            throw e; 
-        } finally {
+           
+            try {
+                conn.rollback();
+            } catch (SQLException ex) {
+                
+                logger.log(Level.SEVERE, "Impossibile eseguire il rollback della transazione!", ex);
+            }
             
-            conn.setAutoCommit(true);
+           
+            logger.log(Level.SEVERE, "Errore SQL durante la creazione del gruppo: " + gruppo.getNome(), e);
+            
+           
+            throw new ErroreDiSistema("Errore di sistema: impossibile creare il gruppo.", e);
+            
+        } finally {
+            try {
+                conn.setAutoCommit(true);
+            } catch (SQLException ex) {
+                logger.log(Level.SEVERE, "Impossibile ripristinare l'auto-commit sulla connessione.", ex);
+            }
         }
     }
 
     @Override
-   public Gruppo cercaGruppo(String nome) throws SQLException{
+   public Gruppo cercaGruppo(String nome) throws ErroreDiSistema{
         Gruppo gruppoCercato = null;
         String sql = SELECTCERCAGRUPPO;
         
@@ -85,7 +107,7 @@ public class DaoGruppoDB implements InterfacciaGruppo {
                     String citta = rs.getString(4);
                     String luogo = rs.getString(5);
 
-                    InterfacciaUtente dao = FactoryDAO.getDaoUtente();
+                    InterfacciaDaoUtente dao = AbstractFactoryDao.getDao().getDaoUtente();
                     Utente user = dao.cercaUtente(admin);
                 
                     gruppoCercato = new Gruppo(nomeGruppo, user);
@@ -94,13 +116,14 @@ public class DaoGruppoDB implements InterfacciaGruppo {
                     gruppoCercato.setLuogo(luogo);
                 }
             } 
-        } catch (Exception e) {
-            throw new SQLException();
+        } catch (SQLException e) {
+            logger.log(Level.SEVERE,"Errore ricerca Gruppo"+ nome,e);
+            throw new ErroreDiSistema("Errore ricerca Gruppo", e);
         }
         return gruppoCercato;
     }
     @Override
-    public List<Gruppo> recuperaGruppiUtente(String emailUtente) throws SQLException {
+    public List<Gruppo> recuperaGruppiUtente(String emailUtente) throws ErroreDiSistema {
         List<Gruppo> listaGruppi = new ArrayList<>();
         
  
@@ -131,22 +154,30 @@ public class DaoGruppoDB implements InterfacciaGruppo {
                     listaGruppi.add(g);
                 }
             }
+        }catch(SQLException e){
+            logger.log(Level.SEVERE,"Errore recupero gruppi Utente"+ emailUtente,e);
+            throw new ErroreDiSistema("Errore recupero gruppi Utente", e);
+
         }
         return listaGruppi;
     }
     @Override
-    public void iscriviUtente(String nomeGruppo, String emailUtente) throws SQLException {
+    public void iscriviUtente(String nomeGruppo, String emailUtente) throws ErroreDiSistema {
         String sql = INSERTISCRIZIONE;
 
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, nomeGruppo);
             ps.setString(2, emailUtente);
             ps.executeUpdate();
+        }catch(SQLException e){
+            logger.log(Level.SEVERE,"Errore iscrizione Utente al Gruppo "+ nomeGruppo+ emailUtente,e);
+            throw new ErroreDiSistema("errore iscrizione al gruppo", e);
+
         }
     }
     
     @Override
-    public boolean esisteGruppo(String nomeGruppo) throws SQLException{
+    public boolean esisteGruppo(String nomeGruppo) throws ErroreDiSistema{
         String sql = ESISTEGRUPPO;
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, nomeGruppo);
@@ -155,15 +186,17 @@ public class DaoGruppoDB implements InterfacciaGruppo {
                     return rs.getInt(1) > 0;
                 }
             }
+        }catch(SQLException e){
+
         }
         return false;
     }
 
     
    @Override
-    public List<Gruppo> ricercaGruppiConFiltri(String nome, String citta, String materia) throws SQLException {
+    public List<Gruppo> ricercaGruppiConFiltri(String nome, String citta, String materia) throws ErroreDiSistema {
         List<Gruppo> lista = new ArrayList<>();
-        InterfacciaUtente daoUtente = FactoryDAO.getDaoUtente();
+        InterfacciaDaoUtente daoUtente = AbstractFactoryDao.getDao().getDaoUtente();
         
         String sql = SELECTRICERCAFILTRI; 
         
@@ -188,23 +221,31 @@ public class DaoGruppoDB implements InterfacciaGruppo {
                     lista.add(g);
                 }
             }
+        }catch(SQLException e){
+            logger.log(Level.SEVERE,"Errore ricerca gruppi con filtri"+ citta,e);
+            throw new ErroreDiSistema("Errore ricerca Gruppi con filtri", e);
+
         }
         return lista;
     }
 
     @Override
-    public void abbandonaGruppo(String nomeGruppo, String emailUtente) throws SQLException {
+    public void abbandonaGruppo(String nomeGruppo, String emailUtente) throws ErroreDiSistema {
         String sql = DELETEGRUPPO;
 
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, nomeGruppo);
             ps.setString(2, emailUtente);
             ps.executeUpdate();
+        }catch(SQLException e){
+            logger.log(Level.SEVERE,"Errore abbandono Gruppo "+ nomeGruppo+ emailUtente,e);
+            throw new ErroreDiSistema("Errore abbandono gruppo", e);
+
         }
     }
 
     @Override
-  public void eliminaGruppo(String nomeGruppo) throws SQLException {
+  public void eliminaGruppo(String nomeGruppo) throws ErroreDiSistema {
 
     String sqlEliminaMessaggi = ELIMINAMESSAGGI;
 
@@ -221,17 +262,33 @@ public class DaoGruppoDB implements InterfacciaGruppo {
         
 
     } catch (SQLException e) {
-        conn.rollback(); 
-        throw e;
+        try {
+              conn.rollback(); 
+            
+        } catch (SQLException ex) {
+            logger.log(Level.SEVERE,"Impossibile eseguire il rollback durante l'eliminazione del gruupo", ex);
+            throw new ErroreDiSistema("Errore di sistema", ex);
+        }
+        
     } finally {
-        conn.setAutoCommit(true);
+        try{
+            conn.setAutoCommit(true);
+        }catch(SQLException ex){
+            logger.log(Level.SEVERE,"Errore autocommit",ex);
+            throw new ErroreDiSistema("Errore di sistema", ex);
+
+        }
+       
     }
 }
 
-private void eseguiUpdate(String sql, String parametro) throws SQLException {
+private void eseguiUpdate(String sql, String parametro) throws ErroreDiSistema {
     try (PreparedStatement ps = conn.prepareStatement(sql)) {
         ps.setString(1, parametro);
         ps.executeUpdate();
+    }catch(SQLException e){
+        logger.log(Level.SEVERE,"errore update",e);
+        throw new ErroreDiSistema("Errore aggiornamento", e);
     }
 }
 
