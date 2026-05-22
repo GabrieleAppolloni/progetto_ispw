@@ -20,6 +20,7 @@ import appolloni.migliano.interfacce.InterfacciaDaoUtente;
 public class DaoGruppoDB implements InterfacciaDaoGruppo {
 
     private final Connection conn;
+    private static final String ERRORESQL = "Errore SQL durante la creazione del gruppo: ";
     private static final Logger logger = Logger.getLogger(DaoGruppoDB.class.getName());
     private static final String INSERTGRUPPO = "INSERT INTO gruppi (nome, materia_studio, email_admin,citta,luogo) VALUES (?, ?, ?,?,?)";
     private static final String INSERTISCRIZIONE = "INSERT INTO iscrizioni (nome_gruppo, email_utente) VALUES (?, ?)";
@@ -77,7 +78,7 @@ public class DaoGruppoDB implements InterfacciaDaoGruppo {
             }
             
            
-            logger.log(Level.SEVERE, e, () -> "Errore SQL durante la creazione del gruppo: " + gruppo.getNome());
+            logger.log(Level.SEVERE, e, () -> ERRORESQL + gruppo.getNome());
             
            
             throw new ErroreDiSistema("Errore di sistema: impossibile creare il gruppo.", e);
@@ -117,7 +118,7 @@ public class DaoGruppoDB implements InterfacciaDaoGruppo {
                 }
             } 
         } catch (SQLException e) {
-            logger.log(Level.SEVERE, e, () -> "Errore SQL durante la creazione del gruppo: " + nome);
+            logger.log(Level.SEVERE, e, () -> ERRORESQL + nome);
             throw new ErroreDiSistema("Errore ricerca Gruppo", e);
         }
         return gruppoCercato;
@@ -155,7 +156,7 @@ public class DaoGruppoDB implements InterfacciaDaoGruppo {
                 }
             }
         }catch(SQLException e){
-            logger.log(Level.SEVERE, e, () -> "Errore SQL durante la creazione del gruppo: " + emailUtente);
+            logger.log(Level.SEVERE, e, () -> ERRORESQL  + emailUtente);
             throw new ErroreDiSistema("Errore recupero gruppi Utente", e);
 
         }
@@ -170,7 +171,7 @@ public class DaoGruppoDB implements InterfacciaDaoGruppo {
             ps.setString(2, emailUtente);
             ps.executeUpdate();
         }catch(SQLException e){
-           logger.log(Level.SEVERE, e, () -> "Errore SQL durante la creazione del gruppo: " + emailUtente);
+           logger.log(Level.SEVERE, e, () -> ERRORESQL  + emailUtente);
             throw new ErroreDiSistema("errore iscrizione al gruppo", e);
 
         }
@@ -187,7 +188,7 @@ public class DaoGruppoDB implements InterfacciaDaoGruppo {
                 }
             }
         }catch(SQLException e){
-            logger.log(Level.SEVERE, e, () -> "Errore SQL durante la creazione del gruppo: " + nomeGruppo);
+            logger.log(Level.SEVERE, e, () ->ERRORESQL  + nomeGruppo);
             throw new ErroreDiSistema("errore: impossibile verificare esistenza gruppo", e);
         }
         return false;
@@ -223,7 +224,7 @@ public class DaoGruppoDB implements InterfacciaDaoGruppo {
                 }
             }
         }catch(SQLException e){
-            logger.log(Level.SEVERE, e, () -> "Errore SQL durante la creazione del gruppo: " + citta);
+            logger.log(Level.SEVERE, e, () ->  ERRORESQL + citta);
             throw new ErroreDiSistema("Errore ricerca Gruppi con filtri", e);
 
         }
@@ -239,7 +240,7 @@ public class DaoGruppoDB implements InterfacciaDaoGruppo {
             ps.setString(2, emailUtente);
             ps.executeUpdate();
         }catch(SQLException e){
-            logger.log(Level.SEVERE, e, () -> "Errore SQL durante la creazione del gruppo: " + nomeGruppo+emailUtente);
+            logger.log(Level.SEVERE, e, () -> ERRORESQL + nomeGruppo+emailUtente);
             throw new ErroreDiSistema("Errore abbandono gruppo", e);
 
         }

@@ -11,6 +11,7 @@ import appolloni.migliano.entity.Host;
 import appolloni.migliano.interfacce.InterfacciaDaoUtente;
 
 public class DaoUtenteDB implements InterfacciaDaoUtente{
+    private static final String ERRORESQL = "ERRORE SALVATGGIO UTENTE SQL";
     private static final Logger logger = Logger.getLogger(DaoUtenteDB.class.getName());
     private static final String SALVAUTENTE = "INSERT INTO utenti(dtype,nome,cognome,email,citta,password,nome_attivita,tipo_attivita)" + "VALUES (?,?,?,?,?,?,?,?)";
     private static final String CERCAUTENTE = "SELECT dtype, nome, cognome, email, citta, password, nome_attivita, tipo_attivita FROM utenti WHERE email = ?" ;
@@ -45,7 +46,7 @@ public class DaoUtenteDB implements InterfacciaDaoUtente{
             ps.executeUpdate();
         }catch(SQLException e){
 
-            logger.log(Level.SEVERE, "salvataggio utente fallito"+ u.getEmail(),e);
+             logger.log(Level.SEVERE, e, () -> ERRORESQL + u.getEmail());
 
             throw new ErroreDiSistema("Errore salvataggio utente",e);
         }
@@ -72,7 +73,7 @@ public class DaoUtenteDB implements InterfacciaDaoUtente{
              }
             }
         }catch(SQLException e){
-            logger.log(Level.SEVERE,"Ricerca utente fallita"+ u.getEmail(),e);
+            logger.log(Level.SEVERE, e, () -> ERRORESQL );
             throw new ErroreDiSistema("Errore ricerca Utente.",e);
 
         }
@@ -89,7 +90,7 @@ public class DaoUtenteDB implements InterfacciaDaoUtente{
             ps.setString(2, email);
             ps.executeUpdate();
         }catch(SQLException e){
-            logger.log(Level.SEVERE, "Aggiornamento password fallito per "+email,e);
+            logger.log(Level.SEVERE, e, () -> ERRORESQL + email);
             throw new ErroreDiSistema("Aggiornamento Password fallito.",e);
 
         }

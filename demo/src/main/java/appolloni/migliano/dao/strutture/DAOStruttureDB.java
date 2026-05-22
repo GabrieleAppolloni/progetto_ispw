@@ -17,6 +17,7 @@ public class DAOStruttureDB implements InterfacciaDaoStruttura {
 
     private static final Logger logger = Logger.getLogger(DAOStruttureDB.class.getName());
     private static final String IMMAGINE = "placeholder.png";
+    private static final String ERRORESQL = " Errore SQL salvataggio struttura";
     private final Connection conn;
     private static final String UPDATE_HOST = "UPDATE strutture SET gestore = ?, indirizzo = ?, orario_apertura = ?, wifi = ?, ristorazione = ?, foto = ? " + "WHERE nome = ? AND gestore = ?";
     private static final String COLONNE = "nome, gestore, tipo, citta, indirizzo, orario_apertura, wifi, ristorazione, tipo_attivita, foto";
@@ -64,7 +65,7 @@ public class DAOStruttureDB implements InterfacciaDaoStruttura {
                 conn.commit();
             }
         }catch(SQLException e){
-            logger.log(Level.SEVERE,"Errore salvataggio struttura" + struttura.getName(),e);
+            logger.log(Level.SEVERE, e, () -> ERRORESQL+ struttura.getName());
             throw new ErroreDiSistema("Errore creazione struttura", e);
 
         }
@@ -84,7 +85,7 @@ public class DAOStruttureDB implements InterfacciaDaoStruttura {
             }
         }catch(SQLException e){
             
-            logger.log(Level.SEVERE, e, () -> "Errore SQL durante la creazione del gruppo: " +nome);
+            logger.log(Level.SEVERE, e, () -> ERRORESQL  +nome);
             throw new ErroreDiSistema("Errore ricerca struttura", e);
         }
         return struttura;
@@ -128,7 +129,7 @@ public class DAOStruttureDB implements InterfacciaDaoStruttura {
                 }
             }
         }catch(SQLException e){
-                logger.log(Level.SEVERE, e, () -> "Errore SQL durante la creazione del gruppo: " + emailHost);
+                logger.log(Level.SEVERE, e, () -> ERRORESQL + emailHost);
                 throw new ErroreDiSistema("Errore recupero struttura per host", e);
             } 
         return struttura;
@@ -155,7 +156,7 @@ public class DAOStruttureDB implements InterfacciaDaoStruttura {
                 throw new SQLException("Update fallito: Struttura non trovata.");
             }
         }catch(SQLException e){
-            logger.log(Level.SEVERE, e, () -> "Errore SQL durante la creazione del gruppo: " + s.getName());
+            logger.log(Level.SEVERE, e, () -> ERRORESQL + s.getName());
             throw new ErroreDiSistema("Errore aggiornamento struttura", e);
 
         }
@@ -168,7 +169,7 @@ public class DAOStruttureDB implements InterfacciaDaoStruttura {
             ps.setString(2, emailHost);
             ps.executeUpdate();
         }catch(SQLException e){
-            logger.log(Level.SEVERE, e, () -> "Errore SQL durante la creazione del gruppo: " + emailHost);
+            logger.log(Level.SEVERE, e, () -> ERRORESQL + emailHost);
             throw new ErroreDiSistema("Errore aggiornamento foto struttura", e);
 
         }
@@ -185,7 +186,7 @@ public class DAOStruttureDB implements InterfacciaDaoStruttura {
                 }
             }
         }catch(SQLException e){
-            logger.log(Level.SEVERE, e, () -> "Errore SQL durante la creazione del gruppo: " + citta);
+            logger.log(Level.SEVERE, e, () -> ERRORESQL + citta);
             throw new ErroreDiSistema("Errore recupero nomi strutture", e);
 
         }
@@ -243,7 +244,7 @@ public class DAOStruttureDB implements InterfacciaDaoStruttura {
                 + strutturaAggiornata.getName() + "' gestita da '" + vecchioGestore + "'.");
         }
     }catch(SQLException e){
-           logger.log(Level.SEVERE, e, () -> "Errore SQL durante la creazione del gruppo: " + vecchioGestore);
+           logger.log(Level.SEVERE, e, () ->ERRORESQL + vecchioGestore);
             throw new ErroreDiSistema("Errore aggiornamento host struttura", e);
 
         }
