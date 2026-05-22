@@ -15,8 +15,7 @@ public class ControllerProfiloUtente {
     public BeanUtenti recuperaInformazioniUtente(BeanUtenti utente) throws  ErroreDiSistema, EntitaNonTrovata{
         Utente utente2 = daoUtente.cercaUtente(utente.getEmail());
         if(utente2 == null){ throw new EntitaNonTrovata("Errore caricamento utente");}
-        BeanUtenti beanUtente = new BeanUtenti(utente2.getRuolo(), utente2.getName(), utente2.getCognome(), utente2.getEmail(), utente2.getPass(), utente2.getCitta());
-        return beanUtente;
+        return new BeanUtenti(utente2.getRuolo(), utente2.getName(), utente2.getCognome(), utente2.getEmail(), utente2.getPass(), utente2.getCitta());
     }
 
     public boolean modificaPassword(String vecchiaPass, String nuovaPass, BeanUtenti utente) throws ErroreDiSistema, EntitaNonTrovata{

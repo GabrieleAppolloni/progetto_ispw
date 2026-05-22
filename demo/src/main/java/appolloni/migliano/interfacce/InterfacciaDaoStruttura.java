@@ -1,11 +1,12 @@
 package appolloni.migliano.interfacce;
 
 import appolloni.migliano.entity.Struttura;
+import appolloni.migliano.exception.CampiVuotiException;
 import appolloni.migliano.exception.ErroreDiSistema;
 import java.util.List;
 public interface InterfacciaDaoStruttura {
 
-     void salvaStruttura(Struttura struttura2, String email) throws ErroreDiSistema;
+     void salvaStruttura(Struttura struttura2, String email) throws ErroreDiSistema, CampiVuotiException;
      Struttura cercaStruttura(String nome, String gestore) throws ErroreDiSistema;
      List<Struttura> ricercaStruttureConFiltri(String nome,String citta, String tipo) throws ErroreDiSistema;
      Struttura recuperaStrutturaPerHost(String email) throws ErroreDiSistema;

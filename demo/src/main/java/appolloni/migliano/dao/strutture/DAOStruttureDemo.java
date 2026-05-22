@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import appolloni.migliano.entity.Struttura;
-
+import appolloni.migliano.exception.CampiVuotiException;
 import appolloni.migliano.interfacce.InterfacciaDaoStruttura;
 
 public class DAOStruttureDemo implements InterfacciaDaoStruttura {
@@ -14,9 +14,10 @@ public class DAOStruttureDemo implements InterfacciaDaoStruttura {
 
 
     @Override
-    public void salvaStruttura(Struttura s, String email) {
+    public void salvaStruttura(Struttura s, String email) throws CampiVuotiException {
      
         if (email != null && (s.getGestore() == null || s.getGestore().isEmpty())) {
+            throw new CampiVuotiException("dati mancanti");
         }
         
         tabellaStrutture.add(s);

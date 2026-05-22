@@ -66,7 +66,7 @@ public class GUISegnalaStruttura {
             struttura.setGestore("Sconosciuto");
             struttura.setTipoAttivita(tipoAtt);
             
-            controllerSegnalaStruttura.segnalaStruttura(studenteLoggato, struttura); 
+            controllerSegnalaStruttura.segnalaStruttura(struttura); 
             
 
             Alert alert = new Alert(Alert.AlertType.INFORMATION);

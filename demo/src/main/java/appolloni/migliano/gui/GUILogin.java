@@ -9,7 +9,6 @@ import java.io.IOException;
 
 import appolloni.migliano.controller.ControllerLogin;
 import appolloni.migliano.exception.CampiVuotiException;
-import appolloni.migliano.exception.EntitaNonTrovata;
 import appolloni.migliano.exception.CredenzialiSbagliateException;
 import appolloni.migliano.exception.EmailNonValidaException;
 import appolloni.migliano.exception.ErroreDiSistema;
@@ -47,7 +46,7 @@ public class GUILogin {
         }catch(EmailNonValidaException e){
             lblRisultato.setText(e.getMessage());
             lblRisultato.setStyle(RED);
-        }catch(ErroreDiSistema | EntitaNonTrovata e){
+        }catch(ErroreDiSistema  e){
             managerScene.gestioneErrore("Errore di sistema", e.getMessage(), lblRisultato);
 
         }catch(IOException e){

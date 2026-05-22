@@ -2,7 +2,6 @@ package appolloni.migliano.controller;
 import appolloni.migliano.bean.BeanUtenti;
 import appolloni.migliano.entity.Utente;
 import appolloni.migliano.exception.CampiVuotiException;
-import appolloni.migliano.exception.EntitaNonTrovata;
 import appolloni.migliano.exception.CredenzialiSbagliateException;
 import appolloni.migliano.exception.EmailNonValidaException;
 import appolloni.migliano.exception.ErroreDiSistema;
@@ -12,7 +11,7 @@ import appolloni.migliano.interfacce.InterfacciaDaoUtente;
 public class ControllerLogin {
     private InterfacciaDaoUtente daoUtente = AbstractFactoryDao.getDao().getDaoUtente();
 
-    public BeanUtenti verificaUtente(BeanUtenti bean) throws EmailNonValidaException,CredenzialiSbagliateException,CampiVuotiException,EntitaNonTrovata, ErroreDiSistema{
+    public BeanUtenti verificaUtente(BeanUtenti bean) throws EmailNonValidaException,CredenzialiSbagliateException,CampiVuotiException, ErroreDiSistema{
 
 
        if(bean.getEmail().isBlank() || bean.getPassword().isBlank()){
@@ -25,7 +24,7 @@ public class ControllerLogin {
         }
         Utente user = daoUtente.cercaUtente(bean.getEmail());
 
-         if(!(user.getPass()).equals(bean.getPassword()) || user == null){
+         if(user == null ||!(user.getPass()).equals(bean.getPassword())){
             throw new CredenzialiSbagliateException("Credenziali non valide.");
          }
 

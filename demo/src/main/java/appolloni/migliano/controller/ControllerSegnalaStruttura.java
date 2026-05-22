@@ -3,7 +3,6 @@ package appolloni.migliano.controller;
 import java.util.List;
 
 import appolloni.migliano.bean.BeanStruttura;
-import appolloni.migliano.bean.BeanUtenti;
 import appolloni.migliano.entity.Struttura;
 import appolloni.migliano.exception.CampiVuotiException;
 import appolloni.migliano.exception.ErroreDiSistema;
@@ -14,7 +13,7 @@ public class ControllerSegnalaStruttura {
     private InterfacciaDaoStruttura daoStruttura = AbstractFactoryDao.getDao().getDaoStruttura();
     private static final String GESTOREDEFAULT = "system_no_host";
 
-    public void segnalaStruttura(BeanUtenti utente, BeanStruttura beanStruttura) throws IllegalArgumentException, CampiVuotiException, ErroreDiSistema{
+    public void segnalaStruttura (BeanStruttura beanStruttura) throws IllegalArgumentException, CampiVuotiException, ErroreDiSistema{
 
         if(beanStruttura.getName().isBlank() || beanStruttura.getCitta().isBlank() || beanStruttura.getIndirizzo().isBlank() || beanStruttura.getTipoAttivita().isBlank() || beanStruttura.getTipo().isBlank()){
             throw new CampiVuotiException("Dati mancati per la creazione della struttura");

@@ -43,7 +43,7 @@ public class CreazioneStruttureCLI {
             System.out.print("Foto non disponibili in versione CLI. ");  //NOSONAR
              
 
-            //controllerUtente.registraUtente(utenteCorrente);
+           
             System.out.println("Account Host creato correttamente...");  //NOSONAR
 
            
