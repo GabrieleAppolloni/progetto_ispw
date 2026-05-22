@@ -2,13 +2,15 @@ package appolloni.migliano.gui;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.Node;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextField;
-import javafx.stage.Stage;
+
+import java.io.IOException;
+
 import appolloni.migliano.HelperErrori;
 import appolloni.migliano.ManagerScene;
 import appolloni.migliano.bean.BeanStruttura;
+import appolloni.migliano.bean.BeanUtenti;
 import appolloni.migliano.controller.ControllerModificaStrutturHost;
 import appolloni.migliano.exception.CampiVuotiException;
 import appolloni.migliano.exception.ErroreDiSistema;
@@ -26,10 +28,12 @@ public class GUIModificaStruttura {
 
     private String vecchioNome; 
     private ManagerScene managerScene = new ManagerScene();
+    private BeanUtenti beanUtenti;
 
     private ControllerModificaStrutturHost controllerApp = new ControllerModificaStrutturHost();
-    public void initData(BeanStruttura struttura) {
+    public void initData(BeanStruttura struttura, BeanUtenti bean) {
         this.strutturaCorrente = struttura;
+        this.beanUtenti = bean;
         this.vecchioNome = struttura.getName(); 
 
             txtNome.setText(struttura.getName());
@@ -73,8 +77,12 @@ public class GUIModificaStruttura {
     }
 
     private void chiudiFinestra(ActionEvent event) {
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        stage.close();
+        try{
+            managerScene.avviaMenuHost(event, beanUtenti);
+        }catch(IOException e){
+            managerScene.gestioneErrore("Errore di sistema", "Impossibile tornare indietro", chkRistorazione);
+
+        }
     }
  
 }

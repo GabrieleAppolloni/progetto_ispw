@@ -244,44 +244,39 @@ public class DaoGruppoDB implements InterfacciaDaoGruppo {
         }
     }
 
-    @Override
-  public void eliminaGruppo(String nomeGruppo) throws ErroreDiSistema {
+   @Override
+public void eliminaGruppo(String nomeGruppo) throws ErroreDiSistema {
 
     String sqlEliminaMessaggi = ELIMINAMESSAGGI;
-
     String sqlEliminaIscrizioni = ELIMINAISCRIZIONI;
-
     String sqlEliminaGruppo = ELIMINAGRUPPO;
 
     try {
         conn.setAutoCommit(false); 
-        eseguiUpdate (sqlEliminaMessaggi,nomeGruppo);
-        eseguiUpdate(sqlEliminaIscrizioni,nomeGruppo);
+        eseguiUpdate(sqlEliminaMessaggi, nomeGruppo);
+        eseguiUpdate(sqlEliminaIscrizioni, nomeGruppo);
         eseguiUpdate(sqlEliminaGruppo, nomeGruppo);
         conn.commit();
-        
 
     } catch (SQLException e) {
         try {
-              conn.rollback(); 
-            
+            conn.rollback(); 
         } catch (SQLException ex) {
-            logger.log(Level.SEVERE,"Impossibile eseguire il rollback durante l'eliminazione del gruupo", ex);
-            throw new ErroreDiSistema("Errore di sistema", ex);
+            logger.log(Level.SEVERE, "Impossibile eseguire il rollback durante l'eliminazione del gruppo", ex);
+            throw new ErroreDiSistema("Errore critico durante il rollback", ex);
         }
         
+        logger.log(Level.SEVERE, "Errore durante l'eliminazione del gruppo. Eseguito rollback.", e);
+        throw new ErroreDiSistema("Impossibile eliminare il gruppo", e);
+        
     } finally {
-        try{
+        try {
             conn.setAutoCommit(true);
-        }catch(SQLException ex){
-            logger.log(Level.SEVERE,"Errore autocommit",ex);
-            throw new ErroreDiSistema("Errore di sistema", ex);
-
+        } catch(SQLException ex) {
+            logger.log(Level.SEVERE, "Errore durante il ripristino dell'autocommit", ex);
         }
-       
     }
 }
-
 private void eseguiUpdate(String sql, String parametro) throws ErroreDiSistema {
     try (PreparedStatement ps = conn.prepareStatement(sql)) {
         ps.setString(1, parametro);

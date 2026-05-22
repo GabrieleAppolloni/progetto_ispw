@@ -1,9 +1,10 @@
 package appolloni.migliano;
 import java.util.logging.*;
 import java.io.IOException;
+import appolloni.migliano.exception.ErroreDiSistema;
 
 public class ConfigLogger {
-    public static void inizializzaLog() {
+    public static void inizializzaLog() throws ErroreDiSistema {
         try {
             Logger rootLogger = Logger.getLogger(""); 
             FileHandler fileHandler = new FileHandler("app_errori.log", true);
@@ -12,7 +13,7 @@ public class ConfigLogger {
             rootLogger.setLevel(Level.WARNING);
 
         } catch (IOException e) {
-            System.err.println("Impossibile creare il file di log!");
+            throw new ErroreDiSistema("Impossibile creare il file di log!", e);
         }
     }
 }

@@ -1,16 +1,14 @@
 package appolloni.migliano;
 
 import java.io.IOException;
-import java.sql.SQLException;
 import javafx.stage.Stage;
 import appolloni.migliano.bean.BeanGruppo;
 import appolloni.migliano.bean.BeanStruttura;
 import appolloni.migliano.bean.BeanUtenti;
-import appolloni.migliano.exception.ErroreDiSistema;
 import appolloni.migliano.gui.GUICreazioneStrutture;
+import appolloni.migliano.gui.GUIModificaStruttura;
 import appolloni.migliano.gui.GUIChat;
 import appolloni.migliano.gui.GUICreazioneGruppo;
-import appolloni.migliano.gui.GUIModificaStruttura;
 import appolloni.migliano.gui.GUIRicerca;
 import appolloni.migliano.gui.GUIScriviRecensione;
 import appolloni.migliano.gui.GUISegnalaStruttura;
@@ -42,6 +40,16 @@ public class ManagerScene {
     }
 
     @FXML
+    public void modificaDatiStr(ActionEvent event, BeanUtenti bean, BeanStruttura beanStruttura) throws IOException{
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/modificaStruttura.fxml"));
+        Parent root = loader.load();
+        GUIModificaStruttura guiMod = loader.getController();
+        guiMod.initData(beanStruttura,bean);
+
+        Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        stage.getScene().setRoot(root);
+
+    }
 
     public void avviaMainMenu(ActionEvent event, BeanUtenti beanUtente) throws IOException{
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/mainMenu.fxml"));
@@ -167,20 +175,6 @@ public class ManagerScene {
         newStage.showAndWait(); 
     }
 
-    public void modificaDatiHost(BeanUtenti beanUtente,BeanStruttura beanStruttura, Node nodoSorgente) throws IOException, IllegalArgumentException,SQLException, ErroreDiSistema{
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/modificaStruttura.fxml"));
-        Parent root = loader.load();
-
-        GUIModificaStruttura controllerModifica = loader.getController();
-        controllerModifica.initData(beanStruttura);
-
-        Stage stage = new Stage();
-        stage.setScene(new Scene(root));
-        stage.setTitle("Modifica Struttura");
-        stage.initOwner(nodoSorgente.getScene().getWindow());
-        stage.initModality(javafx.stage.Modality.WINDOW_MODAL);
-        stage.showAndWait();
-    }
 
    private void tornaHomeDaNodo(Node nodoCorrente) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/home.fxml"));

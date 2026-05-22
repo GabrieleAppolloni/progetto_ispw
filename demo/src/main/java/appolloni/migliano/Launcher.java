@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import appolloni.migliano.factory.FactoryUI;
 import appolloni.migliano.interfacce.InterfacciaGrafica;
+import appolloni.migliano.exception.ErroreDiSistema;
 
 public class Launcher {
  private static final Logger logger = Logger.getLogger(Launcher.class.getName());
@@ -30,7 +31,13 @@ public class Launcher {
 
         Configurazione.setTipoPersistenza(tipoPersistenza);
         Configurazione.setTipoInterfaccia(tipoInterfaccia);
-        ConfigLogger.inizializzaLog();
+        try{
+         ConfigLogger.inizializzaLog();
+
+        }catch(ErroreDiSistema e){
+            return;
+
+        }
 
         logger.log(Level.INFO, ">>> MODALITÀ AVVIO: {0} | INTERFACCIA: {1} <<<", new Object[]{tipoPersistenza, tipoInterfaccia});
         try {

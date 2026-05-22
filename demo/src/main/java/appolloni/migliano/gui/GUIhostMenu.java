@@ -125,7 +125,7 @@ public class GUIhostMenu {
             }
 
 
-            lblMediaRecensioni.setText(String.format("Voto medio: %.2f/5",Double.toString(mediaVoto) ));
+            lblMediaRecensioni.setText(String.format("Voto medio: %.2f/5", mediaVoto));
             lblStrutturaNome.setText(struttura.getName());
             lblCitta.setText(struttura.getCitta());
             lblIndirizzo.setText(struttura.getIndirizzo());
@@ -218,14 +218,12 @@ public class GUIhostMenu {
 
     @FXML
   public void clickAggiornaDati(ActionEvent event) {
-    try {
-       managerScene.modificaDatiHost( beanUtente, beanStruttura, btnModifica);
-       caricaInformazioni();
+    try{
+        managerScene.modificaDatiStr(event, beanUtente, beanStruttura);
 
-    } catch (ErroreDiSistema e) {
-        managerScene.gestioneErrore("Errore di sistema", e.getMessage(), btnModifica);
-    }catch(IOException | SQLException e){
-         managerScene.gestioneErrore("Errore grave di sistema", "Errore durante l'accesso ai dati.", btnModifica);
+    }catch(IOException e ){
+        managerScene.gestioneErrore("Errore caricamento schermata", "Impossibile caricare la schermata", btnModifica);
+
     }
   }
 
