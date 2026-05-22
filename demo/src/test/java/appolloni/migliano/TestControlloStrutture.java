@@ -4,7 +4,7 @@ import appolloni.migliano.bean.BeanStruttura;
 import appolloni.migliano.bean.BeanUtenti;
 import appolloni.migliano.controller.ControllerCreazioneStrutturaHost;
 import appolloni.migliano.controller.ControllerMenuHost;
-
+import appolloni.migliano.controller.ControllerModificaStrutturHost;
 import appolloni.migliano.controller.ControllerRegistrazioneUtente;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -19,14 +19,19 @@ import org.junit.jupiter.api.Test;
     private ControllerMenuHost controllerGestioneStrutture;
     private BeanStruttura beanStruttura;
     private BeanUtenti beanUtenti;
+    private ControllerModificaStrutturHost controllerModificaStrutturHost;
+
+
+    
    
 
     @BeforeEach
     void setup() throws Exception{
-        Configurazione.setTipoPersistenza("DEMO");
+        Configurazione.setTipoPersistenza("demo");
         controllerStrutture = new ControllerCreazioneStrutturaHost();
         controllerRegistrazioneUtente = new ControllerRegistrazioneUtente();
         controllerGestioneStrutture = new ControllerMenuHost();
+        controllerModificaStrutturHost = new ControllerModificaStrutturHost();
         beanStruttura = new BeanStruttura("Pubblica", "Test", "Test", "Test", false, false);
         beanStruttura.setFoto("test.png");
         beanStruttura.setGestore("test@test");
@@ -36,7 +41,6 @@ import org.junit.jupiter.api.Test;
         beanUtenti = new BeanUtenti("Host", "Test", "Test", "test@test", "test", "Test");
         beanUtenti.setTipoAttivita(beanStruttura.getTipoAttivita());
         beanUtenti.setNomeAttivita(beanStruttura.getName());
-
   
 
         
@@ -45,6 +49,9 @@ import org.junit.jupiter.api.Test;
         }catch(Exception e){
             e.printStackTrace();
         }
+
+
+        
     }
 
 
@@ -52,12 +59,13 @@ import org.junit.jupiter.api.Test;
     @Test
     void testCheckStruttura(){
         try{
+            
             controllerStrutture.creazioneHostStruttura(beanUtenti, beanStruttura);
             BeanStruttura check = controllerGestioneStrutture.visualizzaStrutturaHost(beanStruttura.getGestore());
             controllerGestioneStrutture.cambiaFoto(beanUtenti.getEmail(), "test3");
             beanStruttura.setIndirizzo("via x");
             beanStruttura.setOrario("orario");
-           // controllerGestioneStrutture.aggiornaStruttura(beanStruttura, beanStruttura.getName());
+            controllerModificaStrutturHost.aggiornaStruttura(check,beanStruttura.getName() );
            
             assertEquals(beanStruttura.getName(), check.getName(),"Il nome dovrebbe essere uguale");
         }catch(Exception e){

@@ -17,9 +17,9 @@ public abstract class AbstractFactoryDao {
             return FactoryDaoDB.getInstance();
 
         }else if(Configurazione.FILE.equals(tipo)){
-            return null;
+            return FactoryDaoFile.getInstance();
         }else{
-            return null;
+            return FactoryDaoDemo.getInstance();
         }
     }
  
