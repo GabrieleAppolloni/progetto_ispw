@@ -48,7 +48,6 @@ public class ModificaStrutturaCLI {
             
             if (strutturaCorrente.getName() == null || strutturaCorrente.getName().isEmpty()) {
                 System.out.println("Il nome non può essere vuoto! Inserire il nome"); //NOSONAR
-                return;
             }
 
 

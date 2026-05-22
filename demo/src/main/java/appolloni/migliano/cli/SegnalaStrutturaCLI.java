@@ -52,7 +52,7 @@ public class SegnalaStrutturaCLI {
 
             
 
-            controller.creazioneHostStruttura(studenteLoggato, struttura);
+            controller.creazioneStrutturaHost(struttura, studenteLoggato);
 
             System.out.println("\n Grazie! La tua segnalazione è stata salvata."); //NOSONAR
             System.out.println("Premi Invio per tornare al menu..."); //NOSONAR

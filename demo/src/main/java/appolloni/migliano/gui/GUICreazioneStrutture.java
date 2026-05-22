@@ -104,14 +104,14 @@ public class GUICreazioneStrutture {
               beanStruttura.setTipoAttivita(tipoAttivita);
               beanStruttura.setGestore(gestore);
               beanStruttura.setFoto(nomeFotoFinale);
-              controllerCreazioneStrutturaHost.creazioneHostStruttura(beanCurr, beanStruttura);
+              controllerCreazioneStrutturaHost.creazioneStrutturaHost(beanStruttura,beanCurr);
               pulisci(); 
               lblRisultato.setText("Registrazione Effettuata con Successo!");
               lblRisultato.setStyle("-fx-text-fill: green;");
 
               managerScene.avviaMenuHost(event, beanCurr);
 
-        }catch(CampiVuotiException | EmailNonValidaException e){
+        }catch(CampiVuotiException | EmailNonValidaException | IllegalArgumentException e){
 
             lblRisultato.setText(e.getMessage());
             lblRisultato.setStyle(COLORE);

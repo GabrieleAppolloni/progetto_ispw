@@ -60,7 +60,7 @@ import org.junit.jupiter.api.Test;
     void testCheckStruttura(){
         try{
             
-            controllerStrutture.creazioneHostStruttura(beanUtenti, beanStruttura);
+            controllerStrutture.creazioneStrutturaHost(beanStruttura, beanUtenti);
             BeanStruttura check = controllerGestioneStrutture.visualizzaStrutturaHost(beanStruttura.getGestore());
             controllerGestioneStrutture.cambiaFoto(beanUtenti.getEmail(), "test3");
             beanStruttura.setIndirizzo("via x");

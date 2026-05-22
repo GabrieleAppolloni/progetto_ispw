@@ -1,6 +1,5 @@
 package appolloni.migliano.cli;
 
-import java.sql.SQLException;
 import java.util.List;
 
 import appolloni.migliano.LeggInputCli;
@@ -24,7 +23,6 @@ public class ChatCLI {
     public void start() {
         boolean exit = false;
         while (!exit) {
-            try { 
                 System.out.println("\n--- CHAT: " + gruppoCorrente.getNome() + " ---"); //NOSONAR
                 System.out.println("Struttura di riferimento: " + gruppoCorrente.getLuogo()); //NOSONAR
                 
@@ -44,13 +42,11 @@ public class ChatCLI {
                     case "4" -> exit = true;
                     default -> System.out.println("Scelta non valida."); //NOSONAR
                 }
-            } catch (SQLException e) {
-                 System.out.println("Errore Database"); //NOSONAR
-            }
+            
         }
     }
 
-    private void mostraMessaggi() throws SQLException {
+    private void mostraMessaggi() {
         try {
             List<BeanMessaggi> messaggi = controller.recuperaMessaggi(gruppoCorrente);
         if (messaggi.isEmpty()) {
@@ -67,7 +63,7 @@ public class ChatCLI {
         } 
     }
 
-    private void inviaMessaggioUI() throws SQLException{
+    private void inviaMessaggioUI(){
         
         String testo = LeggInputCli.leggiStringa("Scrivi Messaggio:");
        try {
@@ -78,7 +74,7 @@ public class ChatCLI {
        } 
     }
 
-    private void abbandonaGruppoUI() throws SQLException {
+    private void abbandonaGruppoUI() {
         String inp = LeggInputCli.leggiStringa("Sei sicuro di voler lasciare/eliminare il gruppo? (si/no):");
         if (inp.equalsIgnoreCase("si")) {
            try {

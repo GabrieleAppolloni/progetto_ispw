@@ -6,7 +6,7 @@ import appolloni.migliano.LeggInputCli;
 import appolloni.migliano.ManagerCLI;
 import appolloni.migliano.bean.BeanGruppo;
 import appolloni.migliano.bean.BeanUtenti;
-import appolloni.migliano.controller.ControllerMainMenu;;
+import appolloni.migliano.controller.ControllerMainMenu;
 
 public class MenuPrincipaleCLI {
 

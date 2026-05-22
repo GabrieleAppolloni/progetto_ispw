@@ -56,7 +56,7 @@ class TestRecensioni {
         beanStruttura.setOrario("09:00-10:00");
         
         try {
-            controllerStrutture.creazioneHostStruttura(beanHost, beanStruttura);
+            controllerStrutture.creazioneStrutturaHost(beanStruttura,beanHost);
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -55,7 +55,7 @@ public class CreazioneStruttureCLI {
 
        
            
-            controllerCreazioneStrutturaHost.creazioneHostStruttura(utenteCorrente, beanStruttura);
+            controllerCreazioneStrutturaHost.creazioneStrutturaHost(beanStruttura,utenteCorrente);
             
 
             System.out.println("\n[OK] Registrazione completata con successo!");  //NOSONAR
@@ -67,11 +67,8 @@ public class CreazioneStruttureCLI {
         } catch (CampiVuotiException e) {
             System.err.println("\n[ERRORE] Dati mancanti: " + e.getMessage());  //NOSONAR
             riprova();
-        } catch(ErroreDiSistema e){
+        } catch(ErroreDiSistema | EmailNonValidaException e){
              System.err.println("\n[ERRORE] " + e.getMessage());  //NOSONAR 
-        }catch (EmailNonValidaException e){
-             System.err.println("\n[ERRORE] " + e.getMessage());  //NOSONAR
-
         }
     }
 

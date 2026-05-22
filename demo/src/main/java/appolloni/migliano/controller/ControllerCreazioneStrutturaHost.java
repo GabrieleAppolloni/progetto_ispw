@@ -43,78 +43,62 @@ public class ControllerCreazioneStrutturaHost {
      daoStruttura.aggiornaHost(strutturaAggiornata, GESTOREDEFAULT); 
     }
 
-    public void creazioneHostStruttura(BeanUtenti beanUtente, BeanStruttura beanStruttura) throws CampiVuotiException, EmailNonValidaException, ErroreDiSistema{
 
-        String nome = beanUtente.getName();
-        String tipo = beanUtente.getTipo();
-        String cognome = beanUtente.getCognome();
-        String email = beanUtente.getEmail();
-        String citta = beanUtente.getCitta();
-        String pass = beanUtente.getPassword();
-        
-        if(nome.isBlank() || tipo.isBlank() || cognome.isBlank() || email.isBlank() || citta.isBlank() ||pass.isBlank() ){
-            throw new CampiVuotiException("Informazioni Utente mancanti.");
+    public void creazioneStrutturaHost(BeanStruttura struttura, BeanUtenti user) throws CampiVuotiException, ErroreDiSistema, EmailNonValidaException{
+        validazioneHost(user);
+        Utente utente = FactoryUtenti.creazione(user.getTipo(), user.getName(), user.getCognome(), user.getEmail(), user.getCitta(),user.getPassword());
+
+        if(!(utente instanceof Host host)){
+            throw new IllegalArgumentException("Tipo utente non abilitato a questa funzione");
         }
-        if(!email.contains("@")){
-            throw new EmailNonValidaException("Formato email non valido.");
-        }
-        Utente utente = FactoryUtenti.creazione(tipo, nome, cognome, email, citta, pass);
 
-        if(utente instanceof Host host){
+        validazioneDatiStruttura(struttura);
 
-            String nomeAttivita = beanUtente.getNomeAttivita();
-            String tipoAttivita = beanUtente.getTipoAttivita();
+        host.setTipoAttivita(user.getTipoAttivita());
+        host.setNomeAttivita(user.getNomeAttivita());
 
+        boolean check = esistenzaStruttura(user.getNomeAttivita());
 
-
-            if(nomeAttivita.isBlank() || tipoAttivita.isBlank()){
-                throw new CampiVuotiException("Dati attività mancanti. ");
-            }
-
-            host.setTipoAttivita(tipoAttivita);
-            host.setNomeAttivita(nomeAttivita);
-
-            String type = beanStruttura.getTipo();
-            String nomeStruttura = beanStruttura.getName();
-            String cittaStr = beanStruttura.getCitta();
-            String indirizzo = beanStruttura.getIndirizzo();
-            String orario = beanStruttura.getOrario();
-            boolean wifi = beanStruttura.hasWifi();
-            boolean ristorazione = beanStruttura.hasRistorazione();
-            String responsabile = beanStruttura.getGestore();
-            String tipoAtt = beanStruttura.getTipoAttivita();
-            String foto = beanStruttura.getFoto();
-      
-             if(type.isBlank() || nomeStruttura.isBlank() || cittaStr.isBlank()|| indirizzo.isBlank() || orario.isBlank() ||responsabile.isBlank()|| tipoAtt.isBlank()){
-              throw new CampiVuotiException("Completa tutti i campi.");
-            }
-
-            
-            boolean check = esistenzaStruttura(nomeAttivita);
-            if(check){
-              daoUtente.salvaUtente(utente);
-              rivendicaStruttura(beanStruttura, email);
-            }else{
-             Struttura struttura = new Struttura(type, nomeStruttura, cittaStr, indirizzo, wifi, ristorazione);
-             struttura.setGestore(responsabile);
-             struttura.setFoto(foto);
-             struttura.setTipoAttivita(tipoAtt);
-             struttura.setOrario(orario);
-
-             Struttura struttura2 = daoStruttura.cercaStruttura(nomeStruttura, utente.getEmail());
-
-             if(struttura2 != null){
-                throw new IllegalArgumentException("Struttura già esistente per questo Host.");
-             }
-
-             daoUtente.salvaUtente(utente);
-             daoStruttura.salvaStruttura(struttura, email);
-            }
+        if(check){
+            daoUtente.salvaUtente(host);
+            rivendicaStruttura(struttura, host.getEmail());
         }else{
-            throw new IllegalArgumentException("tipo Utente non valido.");
+            if(daoStruttura.cercaStruttura(struttura.getName(), host.getEmail()) != null){
+                throw new IllegalArgumentException("struttura giò esistente ");
+
+            }
+            Struttura struttura2 = new Struttura(struttura.getTipo(), struttura.getName(), struttura.getCitta(), struttura.getIndirizzo(), struttura.hasWifi(), struttura.hasRistorazione());
+            struttura2.setGestore(struttura.getGestore());
+            struttura2.setFoto(struttura.getFoto());
+            struttura2.setTipoAttivita(struttura.getTipoAttivita());
+            struttura2.setOrario(struttura.getOrario());
+
+            daoUtente.salvaUtente(host);
+            daoStruttura.salvaStruttura(struttura2, host.getEmail());
         }
         
 
+        
+
+    }
+
+
+    private void validazioneHost(BeanUtenti beanUtenti) throws CampiVuotiException, EmailNonValidaException{
+        if(beanUtenti.getName().isBlank() || beanUtenti.getTipo().isBlank() || beanUtenti.getCognome().isBlank() || beanUtenti.getEmail().isBlank() || beanUtenti.getCitta().isBlank() ||beanUtenti.getPassword().isBlank() ){
+            throw new CampiVuotiException("Dati mancancati ");
+
+        }
+        if (!(beanUtenti.getEmail().contains("@"))) {
+            throw new EmailNonValidaException("Formato email non valido");
+            
+        }
+
+    }
+
+    private void validazioneDatiStruttura(BeanStruttura beanStruttura) throws CampiVuotiException{
+        if(beanStruttura.getCitta().isBlank() || beanStruttura.getGestore().isBlank() || beanStruttura.getIndirizzo().isBlank() || beanStruttura.getTipoAttivita().isBlank() || beanStruttura.getName().isBlank() || beanStruttura.getTipo().isBlank() || beanStruttura.getOrario().isBlank()){
+            throw new CampiVuotiException("Dati mancanti");
+        }
     }
   
 }
