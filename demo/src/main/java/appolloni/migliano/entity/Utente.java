@@ -8,7 +8,7 @@ public abstract class Utente {
     private String citta;
     private String password;
 
-    public Utente(String nomeUtente, String cognomeUtente, String emailUtente, String cittaUtente, String ps){
+    protected Utente(String nomeUtente, String cognomeUtente, String emailUtente, String cittaUtente, String ps){
 
         this.nome = nomeUtente;
         this.cognome = cognomeUtente;

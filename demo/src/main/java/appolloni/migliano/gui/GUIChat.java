@@ -30,7 +30,7 @@ public class GUIChat {
     private BeanUtenti beanUtente;
     private BeanGruppo beanGruppo;
     private ManagerScene managerScene = new ManagerScene();
-    private static final String Errore = "Errore di sistema";
+    private static final String ERRORE = "Errore di sistema";
     
     private ControllerChat controllerChat = new ControllerChat();
 
@@ -54,7 +54,7 @@ public class GUIChat {
             lbLuogo.setText(infoComplete.getLuogo() != null ? infoComplete.getLuogo() : "Non specificato");
         }
         }catch(ErroreDiSistema | EntitaNonTrovata e){
-         managerScene.gestioneErrore( Errore, e.getMessage(), lbCitta);
+         managerScene.gestioneErrore( ERRORE, e.getMessage(), lbCitta);
         }
     }
 
@@ -72,13 +72,8 @@ public class GUIChat {
             if (!listaMessaggi.getItems().isEmpty()) {
                 listaMessaggi.scrollTo(listaMessaggi.getItems().size() - 1);
             }
-        } catch (ErroreDiSistema e) {
-           managerScene.gestioneErrore(Errore, e.getMessage(), lbCitta);
-        }catch(IllegalArgumentException e){ 
-            managerScene.gestioneErrore(Errore, e.getMessage(), lbCitta);
-        }catch(EntitaNonTrovata ex){
-            managerScene.gestioneErrore(Errore,  ex.getMessage(), lbCitta);
-
+        } catch (ErroreDiSistema | IllegalArgumentException | EntitaNonTrovata e) {
+           managerScene.gestioneErrore(ERRORE, e.getMessage(), lbCitta);
         }
     }
 
@@ -93,7 +88,7 @@ public class GUIChat {
             txtMessaggio.clear();
             lbInvio.setText(""); 
         }catch(ErroreDiSistema e){
-            managerScene.gestioneErrore(Errore, e.getMessage(), lbCitta);
+            managerScene.gestioneErrore(ERRORE, e.getMessage(), lbCitta);
         }catch(IllegalArgumentException e){
             managerScene.gestioneErrore("Errore generico", e.getMessage(), lbCitta);
         }catch(EntitaNonTrovata e){
@@ -110,9 +105,9 @@ public class GUIChat {
             controllerChat.abbandonaGruppo(beanUtente, beanGruppo);
             tornaIndietro(event);
         } catch(ErroreDiSistema e) {
-          managerScene.gestioneErrore(Errore, e.getMessage(), lbCitta);
+          managerScene.gestioneErrore(ERRORE, e.getMessage(), lbCitta);
         }catch(EntitaNonTrovata e){
-            managerScene.gestioneErrore("Errore:", e.getMessage(), lbCitta);
+            managerScene.gestioneErrore("Errore", e.getMessage(), lbCitta);
 
         }
     }

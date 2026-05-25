@@ -9,14 +9,14 @@ import appolloni.migliano.interfacce.InterfacciaDaoUtente;
 
 public abstract class AbstractFactoryDao {
 
-    private static final String Tipo = Configurazione.getTipoPersistenza();
+    private static final String TIPO = Configurazione.getTipoPersistenza();
 
     public static AbstractFactoryDao getDao(){
 
-        if(Configurazione.JDBC.equals(Tipo)){
+        if(Configurazione.JDBC.equals(TIPO)){
             return FactoryDaoDB.getInstance();
 
-        }else if(Configurazione.FILE.equals(Tipo)){
+        }else if(Configurazione.FILE.equals(TIPO)){
             return FactoryDaoFile.getInstance();
         }else{
             return FactoryDaoDemo.getInstance();

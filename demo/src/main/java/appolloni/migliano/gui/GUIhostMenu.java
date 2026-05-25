@@ -52,7 +52,7 @@ public class GUIhostMenu {
     private BeanStruttura beanStruttura;
     private ControllerMenuHost controllerStruttura;
     private ManagerScene managerScene = new ManagerScene();
-    private static final String Errore = "Errore di sistema";
+    private static final String ERRORE = "Errore di sistema";
 
     public void initData(BeanUtenti utente){
 
@@ -105,7 +105,7 @@ public class GUIhostMenu {
             containerRecensioni.getChildren().add(boxRecensione);
         }
       }catch(ErroreDiSistema e){
-        managerScene.gestioneErrore(Errore , e.getMessage(), btnModifica);
+        managerScene.gestioneErrore(ERRORE , e.getMessage(), btnModifica);
       }catch(CampiVuotiException ex){
         managerScene.gestioneErrore("Dati mancanti", ex.getMessage(), btnModifica);
 
@@ -169,7 +169,7 @@ public class GUIhostMenu {
              imgStruttura.setImage(new Image(imageUrl));
          } 
         }catch (ErroreDiSistema e){
-            managerScene.gestioneErrore(Errore, e.getMessage(), btnModifica);
+            managerScene.gestioneErrore(ERRORE, e.getMessage(), btnModifica);
             try{
              managerScene.cambiaScena(null, "/login.fxml");
             }catch(IOException e2){
@@ -204,7 +204,7 @@ public class GUIhostMenu {
             }catch(IOException e){
                  managerScene.gestioneErrore("Errore grave di sistema", "Impossibile salvare i dati.", btnModifica);
             } catch(ErroreDiSistema e){
-                managerScene.gestioneErrore(Errore, e.getMessage(), btnModifica);
+                managerScene.gestioneErrore(ERRORE, e.getMessage(), btnModifica);
             }catch(CampiVuotiException e){
                 managerScene.gestioneErrore("Errore caricamento", e.getMessage(), btnModifica);
             }
