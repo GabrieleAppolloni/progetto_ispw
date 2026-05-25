@@ -33,6 +33,8 @@ public class GUImainMenu {
     @FXML private Button logout;
     @FXML private Button bProfilo;
     
+    private static final String ErroreInterfaccia = "Impossibile caricare l'interfaccia grafica";
+    private static final String Errore = "Errore";
     private BeanUtenti bean;
     private ControllerMainMenu controller = new ControllerMainMenu();
     private ManagerScene managerScene = new ManagerScene();
@@ -102,7 +104,7 @@ public class GUImainMenu {
         try{
          managerScene.apriProfilo(event, bean);
         }catch(IOException e){
-           managerScene.gestioneErrore("Errore:", "Impossibile caricare l'interfaccia", bNuovaStruttura);
+           managerScene.gestioneErrore(Errore, ErroreInterfaccia, bNuovaStruttura);
         }
     }
 
@@ -110,7 +112,7 @@ public class GUImainMenu {
         try{
          managerScene.avviaRicerca(event, bean);
         }catch(IOException e){
-               managerScene.gestioneErrore("Errore:", "Impossibile caricare l'interfaccia", bNuovaStruttura);
+               managerScene.gestioneErrore(Errore, ErroreInterfaccia, bNuovaStruttura);
         }
     }
 
@@ -118,7 +120,7 @@ public class GUImainMenu {
         try{
          managerScene.avviaNuovaStruttura(event, bean);
         }catch(IOException e){
-             managerScene.gestioneErrore("Errore:", "Impossibile caricare l'interfaccia", bNuovaStruttura);
+             managerScene.gestioneErrore(Errore, ErroreInterfaccia, bNuovaStruttura);
         }
     }
     
@@ -127,7 +129,7 @@ public class GUImainMenu {
         try{
          managerScene.avviaGestioneGruppo(event, bean);
         }catch(IOException e){
-             managerScene.gestioneErrore("Errore:","Impossibile caricare l'interfaccia", bNuovaStruttura);
+             managerScene.gestioneErrore(Errore, ErroreInterfaccia, bNuovaStruttura);
         }
     }
 
@@ -137,7 +139,7 @@ public class GUImainMenu {
          DBConnection.getInstance().closeConnection();
          managerScene.cambiaScena(event, "/home.fxml");
         }catch(IOException | SQLException e){
-             managerScene.gestioneErrore("Errore grave di sistema", "Impossibile caricare l'interfaccia grafica.", bNuovaStruttura);
+             managerScene.gestioneErrore("Errore grave di sistema",  ErroreInterfaccia, bNuovaStruttura);
 
         }
     }

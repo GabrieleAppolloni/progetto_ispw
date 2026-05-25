@@ -38,14 +38,9 @@ public class GUILogin {
                 managerScene.avviaMenuHost(event, beanUtenteLoggato);
           }
 
-        }catch(CredenzialiSbagliateException | CampiVuotiException e){
+        }catch(CredenzialiSbagliateException | CampiVuotiException | EmailNonValidaException e){
           lblRisultato.setText(e.getMessage());
           lblRisultato.setStyle(RED);
-
-
-        }catch(EmailNonValidaException e){
-            lblRisultato.setText(e.getMessage());
-            lblRisultato.setStyle(RED);
         }catch(ErroreDiSistema  e){
             managerScene.gestioneErrore("Errore di sistema", e.getMessage(), lblRisultato);
 

@@ -7,6 +7,7 @@ import appolloni.migliano.controller.ControllerChat;
 import appolloni.migliano.controller.ControllerCreazioneGruppo;
 import appolloni.migliano.controller.ControllerProfiloUtente;
 import appolloni.migliano.controller.ControllerRegistrazioneUtente;
+import appolloni.migliano.controller.ControllerRicerca;
 
 import static org.junit.jupiter.api.Assertions.*;
 import java.util.List;
@@ -21,6 +22,7 @@ import org.junit.jupiter.api.Test;
     private ControllerProfiloUtente controllerGestioneUtente;
     private ControllerRegistrazioneUtente controllerRegistrazioneUtente;
     private BeanUtenti beanUtenti;
+    private 
    
 
     @BeforeEach
@@ -43,14 +45,12 @@ import org.junit.jupiter.api.Test;
             if(beanUtenti == null){ fail("Utente non creao");}
             controllerGestioneUtente.modificaPassword("test", "test1", bean);
             ControllerCreazioneGruppo controllerCreazioneGruppo = new ControllerCreazioneGruppo();
-           // ControllerGestioneGruppo controllerGestioneGruppo = new ControllerGestioneGruppo(); 
+            ControllerRicerca controllerRicerca = new ControllerRicerca();
             BeanGruppo beanGruppo = new BeanGruppo("test", "test",bean.getEmail(), "test", "test");
 
             controllerCreazioneGruppo.creaGruppo(bean, beanGruppo);
-           // List<BeanGruppo> lista = controllerGestioneGruppo.cercaGruppi(beanGruppo.getNome(), null, null);
-           // if(lista.isEmpty()){fail("Creazione gruppo fallita");}
-           // lista = controllerGestioneGruppo.visualizzaGruppi(bean);
-            //if(lista.isEmpty()){fail("Gruppo non trovato");}
+            List<BeanGruppo> lista = controllerRicerca.ricercaGruppi(beanGruppo);
+            if(lista.isEmpty()){fail("Creazione gruppo fallita");}
 
             ControllerChat controllerChat = new ControllerChat();
             controllerChat.inviaMessaggio(bean, beanGruppo, "test");
