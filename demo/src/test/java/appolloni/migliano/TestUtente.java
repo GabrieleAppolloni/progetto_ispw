@@ -22,46 +22,52 @@ import org.junit.jupiter.api.Test;
     private ControllerProfiloUtente controllerGestioneUtente;
     private ControllerRegistrazioneUtente controllerRegistrazioneUtente;
     private BeanUtenti beanUtenti;
-    private 
-   
 
-    @BeforeEach
+   
+@BeforeEach
     void setup(){
         Configurazione.setTipoPersistenza("DEMO");
         controllerGestioneUtente = new ControllerProfiloUtente();
         controllerRegistrazioneUtente = new ControllerRegistrazioneUtente();
     }
 
-
-  
-
     @Test
     void testInvioMessaggio(){
-        try{
-            beanUtenti = new BeanUtenti("Studente", "Test", "Test", "test@test3", "test", "Test");
+        try {
+            beanUtenti = new BeanUtenti("Studente", "Test", "Test", "test@test3", "test", "test");
             controllerRegistrazioneUtente.registraUtente(beanUtenti);
 
             BeanUtenti bean = controllerGestioneUtente.recuperaInformazioniUtente(beanUtenti);
-            if(beanUtenti == null){ fail("Utente non creao");}
+            
+            if(bean == null){ 
+                fail("Utente non trovato nel database DEMO");
+            }
+            
+        
             controllerGestioneUtente.modificaPassword("test", "test1", bean);
+            
             ControllerCreazioneGruppo controllerCreazioneGruppo = new ControllerCreazioneGruppo();
             ControllerRicerca controllerRicerca = new ControllerRicerca();
-            BeanGruppo beanGruppo = new BeanGruppo("test", "test",bean.getEmail(), "test", "test");
+            BeanGruppo beanGruppo = new BeanGruppo("test", "test", bean.getEmail(), "test", "test");
 
             controllerCreazioneGruppo.creaGruppo(bean, beanGruppo);
             List<BeanGruppo> lista = controllerRicerca.ricercaGruppi(beanGruppo);
-            if(lista.isEmpty()){fail("Creazione gruppo fallita");}
+            
+            if(lista.isEmpty()){
+                fail("Creazione gruppo fallita, lista vuota");
+            }
 
             ControllerChat controllerChat = new ControllerChat();
             controllerChat.inviaMessaggio(bean, beanGruppo, "test");
-            List<BeanMessaggi> listaMess =  controllerChat.recuperaMessaggi(beanGruppo);
+            List<BeanMessaggi> listaMess = controllerChat.recuperaMessaggi(beanGruppo);
 
-            assertNotNull(listaMess,"Dovrebbe esserci un messaggio");
-            assertFalse(listaMess.isEmpty(),"La lista dei messaggi del gruppo non deve essere vuota");
+            assertNotNull(listaMess, "Dovrebbe esserci una lista di messaggi");
+            assertFalse(listaMess.isEmpty(), "La lista dei messaggi del gruppo non deve essere vuota");
 
+        } catch(Exception e) {
             
-        }catch(Exception e){
-            fail("Non doveva lanciare eccezioni: "+ e.getMessage());
+            e.printStackTrace(); 
+            fail("Non doveva lanciare eccezioni: " + e.getMessage());
         }
     }
 
