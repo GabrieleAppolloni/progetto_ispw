@@ -4,6 +4,7 @@ import appolloni.migliano.bean.BeanRecensioni;
 import appolloni.migliano.bean.BeanStruttura;
 import appolloni.migliano.entity.Recensione;
 import appolloni.migliano.entity.Struttura;
+import appolloni.migliano.entity.Studente;
 import appolloni.migliano.entity.Utente;
 import appolloni.migliano.exception.CampiVuotiException;
 import appolloni.migliano.exception.EntitaNonTrovata;
@@ -22,9 +23,17 @@ public class ControllerRecensioni {
     private InterfacciaDaoUtente daoUtente = AbstractFactoryDao.getDao().getDaoUtente();
     private InterfacciaDaoStruttura daoStrutture = AbstractFactoryDao.getDao().getDaoStruttura();
 
+    private Studente casting(Utente u) {
+     if (u instanceof Studente) {
+        return (Studente) u;
+     } else {
+        throw new IllegalArgumentException("Errore recupero dati");
+     }
+    }
+
     public void inserisciRecensione(BeanRecensioni beanRecensione) throws CampiVuotiException, ErroreDiSistema, EntitaNonTrovata{
 
-        Utente user = daoUtente.cercaUtente(beanRecensione.getAutore());
+        Studente user = casting(daoUtente.cercaUtente(beanRecensione.getAutore()));
         Struttura struttura = daoStrutture.cercaStruttura(beanRecensione.getIdStruttura(),beanRecensione.getGestoreStruttura());
         if(struttura == null || user == null){ throw new EntitaNonTrovata("utente o struttura non trovati, riprovare"); }
         String autore = user.getEmail();

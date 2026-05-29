@@ -15,6 +15,7 @@ import appolloni.migliano.entity.Utente;
 import appolloni.migliano.exception.ErroreDiSistema;
 import appolloni.migliano.factory.AbstractFactoryDao;
 import appolloni.migliano.entity.Struttura;
+import appolloni.migliano.entity.Studente;
 
 
 
@@ -33,6 +34,13 @@ public class DaoRecensioniDB implements InterfacciaDaoRecensioni {
         this.conn = conn;
         this.daoStruttura = AbstractFactoryDao.getDao().getDaoStruttura();
         this.daoUtente = AbstractFactoryDao.getDao().getDaoUtente();
+    }
+    private Studente casting(Utente u) {
+     if (u instanceof Studente) {
+        return (Studente) u;
+     } else {
+        throw new IllegalArgumentException("Errore recupero dati");
+     }
     }
 
     @Override
@@ -74,8 +82,8 @@ public class DaoRecensioniDB implements InterfacciaDaoRecensioni {
                 while (rs.next()) {
                     
                      Struttura struttura = daoStruttura.cercaStruttura(rs.getString("nome_struttura"),rs.getString("gestore_struttura"));
-                     Utente autore = daoUtente.cercaUtente(rs.getString("autore"));
-                     Recensione r = new Recensione(rs.getString("testo"),rs.getInt("voto"),autore,struttura);
+                     Studente s = casting(daoUtente.cercaUtente(rs.getString("autore")));
+                     Recensione r = new Recensione(rs.getString("testo"),rs.getInt("voto"),s,struttura);
                      lista.add(r);
                     
                 }

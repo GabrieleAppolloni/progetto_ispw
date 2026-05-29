@@ -1,19 +1,19 @@
 package appolloni.migliano.entity;
 
 public class Recensione {
-    private Utente autore;
+    private Studente autore;
     private String testo;
     private int voto;
     private Struttura strutturaRecensita;
 
-    public Recensione(String text, int num, Utente utente, Struttura struttura) {
+    public Recensione(String text, int num, Studente utente, Struttura struttura) {
         this.testo = text;
         this.voto = num;
         this.autore = utente;
         this.strutturaRecensita = struttura;
     }
 
-    public void setAutore(Utente user){
+    public void setAutore(Studente user){
         this.autore = user;
     }
 

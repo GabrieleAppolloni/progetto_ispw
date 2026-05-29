@@ -2,6 +2,8 @@ package appolloni.migliano.dao.messaggio;
 
 import appolloni.migliano.entity.Gruppo;
 import appolloni.migliano.entity.Messaggio;
+import appolloni.migliano.entity.Studente;
+
 import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -22,6 +24,14 @@ public class DaoMessaggioDB implements InterfacciaDaoMessaggi {
     private Connection conn;
     public DaoMessaggioDB(Connection connessione){
         this.conn = connessione;
+    }
+
+    private Studente casting(Utente u) {
+     if (u instanceof Studente) {
+        return (Studente) u;
+     } else {
+        throw new IllegalArgumentException("Errore recupero dati");
+     }
     }
     
     @Override
@@ -58,7 +68,8 @@ public class DaoMessaggioDB implements InterfacciaDaoMessaggi {
                  Timestamp time = rs.getTimestamp(4);
                  InterfacciaDaoUtente dao = AbstractFactoryDao.getDao().getDaoUtente();
                  Utente mittente = dao.cercaUtente(emailMitt);
-                 Messaggio messaggio = new Messaggio(mess, gruppo, mittente);
+                 Studente m = casting(mittente);
+                 Messaggio messaggio = new Messaggio(mess, gruppo, m);
                  messaggio.setTime(time);
                  messaggi.add(messaggio);
              }

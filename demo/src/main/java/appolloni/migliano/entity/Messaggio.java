@@ -5,10 +5,10 @@ import java.sql.Timestamp;
 public class Messaggio {
     private String text;
     private Gruppo gruppo; 
-    private Utente mittente;
+    private Studente mittente;
     private Timestamp dataInvio;
     
-    public Messaggio(String messaggio, Gruppo gruppo, Utente user){
+    public Messaggio(String messaggio, Gruppo gruppo, Studente user){
         this.dataInvio = new Timestamp(System.currentTimeMillis());
         this.gruppo = gruppo;
         this.text = messaggio;
@@ -37,7 +37,7 @@ public class Messaggio {
     public Gruppo getGruppo(){
         return this.gruppo;
     }
-    public void setMittente(Utente u){
+    public void setMittente(Studente u){
         this.mittente = u;
     }
     public Utente getMittente(){

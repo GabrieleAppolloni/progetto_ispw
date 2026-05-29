@@ -8,6 +8,7 @@ import appolloni.migliano.bean.BeanMessaggi;
 import appolloni.migliano.bean.BeanUtenti;
 import appolloni.migliano.entity.Gruppo;
 import appolloni.migliano.entity.Messaggio;
+import appolloni.migliano.entity.Studente;
 import appolloni.migliano.entity.Utente;
 import appolloni.migliano.exception.CampiVuotiException;
 import appolloni.migliano.exception.EntitaNonTrovata;
@@ -27,6 +28,14 @@ public class ControllerChat {
         this.daoGruppo = AbstractFactoryDao.getDao().getDaoGruppo();
         this.daoMessaggi = AbstractFactoryDao.getDao().getDaoMessaggi();
         this.daoUtente = AbstractFactoryDao.getDao().getDaoUtente();
+    }
+
+    private Studente casting(Utente u) {
+     if (u instanceof Studente) {
+        return (Studente) u;
+     } else {
+        throw new IllegalArgumentException("Errore recupero dati");
+     }
     }
     public BeanGruppo recuperaInfoGruppo(BeanGruppo beanInput) throws  ErroreDiSistema, EntitaNonTrovata{
         Gruppo g = daoGruppo.cercaGruppo(beanInput.getNome());
@@ -60,7 +69,7 @@ public class ControllerChat {
 
     public void inviaMessaggio(BeanUtenti mittente, BeanGruppo gruppo, String testo) throws ErroreDiSistema, CampiVuotiException, EntitaNonTrovata{
         if( testo.trim().isEmpty()) {throw new CampiVuotiException("Inserire il messaggio, impossibile inviare un messsaggio vuoto");}
-        Utente user = daoUtente.cercaUtente(mittente.getEmail());
+        Studente user = casting(daoUtente.cercaUtente(mittente.getEmail()));
         Gruppo g = daoGruppo.cercaGruppo(gruppo.getNome());
         if(user == null || g == null){ throw new EntitaNonTrovata("Errore recupero dati.");}
         Messaggio messaggio = new Messaggio(testo, g, user);

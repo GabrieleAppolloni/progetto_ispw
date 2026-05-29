@@ -10,6 +10,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import appolloni.migliano.entity.Gruppo;
+import appolloni.migliano.entity.Studente;
 import appolloni.migliano.entity.Utente;
 import appolloni.migliano.exception.ErroreDiSistema;
 import appolloni.migliano.factory.AbstractFactoryDao;
@@ -40,6 +41,15 @@ public class DaoGruppoDB implements InterfacciaDaoGruppo {
 
     public DaoGruppoDB(Connection conn) {
         this.conn = conn;
+    }
+
+    private Studente casting(Utente u){
+        if(u instanceof Studente){
+            return (Studente)u;
+
+        }else{
+            throw new IllegalArgumentException("Errore recupero dati");
+        }
     }
 
     @Override
@@ -110,8 +120,9 @@ public class DaoGruppoDB implements InterfacciaDaoGruppo {
 
                     InterfacciaDaoUtente dao = AbstractFactoryDao.getDao().getDaoUtente();
                     Utente user = dao.cercaUtente(admin);
+        
                 
-                    gruppoCercato = new Gruppo(nomeGruppo, user);
+                    gruppoCercato = new Gruppo(nomeGruppo, (Studente)user);
                     gruppoCercato.setMateria(materia);
                     gruppoCercato.setCitta(citta);
                     gruppoCercato.setLuogo(luogo);
@@ -143,10 +154,12 @@ public class DaoGruppoDB implements InterfacciaDaoGruppo {
                     String citta = rs.getString(4);
                     String luogo = rs.getString(5);
 
-                    Utente admin = FactoryUtenti.creazione("Studente", null, null, emailUtente, materia, null);
+                    Studente admin = casting(FactoryUtenti.creazione("Studente", null, null, emailUtente, materia, null));
                     admin.setEmail(adminEmail);
+
+                    Studente s = casting(admin);
                     
-                    Gruppo g = new Gruppo(nome, admin);
+                    Gruppo g = new Gruppo(nome, s);
                     g.setMateria(materia);
                     
                     g.setCitta(citta);
@@ -214,12 +227,12 @@ public class DaoGruppoDB implements InterfacciaDaoGruppo {
 
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
-                    Utente u= daoUtente.cercaUtente(rs.getString("email_admin"));
-                    Gruppo g = new Gruppo(rs.getString("nome"), u);
+                    Studente s = casting(daoUtente.cercaUtente(rs.getString("email_admin")));
+                    Gruppo g = new Gruppo(rs.getString("nome"), s);
                     g.setCitta(rs.getString("citta"));
                     g.setLuogo(rs.getString("luogo"));
                     g.setMateria(rs.getString("materia_studio"));
-                    g.setAdmin(u);  
+                    g.setAdmin(s);  
                     lista.add(g);
                 }
             }

@@ -9,12 +9,12 @@ public class Gruppo {
     private String materiaStudio;
     private String luogo;
     private String citta;
-    private Utente admin;
+    private Studente admin;
     private ArrayList<Messaggio> messaggi;
 
-    public Gruppo(String nome, Utente u1){
+    public Gruppo(String nome, Studente s1){
      this.nomeGruppo = nome;
-     this.admin = u1;
+     this.admin = s1;
      this.membri = new ArrayList<>();
      this.messaggi = new ArrayList<>();
     }
@@ -47,7 +47,7 @@ public class Gruppo {
 
     }
 
-    public void setAdmin(Utente u){
+    public void setAdmin(Studente u){
 
         this.admin = u;
     }

@@ -8,6 +8,7 @@ import java.util.logging.Logger;
 
 import appolloni.migliano.entity.Recensione;
 import appolloni.migliano.entity.Struttura;
+import appolloni.migliano.entity.Studente;
 import appolloni.migliano.entity.Utente;
 import appolloni.migliano.exception.ErroreDiSistema;
 import appolloni.migliano.factory.AbstractFactoryDao;
@@ -21,6 +22,13 @@ public class DaoRecensioniFile implements InterfacciaDaoRecensioni {
     private static final String CSVFILE = "recensioni.csv";
     private static final String FORMATOCSV = "%s;%s;%s;%d;%s";
 
+    private Studente casting(Utente u) {
+     if (u instanceof Studente) {
+        return (Studente) u;
+     } else {
+        throw new IllegalArgumentException("Errore recupero dati");
+     }
+    }
 
     @Override
     public void salvaRecensione(Recensione r) throws ErroreDiSistema {
@@ -75,7 +83,7 @@ public class DaoRecensioniFile implements InterfacciaDaoRecensioni {
 
                 if (csvNomeStr.equals(nomeStr) && csvGestoreStr.equals(gestore)) {
                     
-                    Utente autore = daoUtente.cercaUtente(csvEmail);
+                    Studente autore = casting(daoUtente.cercaUtente(csvEmail));
                     
                     if (autore != null) {
                         Recensione r = new Recensione(csvTesto, csvVoto, autore, strutturaTarget);

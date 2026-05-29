@@ -21,6 +21,14 @@ public class ControllerCreazioneGruppo {
         private InterfacciaDaoGruppo daoGruppo = AbstractFactoryDao.getDao().getDaoGruppo();
         private InterfacciaDaoStruttura daoStruttura = AbstractFactoryDao.getDao().getDaoStruttura();
 
+        private Studente casting(Utente u) {
+             if (u instanceof Studente) {
+               return (Studente) u;
+             } else {
+                throw new IllegalArgumentException("Errore recupero dati");
+             }
+         }
+
         public void creaGruppo(BeanUtenti bean, BeanGruppo beanGruppo) throws CampiVuotiException, ErroreDiSistema, EntitaNonTrovata {
 
         if(!bean.getTipo().equals("Studente")){
@@ -39,8 +47,9 @@ public class ControllerCreazioneGruppo {
 
             throw new EntitaNonTrovata("Utente admin non trovato");
          }
- 
-         Gruppo gruppo = new Gruppo(beanGruppo.getNome(), u1);
+         
+         Studente s = casting(u1);
+         Gruppo gruppo = new Gruppo(beanGruppo.getNome(), s);
          gruppo.setMateria(beanGruppo.getMateria());
          gruppo.setCitta(beanGruppo.getCitta());
          gruppo.setLuogo(beanGruppo.getLuogo());
