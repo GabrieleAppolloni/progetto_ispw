@@ -35,7 +35,6 @@ public class ControllerRecensioni {
 
         Studente user = casting(daoUtente.cercaUtente(beanRecensione.getAutore()));
         Struttura struttura = daoStrutture.cercaStruttura(beanRecensione.getIdStruttura(),beanRecensione.getGestoreStruttura());
-        if(struttura == null || user == null){ throw new EntitaNonTrovata("utente o struttura non trovati, riprovare"); }
         String autore = user.getEmail();
         String testo = beanRecensione.getTesto();
         int voto = beanRecensione.getVoto();
