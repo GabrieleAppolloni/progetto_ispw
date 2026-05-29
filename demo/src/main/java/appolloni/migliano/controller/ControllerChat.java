@@ -67,7 +67,7 @@ public class ControllerChat {
      
     }
 
-    public void inviaMessaggio(BeanUtenti mittente, BeanGruppo gruppo, String testo) throws ErroreDiSistema, CampiVuotiException, EntitaNonTrovata{
+    public void inviaMessaggio(BeanUtenti mittente, BeanGruppo gruppo, String testo) throws ErroreDiSistema, CampiVuotiException{
         if( testo.trim().isEmpty()) {throw new CampiVuotiException("Inserire il messaggio, impossibile inviare un messsaggio vuoto");}
         Studente user = casting(daoUtente.cercaUtente(mittente.getEmail()));
         Gruppo g = daoGruppo.cercaGruppo(gruppo.getNome());

@@ -91,8 +91,6 @@ public class GUIChat {
             managerScene.gestioneErrore(ERRORE, e.getMessage(), lbCitta);
         }catch(IllegalArgumentException e){
             managerScene.gestioneErrore("Errore generico", e.getMessage(), lbCitta);
-        }catch(EntitaNonTrovata e){
-            managerScene.gestioneErrore("Errore caricamento dati", e.getMessage(), lbCitta);
         }catch(CampiVuotiException e){
             managerScene.gestioneErrore("Dati mancanti", e.getMessage(), lbCitta);
 

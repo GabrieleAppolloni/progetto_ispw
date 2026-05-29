@@ -7,7 +7,6 @@ import appolloni.migliano.entity.Struttura;
 import appolloni.migliano.entity.Studente;
 import appolloni.migliano.entity.Utente;
 import appolloni.migliano.exception.CampiVuotiException;
-import appolloni.migliano.exception.EntitaNonTrovata;
 import appolloni.migliano.exception.ErroreDiSistema;
 import appolloni.migliano.factory.AbstractFactoryDao;
 import appolloni.migliano.interfacce.InterfacciaDaoRecensioni;
@@ -31,7 +30,7 @@ public class ControllerRecensioni {
      }
     }
 
-    public void inserisciRecensione(BeanRecensioni beanRecensione) throws CampiVuotiException, ErroreDiSistema, EntitaNonTrovata{
+    public void inserisciRecensione(BeanRecensioni beanRecensione) throws CampiVuotiException, ErroreDiSistema{
 
         Studente user = casting(daoUtente.cercaUtente(beanRecensione.getAutore()));
         Struttura struttura = daoStrutture.cercaStruttura(beanRecensione.getIdStruttura(),beanRecensione.getGestoreStruttura());
