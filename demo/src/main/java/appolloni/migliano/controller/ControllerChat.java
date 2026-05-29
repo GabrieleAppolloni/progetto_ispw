@@ -31,8 +31,8 @@ public class ControllerChat {
     }
 
     private Studente casting(Utente u) {
-     if (u instanceof Studente) {
-        return (Studente) u;
+     if (u instanceof Studente studente) {
+        return studente;
      } else {
         throw new IllegalArgumentException("Errore recupero dati");
      }

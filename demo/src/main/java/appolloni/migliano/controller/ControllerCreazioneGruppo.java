@@ -22,8 +22,8 @@ public class ControllerCreazioneGruppo {
         private InterfacciaDaoStruttura daoStruttura = AbstractFactoryDao.getDao().getDaoStruttura();
 
         private Studente casting(Utente u) {
-             if (u instanceof Studente) {
-               return (Studente) u;
+             if (u instanceof Studente studente) {
+               return (Studente) studente;
              } else {
                 throw new IllegalArgumentException("Errore recupero dati");
              }
