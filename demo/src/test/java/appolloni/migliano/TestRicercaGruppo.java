@@ -1,5 +1,5 @@
 package appolloni.migliano;
-import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
@@ -28,7 +28,6 @@ import appolloni.migliano.controller.ControllerMainMenu;
     void setup() throws Exception{
         Configurazione.setTipoPersistenza("DEMO");
         controllerCrezioneGruppo = new ControllerCreazioneGruppo();
-        controllerCrezioneGruppo = new ControllerCreazioneGruppo();
         controllerRegistrazioneUtente = new ControllerRegistrazioneUtente();
         controllerMainMenu = new ControllerMainMenu();
         studente = new BeanUtenti("Studente", "Test", "Test", "test@test4", "Test", "Test");
@@ -50,7 +49,8 @@ import appolloni.migliano.controller.ControllerMainMenu;
          controllerCrezioneGruppo.creaGruppo(studente, gruppo);
          List<BeanGruppo> gruppi =controllerMainMenu.recuperaGruppiUtente(studente);
          
-         assertFalse(gruppi.isEmpty(), "La lista dei gruppi non deve essere vuota dopo l'inserimento");
+         assertEquals(1, gruppi.size(), "Dovrebbe esserci esattamente 1 gruppo nella lista");
+         assertEquals(gruppo.getNome(), gruppi.get(0).getNome(), "Il nome del gruppo recuperato deve coincidere con quello creato");
         }catch(Exception e){
            
             fail("Il test ha lanciato un'eccezione imprevista: " + e.getMessage());

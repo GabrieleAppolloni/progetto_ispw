@@ -32,20 +32,16 @@ import org.junit.jupiter.api.Test;
     }
 
     @Test
-    void testInvioMessaggio(){
+    void testFlussoCompletoChat() { 
         try {
             beanUtenti = new BeanUtenti("Studente", "Test", "Test", "test@test3", "test", "test");
             controllerRegistrazioneUtente.registraUtente(beanUtenti);
-
             BeanUtenti bean = controllerGestioneUtente.recuperaInformazioniUtente(beanUtenti);
             
             if(bean == null){ 
                 fail("Utente non trovato nel database DEMO");
             }
-            
-        
-            controllerGestioneUtente.modificaPassword("test", "test1", bean);
-            
+    
             ControllerCreazioneGruppo controllerCreazioneGruppo = new ControllerCreazioneGruppo();
             ControllerRicerca controllerRicerca = new ControllerRicerca();
             BeanGruppo beanGruppo = new BeanGruppo("test", "test", bean.getEmail(), "test", "test");
@@ -57,23 +53,20 @@ import org.junit.jupiter.api.Test;
                 fail("Creazione gruppo fallita, lista vuota");
             }
 
+            String testoInviato = "Ciao, questo è un test!";
             ControllerChat controllerChat = new ControllerChat();
-            controllerChat.inviaMessaggio(bean, beanGruppo, "test");
+            controllerChat.inviaMessaggio(bean, beanGruppo, testoInviato);
+            
             List<BeanMessaggi> listaMess = controllerChat.recuperaMessaggi(beanGruppo);
 
             assertNotNull(listaMess, "Dovrebbe esserci una lista di messaggi");
-            assertFalse(listaMess.isEmpty(), "La lista dei messaggi del gruppo non deve essere vuota");
+            assertEquals(1, listaMess.size(), "Dovrebbe esserci esattamente 1 messaggio");
+            assertEquals(testoInviato, listaMess.get(0).getMess(), "Il testo del messaggio recuperato deve coincidere con quello inviato");
 
         } catch(Exception e) {
-            
-            e.printStackTrace(); 
             fail("Non doveva lanciare eccezioni: " + e.getMessage());
         }
     }
 
-
-
-
-    
 
 }

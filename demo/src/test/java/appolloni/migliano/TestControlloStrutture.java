@@ -22,9 +22,6 @@ import org.junit.jupiter.api.Test;
     private ControllerModificaStrutturHost controllerModificaStrutturHost;
 
 
-    
-   
-
     @BeforeEach
     void setup() throws Exception{
         Configurazione.setTipoPersistenza("demo");
@@ -54,27 +51,24 @@ import org.junit.jupiter.api.Test;
         
     }
 
-
-
     @Test
-    void testCheckStruttura(){
-        try{
-            
-            controllerStrutture.creazioneStrutturaHost(beanStruttura, beanUtenti);
-            BeanStruttura check = controllerGestioneStrutture.visualizzaStrutturaHost(beanStruttura.getGestore());
-            controllerGestioneStrutture.cambiaFoto(beanUtenti.getEmail(), "test3");
-            beanStruttura.setIndirizzo("via x");
-            beanStruttura.setOrario("orario");
-            controllerModificaStrutturHost.aggiornaStruttura(check,beanStruttura.getName() );
-           
-            assertEquals(beanStruttura.getName(), check.getName(),"Il nome dovrebbe essere uguale");
-        }catch(Exception e){
-            fail("Non doveva lanciare eccezioni: "+ e.getMessage());
-        }
+void testFlussoCompletoStrutturaHost() { 
+    try {
+        controllerStrutture.creazioneStrutturaHost(beanStruttura, beanUtenti);
+        BeanStruttura checkCreazione = controllerGestioneStrutture.visualizzaStrutturaHost(beanStruttura.getGestore());
+        assertNotNull(checkCreazione, "La struttura dovrebbe essere stata creata e trovata");
+        
+        controllerGestioneStrutture.cambiaFoto(beanUtenti.getEmail(), "test3");
+        checkCreazione.setIndirizzo("via Roma 100"); 
+        controllerModificaStrutturHost.aggiornaStruttura(checkCreazione, beanStruttura.getName());
+        
+        BeanStruttura checkAggiornamento = controllerGestioneStrutture.visualizzaStrutturaHost(beanStruttura.getGestore());
+        
+        assertEquals("via Roma 100", checkAggiornamento.getIndirizzo(), "L'indirizzo dovrebbe essere stato aggiornato");
+        
+    } catch (Exception e) {
+        fail("Non doveva lanciare eccezioni: " + e.getMessage());
     }
-
-
-
-    
+}
 
 }
