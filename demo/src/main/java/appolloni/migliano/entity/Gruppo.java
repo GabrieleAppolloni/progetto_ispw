@@ -102,4 +102,11 @@ public class Gruppo {
     public boolean cercaMembro(Utente utente){
         return membri.contains(utente);
     }
+
+
+    public Messaggio creaMessaggio(String messaggio, Studente mittente ){
+        Messaggio mess = new Messaggio(messaggio, this, mittente);
+        addMess(mess);
+        return mess;
+    }
 }

@@ -50,8 +50,7 @@ public class ControllerRecensioni {
             throw new IllegalArgumentException("Voto non valido");
 
 
-        Recensione recensione = new Recensione(testo,voto,user, struttura);
-        struttura.aggiungiRecensione(recensione);
+        Recensione recensione = struttura.creaRecensioneEAdd(testo, voto, user);
         daoRecensioni.salvaRecensione(recensione);
       
     }

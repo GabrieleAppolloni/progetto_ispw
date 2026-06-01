@@ -49,14 +49,12 @@ public class ControllerCreazioneGruppo {
          }
          
          Studente s = casting(u1);
-         Gruppo gruppo = new Gruppo(beanGruppo.getNome(), s);
+         Gruppo gruppo = s.creaGruppo(beanGruppo.getNome());
          gruppo.setMateria(beanGruppo.getMateria());
          gruppo.setCitta(beanGruppo.getCitta());
          gruppo.setLuogo(beanGruppo.getLuogo());
-         if(u1 instanceof Studente studente){
-          studente.addGruppo(gruppo);
-         }
-         gruppo.aggiungiMembro(u1, u1);
+         
+         gruppo.aggiungiMembro(s, s);
          daoGruppo.creaGruppo(gruppo);
          
     }

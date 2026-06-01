@@ -28,5 +28,12 @@ public class Studente extends Utente {
     public String getRuolo(){
         return "Studente";
     }
+
+    public Gruppo creaGruppo(String nomeGruppo){
+        Gruppo gruppo = new Gruppo( nomeGruppo, this);
+        addGruppo(gruppo);
+        return gruppo;
+
+    }
     
 }

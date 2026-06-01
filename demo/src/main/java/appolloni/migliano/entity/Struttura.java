@@ -30,7 +30,12 @@ public class Struttura {
     }
 
 
-    
+    public Recensione creaRecensioneEAdd(String testo, int voto, Studente studente) {
+        Recensione recensione = new Recensione(testo, voto, studente, this);
+        aggiungiRecensione(recensione);
+        return recensione;
+
+    }
 
     public void setFoto(String immagine){
         this.foto = immagine;

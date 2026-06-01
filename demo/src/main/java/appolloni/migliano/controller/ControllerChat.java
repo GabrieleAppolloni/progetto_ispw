@@ -71,8 +71,7 @@ public class ControllerChat {
         if( testo.trim().isEmpty()) {throw new CampiVuotiException("Inserire il messaggio, impossibile inviare un messsaggio vuoto");}
         Studente user = casting(daoUtente.cercaUtente(mittente.getEmail()));
         Gruppo g = daoGruppo.cercaGruppo(gruppo.getNome());
-        Messaggio messaggio = new Messaggio(testo, g, user);
-        g.addMess(messaggio);
+        Messaggio messaggio = g.creaMessaggio(testo, user);
         daoMessaggi.nuovoMessaggio(messaggio);
     
     }
