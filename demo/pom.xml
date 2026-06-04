@@ -16,20 +16,7 @@
         <sonar.host.url>https://sonarcloud.io</sonar.host.url>
         <sonar.coverage.jacoco.xmlReportPaths>${project.build.directory}/site/jacoco/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
         
-        <sonar.coverage.exclusions>
-            **/gui/**/*,
-            **/view/**/*,
-            **/cli/**/*,
-            **/interfacce/**/*,
-            **/exception/**/*,
-            **/Launcher.java,
-            **/MainApp.java,
-            **/Mainapp.java,
-            **/DBConnection.java,
-            **/HelperErrori.java,
-            **/LeggInputCli.java,
-            **/Configurazione.java
-        </sonar.coverage.exclusions>
+       
     </properties>
 
     <dependencies>
