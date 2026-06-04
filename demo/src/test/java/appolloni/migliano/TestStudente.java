@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test;
 
 // Appolloni Gabriele 0307344
 
- class TestUtente {
+ class TestStudente {
     
     private ControllerProfiloUtente controllerGestioneUtente;
     private ControllerRegistrazioneUtente controllerRegistrazioneUtente;

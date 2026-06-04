@@ -11,7 +11,7 @@ import java.util.List;
 
 // Appolloni Gabriele 0307344
 
- class TestControlloStrutture {
+ class TestStrutture {
     private ControllerCreazioneStrutturaHost controllerStrutture;
     private BeanStruttura beanStruttura;
     private BeanUtenti beanUtenti;
@@ -37,7 +37,7 @@ import java.util.List;
     }
 
     @Test
-    void testFlussoCompletoStrutturaHost() throws Exception{ 
+    void testCreazioneStrutturaHost() throws Exception{ 
      controllerStrutture.creazioneStrutturaHost(beanStruttura, beanUtenti);
      List<BeanStruttura> strutture = controllerRicercaStruttura.ricercaStruttura(beanStruttura);
      assertNotNull(strutture, "La lista delle strutture recuperate non dovrebbe essere nulla");
