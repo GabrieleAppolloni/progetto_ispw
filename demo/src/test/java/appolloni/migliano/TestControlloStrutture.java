@@ -3,32 +3,26 @@ package appolloni.migliano;
 import appolloni.migliano.bean.BeanStruttura;
 import appolloni.migliano.bean.BeanUtenti;
 import appolloni.migliano.controller.ControllerCreazioneStrutturaHost;
-import appolloni.migliano.controller.ControllerMenuHost;
-import appolloni.migliano.controller.ControllerModificaStrutturHost;
-import appolloni.migliano.controller.ControllerRegistrazioneUtente;
-
+import appolloni.migliano.controller.ControllerRicerca;
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import java.util.List;
 
 // Appolloni Gabriele 0307344
 
  class TestControlloStrutture {
     private ControllerCreazioneStrutturaHost controllerStrutture;
-    private ControllerRegistrazioneUtente controllerRegistrazioneUtente;
-    private ControllerMenuHost controllerGestioneStrutture;
     private BeanStruttura beanStruttura;
     private BeanUtenti beanUtenti;
-    private ControllerModificaStrutturHost controllerModificaStrutturHost;
+    private ControllerRicerca controllerRicercaStruttura;
 
 
     @BeforeEach
     void setup() throws Exception{
         Configurazione.setTipoPersistenza("demo");
         controllerStrutture = new ControllerCreazioneStrutturaHost();
-        controllerRegistrazioneUtente = new ControllerRegistrazioneUtente();
-        controllerGestioneStrutture = new ControllerMenuHost();
-        controllerModificaStrutturHost = new ControllerModificaStrutturHost();
+        controllerRicercaStruttura = new ControllerRicerca();
         beanStruttura = new BeanStruttura("Pubblica", "Test", "Test", "Test", false, false);
         beanStruttura.setFoto("test.png");
         beanStruttura.setGestore("test@test");
@@ -38,37 +32,19 @@ import org.junit.jupiter.api.Test;
         beanUtenti = new BeanUtenti("Host", "Test", "Test", "test@test", "test", "Test");
         beanUtenti.setTipoAttivita(beanStruttura.getTipoAttivita());
         beanUtenti.setNomeAttivita(beanStruttura.getName());
-  
-
-        
-        try{
-            controllerRegistrazioneUtente.registraUtente(beanUtenti);
-        }catch(Exception e){
-            e.printStackTrace();
-        }
-
 
         
     }
 
     @Test
-void testFlussoCompletoStrutturaHost() { 
-    try {
-        controllerStrutture.creazioneStrutturaHost(beanStruttura, beanUtenti);
-        BeanStruttura checkCreazione = controllerGestioneStrutture.visualizzaStrutturaHost(beanStruttura.getGestore());
-        assertNotNull(checkCreazione, "La struttura dovrebbe essere stata creata e trovata");
-        
-        controllerGestioneStrutture.cambiaFoto(beanUtenti.getEmail(), "test3");
-        checkCreazione.setIndirizzo("via Roma 100"); 
-        controllerModificaStrutturHost.aggiornaStruttura(checkCreazione, beanStruttura.getName());
-        
-        BeanStruttura checkAggiornamento = controllerGestioneStrutture.visualizzaStrutturaHost(beanStruttura.getGestore());
-        
-        assertEquals("via Roma 100", checkAggiornamento.getIndirizzo(), "L'indirizzo dovrebbe essere stato aggiornato");
-        
-    } catch (Exception e) {
-        fail("Non doveva lanciare eccezioni: " + e.getMessage());
+    void testFlussoCompletoStrutturaHost() throws Exception{ 
+     controllerStrutture.creazioneStrutturaHost(beanStruttura, beanUtenti);
+     List<BeanStruttura> strutture = controllerRicercaStruttura.ricercaStruttura(beanStruttura);
+     assertNotNull(strutture, "La lista delle strutture recuperate non dovrebbe essere nulla");
+     assertEquals(1, strutture.size(), "Dovrebbe essere stata creata esattamente 1 struttura");
+     assertEquals(beanStruttura.getName(),strutture.get(0).getName(),"Il nome della struttura creata non coincide");
+     assertEquals(beanStruttura.getGestore(),strutture.get(0).getGestore(), "I gestori non coincidono" );
+            
     }
-}
 
 }

@@ -5,7 +5,6 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.junit.jupiter.api.Assertions.fail;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -42,12 +41,10 @@ class TestRecensioni {
     
         beanGuest = new BeanUtenti("Studente", "Recensore", "Test", "guest@test.it", "password", "Test");
 
-        try {
-            controllerUtente.registraUtente(beanHost);
-            controllerUtente.registraUtente(beanGuest);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        
+        controllerUtente.registraUtente(beanHost);
+        controllerUtente.registraUtente(beanGuest);
+        
 
        
         beanStruttura = new BeanStruttura("Pubblica", "StrutturaTest", "Roma", "Via Test", false, false);
@@ -55,11 +52,9 @@ class TestRecensioni {
         beanStruttura.setTipoAttivita(beanHost.getTipoAttivita());
         beanStruttura.setOrario("09:00-10:00");
         
-        try {
-            controllerStrutture.creazioneStrutturaHost(beanStruttura,beanHost);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        
+        controllerStrutture.creazioneStrutturaHost(beanStruttura,beanHost);
+        
 
   
         beanRecensione = new BeanRecensioni(
@@ -73,8 +68,7 @@ class TestRecensioni {
 
 
     @Test
-    void testInserimentoRecensioneSuccesso() {
-        try {
+    void testInserimentoRecensioneSuccesso() throws Exception {
             controllerRecensioni.inserisciRecensione(beanRecensione);
             
             List<BeanRecensioni> recensioni = controllerRecensioni.cercaRecensioniPerStruttura(beanStruttura);
@@ -87,37 +81,27 @@ class TestRecensioni {
             }
             assertTrue(trovata, "La recensione dovrebbe essere salvata correttamente nel database");
             
-        } catch (Exception e) {
-            e.printStackTrace();
-            fail("Eccezione imprevista durante l'inserimento: " + e.getMessage());
-        }
+       
     }
 
     @Test
     void testInserimentoVotoErrato() {
-        try {
             beanRecensione.setVoto(10); 
             
             assertThrows(IllegalArgumentException.class, () -> {
                 controllerRecensioni.inserisciRecensione(beanRecensione);
             });
             
-        } catch (Exception e) {
-            fail("Errore nel test del voto errato: " + e.getMessage());
-        }
+       
     }
 
     @Test
     void testInserimentoTestoVuoto() {
-        try {
-            beanRecensione.setTesto(""); 
+        beanRecensione.setTesto(""); 
           
-            assertThrows(CampiVuotiException.class, () -> {
+        assertThrows(CampiVuotiException.class, () -> {
                 controllerRecensioni.inserisciRecensione(beanRecensione);
-            }, "Dovrebbe lanciare un'eccezione se il testo è vuoto");
+        }, "Dovrebbe lanciare un'eccezione se il testo è vuoto");
             
-        } catch (Exception e) {
-            fail("Errore nel test del testo vuoto: " + e.getMessage());
-        }
     }
 }
