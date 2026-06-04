@@ -19,7 +19,7 @@ import java.util.List;
 
 
     @BeforeEach
-    void setup() throws Exception{
+    void setup() {
         Configurazione.setTipoPersistenza("demo");
         controllerStrutture = new ControllerCreazioneStrutturaHost();
         controllerRicercaStruttura = new ControllerRicerca();
