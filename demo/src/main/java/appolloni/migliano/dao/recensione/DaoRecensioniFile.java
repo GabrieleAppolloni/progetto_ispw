@@ -89,7 +89,7 @@ public class DaoRecensioniFile implements InterfacciaDaoRecensioni {
                       Recensione r = new Recensione(csvTesto, csvVoto, studente, strutturaTarget);
                       lista.add(r);
                     }else{
-                        logger.warning("Recensione con autore non valido: " + csvEmail);
+                       logger.log(Level.WARNING, "Recensione con autore non valido: {0}", csvEmail);
                     }
                     
                 }

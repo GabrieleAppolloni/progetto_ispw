@@ -1,6 +1,7 @@
 package appolloni.migliano.entity;
 
-import java.time.LocalDateTime;;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 
 public class Messaggio {
     private String text;
@@ -9,7 +10,8 @@ public class Messaggio {
     private LocalDateTime dataInvio;
     
     public Messaggio(String messaggio, Gruppo gruppo, Studente user){
-        this.dataInvio = LocalDateTime.now();
+        
+        this.dataInvio = LocalDateTime.now(ZoneId.of("Europe/Rome"));
         this.gruppo = gruppo;
         this.text = messaggio;
         this.mittente = user;
