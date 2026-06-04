@@ -12,6 +12,7 @@ public class Host extends Utente {
         struttura = null;
         
     }
+
     public void setNomeAttivita(String nomeAttivita){
         this.nomeAttivita = nomeAttivita;
     }   
@@ -23,6 +24,7 @@ public class Host extends Utente {
     public String getNomeAttivita(){
         return this.nomeAttivita;
     }
+    
     public String getTipoAttivita(){
         return this.tipoAttivita;
     }  
