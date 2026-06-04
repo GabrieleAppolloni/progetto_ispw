@@ -125,7 +125,7 @@ public class GUIRicerca {
             Label lNome = new Label(g.getNome()); 
             lNome.setStyle("-fx-font-weight: bold; -fx-font-size: 14px; -fx-text-fill: black;");
             
-            Label lDettagli = new Label(g.getCitta() + " • " + g.getMateria());
+            Label lDettagli = new Label(g.getCitta() + " • " + g.getMateria()+ " • " + g.getLuogo());
             lDettagli.setStyle("-fx-text-fill: #555;"); 
             
             info.getChildren().addAll(lNome, lDettagli);

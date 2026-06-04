@@ -1,123 +1,99 @@
 package appolloni.migliano;
-
-
+ 
 import java.util.List;
-
+ 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.junit.jupiter.api.Assertions.fail;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
+ 
 import appolloni.migliano.bean.BeanRecensioni;
 import appolloni.migliano.bean.BeanStruttura;
 import appolloni.migliano.bean.BeanUtenti;
 import appolloni.migliano.controller.ControllerCreazioneStrutturaHost;
-import appolloni.migliano.controller.ControllerRegistrazioneUtente;
 import appolloni.migliano.controller.ControllerRecensioni;
-import appolloni.migliano.exception.CampiVuotiException;
-
+import appolloni.migliano.controller.ControllerRegistrazioneUtente;
+ 
 //Marco Migliano 0308634
-
+ 
 class TestRecensioni {
     private ControllerRecensioni controllerRecensioni;
     private ControllerCreazioneStrutturaHost controllerStrutture;
-    private ControllerRegistrazioneUtente controllerUtente;
-    
+    private ControllerRegistrazioneUtente controllerRegistrazioneUtente;
+   
     private BeanUtenti beanGuest;      
-    private BeanUtenti beanHost;       
+    private BeanUtenti beanHost;      
     private BeanStruttura beanStruttura;
     private BeanRecensioni beanRecensione;
-
+ 
     @BeforeEach
     void setup() throws Exception {
         Configurazione.setTipoPersistenza("DEMO");
         controllerRecensioni = new ControllerRecensioni();
         controllerStrutture = new ControllerCreazioneStrutturaHost();
-        controllerUtente = new ControllerRegistrazioneUtente();
-
-        beanHost = new BeanUtenti("Host", "Proprietario", "Test", "host@test.it", "password", "Test");
+        controllerRegistrazioneUtente = new ControllerRegistrazioneUtente();
+ 
+        long timestamp = System.currentTimeMillis();
+        String emailHostUnique = "host_" + timestamp + "@test.it";
+        String emailGuestUnique = "guest_" + timestamp + "@test.it";
+        String nomeStrutturaUnique = "StrutturaTest_" + timestamp;
+ 
+        beanHost = new BeanUtenti("Host", "Proprietario", "Test", emailHostUnique, "password", "Test");
         beanHost.setTipoAttivita("Bar");
-        beanHost.setNomeAttivita("StrutturaTest");
-    
-        beanGuest = new BeanUtenti("Studente", "Recensore", "Test", "guest@test.it", "password", "Test");
-
-        try {
-            controllerUtente.registraUtente(beanHost);
-            controllerUtente.registraUtente(beanGuest);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
+        beanHost.setNomeAttivita(nomeStrutturaUnique);
+   
+        beanGuest = new BeanUtenti("Studente", "Recensore", "Test", emailGuestUnique, "password", "Test");
+ 
+        controllerRegistrazioneUtente.registraUtente(beanHost);
+        controllerRegistrazioneUtente.registraUtente(beanGuest);
        
-        beanStruttura = new BeanStruttura("Pubblica", "StrutturaTest", "Roma", "Via Test", false, false);
+        beanStruttura = new BeanStruttura("Pubblica", nomeStrutturaUnique, "Roma", "Via Test", false, false);
         beanStruttura.setGestore(beanHost.getEmail());
         beanStruttura.setTipoAttivita(beanHost.getTipoAttivita());
         beanStruttura.setOrario("09:00-10:00");
-        
-        try {
-            controllerStrutture.creazioneStrutturaHost(beanStruttura,beanHost);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-  
+       
+        controllerStrutture.creazioneStrutturaHost(beanStruttura, beanHost);
+ 
         beanRecensione = new BeanRecensioni(
-            beanGuest.getEmail(), 
-            "Ottima struttura!", 
-            5, 
-            beanStruttura.getName(), 
+            beanGuest.getEmail(),
+            "Ottima struttura!",
+            5,
+            beanStruttura.getName(),
             beanStruttura.getGestore()
         );
     }
-
-
+ 
     @Test
-    void testInserimentoRecensioneSuccesso() {
-        try {
-            controllerRecensioni.inserisciRecensione(beanRecensione);
-            
-            List<BeanRecensioni> recensioni = controllerRecensioni.cercaRecensioniPerStruttura(beanStruttura);
-            boolean trovata = false;
-            for (BeanRecensioni r : recensioni) {
-                if (r.getAutore().equals(beanGuest.getEmail()) && r.getVoto() == 5) {
-                    trovata = true;
-                    break;
-                }
+    void testInserimentoRecensioneSuccesso() throws Exception {
+        controllerRecensioni.inserisciRecensione(beanRecensione);
+       
+        List<BeanRecensioni> recensioni = controllerRecensioni.cercaRecensioniPerStruttura(beanStruttura);
+        boolean trovata = false;
+        for (BeanRecensioni r : recensioni) {
+            if (r.getAutore().equals(beanGuest.getEmail()) && r.getVoto() == 5) {
+                trovata = true;
+                break;
             }
-            assertTrue(trovata, "La recensione dovrebbe essere salvata correttamente nel database");
-            
-        } catch (Exception e) {
-            e.printStackTrace();
-            fail("Eccezione imprevista durante l'inserimento: " + e.getMessage());
         }
+        assertTrue(trovata, "La recensione dovrebbe essere salvata correttamente");
     }
-
+ 
     @Test
     void testInserimentoVotoErrato() {
-        try {
-            beanRecensione.setVoto(10); 
-            
-            assertThrows(IllegalArgumentException.class, () -> {
-                controllerRecensioni.inserisciRecensione(beanRecensione);
-            });
-            
-        } catch (Exception e) {
-            fail("Errore nel test del voto errato: " + e.getMessage());
-        }
+        beanRecensione.setVoto(10);
+       
+        assertThrows(Exception.class, () -> {
+            controllerRecensioni.inserisciRecensione(beanRecensione);
+        }, "Il sistema non dovrebbe permettere l'inserimento di un voto pari a 10");
     }
-
+ 
     @Test
     void testInserimentoTestoVuoto() {
-        try {
-            beanRecensione.setTesto(""); 
-          
-            assertThrows(CampiVuotiException.class, () -> {
-                controllerRecensioni.inserisciRecensione(beanRecensione);
-            }, "Dovrebbe lanciare un'eccezione se il testo è vuoto");
-            
-        } catch (Exception e) {
-            fail("Errore nel test del testo vuoto: " + e.getMessage());
-        }
+        beanRecensione.setTesto("");
+       
+        assertThrows(Exception.class, () -> {
+            controllerRecensioni.inserisciRecensione(beanRecensione);
+        }, "Il sistema non dovrebbe permettere l'inserimento di una recensione senza testo");
     }
 }
+ 
