@@ -19,7 +19,7 @@ import appolloni.migliano.interfacce.InterfacciaDaoUtente;
 public class DaoRecensioniFile implements InterfacciaDaoRecensioni {
 
     private static final Logger logger = Logger.getLogger(DaoRecensioniFile.class.getName());
-    private static final String CSVFILE = "recensioni.csv";
+    private static final String CSVFILE = "mod/demo/file/recensioni.csv";
     private static final String FORMATOCSV = "%s;%s;%s;%d;%s";
 
     private Studente casting(Utente u) {

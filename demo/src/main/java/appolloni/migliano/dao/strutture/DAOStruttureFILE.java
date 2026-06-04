@@ -16,7 +16,7 @@ import appolloni.migliano.interfacce.InterfacciaDaoStruttura;
 
 public class DAOStruttureFILE  implements InterfacciaDaoStruttura{
     private static final String ERROREFILE = "ERRORE SALVATAGGIO SU FILE STRUTTURA";
-    private static final String CSVFILE = "strutture.csv";
+    private static final String CSVFILE = "mod/demo/file/strutture.csv";
     private static final String FORMATOCSV = "%s;%s;%s;%s;%s;%s;%s;%b;%b;%s";
     private static final Logger logger = Logger.getLogger(DAOStruttureFILE.class.getName());
 
