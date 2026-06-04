@@ -1,24 +1,24 @@
 package appolloni.migliano.entity;
 
-import java.sql.Timestamp;
+import java.time.LocalDateTime;;
 
 public class Messaggio {
     private String text;
     private Gruppo gruppo; 
     private Studente mittente;
-    private Timestamp dataInvio;
+    private LocalDateTime dataInvio;
     
     public Messaggio(String messaggio, Gruppo gruppo, Studente user){
-        this.dataInvio = new Timestamp(System.currentTimeMillis());
+        this.dataInvio = LocalDateTime.now();
         this.gruppo = gruppo;
         this.text = messaggio;
         this.mittente = user;
 
     }
-    public Timestamp getTime(){
+    public LocalDateTime getTime(){
         return this.dataInvio;
     }
-    public void setTime(Timestamp time){
+    public void setTime(LocalDateTime time){
         this.dataInvio = time;
     }
     public void setMess(String testo){

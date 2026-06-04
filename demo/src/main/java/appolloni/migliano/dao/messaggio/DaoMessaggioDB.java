@@ -7,6 +7,7 @@ import appolloni.migliano.entity.Studente;
 import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.time.LocalDateTime;
 
 import appolloni.migliano.entity.Utente;
 import appolloni.migliano.exception.ErroreDiSistema;
@@ -42,7 +43,7 @@ public class DaoMessaggioDB implements InterfacciaDaoMessaggi {
             ps.setString(1, messaggio.getMess());
             ps.setString(2, messaggio.getGruppo().getNome());
             ps.setString(3,messaggio.getMittente().getEmail() );
-            ps.setTimestamp(4, messaggio.getTime());
+            ps.setObject(4, messaggio.getTime());
 
             ps.executeUpdate();
         }catch(SQLException e){
@@ -65,7 +66,7 @@ public class DaoMessaggioDB implements InterfacciaDaoMessaggi {
              while(rs.next()){
                  String mess = rs.getString(1);
                  String emailMitt= rs.getString(3);
-                 Timestamp time = rs.getTimestamp(4);
+                 LocalDateTime time = rs.getObject(4, LocalDateTime.class);
                  InterfacciaDaoUtente dao = AbstractFactoryDao.getDao().getDaoUtente();
                  Utente mittente = dao.cercaUtente(emailMitt);
                  Studente m = casting(mittente);

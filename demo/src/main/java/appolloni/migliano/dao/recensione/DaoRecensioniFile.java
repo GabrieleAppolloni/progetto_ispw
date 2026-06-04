@@ -84,13 +84,14 @@ public class DaoRecensioniFile implements InterfacciaDaoRecensioni {
                 if (csvNomeStr.equals(nomeStr) && csvGestoreStr.equals(gestore)) {
                     
                     Utente autore = daoUtente.cercaUtente(csvEmail);
-                    if( autore == null || !( autore instanceof Studente )){ 
+                    if( autore instanceof Studente ){
+                      Studente studente = casting(autore);
+                      Recensione r = new Recensione(csvTesto, csvVoto, studente, strutturaTarget);
+                      lista.add(r);
+                    }else{
                         logger.warning("Recensione con autore non valido: " + csvEmail);
-                        continue;
                     }
-                    Studente studente = casting(autore);
-                    Recensione r = new Recensione(csvTesto, csvVoto, studente, strutturaTarget);
-                    lista.add(r);
+                    
                 }
             }
         }catch(IOException e){
